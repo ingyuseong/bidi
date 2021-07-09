@@ -1,15 +1,9 @@
-import React, {useState, createRef} from 'react';
+import React, { useState, createRef } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 
 import {
   KakaoOAuthToken,
@@ -20,35 +14,33 @@ import {
   unlink,
 } from '@react-native-seoul/kakao-login';
 
-const LoginScreen = ({navigation, route}) => {
+const LoginScreen = ({ navigation, route }) => {
   const [result, setResult] = useState('');
 
   const kakaoLoginHandler = async () => {
     const token = await login();
     const profile = await getKakaoProfile();
 
-    console.log("token", token)
-    console.log("PP>>", profile)
+    console.log('token', token);
+    console.log('PP>>', profile);
   };
-  
-  const naverLoginHandler = () => {
 
-  }
-  
+  const naverLoginHandler = () => {};
+
   return (
     <View style={styles.container}>
       <View style={styles.topArea}>
         <View style={styles.titleArea}>
           <Image
             source={require('../../../public/img/logo.png')}
-            style={{width: wp(30), resizeMode: 'contain'}}
+            style={{ width: wp(30), resizeMode: 'contain' }}
           />
         </View>
       </View>
       <View style={styles.btnArea}>
         <View style={styles.textArea}>
-            <Text style={styles.text}>간단한 소셜 로그인을 통해</Text>
-            <Text style={styles.text}>biidi를 사용해보세요 ‍📘</Text>
+          <Text style={styles.text}>간단한 소셜 로그인을 통해</Text>
+          <Text style={styles.text}>biidi를 사용해보세요 ‍📘</Text>
         </View>
         <TouchableOpacity style={styles.kakaoBtn} onPress={kakaoLoginHandler}>
           <Text style={styles.btnKakaoText}>카카오 로그인</Text>
@@ -57,7 +49,6 @@ const LoginScreen = ({navigation, route}) => {
           <Text style={styles.btnNaverText}>네이버 로그인</Text>
         </TouchableOpacity>
       </View>
-
     </View>
   );
 };
@@ -65,7 +56,7 @@ const LoginScreen = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white', 
+    backgroundColor: 'white',
     paddingLeft: wp(7),
     paddingRight: wp(7),
   },
@@ -102,7 +93,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FEE500',
-    marginBottom : 20,
+    marginBottom: 20,
   },
   naverBtn: {
     width: '100%',
@@ -112,14 +103,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#2DB400',
   },
-  btnKakaoText : {
+  btnKakaoText: {
     fontSize: wp('4%'),
-    fontWeight : 'bold'
+    fontWeight: 'bold',
   },
-  btnNaverText : {
-    color : 'white',
+  btnNaverText: {
+    color: 'white',
     fontSize: wp('4%'),
-    fontWeight : 'bold'
-  }
+    fontWeight: 'bold',
+  },
 });
 export default LoginScreen;

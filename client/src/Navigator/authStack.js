@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../Screen/Auth/loginScreen';
 import RegisterScreen from '../Screen/Auth/registerScreen';
-import { Stack } from '../../App'
+import { Stack } from '../../App';
 
-function Auth () {
+function Auth() {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -27,6 +27,6 @@ function Auth () {
       />
     </Stack.Navigator>
   );
-};
+}
 
 export default Auth;
