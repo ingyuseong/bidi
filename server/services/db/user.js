@@ -7,3 +7,29 @@ exports.selectUser = async (userId) => {
 
   return results
 }
+
+exports.insertUser = async ({
+  type,
+  naver_token,
+  kakao_token,
+  name,
+  email,
+  address,
+  lat,
+  lng,
+  img_src,
+}) => {
+  const results = await User.create({
+    raw: true,
+    type,
+    naver_token,
+    kakao_token,
+    name,
+    email,
+    address,
+    lat,
+    lng,
+    img_src,
+  })
+  return results
+}

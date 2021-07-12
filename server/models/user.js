@@ -1,18 +1,49 @@
-const { DataTypes } = require('sequelize')
-
+const Sequelize = require('sequelize')
+const { DataTypes } = Sequelize
 const modelName = 'user'
 
 const modelAttributes = {
-  tid: {
+  id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
   },
-  money: {
-    type: DataTypes.INTEGER,
+  type: {
+    type: DataTypes.STRING,
   },
-  time: {
-    type: DataTypes.BIGINT,
+  naver_token: {
+    type: DataTypes.STRING,
+  },
+  kakao_token: {
+    type: DataTypes.STRING,
+  },
+  name: {
+    type: DataTypes.STRING,
+  },
+  email: {
+    type: DataTypes.STRING,
+  },
+  address: {
+    type: DataTypes.STRING,
+  },
+  lat: {
+    type: DataTypes.FLOAT,
+  },
+  lng: {
+    type: DataTypes.FLOAT,
+  },
+  img_src: {
+    type: DataTypes.STRING,
+  },
+  created_at: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.fn('now'),
+  },
+  updated_at: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.fn('now'),
   },
 }
 
@@ -20,6 +51,7 @@ const modelOptions = {
   timestamps: false,
   charset: 'utf8',
   tableName: modelName,
+  underscored: true,
 }
 
 module.exports = (sequelize) => {
