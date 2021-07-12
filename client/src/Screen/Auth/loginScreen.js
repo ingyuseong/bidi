@@ -4,25 +4,19 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { getProfile as getKakaoProfile, login } from '@react-native-seoul/kakao-login';
 
-import {
-  KakaoOAuthToken,
-  KakaoProfile,
-  getProfile as getKakaoProfile,
-  login,
-  logout,
-  unlink,
-} from '@react-native-seoul/kakao-login';
-
-const LoginScreen = ({ navigation, route }) => {
-  const [result, setResult] = useState('');
-
+const LoginScreen = ({ navigation }) => {
+  const [user, setUser] = useState('');
   const kakaoLoginHandler = async () => {
     const token = await login();
     const profile = await getKakaoProfile();
 
-    console.log('token', token);
-    console.log('PP>>', profile);
+    setUser({ ...user, token, profile });
+    navigation.replace('Register', {
+      token,
+      profile,
+    });
   };
 
   const naverLoginHandler = () => {};

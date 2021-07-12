@@ -16,3 +16,21 @@ exports.getUsers = async (req, res, next) => {
     next(error)
   }
 }
+
+/*
+    POST /api/user/register
+    * 회원가입 API
+*/
+exports.registerUser = async (req, res, next) => {
+  try {
+    const params = req.body
+    const user = await userServices.registerUser(params)
+
+    res.json({
+      message: '회원가입 성공',
+      data: user.id,
+    })
+  } catch (error) {
+    next(error)
+  }
+}

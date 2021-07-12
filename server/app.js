@@ -7,7 +7,7 @@ const app = express()
 const PORT = process.env.PORT
 
 sequelize
-  .sync({ alter: true })
+  .sync({ alter: false })
   .then(() => console.log('DB 연결 성공!'))
   .catch((err) => {
     console.error(err)
