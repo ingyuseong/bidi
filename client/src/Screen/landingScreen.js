@@ -5,19 +5,18 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import BidiStorage from '../Lib/storage';
+import { STORAGE_KEY } from '../Lib/constant';
 
 const LandingScreen = ({ navigation }) => {
-  const [user, setUser] = useState({
-    id: '',
-    isLogin: true,
-  });
   const [animating, setAnimating] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
       setAnimating(false);
-      // navigation.replace(user.isLogin ? 'MainTab' : 'Auth',{'user':user})
-      navigation.replace('Auth');
+      BidiStorage.getData(STORAGE_KEY).then((value) => {
+        navigation.replace(value == '' ? 'Auth' : 'MainTab');
+      });
     }, 2000);
   }, []);
 
