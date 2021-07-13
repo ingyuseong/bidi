@@ -36,7 +36,7 @@ const RegisterScreen = ({ navigation, route }) => {
     })
       .then((response) => response.json())
       .then(async (result) => {
-        await BidiStorage.storeData(STORAGE_KEY, result.data);
+        await BidiStorage.storeData(STORAGE_KEY, { id: result.data });
         navigation.replace('MainTab');
       })
       .catch((error) => {

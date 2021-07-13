@@ -1,6 +1,25 @@
 const userServices = require('../../services/user')
 
 /*
+    GET /api/user/:id
+    * 사용자 정보 조회 API
+*/
+exports.getUser = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    console.log('??')
+    const user = await userServices.getUser(id)
+
+    res.json({
+      message: '사용자 정보 조회 성공',
+      data: user,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+/*
     GET /api/user/list
     * 전체 사용자 목록 조회 API
 */

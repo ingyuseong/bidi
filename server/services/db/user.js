@@ -1,6 +1,17 @@
 const { User } = require('../../models')
 
 exports.selectUser = async (userId) => {
+  const results = await User.findOne({
+    raw: true,
+    where: {
+      id: userId,
+    },
+  })
+
+  return results
+}
+
+exports.selectAllUser = async () => {
   const results = await User.findAll({
     raw: true,
   })
