@@ -5,6 +5,16 @@ exports.getUser = async (userId) => {
   return user
 }
 
+exports.editUser = async (params) => {
+  const user = await db.updateUser({ ...params })
+  return user
+}
+
+exports.deleteUser = async (userId) => {
+  const user = await db.destroyUser(userId)
+  return user
+}
+
 exports.getUsers = async () => {
   const user = await db.selectAllUser()
   return user
