@@ -1,31 +1,23 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableOpacity
-} from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const TopRightBar = ({navigation, route}) => {
-  
+const TopRightBar = ({ navigation, route }) => {
   return (
-    <TouchableOpacity onPress={() => alert('This is a button!')}>
-      <View style={StyleSheet.container} >
-        <Image
-          source={require('../../public/img/logo.png')}
-          style={{width: 52, resizeMode: 'contain'}}
-      />
+    <TouchableOpacity onPress={() => navigation.navigate('Mypage')}>
+      <View style={styles.container}>
+        <Text>
+          <Icon name="user-circle" size={30} color="#900" />;
+        </Text>
       </View>
     </TouchableOpacity>
-   
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white', 
+    backgroundColor: 'white',
     paddingLeft: 10,
     paddingRight: 10,
   },

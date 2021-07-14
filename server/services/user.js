@@ -1,12 +1,26 @@
 const db = require('./db/user')
 
-exports.getUsers = async (userId) => {
+exports.getUser = async (userId) => {
   const user = await db.selectUser(userId)
   return user
 }
 
+exports.editUser = async (params) => {
+  const user = await db.updateUser({ ...params })
+  return user
+}
+
+exports.deleteUser = async (userId) => {
+  const user = await db.destroyUser(userId)
+  return user
+}
+
+exports.getUsers = async () => {
+  const user = await db.selectAllUser()
+  return user
+}
+
 exports.registerUser = async (params) => {
-  console.log('>>', params)
   const user = await db.insertUser({ ...params })
   return user
 }

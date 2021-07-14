@@ -5,6 +5,8 @@ import {
 } from 'react-native-responsive-screen';
 
 import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
+import BidiStorage from '../../Lib/storage';
+import { STORAGE_KEY } from '../../Lib/constant';
 
 const RegisterScreen = ({ navigation, route }) => {
   const { profile } = route.params;
@@ -33,8 +35,8 @@ const RegisterScreen = ({ navigation, route }) => {
       }),
     })
       .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
+      .then(async (result) => {
+        await BidiStorage.storeData(STORAGE_KEY, { id: result.data });
         navigation.replace('MainTab');
       })
       .catch((error) => {
