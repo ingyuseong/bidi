@@ -2,33 +2,42 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import AuthStack from './src/Navigator/authStack';
-import MainTabStack from './src/Navigator/mainTabStack';
+
 import LandingScreen from './src/Screen/landingScreen';
-import MypageScreen from './src/Screen/mypageScreen';
+import AuthStack from './src/Navigator/authStack';
+
 import TopLeftBar from './src/Components/topLeftBar';
 import TopRightBar from './src/Components/topRightBar';
+
+import MypageScreen from './src/Screen/mypageScreen';
+// import MainScreen from './src/Screen/mainScreen'
+
+import MainTabStack from './src/Navigator/mainTabStack';
+
 const Stack = createStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Landing">
+      <Stack.Navigator initialRouteName="Landing"
+        screenOptions={({ navigation }) => ({
+          title: '',
+          headerStyle: {
+            backgroundColor: '',
+          },
+          headerLeft: () => <TopLeftBar navigation={navigation} />,
+          headerRight: () => <TopRightBar navigation={navigation} />
+        })}
+      >
         <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Auth" component={AuthStack} options={{ headerShown: false }} />
-        <Stack.Screen name="Mypage" component={MypageScreen} options={{ headerShown: false }} />
-        <Stack.Screen
-          name="MainTab"
-          component={MainTabStack}
-          options={({ navigation }) => ({
-            title: '',
-            headerStyle: {
-              backgroundColor: 'purple',
-            },
-            headerLeft: () => <TopLeftBar navigation={navigation} />,
-            headerRight: () => <TopRightBar navigation={navigation} />,
-          })}
-        />
+        
+        {/* 상단 헤더 관련 스크린 */}
+        {/* <Stack.Screen name="Main" component={MainScreen}/> */}
+        <Stack.Screen name="Mypage" component={MypageScreen}/>
+        
+        {/*메인 탭 Navigation*/}
+        <Stack.Screen name="MainTab"component={MainTabStack}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

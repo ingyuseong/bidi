@@ -24,12 +24,12 @@ const LandingScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../public/img/logo.png')}
-        style={{ width: wp(55), resizeMode: 'contain', margin: 30 }}
+        source={require('../../public/img/landing_logo.png')}
+        style={{ width: wp(55), resizeMode: 'contain', margin: 60 }}
       />
       <ActivityIndicator
         animating={animating}
-        color="#6990F7"
+        color=""
         size="large"
         style={styles.activityIndicator}
       />
@@ -48,6 +48,6 @@ const styles = StyleSheet.create({
   },
   activityIndicator: {
     alignItems: 'center',
-    height: 80,
+    height: 60,
   },
 });

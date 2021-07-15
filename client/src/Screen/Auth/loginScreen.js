@@ -8,10 +8,10 @@ import { getProfile as getKakaoProfile, login } from '@react-native-seoul/kakao-
 
 const LoginScreen = ({ navigation }) => {
   const [user, setUser] = useState('');
-  const kakaoLoginHandler = async () => {
+  const kakaoLoginHandler = async (e) => {
     const token = await login();
     const profile = await getKakaoProfile();
-
+    console.log(token, profile)
     setUser({ ...user, token, profile });
     navigation.replace('Register', {
       token,
@@ -34,7 +34,7 @@ const LoginScreen = ({ navigation }) => {
       <View style={styles.btnArea}>
         <View style={styles.textArea}>
           <Text style={styles.text}>간단한 소셜 로그인을 통해</Text>
-          <Text style={styles.text}>biidi를 사용해보세요 ‍📘</Text>
+          <Text style={styles.text}>BiDi를 사용해보세요 ‍📘</Text>
         </View>
         <TouchableOpacity style={styles.kakaoBtn} onPress={kakaoLoginHandler}>
           <Text style={styles.btnKakaoText}>카카오 로그인</Text>
