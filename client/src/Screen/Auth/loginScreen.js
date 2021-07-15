@@ -8,10 +8,10 @@ import { getProfile as getKakaoProfile, login } from '@react-native-seoul/kakao-
 
 const LoginScreen = ({ navigation }) => {
   const [user, setUser] = useState('');
-  const kakaoLoginHandler = async () => {
+  const kakaoLoginHandler = async (e) => {
     const token = await login();
     const profile = await getKakaoProfile();
-
+    console.log(token, profile)
     setUser({ ...user, token, profile });
     navigation.replace('Register', {
       token,
