@@ -14,7 +14,7 @@ const TopLeftBar = ({navigation, route}) => {
       <View style={StyleSheet.container} >
         <Image
           source={require('../../public/img/logo.png')}
-          style={{width: 52, resizeMode: 'contain'}}
+          style={{width: 70, resizeMode: 'contain', margin: 15}}
       />
       </View>
     </TouchableOpacity>

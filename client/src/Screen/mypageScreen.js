@@ -3,7 +3,7 @@ import { Button, Text, View } from 'react-native';
 import BidiStorage from '../Lib/storage';
 import { STORAGE_KEY } from '../Lib/constant';
 
-function MypageScreen() {
+function MypageScreen({}) {
   const [userInfo, setUserInfo] = useState('');
   const getUserInfo = async (user) => {
     await fetch('http://127.0.0.1:3000' + `/api/user/${user.id}`, {
