@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* biidiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* biidiTests.m */; };
+		00E356F31AD99517003FC87E /* bidiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* bidiTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		945B5E20E2024A653B42FF71 /* libPods-biidi-biidiTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A61807D6A77CAAD8EB1D780C /* libPods-biidi-biidiTests.a */; };
-		A58FA031675210003C910648 /* libPods-biidi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A965CBC1B15E24ACE1EC93B /* libPods-biidi.a */; };
 		D8E239C12696B67B00D4652B /* SwiftBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E239C02696B67B00D4652B /* SwiftBridge.swift */; };
-		FAC2129C269F2EE300F8283A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		FAC2129D269F2EE500F8283A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		F90A101FD1748B96C1576C49 /* libPods-bidi-bidiTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E36DD54FE63DC2ABA4155CE2 /* libPods-bidi-bidiTests.a */; };
+		FA0BDC58269FFEDB00557898 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
+		FA0BDC5926A003E400557898 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		FA0BDC5A26A003E500557898 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,29 +23,29 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = biidi;
+			remoteInfo = bidi;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* biidiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = biidiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* bidiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bidiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* biidiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = biidiTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* biidi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = biidi.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = biidi/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = biidi/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = biidi/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = biidi/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = biidi/main.m; sourceTree = "<group>"; };
-		43B7BB2BD0F6F4BFB43EAD62 /* Pods-biidi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-biidi.debug.xcconfig"; path = "Target Support Files/Pods-biidi/Pods-biidi.debug.xcconfig"; sourceTree = "<group>"; };
-		68E36FFC5B0C20FB0D3ED1F0 /* Pods-biidi-biidiTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-biidi-biidiTests.release.xcconfig"; path = "Target Support Files/Pods-biidi-biidiTests/Pods-biidi-biidiTests.release.xcconfig"; sourceTree = "<group>"; };
-		7A965CBC1B15E24ACE1EC93B /* libPods-biidi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-biidi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = biidi/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		8616F5340B3470FA19E5FC86 /* Pods-biidi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-biidi.release.xcconfig"; path = "Target Support Files/Pods-biidi/Pods-biidi.release.xcconfig"; sourceTree = "<group>"; };
-		A61807D6A77CAAD8EB1D780C /* libPods-biidi-biidiTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-biidi-biidiTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C1859FAB2C00690E49534976 /* Pods-biidi-biidiTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-biidi-biidiTests.debug.xcconfig"; path = "Target Support Files/Pods-biidi-biidiTests/Pods-biidi-biidiTests.debug.xcconfig"; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* bidiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = bidiTests.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* bidi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bidi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = bidi/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = bidi/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = bidi/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = bidi/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = bidi/main.m; sourceTree = "<group>"; };
+		43D9B98E98901C3916FEE158 /* Pods-bidi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bidi.release.xcconfig"; path = "Target Support Files/Pods-bidi/Pods-bidi.release.xcconfig"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = bidi/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		910083EC0E1F96CF1793C410 /* libPods-bidi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-bidi.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		91CEE6B22C57194E4B24AFED /* Pods-bidi-bidiTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bidi-bidiTests.debug.xcconfig"; path = "Target Support Files/Pods-bidi-bidiTests/Pods-bidi-bidiTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B436FD7AC4368EA3943E209D /* Pods-bidi-bidiTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bidi-bidiTests.release.xcconfig"; path = "Target Support Files/Pods-bidi-bidiTests/Pods-bidi-bidiTests.release.xcconfig"; sourceTree = "<group>"; };
+		C6EEB0BF6E3B57506C0D464B /* Pods-bidi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bidi.debug.xcconfig"; path = "Target Support Files/Pods-bidi/Pods-bidi.debug.xcconfig"; sourceTree = "<group>"; };
 		D8E239C02696B67B00D4652B /* SwiftBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBridge.swift; sourceTree = "<group>"; };
-		D8E239C32696BE5A00D4652B /* biidi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "biidi-Bridging-Header.h"; sourceTree = "<group>"; };
+		D8E239C32696BE5A00D4652B /* bidi-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "bidi-Bridging-Header.h"; sourceTree = "<group>"; };
+		E36DD54FE63DC2ABA4155CE2 /* libPods-bidi-bidiTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-bidi-bidiTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -54,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				945B5E20E2024A653B42FF71 /* libPods-biidi-biidiTests.a in Frameworks */,
+				F90A101FD1748B96C1576C49 /* libPods-bidi-bidiTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,20 +62,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A58FA031675210003C910648 /* libPods-biidi.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00E356EF1AD99517003FC87E /* biidiTests */ = {
+		00E356EF1AD99517003FC87E /* bidiTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* biidiTests.m */,
+				00E356F21AD99517003FC87E /* bidiTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = biidiTests;
+			path = bidiTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -86,7 +85,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* biidi */ = {
+		13B07FAE1A68108700A75B9A /* bidi */ = {
 			isa = PBXGroup;
 			children = (
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -96,17 +95,17 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				D8E239C02696B67B00D4652B /* SwiftBridge.swift */,
-				D8E239C32696BE5A00D4652B /* biidi-Bridging-Header.h */,
+				D8E239C32696BE5A00D4652B /* bidi-Bridging-Header.h */,
 			);
-			name = biidi;
+			name = bidi;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				7A965CBC1B15E24ACE1EC93B /* libPods-biidi.a */,
-				A61807D6A77CAAD8EB1D780C /* libPods-biidi-biidiTests.a */,
+				910083EC0E1F96CF1793C410 /* libPods-bidi.a */,
+				E36DD54FE63DC2ABA4155CE2 /* libPods-bidi-bidiTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -114,10 +113,10 @@
 		50D8A78D8FE59C0E3D1DF91B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				43B7BB2BD0F6F4BFB43EAD62 /* Pods-biidi.debug.xcconfig */,
-				8616F5340B3470FA19E5FC86 /* Pods-biidi.release.xcconfig */,
-				C1859FAB2C00690E49534976 /* Pods-biidi-biidiTests.debug.xcconfig */,
-				68E36FFC5B0C20FB0D3ED1F0 /* Pods-biidi-biidiTests.release.xcconfig */,
+				C6EEB0BF6E3B57506C0D464B /* Pods-bidi.debug.xcconfig */,
+				43D9B98E98901C3916FEE158 /* Pods-bidi.release.xcconfig */,
+				91CEE6B22C57194E4B24AFED /* Pods-bidi-bidiTests.debug.xcconfig */,
+				B436FD7AC4368EA3943E209D /* Pods-bidi-bidiTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -132,9 +131,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* biidi */,
+				13B07FAE1A68108700A75B9A /* bidi */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
-				00E356EF1AD99517003FC87E /* biidiTests */,
+				00E356EF1AD99517003FC87E /* bidiTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				50D8A78D8FE59C0E3D1DF91B /* Pods */,
@@ -147,8 +146,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* biidi.app */,
-				00E356EE1AD99517003FC87E /* biidiTests.xctest */,
+				13B07F961A680F5B00A75B9A /* bidi.app */,
+				00E356EE1AD99517003FC87E /* bidiTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -156,47 +155,47 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* biidiTests */ = {
+		00E356ED1AD99517003FC87E /* bidiTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "biidiTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "bidiTests" */;
 			buildPhases = (
-				A5853FEE1FBC575F42333D48 /* [CP] Check Pods Manifest.lock */,
+				54E3284DA22B60DE5D3D6BC9 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				5888A2792075819E8D362209 /* [CP] Embed Pods Frameworks */,
-				413B178B0745358401A9905F /* [CP] Copy Pods Resources */,
+				90FD0445FA244F3054462EE6 /* [CP] Embed Pods Frameworks */,
+				B6DEBFBA839081756C71EF16 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = biidiTests;
-			productName = biidiTests;
-			productReference = 00E356EE1AD99517003FC87E /* biidiTests.xctest */;
+			name = bidiTests;
+			productName = bidiTests;
+			productReference = 00E356EE1AD99517003FC87E /* bidiTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* biidi */ = {
+		13B07F861A680F5B00A75B9A /* bidi */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "biidi" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "bidi" */;
 			buildPhases = (
-				89A73452A16BB4050D13FE11 /* [CP] Check Pods Manifest.lock */,
+				EA2541D2733BCF251680A99F /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				90F500A3849E7FF7F8734977 /* [CP] Embed Pods Frameworks */,
-				438978E5E7FBFD118E02378B /* [CP] Copy Pods Resources */,
+				18E30A0E08B913A9F993D3A2 /* [CP] Embed Pods Frameworks */,
+				B823393F83EC458E65F383A7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = biidi;
-			productName = biidi;
-			productReference = 13B07F961A680F5B00A75B9A /* biidi.app */;
+			name = bidi;
+			productName = bidi;
+			productReference = 13B07F961A680F5B00A75B9A /* bidi.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -216,7 +215,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "biidi" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "bidi" */;
 			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -229,8 +228,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* biidi */,
-				00E356ED1AD99517003FC87E /* biidiTests */,
+				13B07F861A680F5B00A75B9A /* bidi */,
+				00E356ED1AD99517003FC87E /* bidiTests */,
 			);
 		};
 /* End PBXProject section */
@@ -240,7 +239,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAC2129D269F2EE500F8283A /* Images.xcassets in Resources */,
+				FA0BDC5A26A003E500557898 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,7 +247,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAC2129C269F2EE300F8283A /* Images.xcassets in Resources */,
+				FA0BDC5926A003E400557898 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,58 +268,24 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nexport NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		413B178B0745358401A9905F /* [CP] Copy Pods Resources */ = {
+		18E30A0E08B913A9F993D3A2 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-biidi-biidiTests/Pods-biidi-biidiTests-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-biidi-biidiTests/Pods-biidi-biidiTests-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-biidi-biidiTests/Pods-biidi-biidiTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		438978E5E7FBFD118E02378B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-biidi/Pods-biidi-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-biidi/Pods-biidi-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-biidi/Pods-biidi-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5888A2792075819E8D362209 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-biidi-biidiTests/Pods-biidi-biidiTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-bidi/Pods-bidi-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-biidi-biidiTests/Pods-biidi-biidiTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-bidi/Pods-bidi-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-biidi-biidiTests/Pods-biidi-biidiTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-bidi/Pods-bidi-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		89A73452A16BB4050D13FE11 /* [CP] Check Pods Manifest.lock */ = {
+		54E3284DA22B60DE5D3D6BC9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -335,31 +300,65 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-biidi-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-bidi-bidiTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		90F500A3849E7FF7F8734977 /* [CP] Embed Pods Frameworks */ = {
+		90FD0445FA244F3054462EE6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-biidi/Pods-biidi-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-bidi-bidiTests/Pods-bidi-bidiTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-biidi/Pods-biidi-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-bidi-bidiTests/Pods-bidi-bidiTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-biidi/Pods-biidi-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-bidi-bidiTests/Pods-bidi-bidiTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A5853FEE1FBC575F42333D48 /* [CP] Check Pods Manifest.lock */ = {
+		B6DEBFBA839081756C71EF16 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-bidi-bidiTests/Pods-bidi-bidiTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-bidi-bidiTests/Pods-bidi-bidiTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-bidi-bidiTests/Pods-bidi-bidiTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B823393F83EC458E65F383A7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-bidi/Pods-bidi-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-bidi/Pods-bidi-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-bidi/Pods-bidi-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EA2541D2733BCF251680A99F /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -374,7 +373,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-biidi-biidiTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-bidi-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -407,7 +406,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* biidiTests.m in Sources */,
+				FA0BDC58269FFEDB00557898 /* AppDelegate.m in Sources */,
+				00E356F31AD99517003FC87E /* bidiTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,7 +426,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* biidi */;
+			target = 13B07F861A680F5B00A75B9A /* bidi */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -434,7 +434,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C1859FAB2C00690E49534976 /* Pods-biidi-biidiTests.debug.xcconfig */;
+			baseConfigurationReference = 91CEE6B22C57194E4B24AFED /* Pods-bidi-bidiTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -446,7 +446,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = biidiTests/Info.plist;
+				INFOPLIST_FILE = bidiTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -460,13 +460,13 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/biidi.app/biidi";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bidi.app/bidi";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 68E36FFC5B0C20FB0D3ED1F0 /* Pods-biidi-biidiTests.release.xcconfig */;
+			baseConfigurationReference = B436FD7AC4368EA3943E209D /* Pods-bidi-bidiTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -475,7 +475,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/KakaoOpenSDK-1.23.8",
 				);
-				INFOPLIST_FILE = biidiTests/Info.plist;
+				INFOPLIST_FILE = bidiTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -489,13 +489,13 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/biidi.app/biidi";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bidi.app/bidi";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 43B7BB2BD0F6F4BFB43EAD62 /* Pods-biidi.debug.xcconfig */;
+			baseConfigurationReference = C6EEB0BF6E3B57506C0D464B /* Pods-bidi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -505,7 +505,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/KakaoOpenSDK-1.23.8",
 				);
-				INFOPLIST_FILE = biidi/Info.plist;
+				INFOPLIST_FILE = bidi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -516,9 +516,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.biidi;
-				PRODUCT_NAME = biidi;
-				SWIFT_OBJC_BRIDGING_HEADER = "biidi-Bridging-Header.h";
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.bidi;
+				PRODUCT_NAME = bidi;
+				SWIFT_OBJC_BRIDGING_HEADER = "bidi-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -527,7 +527,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8616F5340B3470FA19E5FC86 /* Pods-biidi.release.xcconfig */;
+			baseConfigurationReference = 43D9B98E98901C3916FEE158 /* Pods-bidi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -536,7 +536,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/KakaoOpenSDK-1.23.8",
 				);
-				INFOPLIST_FILE = biidi/Info.plist;
+				INFOPLIST_FILE = bidi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -547,9 +547,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.biidi;
-				PRODUCT_NAME = biidi;
-				SWIFT_OBJC_BRIDGING_HEADER = "biidi-Bridging-Header.h";
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.bidi;
+				PRODUCT_NAME = bidi;
+				SWIFT_OBJC_BRIDGING_HEADER = "bidi-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -681,7 +681,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "biidiTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "bidiTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -690,7 +690,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "biidi" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "bidi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -699,7 +699,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "biidi" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "bidi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

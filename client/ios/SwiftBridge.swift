@@ -1,6 +1,6 @@
 //
 //  SwiftBridge.swift
-//  biidi
+//  bidi
 //
 //  Created by dooking on 2021/07/08.
 //
