@@ -3,7 +3,7 @@ import { Button, Text, View } from 'react-native';
 import BidiStorage from '../Lib/storage';
 import { STORAGE_KEY } from '../Lib/constant';
 
-function MypageScreen({}) {
+function MypageScreen({ navigation }) {
   const [userInfo, setUserInfo] = useState('');
   const getUserInfo = async (user) => {
     await fetch('http://127.0.0.1:3000' + `/api/user/${user.id}`, {
@@ -22,6 +22,11 @@ function MypageScreen({}) {
     const user = await BidiStorage.getData(STORAGE_KEY);
     getUserInfo(user);
   }, []);
+  const logoutHandler = () => {
+    BidiStorage.clearData().then(() => {
+      navigation.replace('Landing');
+    });
+  };
   if (!userInfo) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -35,6 +40,9 @@ function MypageScreen({}) {
       <Text>{userInfo.address}</Text>
       <Text>{userInfo.email}</Text>
       <Text>{userInfo.kakao_token}</Text>
+      <View>
+        <Button title="logout" onPress={logoutHandler} />
+      </View>
     </View>
   );
 }
