@@ -2,31 +2,28 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const TopRightBar = ({ navigation, route }) => {
+function TopRightBar({ navigation, route }) {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('Mypage')}>
-      <View style={styles.container}>
-          <Icon name="user-circle" size={17} color="#eb5f48" />
-          <Text style={styles.userName}>User</Text>
-      </View>
-    </TouchableOpacity>
+    <View style={styles.container}>
+      <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Mypage')}>
+        <Icon name="bell-o" size={25} />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Mypage')}>
+        <Icon name="send-o" size={25} />
+      </TouchableOpacity>
+    </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
     backgroundColor: 'white',
-    paddingLeft: 10,
-    paddingRight: 10,
-    marginTop:15,
-    marginRight:10
+    alignItems: 'center',
   },
-  userName: {
-    marginLeft: 6,
-    fontSize: 15,
-    color: '#7f7f7f'
-  }
+  icon: {
+    marginRight: 20,
+  },
 });
 export default TopRightBar;

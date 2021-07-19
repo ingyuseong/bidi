@@ -1,33 +1,23 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableOpacity
-} from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 
-const TopLeftBar = ({navigation, route}) => {
-  
+function TopLeftBar({ navigation, route }) {
   return (
-    <TouchableOpacity onPress={() => navigation.replace('MainTab')}>
-      <View style={StyleSheet.container} >
-        <Image
-          source={require('../../public/img/logo.png')}
-          style={{width: 70, resizeMode: 'contain', margin: 15}}
-      />
-      </View>
-    </TouchableOpacity>
-   
+    <View style={styles.container}>
+      <TouchableOpacity onPress={() => navigation.replace('MainTab')}>
+        <Image source={require('../../public/img/logo.png')} style={styles.logo} />
+      </TouchableOpacity>
+    </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'white', 
-    paddingLeft: 10,
-    paddingRight: 10,
+    marginLeft: 10,
+  },
+  logo: {
+    width: 70,
+    resizeMode: 'contain',
   },
 });
 export default TopLeftBar;
