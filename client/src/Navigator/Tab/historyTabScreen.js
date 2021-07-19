@@ -9,8 +9,22 @@ const HistoryStack = createStackNavigator();
 function HistoryTabScreen() {
   return (
     <Stack.Navigator>
-      <HistoryStack.Screen name="Profile" component={biidScreen} />
-      <HistoryStack.Screen name="ProfileEdit" component={detailsScreen} />
+      <HistoryStack.Screen
+        name="Profile"
+        component={biidScreen}
+        options={{
+          headerShown: false,
+          // headerBackImage: BackBtn,
+        }}
+      />
+      <HistoryStack.Screen
+        name="ProfileEdit"
+        component={detailsScreen}
+        options={{
+          headerShown: false,
+          // headerBackImage: BackBtn,
+        }}
+      />
     </Stack.Navigator>
   );
 }
