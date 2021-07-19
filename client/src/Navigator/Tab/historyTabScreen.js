@@ -1,30 +1,32 @@
 import * as React from 'react';
 import { Stack } from '../../../App';
-import DesignerListScreen from '../../Screen/SearchTab/User/designerListScreen';
+import biidScreen from '../../Screen/BiidTab/biidScreen';
 import detailsScreen from '../../Screen/detailScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 
-const SearchStack = createStackNavigator();
+const HistoryStack = createStackNavigator();
 
-function SearchTabScreen() {
+function HistoryTabScreen() {
   return (
     <Stack.Navigator>
-      <SearchStack.Screen
-        name="DesignerList"
-        component={DesignerListScreen}
+      <HistoryStack.Screen
+        name="Profile"
+        component={biidScreen}
         options={{
           headerShown: false,
+          // headerBackImage: BackBtn,
         }}
       />
-      <SearchStack.Screen
-        name="search2"
+      <HistoryStack.Screen
+        name="ProfileEdit"
         component={detailsScreen}
         options={{
           headerShown: false,
+          // headerBackImage: BackBtn,
         }}
       />
     </Stack.Navigator>
   );
 }
 
-export default SearchTabScreen;
+export default HistoryTabScreen;
