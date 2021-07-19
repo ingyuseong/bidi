@@ -4,15 +4,15 @@ import biidScreen from '../../Screen/BiidTab/biidScreen';
 import detailsScreen from '../../Screen/detailScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 
-const MessageStack = createStackNavigator();
+const HistoryStack = createStackNavigator();
 
-function MessageTabScreen() {
+function HistoryTabScreen() {
   return (
     <Stack.Navigator>
-      <MessageStack.Screen name="Profile" component={biidScreen} />
-      <MessageStack.Screen name="ProfileEdit" component={detailsScreen} />
+      <HistoryStack.Screen name="Profile" component={biidScreen} />
+      <HistoryStack.Screen name="ProfileEdit" component={detailsScreen} />
     </Stack.Navigator>
   );
 }
 
-export default MessageTabScreen;
+export default HistoryTabScreen;
