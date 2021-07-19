@@ -6,8 +6,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LandingScreen from './src/Screen/landingScreen';
 import AuthStack from './src/Navigator/authStack';
 
-import TopLeftBar from './src/Components/topLeftBar';
-import TopRightBar from './src/Components/topRightBar';
+import TopLeftBar from './src/Components/Header/topLeftBar';
+import TopRightBar from './src/Components/Header/topRightBar';
 
 import MypageScreen from './src/Screen/mypageScreen';
 // import MainScreen from './src/Screen/mainScreen'
@@ -24,7 +24,8 @@ function App() {
         screenOptions={({ navigation }) => ({
           title: '',
           headerStyle: {
-            backgroundColor: '',
+            backgroundColor: 'white',
+            height: 100,
           },
           headerLeft: () => <TopLeftBar navigation={navigation} />,
           headerRight: () => <TopRightBar navigation={navigation} />,
