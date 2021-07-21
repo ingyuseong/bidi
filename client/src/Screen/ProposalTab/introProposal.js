@@ -1,9 +1,14 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import BidiStorage from '../../Lib/storage';
+import { STORAGE_KEY } from '../../Lib/constant';
 
-function IntroView({ navigation }) {
+function ProposalIntroScreen({ navigation }) {
+  const proposalHandler = async (e) => {
+    navigation.replace('CreateProposal');
+  };
   return (
-    <Fragment>
+    <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>제안서를 등록하고</Text>
         <Text style={styles.title}><Text style={styles.boldTitle}>나에게 딱 맞는</Text></Text>
@@ -19,16 +24,22 @@ function IntroView({ navigation }) {
         <View style={styles.description}>
           <Text style={styles.text}>기존 사진을 등록하거나</Text>
           <Text style={styles.text}>AI를 통해 새로운 스타일을 시도해볼 수 있습니다</Text>
-          <TouchableOpacity activeOpacity={0.8} style={styles.button}>
+          <TouchableOpacity activeOpacity={0.8} style={styles.button} onPress={proposalHandler}>
             <Text style={styles.buttonText}>제안서 등록하기</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </Fragment>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
   header: {
     width:'100%',
     height:'25%',
@@ -77,7 +88,7 @@ const styles = StyleSheet.create({
     height: 46,
     marginTop: 25,
     borderRadius: 3,
-    backgroundColor: "rgb(237,88,58)"
+    backgroundColor: "tomato"
   },
   buttonText: {
     fontSize: 17,
@@ -86,4 +97,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default IntroView;
+export default ProposalIntroScreen;

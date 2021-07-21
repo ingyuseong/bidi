@@ -46,8 +46,5 @@ db.Sequelize = Sequelize
 // 모델정의
 db.User = require('./user')(sequelize, Sequelize)
 db.Proposal = require('./proposal')(sequelize, Sequelize)
-db.Keyword = require('./keyword')(sequelize, Sequelize)
-
-db.ProposalKeyword = require('./relation/proposalKeyword')(sequelize, Sequelize)
 
 module.exports = db

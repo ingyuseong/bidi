@@ -20,8 +20,11 @@ const modelAttributes = {
   price_limit: {
     type: DataTypes.INTEGER
   },
-  distance: {
-    type: DataTypes.FLOAT
+  distance_limit: {
+    type: DataTypes.INTEGER
+  },
+  keywords: {
+    type: DataTypes.JSON
   },
   description: {
     type: DataTypes.TEXT,

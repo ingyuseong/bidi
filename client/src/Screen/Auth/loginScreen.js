@@ -16,7 +16,7 @@ const LoginScreen = ({ navigation }) => {
     navigation.replace('Register', {
       token,
       profile,
-    });
+    }); 
   };
 
   const naverLoginHandler = () => {};
