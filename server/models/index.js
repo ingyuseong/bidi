@@ -57,6 +57,16 @@ db.BrandingPageKeyword = require('./relation/brandingPageKeyword')(
   Sequelize
 )
 
+// 관계정의 User : BrandingPage = 1 : N
+db.User.hasMany(db.BrandingPage, {
+  foreignKey: { allowNull: false },
+  onDelete: 'CASCADE',
+})
+db.BrandingPage.belongsTo(db.User, {
+  foreignKey: { allowNull: false },
+  onDelete: 'CASCADE',
+})
+
 // 관계정의 BrandingPage : Keyword = N : N
 db.Keyword.belongsToMany(db.BrandingPage, {
   through: 'brandingPageKeyword',

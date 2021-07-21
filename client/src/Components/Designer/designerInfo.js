@@ -12,19 +12,19 @@ function DesignerInfo({ info }) {
           <View style={styles.shopInfo}>
             <Text style={styles.shopName}>@ {info.shopName}</Text>
             <Ionicons name="location-outline" size={15} />
-            <Text style={styles.shopDistance}>{info.shopDistance}</Text>
+            <Text style={styles.shopDistance}>{info.distance}</Text>
           </View>
         </View>
       </View>
       <View style={styles.designerTag}>
-        {info.tags.map((tag, index) => (
+        {info.keywords.map((item, index) => (
           <View style={styles.tag} key={index}>
-            <Text>#{tag}</Text>
+            <Text>#{item.keyword}</Text>
           </View>
         ))}
       </View>
       <View style={styles.designerTextContainer}>
-        <Text style={styles.designerText}>{info.details}</Text>
+        <Text style={styles.designerText}>{info.description}</Text>
       </View>
     </View>
   );

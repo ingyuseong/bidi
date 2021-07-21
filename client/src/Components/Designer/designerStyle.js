@@ -2,18 +2,19 @@ import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
 
-function DesignerStyle({ info }) {
+function DesignerStyle({ styleLists }) {
   return (
     <Swiper style={styles.wrapper} showsButtons={true} showsPagination={false} loop={true}>
-      <View style={styles.styleContainer}>
-        <Image style={styles.styleImg} source={require('../../../public/img/test1.jpeg')} />
-      </View>
-      <View style={styles.styleContainer}>
-        <Image style={styles.styleImg} source={require('../../../public/img/test3.jpeg')} />
-      </View>
-      <View style={styles.styleContainer}>
-        <Image style={styles.styleImg} source={require('../../../public/img/test4.jpeg')} />
-      </View>
+      {styleLists.map((item, index) => (
+        <View style={styles.styleContainer} key={index}>
+          <Image
+            style={styles.styleImg}
+            source={{
+              uri: item.img_src,
+            }}
+          />
+        </View>
+      ))}
     </Swiper>
   );
 }
