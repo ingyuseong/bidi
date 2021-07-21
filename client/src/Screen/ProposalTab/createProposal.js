@@ -36,7 +36,8 @@ function CreateProposalScreen({ navigation }) {
   const [fivePress, setFivePress] = useState(false);
 
   const [description, setDescription] = useState("");
-
+  
+  
   const getUserInfo = async (user) => {
     await fetch('http://127.0.0.1:3000' + `/api/user/${user.id}`, {
       method: 'GET',
@@ -146,19 +147,17 @@ function CreateProposalScreen({ navigation }) {
       <View style={styles.textBox}>
         <Text style={styles.title}>금액 범위 설정</Text>
       </View>
-      <View style={styles.dropdownBox}>
-        <View>
-          <DropDownPicker open={priceOpen} value={priceValue} items={priceItems} 
-            setOpen={setPriceOpen} setValue={setPriceValue} setItems={setPriceItems}
-            placeholder="원하는 적정 시술가격을 선택해주세요"
-            dropDownContainerStyle={{color: 'grey', width: '90%', borderColor: 'rgb(214,214,214)', borderRadius: 3, backgroundColor: 'white', elevation: 1000}}
-            style={{width: '90%', borderColor: 'rgb(214,214,214)', backgroundColor: 'white', borderRadius: 3, height: 42}}
-            placeholderStyle={{color: "grey", fontSize: 15}}
-            listParentLabelStyle={{color: "grey", fontSize: 15}}
-            zIndex={1}
-          />
-        </View>
-      </View>
+      <DropDownPicker
+        zIndex={1000}
+        open={priceOpen} value={priceValue} items={priceItems} 
+        setOpen={setPriceOpen} setValue={setPriceValue} setItems={setPriceItems}
+        placeholder="원하는 적정 시술가격을 선택해주세요"
+        style={{width: '90%', borderColor: 'rgb(214,214,214)', borderRadius: 3, height: 42, marginLeft: '5%', marginTop:10}}
+        dropDownContainerStyle={{width: '90%', borderColor: 'rgb(214,214,214)', borderRadius: 3, marginLeft: '5%', marginTop:10}}
+        placeholderStyle={{color: "grey", fontSize: 15}}
+        listParentLabelStyle={{color: "grey",fontSize: 15}}
+        listMode="SCROLLVIEW"
+      />
 
       {/* 3. 원하는 거리 설정 */}
       <View style={{marginTop: 20}}></View>
@@ -172,17 +171,18 @@ function CreateProposalScreen({ navigation }) {
           selectTextOnFocus={false}
           value={location}
         />
-        <View>
-          <DropDownPicker open={distanceOpen} value={distanceValue} items={distanceItems} 
-            setOpen={setDistanceOpen} setValue={setDistanceValue} setItems={setDistanceItems}
-            placeholder="반경 선택하기"
-            dropDownContainerStyle={{width: '90%', borderColor: 'rgb(214,214,214)', borderRadius: 3}}
-            style={{width: '90%', borderColor: 'rgb(214,214,214)', borderRadius: 3, height: 42}}
-            placeholderStyle={{color: "grey", fontSize: 15}}
-            listParentLabelStyle={{color: "grey",fontSize: 15}}
-          />
-        </View>
       </View>
+      <DropDownPicker
+        zIndex={500}
+        open={distanceOpen} value={distanceValue} items={distanceItems} 
+        setOpen={setDistanceOpen} setValue={setDistanceValue} setItems={setDistanceItems}
+        placeholder="반경 선택하기"
+        style={{width: '90%', borderColor: 'rgb(214,214,214)', borderRadius: 3, height: 42, backgroundColor: 'white', marginLeft: '5%'}}
+        dropDownContainerStyle={{width: '90%', borderColor: 'rgb(214,214,214)', borderRadius: 3, marginLeft: '5%'}}
+        placeholderStyle={{color: "grey", fontSize: 15}}
+        listParentLabelStyle={{color: "grey",fontSize: 15, backgroundColor: 'white'}}
+        listMode="SCROLLVIEW"
+      />
 
       {/* 4. 무엇이 제일 중요하세요? */}
       <View style={{marginTop: 20}}></View>
@@ -259,7 +259,8 @@ const styles = StyleSheet.create({
   textBox: {
     width:'100%',
     margin: 15,
-    marginBottom: 5
+    marginBottom: 5,
+    zIndex: 1
   },
   title: {
     fontSize: 18,
@@ -324,7 +325,8 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     backgroundColor: "rgb(243,243,243)",
     color: "rgb(153,153,153)",
-    padding: 10
+    padding: 10,
+    zIndex: 2
   },
   keywordBox: {
     width: '100%',
