@@ -1,18 +1,8 @@
 const Sequelize = require('sequelize')
 const { DataTypes } = Sequelize
-const modelName = 'keyword'
+const modelName = 'styleMenu'
 
-const modelAttributes = {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-  keyword: {
-    type: DataTypes.STRING,
-    primaryKey: true,
-  },
-}
+const modelAttributes = {}
 
 const modelOptions = {
   timestamps: false,

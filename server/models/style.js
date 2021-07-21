@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const { DataTypes } = Sequelize
-const modelName = 'keyword'
+const modelName = 'style'
 
 const modelAttributes = {
   id: {
@@ -8,9 +8,20 @@ const modelAttributes = {
     primaryKey: true,
     autoIncrement: true,
   },
-  keyword: {
+  title: {
     type: DataTypes.STRING,
-    primaryKey: true,
+  },
+  subtitle: {
+    type: DataTypes.STRING,
+  },
+  price: {
+    type: DataTypes.INTEGER,
+  },
+  gender: {
+    type: DataTypes.STRING,
+  },
+  img_src: {
+    type: DataTypes.STRING,
   },
 }
 

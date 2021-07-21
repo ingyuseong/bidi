@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const { DataTypes } = Sequelize
-const modelName = 'keyword'
+const modelName = 'brandingPage'
 
 const modelAttributes = {
   id: {
@@ -8,9 +8,24 @@ const modelAttributes = {
     primaryKey: true,
     autoIncrement: true,
   },
-  keyword: {
+  user_id: {
+    type: DataTypes.INTEGER,
+  },
+  description: {
     type: DataTypes.STRING,
-    primaryKey: true,
+  },
+  shop_name: {
+    type: DataTypes.STRING,
+  },
+  created_at: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.fn('now'),
+  },
+  updated_at: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.fn('now'),
   },
 }
 
