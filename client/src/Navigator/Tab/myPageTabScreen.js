@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Stack } from '../../../App';
-import biidScreen from '../../Screen/BiidTab/biidScreen';
-import detailsScreen from '../../Screen/detailScreen';
+import MypageScreen from '../../Screen/mypageScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const MypageStack = createStackNavigator();
@@ -9,12 +8,7 @@ const MypageStack = createStackNavigator();
 function MyPageStackScreen() {
   return (
     <Stack.Navigator>
-      <MypageStack.Screen name="admin1" component={biidScreen} options={{ headerShown: false }} />
-      <MypageStack.Screen
-        name="admin2"
-        component={detailsScreen}
-        options={{ headerShown: false }}
-      />
+      <MypageStack.Screen name="mypage" component={MypageScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
