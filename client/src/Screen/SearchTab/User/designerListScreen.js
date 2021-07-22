@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
 import DesignerStyle from '../../../Components/Designer/designerStyle';
 import DesignerInfo from '../../../Components/Designer/designerInfo';
-import DesignerDetail from '../../../Components/Designer/designerDetail';
+import DesignerDetail from './designerDetailScreen';
 import Swiper from 'react-native-swiper';
 
 function DesignerListScreen({ navigation }) {

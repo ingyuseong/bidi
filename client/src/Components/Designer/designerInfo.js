@@ -17,11 +17,12 @@ function DesignerInfo({ info }) {
         </View>
       </View>
       <View style={styles.designerTag}>
-        {info.keywords.map((item, index) => (
-          <View style={styles.tag} key={index}>
-            <Text>#{item.keyword}</Text>
-          </View>
-        ))}
+        {info.keywords &&
+          info.keywords.map((item, index) => (
+            <View style={styles.tag} key={index}>
+              <Text>#{item.keyword}</Text>
+            </View>
+          ))}
       </View>
       <View style={styles.designerTextContainer}>
         <Text style={styles.designerText}>{info.description}</Text>
