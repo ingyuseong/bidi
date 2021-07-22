@@ -9,7 +9,7 @@ import ProposalRegisteredScreen from '../../Screen/ProposalTab/proposalRegistere
 
 const ProposalStack = createStackNavigator();
 
-function ProposalTabScreen() {
+function ProposalTabScreen({ navigation }) {
   return (
     <Stack.Navigator>
       <ProposalStack.Screen

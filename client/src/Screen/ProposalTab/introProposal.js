@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import BidiStorage from '../../Lib/storage';
-import { STORAGE_KEY } from '../../Lib/constant';
 
 function ProposalIntroScreen({ navigation }) {
   const proposalHandler = async (e) => {

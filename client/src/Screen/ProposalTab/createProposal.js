@@ -29,6 +29,7 @@ function CreateProposalScreen({ navigation }) {
   
   const [location, setLocation] = useState("");
 
+  const [keywords, setKeywords] = useState([])
   const [onePress, setOnePress] = useState(false);
   const [twoPress, setTwoPress] = useState(false);
   const [threePress, setThreePress] = useState(false);
@@ -191,31 +192,31 @@ function CreateProposalScreen({ navigation }) {
       </View>
       <View style={styles.keywordBox}>
         <View style={styles.keywordRow}>
-          <TouchableHighlight {...touchProps(onePress, setOnePress)}>
+          <TouchableHighlight underlayColor='white' {...touchProps(onePress, setOnePress)}>
             <Text style={onePress ? styles.keywordTextPress : styles.keywordTextNormal}>
               💰  합리적인 가격
             </Text>
           </TouchableHighlight>
-          <TouchableHighlight {...touchProps(twoPress, setTwoPress)}>
+          <TouchableHighlight underlayColor='white' {...touchProps(twoPress, setTwoPress)}>
             <Text style={twoPress ? styles.keywordTextPress : styles.keywordTextNormal}>
               ✂️  똑같이 해주세요!
             </Text>
           </TouchableHighlight>
         </View>
         <View style={styles.keywordRow}>
-          <TouchableHighlight {...touchProps(threePress, setThreePress)}>
+          <TouchableHighlight underlayColor='white' {...touchProps(threePress, setThreePress)}>
             <Text style={threePress ? styles.keywordTextPress : styles.keywordTextNormal}>
               😎  경력자 찾아요
             </Text>
           </TouchableHighlight>
-          <TouchableHighlight {...touchProps(fourPress, setFourPress)}>
+          <TouchableHighlight underlayColor='white' {...touchProps(fourPress, setFourPress)}>
             <Text style={fourPress ? styles.keywordTextPress : styles.keywordTextNormal}>
               ⏰  시간약속 잘 지켜주세요
             </Text>
           </TouchableHighlight>
         </View>
         <View style={styles.keywordRow}>
-          <TouchableHighlight {...touchProps(fivePress, setFivePress)}>
+          <TouchableHighlight underlayColor='white' {...touchProps(fivePress, setFivePress)}>
             <Text style={fivePress ? styles.keywordTextPress : styles.keywordTextNormal}>
               👌  저에게 어울리는 다른 스타일도 괜찮아요
             </Text>
