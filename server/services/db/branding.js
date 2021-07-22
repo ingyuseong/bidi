@@ -1,11 +1,4 @@
-const {
-  BrandingPage,
-  BrandingPageKeyword,
-  Keyword,
-  Style,
-  StyleMenu,
-  User,
-} = require('../../models')
+const { BrandingPage, Style, StyleMenu, User } = require('../../models')
 
 exports.selectAllBranding = async (userId) => {
   const results = await BrandingPage.findAll({
@@ -29,24 +22,6 @@ exports.selectBrandingInfo = async (userId) => {
     ],
   })
 
-  return results
-}
-
-exports.selectBrandingWithKeyword = async (userId) => {
-  const results = await BrandingPage.findAll({
-    where: {
-      user_id: userId,
-    },
-    include: [
-      {
-        model: Keyword,
-        as: 'brandingPageKeywords',
-        through: {
-          model: BrandingPageKeyword,
-        },
-      },
-    ],
-  })
   return results
 }
 

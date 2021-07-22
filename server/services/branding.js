@@ -1,4 +1,3 @@
-const { BrandingPage } = require('../models')
 const db = require('./db/branding')
 
 const getBrandingList = async () => {
@@ -12,16 +11,11 @@ const getBrandingList = async () => {
 
 const getBrandingInfo = async (userId) => {
   let result = {}
-  let keywords = []
   let styles = []
 
   const brandingInfo = await db.selectBrandingInfo(userId)
-  const brandingKeywords = await db.selectBrandingWithKeyword(userId)
   const brandingStyles = await db.selectBrandingWithStyle(userId)
 
-  for (const brandingKeyword of brandingKeywords) {
-    keywords = makeKeywordData(brandingKeyword.dataValues.brandingPageKeywords)
-  }
   for (const brandingStyle of brandingStyles) {
     styles = makeStyleData(brandingStyle.dataValues.styleMenus)
   }
@@ -31,8 +25,9 @@ const getBrandingInfo = async (userId) => {
   result.distance = '1km'
   result.description = brandingInfo.description
   result.shopName = brandingInfo.shop_name
+  result.keywords =
+    brandingInfo.keywords == '' ? [] : brandingInfo.keywords.split(',')
   result.styles = styles
-  result.keywords = keywords
 
   return result
 }
@@ -42,15 +37,6 @@ const makeStyleData = (styles) => {
   for (const item of styles) {
     const { id, title, subtitle, price, gender, img_src } = item.dataValues
     results.push({ id, title, subtitle, price, gender, img_src })
-  }
-  return results
-}
-
-const makeKeywordData = (keywords) => {
-  let results = []
-  for (const item of keywords) {
-    const { id, keyword } = item.dataValues
-    results.push({ id, keyword })
   }
   return results
 }

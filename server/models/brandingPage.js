@@ -17,6 +17,9 @@ const modelAttributes = {
   shop_name: {
     type: DataTypes.STRING,
   },
+  keywords: {
+    type: DataTypes.STRING,
+  },
   created_at: {
     type: DataTypes.DATE,
     allowNull: false,
