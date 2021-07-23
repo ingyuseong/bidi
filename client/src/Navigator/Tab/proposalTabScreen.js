@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Stack } from '../../../App';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import LoadingScreen from '../../Screen/ProposalTab/loading'
+import CheckingScreen from '../../Screen/ProposalTab/checkingProposal'
 import ProposalIntroScreen from '../../Screen/ProposalTab/introProposal';
 import CreateProposalScreen from '../../Screen/ProposalTab/createProposal';
-import ProposalRegisteredScreen from '../../Screen/ProposalTab/proposalRegistered';
+import ProposalRegisteredScreen from '../../Screen/ProposalTab/registeredProposal';
+import SelectAfterImageScreen from '../../Screen/ProposalTab/selectAfterImage';
 
 const ProposalStack = createStackNavigator();
 
@@ -14,7 +15,7 @@ function ProposalTabScreen({ navigation }) {
     <Stack.Navigator>
       <ProposalStack.Screen
         name="Loading"
-        component={LoadingScreen}
+        component={CheckingScreen}
         options={{ headerShown: false, title: '', }}
       />
       <ProposalStack.Screen
@@ -25,11 +26,16 @@ function ProposalTabScreen({ navigation }) {
       <ProposalStack.Screen
         name="CreateProposal"
         component={CreateProposalScreen}
-        options={{ headerShown: false, title: ''}}
+        options={{ headerShown: false, title: '', afterStyle: ''}}
       />
       <ProposalStack.Screen
         name="ProposalRegistered"
         component={ProposalRegisteredScreen}
+        options={{ headerShown: false, title: ''}}
+      />
+      <ProposalStack.Screen
+        name="SelectAfterImage"
+        component={SelectAfterImageScreen}
         options={{ headerShown: false, title: ''}}
       />
     </Stack.Navigator>

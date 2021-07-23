@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, Text, View, StyleSheet, TouchableOpacity, TouchableHighlight, TextInput } from 'react-native';
+import { ScrollView, Text, View, Image, StyleSheet, TouchableOpacity, TouchableHighlight, TextInput } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 import BidiStorage from '../../Lib/storage';
@@ -7,7 +7,7 @@ import { STORAGE_KEY } from '../../Lib/constant';
 
 function CreateProposalScreen({ navigation }) {
   const [userInfo, setUserInfo] = useState('');
-
+  const [afterImageStyle, setAfterImageStyle] = useState('')
   // DropDown 관련
   const [priceOpen, setPriceOpen] = useState(false);
   const [priceValue, setPriceValue] = useState(null);
@@ -71,7 +71,7 @@ function CreateProposalScreen({ navigation }) {
   }
 
   const proposalHandler = async (e) => {
-    alert("사진등록!")
+    navigation.navigate('SelectAfterImage', {setAfterImageStyle: setAfterImageStyle})
   };
 
   const initializeHandler = async (e) => {
@@ -86,10 +86,6 @@ function CreateProposalScreen({ navigation }) {
   }
   
   const submitHandler = async (e) => {
-    const user_id = userInfo.id
-    const before_img = 'before'
-    const after_img = 'after'
-    const status = 'wait'
     const keywords = [onePress, twoPress, threePress, fourPress, fivePress]
     await fetch('http://127.0.0.1:3000' + '/api/proposal/register', {
       method: 'POST',
@@ -97,14 +93,14 @@ function CreateProposalScreen({ navigation }) {
         'Content-Type': 'application/json;charset=UTF-8',
       },
       body: JSON.stringify({
-        before_img,
-        after_img,
-        user_id,
+        before_img: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/profile.png`,
+        after_img: 'after',
+        user_id: userInfo.id,
         price_limit: priceValue,
         distance_limit: distanceValue,
         keywords,
         description,
-        status,
+        status: 'wait',
       }),
     })
     .then((res) => {
@@ -123,11 +119,7 @@ function CreateProposalScreen({ navigation }) {
       </View>
       <View style={styles.imageContainer}>
         <View style={styles.imageBox}>
-          <View style={styles.image}>
-            <TouchableOpacity activeOpacity={0.8} onPress={proposalHandler}>
-              <Text style={styles.imageLabel}>사진 등록하기</Text>
-            </TouchableOpacity>
-          </View>
+          <Image style={styles.image} source={{uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/profile.png`}}/>
           <View before style={styles.imageTypeLabel}>
             <Text style={styles.imageTypeLabelText}>Before</Text>
           </View>
@@ -292,6 +284,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '95%',
     height: '90%',
+    borderColor: 'rgb(243,243,243)',
+    borderWidth: 1,
     backgroundColor: 'rgb(243,243,243)'
   },
   imageLabel: {

@@ -3,7 +3,7 @@ import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 
-function LoadingScreen({ navigation }) {
+function CheckingScreen({ navigation }) {
   const [animating, setAnimating] = useState(true);
   const getProposalInfo = async (user) => {
     await fetch('http://127.0.0.1:3000' + `/api/proposal/user/${user.id}`, {
@@ -14,7 +14,7 @@ function LoadingScreen({ navigation }) {
     })
     .then((response) => response.json())
     .then((result) => {
-      if (result.data) {
+      if (result.data.name != "SequelizeDatabaseError") {
         navigation.replace('ProposalRegistered');
       } else {
         navigation.replace('Intro');
@@ -54,4 +54,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoadingScreen;
+export default CheckingScreen;
