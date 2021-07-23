@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const { DataTypes } = Sequelize
-const modelName = 'user'
+const modelName = 'brandingPage'
 
 const modelAttributes = {
   id: {
@@ -8,31 +8,16 @@ const modelAttributes = {
     primaryKey: true,
     autoIncrement: true,
   },
-  type: {
+  user_id: {
+    type: DataTypes.INTEGER,
+  },
+  description: {
     type: DataTypes.STRING,
   },
-  naver_token: {
+  shop_name: {
     type: DataTypes.STRING,
   },
-  kakao_token: {
-    type: DataTypes.STRING,
-  },
-  name: {
-    type: DataTypes.STRING,
-  },
-  email: {
-    type: DataTypes.STRING,
-  },
-  address: {
-    type: DataTypes.STRING,
-  },
-  lat: {
-    type: DataTypes.FLOAT,
-  },
-  lng: {
-    type: DataTypes.FLOAT,
-  },
-  img_src: {
+  keywords: {
     type: DataTypes.STRING,
   },
   created_at: {
@@ -57,9 +42,5 @@ const modelOptions = {
 module.exports = (sequelize) => {
   // model 설정
   const model = sequelize.define(modelName, modelAttributes, modelOptions)
-  // 외래키 설정
-  model.associate = (db) => {
-    model.hasMany(db.brandingPage)
-  }
   return model
 }

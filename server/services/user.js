@@ -5,6 +5,11 @@ exports.getUser = async (userId) => {
   return user
 }
 
+exports.getUserByToken = async (token) => {
+  const user = await db.selectUserByToken(token)
+  return user
+}
+
 exports.editUser = async (params) => {
   const user = await db.updateUser({ ...params })
   return user
