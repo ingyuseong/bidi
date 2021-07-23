@@ -5,29 +5,51 @@ import {
 } from 'react-native-responsive-screen';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { getProfile as getKakaoProfile, login } from '@react-native-seoul/kakao-login';
+import BidiStorage from '../../Lib/storage';
+import { STORAGE_KEY } from '../../Lib/constant';
 
 const LoginScreen = ({ navigation }) => {
   const [user, setUser] = useState('');
-  const kakaoLoginHandler = async (e) => {
+
+  const kakaoLoginHandler = async () => {
     const token = await login();
     const profile = await getKakaoProfile();
-    console.log(token, profile)
-    setUser({ ...user, token, profile });
-    navigation.replace('Register', {
-      token,
-      profile,
-    });
+    await checkUser(profile);
   };
 
   const naverLoginHandler = () => {};
 
+  const checkUser = async (profile) => {
+    await fetch('http://127.0.0.1:3000' + '/api/user/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        token: profile.id,
+      }),
+    })
+      .then((response) => response.json())
+      .then(async ({ data }) => {
+        if (data) {
+          await BidiStorage.storeData(STORAGE_KEY, { id: data.id, token: profile.id });
+          navigation.replace('MainTab');
+        }
+        navigation.replace('Register', {
+          profile,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.topArea}>
         <View style={styles.titleArea}>
           <Image
             source={require('../../../public/img/logo.png')}
-            style={{ width: wp(30), resizeMode: 'contain' }}
+            style={{ width: wp(50), resizeMode: 'contain' }}
           />
         </View>
       </View>
@@ -51,11 +73,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    paddingLeft: wp(7),
-    paddingRight: wp(7),
+    justifyContent: 'space-around',
+    paddingLeft: wp(10),
+    paddingRight: wp(10),
   },
   topArea: {
-    flex: 4,
+    flex: 3,
     paddingTop: wp(2),
   },
   titleArea: {

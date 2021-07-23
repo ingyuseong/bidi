@@ -1,6 +1,8 @@
 const { User } = require('../../models')
+const { Sequelize } = require('sequelize')
+const { and, or, like, not } = Sequelize.Op
 
-exports.selectUser = async (userId) => {
+https: exports.selectUser = async (userId) => {
   const results = await User.findOne({
     raw: true,
     where: {
@@ -8,6 +10,16 @@ exports.selectUser = async (userId) => {
     },
   })
 
+  return results
+}
+
+exports.selectUserByToken = async (token) => {
+  const results = await User.findOne({
+    raw: true,
+    where: {
+      [or]: [{ naver_token: token }, { kakao_token: token }],
+    },
+  })
   return results
 }
 

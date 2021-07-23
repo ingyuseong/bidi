@@ -46,8 +46,31 @@ db.Sequelize = Sequelize
 // 모델정의
 db.User = require('./user')(sequelize, Sequelize)
 db.Proposal = require('./proposal')(sequelize, Sequelize)
-db.Keyword = require('./keyword')(sequelize, Sequelize)
+db.BrandingPage = require('./brandingPage')(sequelize, Sequelize)
+db.Style = require('./style')(sequelize, Sequelize)
 
-db.ProposalKeyword = require('./relation/proposalKeyword')(sequelize, Sequelize)
+db.StyleMenu = require('./relation/styleMenu')(sequelize, Sequelize)
+
+// 관계정의 User : BrandingPage = 1 : N
+db.User.hasMany(db.BrandingPage, {
+  foreignKey: { allowNull: false },
+  onDelete: 'CASCADE',
+})
+db.BrandingPage.belongsTo(db.User, {
+  foreignKey: { allowNull: false },
+  onDelete: 'CASCADE',
+})
+
+// 관계정의 BrandingPage : Style = N : N
+db.Style.belongsToMany(db.BrandingPage, {
+  through: 'styleMenu',
+  as: 'styleMenus',
+  onDelete: 'CASCADE',
+})
+db.BrandingPage.belongsToMany(db.Style, {
+  through: 'styleMenu',
+  as: 'styleMenus',
+  onDelete: 'CASCADE',
+})
 
 module.exports = db

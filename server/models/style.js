@@ -1,16 +1,28 @@
 const Sequelize = require('sequelize')
 const { DataTypes } = Sequelize
-const modelName = 'proposalKeyword'
+const modelName = 'style'
 
 const modelAttributes = {
-  proposal_id: {
+  id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
   },
-  keyword_id: {
+  title: {
+    type: DataTypes.STRING,
+  },
+  subtitle: {
+    type: DataTypes.STRING,
+  },
+  price: {
     type: DataTypes.INTEGER,
-    primaryKey: true,
-  }
+  },
+  gender: {
+    type: DataTypes.STRING,
+  },
+  img_src: {
+    type: DataTypes.STRING,
+  },
 }
 
 const modelOptions = {
@@ -23,10 +35,5 @@ const modelOptions = {
 module.exports = (sequelize) => {
   // model 설정
   const model = sequelize.define(modelName, modelAttributes, modelOptions)
-  // 외래키 설정
-  //   model.associate = (db) => {
-  //     model.belongsTo(db.user, { foreignKey: 'uid', targetKey: 'uid' })
-  //     model.belongsTo(db.payment, { foreignKey: 'pid', targetKey: 'pid' })
-  //   }
   return model
 }

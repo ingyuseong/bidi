@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const { DataTypes } = Sequelize
-const modelName = 'keyword'
+const modelName = 'brandingPage'
 
 const modelAttributes = {
   id: {
@@ -8,10 +8,28 @@ const modelAttributes = {
     primaryKey: true,
     autoIncrement: true,
   },
-  keyword: {
+  user_id: {
+    type: DataTypes.INTEGER,
+  },
+  description: {
     type: DataTypes.STRING,
-    primaryKey: true,
-  }
+  },
+  shop_name: {
+    type: DataTypes.STRING,
+  },
+  keywords: {
+    type: DataTypes.STRING,
+  },
+  created_at: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.fn('now'),
+  },
+  updated_at: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.fn('now'),
+  },
 }
 
 const modelOptions = {
@@ -24,10 +42,5 @@ const modelOptions = {
 module.exports = (sequelize) => {
   // model 설정
   const model = sequelize.define(modelName, modelAttributes, modelOptions)
-  // 외래키 설정
-  //   model.associate = (db) => {
-  //     model.belongsTo(db.user, { foreignKey: 'uid', targetKey: 'uid' })
-  //     model.belongsTo(db.payment, { foreignKey: 'pid', targetKey: 'pid' })
-  //   }
   return model
 }
