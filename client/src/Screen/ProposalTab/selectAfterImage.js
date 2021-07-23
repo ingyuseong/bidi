@@ -2,17 +2,20 @@ import React, {useState, useEffect} from 'react';
 import { Text, View, StyleSheet, TouchableHighlight, TouchableOpacity, Image, TextInput } from 'react-native';
 
 function SelectAfterImageScreen({ navigation, route }) {
-  const [style, setStyle] = useState('style1')
-  const [description, setDescription] = useState("");
+  const { setAfterImageStyle } = route.params
 
   const goBack = async (e) => {
-    route.params.setAfterImageStyle(style);
     navigation.goBack();
   }
-
-  useEffect(async () => {
-    setDescription("style1")
-  }, []);
+  const selectAlbum = async (e) => {
+    navigation.navigate('SelectFromAlbum', {setAfterImageStyle: setAfterImageStyle});
+  }
+  const selectScrap = async (e) => {
+    navigation.navigate('SelectFromScrap', {setAfterImageStyle: setAfterImageStyle});
+  }
+  const selectBidi = async (e) => {
+    navigation.navigate('SelectFromBidi', {setAfterImageStyle: setAfterImageStyle});
+  }
 
   return (
     <View style={styles.container}>
@@ -28,17 +31,17 @@ function SelectAfterImageScreen({ navigation, route }) {
           <Text style={styles.title}>등록해주세요!</Text>
         </View>
         <View style={{marginTop: 20}}>
-          <TouchableHighlight  underlayColor='white' style={styles.keywordNormal} onPress={() => console.log('앨범에서 가져오기')}>
+          <TouchableHighlight  underlayColor='white' style={styles.keywordNormal} onPress={selectAlbum}>
             <Text style={styles.keywordTextNormal}>
               📸  앨범에서 가져오기
             </Text>
           </TouchableHighlight>
-          <TouchableHighlight  underlayColor='white' style={styles.keywordNormal} onPress={() => console.log('스크랩 북')}>
+          <TouchableHighlight  underlayColor='white' style={styles.keywordNormal} onPress={selectScrap}>
             <Text style={styles.keywordTextNormal}>
               💖  비디 스크랩북에서 가져오기
             </Text>
           </TouchableHighlight>
-          <TouchableHighlight  underlayColor='white' style={styles.keywordNormal} onPress={() => console.log('AI')}>
+          <TouchableHighlight  underlayColor='white' style={styles.keywordNormal} onPress={selectBidi}>
             <Text style={styles.keywordTextNormal}>
               💫  AI로 새로운 스타일 시도해보기 with 비디
             </Text>

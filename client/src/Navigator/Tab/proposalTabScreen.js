@@ -8,6 +8,10 @@ import CreateProposalScreen from '../../Screen/ProposalTab/createProposal';
 import ProposalRegisteredScreen from '../../Screen/ProposalTab/registeredProposal';
 import SelectAfterImageScreen from '../../Screen/ProposalTab/selectAfterImage';
 
+import SelectFromAlbumScreen from '../../Screen/ProposalTab/selectFromAlbum';
+import SelectFromScrapScreen from '../../Screen/ProposalTab/selectFromScrap';
+import SelectFromBidiScreen from '../../Screen/ProposalTab/selectFromBidi';
+
 const ProposalStack = createStackNavigator();
 
 function ProposalTabScreen({ navigation }) {
@@ -36,6 +40,21 @@ function ProposalTabScreen({ navigation }) {
       <ProposalStack.Screen
         name="SelectAfterImage"
         component={SelectAfterImageScreen}
+        options={{ headerShown: false, title: ''}}
+      />
+      <ProposalStack.Screen
+        name="SelectFromAlbum"
+        component={SelectFromAlbumScreen}
+        options={{ headerShown: false, title: ''}}
+      />
+      <ProposalStack.Screen
+        name="SelectFromScrap"
+        component={SelectFromScrapScreen}
+        options={{ headerShown: false, title: ''}}
+      />
+      <ProposalStack.Screen
+        name="SelectFromBidi"
+        component={SelectFromBidiScreen}
         options={{ headerShown: false, title: ''}}
       />
     </Stack.Navigator>

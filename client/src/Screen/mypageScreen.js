@@ -41,6 +41,7 @@ function MypageScreen({ navigation }) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Loading</Text>
+        <Button title="logout handler" onPress={logoutHandler} />
       </View>
     );
   }

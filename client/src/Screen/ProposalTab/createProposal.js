@@ -5,9 +5,15 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
+
 function CreateProposalScreen({ navigation }) {
   const [userInfo, setUserInfo] = useState('');
-  const [afterImageStyle, setAfterImageStyle] = useState('')
+  const [afterImageStyle, setAfterImageStyle] = useState('none')
   // DropDown 관련
   const [priceOpen, setPriceOpen] = useState(false);
   const [priceValue, setPriceValue] = useState(null);
