@@ -16,6 +16,22 @@ exports.selectProposal = async (proposalId) =>
     return err
   })
 
+
+exports.selectProposalByUserId = async (userId) =>  
+  await Proposal.findOne({
+    raw: true,
+    where: {
+      user_id: userId,
+    },
+  }).then((results) => {
+    console.log("Success Selecting Proposal");
+    return results
+  })
+  .catch((err) => {
+    console.log("Failed Selecting Proposal");
+    return err
+  })
+
 exports.updateProposal = async ({
   id,
   user_id,
@@ -77,7 +93,8 @@ exports.insertProposal = async ({
   before_src,
   after_src,
   price_limit,
-  distance,
+  distance_limit,
+  keywords,
   description,
   status,
 }) => Proposal.create({
@@ -86,7 +103,8 @@ exports.insertProposal = async ({
     before_src,
     after_src,
     price_limit,
-    distance,
+    distance_limit,
+    keywords,
     description,
     status,
   }).then((results) => {
@@ -95,19 +113,5 @@ exports.insertProposal = async ({
   })
   .catch((err) => {
     console.log("Failed Creating Proposal");
-    return err
-  })
-
-
-exports.insertKeyword = async (keyword) => 
-Keyword.create({
-    raw: true,
-    keyword
-  }).then((results) => {
-    console.log("Success Creating Keyword");
-    return results
-  })
-  .catch((err) => {
-    console.log("Failed Creating Keyword");
     return err
   })

@@ -5,6 +5,11 @@ exports.getProposal = async (proposalId) => {
   return proposal
 }
 
+exports.getProposalByUserId = async (userId) => {
+  const proposal = await db.selectProposalByUserId(userId)
+  return proposal
+}
+
 exports.editProposal = async (params) => {
   const proposal = await db.updateProposal({ ...params })
   return proposal
@@ -23,11 +28,4 @@ exports.getProposals = async () => {
 exports.registerProposal = async (params) => {
   const proposal = await db.insertProposal({ ...params })
   return proposal
-}
-
-
-// 제안서 keyword 관련 
-exports.registerKeyword = async (keyword) => {
-  const result = await db.insertKeyword(keyword)
-  return result
 }

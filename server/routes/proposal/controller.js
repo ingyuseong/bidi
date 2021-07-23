@@ -7,8 +7,24 @@ const { STATUS_CODE, ERROR_MESSAGE } = require('../../lib/constants')
 */
 exports.getProposal = async (req, res, next) => {
   try {
-    const { id } = req.params
-    const proposal = await proposalServices.getProposal(id)
+    const { proposalId } = req.params
+    const proposal = await proposalServices.getProposal(proposalId)
+
+    res.status(STATUS_CODE.SUCCESS).json({
+      message: '제안서 정보 조회 성공',
+      data: proposal,
+    })
+  } catch (error) {
+    res
+      .status(STATUS_CODE.SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+
+exports.getProposalByUserId = async (req, res, next) => {
+  try {
+    const { userId } = req.params
+    const proposal = await proposalServices.getProposalByUserId(userId)
 
     res.status(STATUS_CODE.SUCCESS).json({
       message: '제안서 정보 조회 성공',
@@ -84,32 +100,27 @@ exports.getProposals = async (req, res, next) => {
     POST /api/proposal/register
     * 제안서 등록 API
 */
-exports.registerProposal = async (req, res, next) => {
-  try {
-    const params = req.body
-    const proposal = await proposalServices.registerProposal(params)
-
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '제안서 등록 성공',
-      data: proposal.id,
-    })
-  } catch (error) {
-    res
-      .status(STATUS_CODE.SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
-  }
+const image_upload_S3 = (img) => {
+  return "S3://uploaded.png"
 }
 
-
-/*
-  제안서 키워드 등록관련
-*/
-exports.registerKeyword = async (req, res, next) => {
-  try {
-    const keyword = await proposalServices.registerKeyword("저에게 어울리는 다른 스타일도 괜찮아요")
+exports.registerProposal = async (req, res, next) => {
+  try { 
+    const { user_id, before_img, after_img, price_limit, distance_limit, keywords, description, status} = req.body
+    const proposal = {
+      user_id,
+      before_src: image_upload_S3(before_img),
+      after_src: image_upload_S3(after_img),
+      price_limit: Number(price_limit),
+      distance_limit: Number(distance_limit),
+      keywords,
+      description,
+      status
+    }
+    const result = await proposalServices.registerProposal(proposal)
     res.status(STATUS_CODE.SUCCESS).json({
-      message: '키워드 등록 성공',
-      data: keyword.id,
+      message: '제안서 등록 성공',
+      data: result.id,
     })
   } catch (error) {
     res

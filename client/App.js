@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import LandingScreen from './src/Screen/landingScreen';
@@ -14,6 +14,10 @@ import MypageScreen from './src/Screen/mypageScreen';
 
 import MainTabStack from './src/Navigator/mainTabStack';
 
+
+const navTheme = DefaultTheme;
+navTheme.colors.background = 'white';
+
 const Stack = createStackNavigator();
 
 function App() {
@@ -24,7 +28,7 @@ function App() {
         screenOptions={({ navigation }) => ({
           title: '',
           headerStyle: {
-            backgroundColor: 'white',
+            backgroundColor: '',
             height: 100,
           },
           headerLeft: () => <TopLeftBar navigation={navigation} />,
@@ -38,7 +42,7 @@ function App() {
         <Stack.Screen name="Mypage" component={MypageScreen} />
 
         {/*메인 탭 Navigation*/}
-        <Stack.Screen name="MainTab" component={MainTabStack} />
+        <Stack.Screen name="MainTab" component={MainTabStack}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

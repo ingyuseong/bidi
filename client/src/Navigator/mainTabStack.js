@@ -37,11 +37,13 @@ function mainTabStack() {
         activeTintColor: 'tomato',
         inactiveTintColor: 'gray',
         tabStyle: {
+          backgroundColor: 'white',
           height: 70,
           borderTopWidth: 0.2,
           borderTopColor: 'gray',
         },
-      }}>
+      }}
+      >
       <Tab.Screen
         name="Search"
         component={SearchTabScreen}
@@ -55,7 +57,7 @@ function mainTabStack() {
       <Tab.Screen
         name="Proposal"
         component={ProposalTabScreen}
-        options={{ headerShown: false, title: '' }}
+        options={{ headerShown: false, title: '' , tabBarVisible: false}}
       />
       <Tab.Screen
         name="History"
