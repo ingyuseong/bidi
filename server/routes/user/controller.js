@@ -112,7 +112,33 @@ exports.checkToken = async (req, res, next) => {
 */
 exports.registerUser = async (req, res, next) => {
   try {
-    const params = req.body
+    const {
+      userType,
+      userName,
+      userGender,
+      userBirth,
+      userNickName,
+      userPhoneNumber,
+      userEmail,
+      userAddress,
+      userKakaoToken = '',
+      userNaverToken = '',
+    } = req.body
+    const { location } = req.file
+    console.log(req.file)
+    const params = {
+      type: userType,
+      kakao_token: userKakaoToken,
+      naver_token: userNaverToken,
+      name: userName,
+      address: userAddress,
+      img_src: location,
+      email: userEmail,
+      nick_name: userNickName,
+      phone_number: userPhoneNumber,
+      birth: userBirth,
+      gender: userGender,
+    }
     const user = await userServices.registerUser(params)
 
     res.status(STATUS_CODE.SUCCESS).json({
@@ -120,6 +146,7 @@ exports.registerUser = async (req, res, next) => {
       data: user.id,
     })
   } catch (error) {
+    console.log(error)
     res
       .status(STATUS_CODE.SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })

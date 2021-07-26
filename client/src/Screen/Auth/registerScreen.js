@@ -12,6 +12,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 const RegisterScreen = ({ navigation, route }) => {
   const { profile } = route.params;
+  const userKakaoToken = profile.id;
   const [userType, setUserType] = useState('');
   const [userName, setUserName] = useState('');
   const [userGender, setUserGender] = useState('');
@@ -30,18 +31,38 @@ const RegisterScreen = ({ navigation, route }) => {
   const emailInputRef = createRef();
   const addressInputRef = createRef();
 
+  const createFormData = (photo, body) => {
+    const data = new FormData();
+
+    data.append('userImage', {
+      name: userNickName,
+      type: photo.type,
+      uri: photo.uri.replace('file://', ''),
+    });
+
+    Object.keys(body).forEach((key) => {
+      data.append(key, body[key]);
+    });
+
+    return data;
+  };
+
   const handleSubmitButton = async () => {
     await fetch('http://127.0.0.1:3000' + '/api/user/register', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
+        'content-type': 'multipart/form-data',
       },
-      body: JSON.stringify({
-        type: userType,
-        kakao_token: profile?.id,
-        name: userName,
-        email: userEmail,
-        address: userAddress,
+      body: createFormData(photo, {
+        userType,
+        userName,
+        userGender,
+        userBirth,
+        userNickName,
+        userPhoneNumber,
+        userEmail,
+        userAddress,
+        userKakaoToken,
       }),
     })
       .then((response) => response.json())
@@ -54,14 +75,12 @@ const RegisterScreen = ({ navigation, route }) => {
       });
   };
   const handleChoosePhoto = () => {
-    launchImageLibrary({}, (response) => {
-      console.log('>>', response.assets[0].uri);
+    launchImageLibrary({ noData: true }, (response) => {
       if (response) {
-        setPhoto(response.assets[0].uri);
+        setPhoto(response.assets[0]);
       }
     });
   };
-
   return (
     <ScrollView style={styles.container}>
       <View style={styles.topArea}>
@@ -75,7 +94,7 @@ const RegisterScreen = ({ navigation, route }) => {
       <View style={styles.formArea}>
         <View style={styles.imageArea}>
           {photo ? (
-            <Image source={{ uri: photo }} style={styles.profile} />
+            <Image source={{ uri: photo.uri }} style={styles.profile} />
           ) : (
             <Image source={require('../../../public/img/profile.png')} style={styles.profile} />
           )}

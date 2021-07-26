@@ -27,5 +27,6 @@ exports.getUsers = async () => {
 
 exports.registerUser = async (params) => {
   const user = await db.insertUser({ ...params })
+  console.log(params)
   return user
 }
