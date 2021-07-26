@@ -3,10 +3,16 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 function DesignerInfo({ info }) {
+  console.log(info);
   return (
     <View style={styles.designerContainer}>
       <View style={styles.designerInfo}>
-        <Image style={styles.designerImg} source={require('../../../public/img/test2.jpeg')} />
+        <Image
+          style={styles.designerImg}
+          source={{
+            uri: info.img_src,
+          }}
+        />
         <View style={styles.designerBox}>
           <Text style={styles.designerName}>{info.name}</Text>
           <View style={styles.shopInfo}>
@@ -20,7 +26,7 @@ function DesignerInfo({ info }) {
         {info.keywords &&
           info.keywords.map((item, index) => (
             <View style={styles.tag} key={index}>
-              <Text>#{item.keyword}</Text>
+              <Text>#{item}</Text>
             </View>
           ))}
       </View>

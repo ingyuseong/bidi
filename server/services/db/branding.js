@@ -17,7 +17,7 @@ exports.selectBrandingInfo = async (userId) => {
     include: [
       {
         model: User,
-        attributes: ['name'],
+        attributes: ['name', 'img_src'],
       },
     ],
   })

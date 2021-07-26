@@ -9,11 +9,10 @@ import AuthStack from './src/Navigator/authStack';
 import TopLeftBar from './src/Components/Header/topLeftBar';
 import TopRightBar from './src/Components/Header/topRightBar';
 
-import MypageScreen from './src/Screen/mypageScreen';
+import MypageScreen from './src/Screen/MypageTab/mypageScreen';
 // import MainScreen from './src/Screen/mainScreen'
 
 import MainTabStack from './src/Navigator/mainTabStack';
-
 
 const navTheme = DefaultTheme;
 navTheme.colors.background = 'white';
@@ -42,7 +41,7 @@ function App() {
         <Stack.Screen name="Mypage" component={MypageScreen} />
 
         {/*메인 탭 Navigation*/}
-        <Stack.Screen name="MainTab" component={MainTabStack}/>
+        <Stack.Screen name="MainTab" component={MainTabStack} />
       </Stack.Navigator>
     </NavigationContainer>
   );
