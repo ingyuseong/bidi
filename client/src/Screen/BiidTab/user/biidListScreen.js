@@ -7,6 +7,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Swiper from 'react-native-swiper';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const infoLists = [
   {
@@ -107,6 +108,7 @@ function BiidListScreen() {
             <RecommendStyle />
           </ScrollView>
           <TouchableOpacity style={styles.moreBtnArea}>
+            <Icon name="angle-double-down" size={25} style={styles.icon} />
             <Text style={styles.moreBtnText}>포트폴리오 더보기</Text>
           </TouchableOpacity>
         </View>
@@ -133,12 +135,19 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 50,
     margin: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   moreBtnText: {
     color: 'white',
     fontSize: 17,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  icon: {
+    color: 'white',
+    marginRight: 10,
   },
 });
 

@@ -46,8 +46,8 @@ function DesignerInfo({ info, navigation }) {
 const styles = StyleSheet.create({
   designerContainer: {
     borderBottomWidth: 0,
-
     padding: 15,
+    flex: 1,
   },
   styleImg: {
     resizeMode: 'cover',
