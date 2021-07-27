@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Stack } from '../../../App';
-import biidScreen from '../../Screen/BiidTab/biidScreen';
+import BiidListScreen from '../../Screen/BiidTab/user/biidMainScreen';
 import detailsScreen from '../../Screen/detailScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -11,7 +11,7 @@ function ViidStackScreen() {
     <Stack.Navigator>
       <ViidStack.Screen
         name="Profile22"
-        component={biidScreen}
+        component={BiidListScreen}
         options={{
           title: 'Viidi22',
           headerShown: false,

@@ -46,7 +46,7 @@ function DesignerListScreen({ navigation }) {
           horizontal={false}>
           <View style={styles.container}>
             <DesignerStyle styleLists={info.styles} />
-            <DesignerInfo info={info} />
+            <DesignerInfo info={info} navigation={navigation} />
           </View>
           <View style={styles.container}>
             <DesignerDetail info={info} />

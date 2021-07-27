@@ -10,6 +10,7 @@ function DesignerDetail({ info }) {
     const nextTab = tab == 'tab1' ? 'tab2' : 'tab1';
     setTab(nextTab);
   };
+
   return (
     <ScrollView>
       <DesignerInfo info={info} />
