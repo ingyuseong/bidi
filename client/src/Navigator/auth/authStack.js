@@ -1,7 +1,7 @@
 import * as React from 'react';
-import LoginScreen from '../Screen/Auth/loginScreen';
-import RegisterScreen from '../Screen/Auth/registerScreen';
-import { Stack } from '../../App';
+import LoginScreen from '../../Screen/Auth/loginScreen';
+import RegisterScreen from '../../Screen/Auth/registerScreen';
+import { Stack } from '../../../App';
 
 function Auth() {
   return (

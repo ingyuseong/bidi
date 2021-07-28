@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Stack } from '../../../App';
-import BiidListScreen from '../../Screen/BiidTab/user/biidMainScreen';
-import detailsScreen from '../../Screen/detailScreen';
+import { Stack } from '../../../../App';
+import BiidListScreen from '../../../Screen/BiidTab/user/biidMainScreen';
+import detailsScreen from '../../../Screen/detailScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const ViidStack = createStackNavigator();

@@ -1,16 +1,16 @@
-import * as React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import BiidTabScreen from './Tab/biidTabScreen';
-import SearchTabScreen from './Tab/searchTabScreen';
-import HistoryTabScreen from './Tab/historyTabScreen';
-import MyPageTabScreen from './Tab/myPageTabScreen';
-import ProposalTabScreen from './Tab/proposalTabScreen';
-
+import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+import BiidTabScreen from './user/biidTabScreen';
+import SearchTabScreen from './user/searchTabScreen';
+import HistoryTabScreen from './user/historyTabScreen';
+import MyPageTabScreen from './user/myPageTabScreen';
+import ProposalTabScreen from './user/proposalTabScreen';
 
 const Tab = createBottomTabNavigator();
 
-function mainTabStack() {
+function UserTabStack() {
   return (
     <Tab.Navigator
       initialRouteName="Viid"
@@ -72,4 +72,4 @@ function mainTabStack() {
   );
 }
 
-export default mainTabStack;
+export default UserTabStack;

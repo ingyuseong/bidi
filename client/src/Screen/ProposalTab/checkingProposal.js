@@ -12,17 +12,18 @@ function CheckingScreen({ navigation }) {
         'Content-Type': 'application/json;charset=UTF-8',
       },
     })
-    .then((response) => response.json())
-    .then((result) => {
-      if (result.data.name != "SequelizeDatabaseError") {
-        navigation.replace('ProposalRegistered');
-      } else {
-        navigation.replace('Intro');
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        if (result.data) {
+          navigation.replace('ProposalRegistered');
+        } else {
+          navigation.replace('Intro');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   useEffect(async () => {
     const user = await BidiStorage.getData(STORAGE_KEY);
