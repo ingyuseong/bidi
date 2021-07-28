@@ -7,27 +7,26 @@ function ProposalRegisteredScreen({ navigation }) {
   const [userInfo, setUserInfo] = useState('');
   const getUserInfo = async (user) => {
     await fetch('http://127.0.0.1:3000' + `/api/user/${user.id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
-    },
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
     })
-    .then((response) => response.json())
-    .then((result) => {
-      setUserInfo(result.data)
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  }
+      .then((response) => response.json())
+      .then((result) => {
+        setUserInfo(result.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   useEffect(async () => {
     const user = await BidiStorage.getData(STORAGE_KEY);
     getUserInfo(user);
   }, []);
 
-
   const designerHandler = async (e) => {
-    navigation.navigate('MainTab', { screen: 'Search'});
+    navigation.navigate('MainTab', { screen: 'Search' });
   };
 
   return (
@@ -41,8 +40,12 @@ function ProposalRegisteredScreen({ navigation }) {
         </View>
       </View>
       <View style={styles.header}>
-        <Text style={styles.title}><Text style={styles.boldTitle}>제안서 등록이 완료</Text>되었습니다</Text>
-        <Text style={styles.title}><Text style={styles.boldTitle}></Text>조금만 기다려주세요!</Text>
+        <Text style={styles.title}>
+          <Text style={styles.boldTitle}>제안서 등록이 완료</Text>되었습니다
+        </Text>
+        <Text style={styles.title}>
+          <Text style={styles.boldTitle}></Text>조금만 기다려주세요!
+        </Text>
         <View style={styles.description}>
           <Text style={styles.text}>곧 헤어디자이너가</Text>
           <Text style={styles.text}>{userInfo.name}님께 비드를 보낼꺼에요</Text>
@@ -63,41 +66,41 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   content: {
-      width:'100%',
-      height:'50%',
+    width: '100%',
+    height: '50%',
   },
   imageContainer: {
     flexWrap: 'wrap',
     alignContent: 'flex-start',
     width: '100%',
-    height:'100%',
+    height: '100%',
   },
   image: {
     width: '85%',
-    height:'100%',
+    height: '100%',
   },
   header: {
-    width:'100%',
+    width: '100%',
     height: '27%',
     padding: 30,
     marginBottom: 10,
   },
   title: {
     fontSize: 27,
-    marginBottom: 6
+    marginBottom: 6,
   },
   boldTitle: {
     fontSize: 27,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   description: {
     marginTop: 10,
-    height: '15%'
+    height: '15%',
   },
   text: {
     fontSize: 15,
     fontWeight: '400',
-    marginBottom: 3
+    marginBottom: 3,
   },
   button: {
     alignItems: 'center',
@@ -105,14 +108,13 @@ const styles = StyleSheet.create({
     width: 170,
     height: 46,
     borderRadius: 3,
-    backgroundColor: "tomato"
+    backgroundColor: 'tomato',
   },
   buttonText: {
     fontSize: 17,
     fontWeight: '400',
-    color: 'white'
-  }
+    color: 'white',
+  },
 });
-
 
 export default ProposalRegisteredScreen;

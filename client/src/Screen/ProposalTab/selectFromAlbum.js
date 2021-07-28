@@ -1,22 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button, TouchableOpacity, Image, TextInput } from 'react-native';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 
 function SelectFromAlbumScreen({ navigation, route }) {
-  const { setAfterImageStyle } = route.params
-  const [Image, setImage] = useState('profile')
+  const { setAfterImageStyle } = route.params;
+  const [Image, setImage] = useState('profile');
   const goBack = async (e) => {
     navigation.goBack();
-  }
+  };
   const submit = async (e) => {
-    setAfterImageStyle('style1')
+    setAfterImageStyle('style1');
     navigation.navigate('CreateProposal');
-  }
+  };
 
   const handleChoosePhoto = () => {
-    launchImageLibrary({}, (response) => {
-      console.log('>>', response.assets[0].uri);
-    });
+    launchImageLibrary({}, (response) => {});
   };
 
   return (
@@ -24,7 +22,7 @@ function SelectFromAlbumScreen({ navigation, route }) {
       <View style={styles.content}>
         <Text style={styles.title}>앨범에서 가져오기</Text>
       </View>
-      <Button title="Choose Photo" onPress={handleChoosePhoto}/>
+      <Button title="Choose Photo" onPress={handleChoosePhoto} />
 
       <View style={styles.backButtonBox}>
         <TouchableOpacity activeOpacity={0.8} onPress={goBack}>
@@ -46,7 +44,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   content: {
-    width:'100%',
+    width: '100%',
   },
   image: {
     alignItems: 'center',
@@ -55,29 +53,29 @@ const styles = StyleSheet.create({
     height: '90%',
     borderColor: 'rgb(243,243,243)',
     borderWidth: 1,
-    backgroundColor: 'rgb(243,243,243)'
+    backgroundColor: 'rgb(243,243,243)',
   },
   selectBox: {
     alignContent: 'center',
     position: 'absolute',
     bottom: 0,
-    width:'100%',
-    height:'60%',
+    width: '100%',
+    height: '60%',
     borderRadius: 30,
     backgroundColor: 'white',
-    padding: 20
+    padding: 20,
   },
   title: {
     fontSize: 27,
     fontWeight: '700',
-    marginBottom: 6
+    marginBottom: 6,
   },
   backButtonBox: {
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
     height: 70,
-    backgroundColor: 'rgb(11,14,43)'
+    backgroundColor: 'rgb(11,14,43)',
   },
   backButton: {
     fontSize: 17,
@@ -92,13 +90,13 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     height: 50,
     marginTop: 10,
-    marginRight: 10
+    marginRight: 10,
   },
   keywordTextNormal: {
     marginLeft: 15,
     fontSize: 15,
     padding: 10,
-  }
+  },
 });
 
 export default SelectFromAlbumScreen;

@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Button from '../Common/button';
 
-function DesignerInfo({ info }) {
-  console.log(info);
+function DesignerInfo({ info, navigation }) {
   return (
     <View style={styles.designerContainer}>
       <View style={styles.designerInfo}>
@@ -14,7 +14,13 @@ function DesignerInfo({ info }) {
           }}
         />
         <View style={styles.designerBox}>
-          <Text style={styles.designerName}>{info.name}</Text>
+          <View style={styles.designerNameArea}>
+            <Text style={styles.designerName}>{info.name}</Text>
+            <Button
+              title="더보기"
+              // pressHandler={() => navigation.navigate('DesignerDetail', { newInfo: info })}
+            />
+          </View>
           <View style={styles.shopInfo}>
             <Text style={styles.shopName}>@ {info.shopName}</Text>
             <Ionicons name="location-outline" size={15} />
@@ -39,11 +45,9 @@ function DesignerInfo({ info }) {
 
 const styles = StyleSheet.create({
   designerContainer: {
-    flex: 1,
-    borderWidth: 0.2,
     borderBottomWidth: 0,
-    borderColor: 'gray',
     padding: 15,
+    flex: 1,
   },
   styleImg: {
     resizeMode: 'cover',
@@ -72,6 +76,12 @@ const styles = StyleSheet.create({
   shopInfo: {
     flexDirection: 'row',
   },
+  designerNameArea: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '75%',
+  },
   designerName: {
     fontSize: 25,
     marginBottom: 10,
@@ -80,6 +90,7 @@ const styles = StyleSheet.create({
   designerBox: {
     flexDirection: 'column',
     marginLeft: 20,
+    marginRight: 20,
   },
   shopName: {
     marginRight: 10,

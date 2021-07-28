@@ -46,7 +46,7 @@ function DesignerListScreen({ navigation }) {
           horizontal={false}>
           <View style={styles.container}>
             <DesignerStyle styleLists={info.styles} />
-            <DesignerInfo info={info} />
+            <DesignerInfo info={info} navigation={navigation} />
           </View>
           <View style={styles.container}>
             <DesignerDetail info={info} />
@@ -63,6 +63,9 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#e2e2e2',
+    borderBottomWidth: 0,
   },
   styleContainer: {
     flex: 1.5,

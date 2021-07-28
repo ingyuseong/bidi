@@ -21,9 +21,7 @@ function DesignerStyle({ styleLists }) {
 
 const styles = StyleSheet.create({
   wrapper: {},
-  styleContainer: {
-    flex: 1.5,
-  },
+  styleContainer: {},
   styleImg: {
     resizeMode: 'cover',
     width: 370,
