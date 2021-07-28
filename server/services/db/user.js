@@ -82,6 +82,10 @@ exports.insertUser = async ({
   lat,
   lng,
   img_src,
+  gender,
+  birth,
+  phone_number,
+  nick_name,
 }) => {
   const results = await User.create({
     raw: true,
@@ -94,6 +98,10 @@ exports.insertUser = async ({
     lat,
     lng,
     img_src,
+    gender,
+    nick_name,
+    birth,
+    phone_number,
   })
   return results
 }

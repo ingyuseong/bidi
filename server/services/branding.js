@@ -22,6 +22,7 @@ const getBrandingInfo = async (userId) => {
   result.id = brandingInfo.id
   result.userId = brandingInfo.user_id
   result.name = brandingInfo['user.name']
+  result.img_src = brandingInfo['user.img_src']
   result.distance = '1km'
   result.description = brandingInfo.description
   result.shopName = brandingInfo.shop_name

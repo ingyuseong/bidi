@@ -42,8 +42,7 @@ function mainTabStack() {
           borderTopWidth: 0.2,
           borderTopColor: 'gray',
         },
-      }}
-      >
+      }}>
       <Tab.Screen
         name="Search"
         component={SearchTabScreen}
@@ -57,7 +56,7 @@ function mainTabStack() {
       <Tab.Screen
         name="Proposal"
         component={ProposalTabScreen}
-        options={{ headerShown: false, title: '' , tabBarVisible: false}}
+        options={{ headerShown: false, title: '', tabBarVisible: false }}
       />
       <Tab.Screen
         name="History"

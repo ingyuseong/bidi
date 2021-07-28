@@ -17,10 +17,22 @@ const modelAttributes = {
   kakao_token: {
     type: DataTypes.STRING,
   },
+  nick_name: {
+    type: DataTypes.STRING,
+  },
   name: {
     type: DataTypes.STRING,
   },
   email: {
+    type: DataTypes.STRING,
+  },
+  phone_number: {
+    type: DataTypes.STRING,
+  },
+  birth: {
+    type: DataTypes.STRING,
+  },
+  gender: {
     type: DataTypes.STRING,
   },
   address: {
