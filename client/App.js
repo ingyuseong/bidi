@@ -4,7 +4,7 @@ import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import LandingScreen from './src/Screen/landingScreen';
-import AuthStack from './src/Navigator/auth/authStack';
+import AuthStack from './src/Navigator/Auth/authStack';
 
 import TopLeftBar from './src/Components/Header/topLeftBar';
 import TopRightBar from './src/Components/Header/topRightBar';
@@ -12,7 +12,7 @@ import TopRightBar from './src/Components/Header/topRightBar';
 import MypageScreen from './src/Screen/MypageTab/mypageScreen';
 // import MainScreen from './src/Screen/mainScreen'
 
-import MainTabStack from './src/Navigator/mainTab/mainTabStack';
+import MainTabStack from './src/Navigator/MainTab/mainTabStack';
 
 const navTheme = DefaultTheme;
 navTheme.colors.background = 'white';
