@@ -1,50 +1,64 @@
-import React, {useState, useEffect} from 'react';
-import { Text, View, StyleSheet, TouchableHighlight, TouchableOpacity, Image, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableHighlight,
+  TouchableOpacity,
+  Image,
+  TextInput,
+} from 'react-native';
 
 function SelectAfterImageScreen({ navigation, route }) {
-  const { setAfterImageStyle } = route.params
+  const { setAfterImageStyle, userInfo } = route.params;
 
   const goBack = async (e) => {
     navigation.goBack();
-  }
+  };
   const selectAlbum = async (e) => {
-    navigation.navigate('SelectFromAlbum', {setAfterImageStyle: setAfterImageStyle});
-  }
+    navigation.navigate('SelectFromAlbum', { setAfterImageStyle: setAfterImageStyle });
+  };
   const selectScrap = async (e) => {
-    navigation.navigate('SelectFromScrap', {setAfterImageStyle: setAfterImageStyle});
-  }
+    navigation.navigate('SelectFromScrap', { setAfterImageStyle: setAfterImageStyle });
+  };
   const selectBidi = async (e) => {
-    navigation.navigate('SelectFromBidi', {setAfterImageStyle: setAfterImageStyle});
-  }
+    navigation.navigate('SelectFromBidi', {
+      setAfterImageStyle: setAfterImageStyle,
+      userInfo: userInfo,
+    });
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-          <Image
-            style={styles.image}
-            source={require('../../../public/img/proposal_after_image.png')}
-          />
+        <Image
+          style={styles.image}
+          source={require('../../../public/img/proposal_after_image.png')}
+        />
       </View>
       <View style={styles.selectBox}>
-        <View style={{margin: 20, marginBottom: 0}}> 
+        <View style={{ margin: 20, marginBottom: 0 }}>
           <Text style={styles.title}>원하는 After 헤어사진을</Text>
           <Text style={styles.title}>등록해주세요!</Text>
         </View>
-        <View style={{marginTop: 20}}>
-          <TouchableHighlight  underlayColor='white' style={styles.keywordNormal} onPress={selectAlbum}>
-            <Text style={styles.keywordTextNormal}>
-              📸  앨범에서 가져오기
-            </Text>
+        <View style={{ marginTop: 20 }}>
+          <TouchableHighlight
+            underlayColor="white"
+            style={styles.keywordNormal}
+            onPress={selectAlbum}>
+            <Text style={styles.keywordTextNormal}>📸 앨범에서 가져오기</Text>
           </TouchableHighlight>
-          <TouchableHighlight  underlayColor='white' style={styles.keywordNormal} onPress={selectScrap}>
-            <Text style={styles.keywordTextNormal}>
-              💖  비디 스크랩북에서 가져오기
-            </Text>
+          <TouchableHighlight
+            underlayColor="white"
+            style={styles.keywordNormal}
+            onPress={selectScrap}>
+            <Text style={styles.keywordTextNormal}>💖 비디 스크랩북에서 가져오기</Text>
           </TouchableHighlight>
-          <TouchableHighlight  underlayColor='white' style={styles.keywordNormal} onPress={selectBidi}>
-            <Text style={styles.keywordTextNormal}>
-              💫  AI로 새로운 스타일 시도해보기 with 비디
-            </Text>
+          <TouchableHighlight
+            underlayColor="white"
+            style={styles.keywordNormal}
+            onPress={selectBidi}>
+            <Text style={styles.keywordTextNormal}>💫 AI로 새로운 스타일 시도해보기 with 비디</Text>
           </TouchableHighlight>
         </View>
       </View>
@@ -63,26 +77,26 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   content: {
-    width:'100%',
+    width: '100%',
   },
   image: {
     width: '100%',
-    height:'90%',
+    height: '90%',
   },
   selectBox: {
     alignContent: 'center',
     position: 'absolute',
     bottom: 0,
-    width:'100%',
-    height:'60%',
+    width: '100%',
+    height: '60%',
     borderRadius: 30,
     backgroundColor: 'white',
-    padding: 20
+    padding: 20,
   },
   title: {
     fontSize: 27,
     fontWeight: '700',
-    marginBottom: 6
+    marginBottom: 6,
   },
   backButtonBox: {
     alignItems: 'center',
@@ -91,7 +105,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     height: 70,
-    backgroundColor: 'rgb(11,14,43)'
+    backgroundColor: 'rgb(11,14,43)',
   },
   backButton: {
     fontSize: 17,
@@ -106,13 +120,13 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     height: 50,
     marginTop: 10,
-    marginRight: 10
+    marginRight: 10,
   },
   keywordTextNormal: {
     marginLeft: 15,
     fontSize: 15,
     padding: 10,
-  }
+  },
 });
 
 export default SelectAfterImageScreen;

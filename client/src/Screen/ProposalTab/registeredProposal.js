@@ -25,7 +25,7 @@ function ProposalRegisteredScreen({ navigation }) {
     getUserInfo(user);
   }, []);
 
-  const designerHandler = async (e) => {
+  const designerHandler = async () => {
     navigation.navigate('MainTab', { screen: 'Search' });
   };
 

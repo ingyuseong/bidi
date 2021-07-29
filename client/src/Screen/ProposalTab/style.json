@@ -1,0 +1,255 @@
+{
+  "male": [
+    {
+      "id": "style01",
+      "styleName": "스타일"
+    },
+    {
+      "id": "style02",
+      "styleName": "스타일"
+    },
+    {
+      "id": "style03",
+      "styleName": "스타일"
+    },
+    {
+      "id": "style04",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style05",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style06",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style07",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style08",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style09",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style10",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style11",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style12",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style13",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style14",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style15",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style16",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style17",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style18",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style19",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style20",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style21",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style22",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style23",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style24",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style25",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style26",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style27",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style28",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style29",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style30",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style31",
+      "styleName": "볼륨매직"
+    }
+  ],
+
+  "female": [
+    {
+      "id": "style01",
+      "styleName": "스타일1"
+    },
+    {
+      "id": "style02",
+      "styleName": "스타일2"
+    },
+    {
+      "id": "style03",
+      "styleName": "스타일3"
+    },
+    {
+      "id": "style04",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style05",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style06",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style07",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style08",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style09",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style10",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style11",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style12",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style13",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style14",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style15",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style16",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style17",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style18",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style19",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style20",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style21",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style22",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style23",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style24",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style25",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style26",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style27",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style28",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style29",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style30",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style31",
+      "styleName": "볼륨매직"
+    }
+  ]
+}

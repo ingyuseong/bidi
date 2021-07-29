@@ -4,7 +4,7 @@ import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 
 function CheckingScreen({ navigation }) {
-  const [animating, setAnimating] = useState(true);
+  const [animating] = useState(true);
   const getProposalInfo = async (user) => {
     await fetch('http://127.0.0.1:3000' + `/api/proposal/user/${user.id}`, {
       method: 'GET',
@@ -12,17 +12,17 @@ function CheckingScreen({ navigation }) {
         'Content-Type': 'application/json;charset=UTF-8',
       },
     })
-    .then((response) => response.json())
-    .then((result) => {
-      if (result.data.name != "SequelizeDatabaseError") {
-        navigation.replace('ProposalRegistered');
-      } else {
-        navigation.replace('Intro');
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.data != null) {
+          navigation.replace('ProposalRegistered');
+        } else {
+          navigation.replace('Intro');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   useEffect(async () => {
     const user = await BidiStorage.getData(STORAGE_KEY);

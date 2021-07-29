@@ -1,33 +1,119 @@
-import React, {useState, useEffect} from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, View, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import styleMenu from './style.json';
 
 function SelectFromBidiScreen({ navigation, route }) {
-  const { setAfterImageStyle } = route.params
+  const { setAfterImageStyle, userInfo: userInfo } = route.params;
+  const [afterStyle, setAfterStyle] = useState('none');
+  const [tab, setTab] = useState('tab1');
 
-  const goBack = async (e) => {
+  const goBack = async () => {
     navigation.goBack();
-  }
-  const selectAlbum = async (e) => {
-    navigation.navigate('SelectFromAlbum', {setAfterImageStyle: setAfterImageStyle});
-  }
-  const selectScrap = async (e) => {
-    navigation.navigate('SelectFromAlbum', {setAfterImageStyle: setAfterImageStyle});
-  }
-  const selectBidi = async (e) => {
-    navigation.navigate('SelectFromAlbum', {setAfterImageStyle: setAfterImageStyle});
-  }
+  };
+  const submit = async () => {
+    setAfterImageStyle(afterStyle);
+    navigation.navigate('CreateProposal');
+  };
+  const selectStyle = (style) => {
+    setAfterStyle(style);
+  };
+  const tabHandler = (tab) => {
+    const nextTab = tab;
+    setTab(nextTab);
+  };
+  const list = styleMenu[userInfo.gender].map(({ id, styleName }) => (
+    <TouchableOpacity
+      key={id}
+      activeOpacity={0.8}
+      onPress={() => selectStyle(id)}
+      style={styles.styleBox}>
+      <Text style={afterStyle == id ? styles.styleTitleSelected : styles.styleTitle}>
+        {styleName}
+      </Text>
+      <Image
+        style={styles.styleImage}
+        source={{
+          uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/${userInfo.gender}/${userInfo.gender}_${id}.jpg`,
+        }}
+      />
+    </TouchableOpacity>
+  ));
 
+  useEffect(async () => {
+    console.log(userInfo);
+  }, [afterStyle]);
   return (
     <View style={styles.container}>
       <View style={styles.selectBox}>
-        <TouchableOpacity activeOpacity={0.8}>
-          <Text style={{fontSize: 25, marginRight: 10}}>X</Text>
+        <TouchableOpacity activeOpacity={0.8} onPress={goBack}>
+          <Ionicons name="close-outline" size={40} />
         </TouchableOpacity>
         <Text style={styles.header}>AFTER</Text>
       </View>
+      <View style={styles.content}>
+        {afterStyle == 'none' ? (
+          <Image
+            style={styles.image}
+            source={{
+              uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
+            }}
+          />
+        ) : (
+          <Image
+            style={styles.image}
+            source={{
+              uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/result/${afterStyle}.jpg`,
+            }}
+          />
+        )}
+      </View>
+      <View>
+        <ScrollView>
+          <View style={styles.headerContainer}>
+            <View style={[styles.tab, tab == 'tab1' && styles.active]}>
+              <TouchableOpacity onPress={() => tabHandler('tab1')}>
+                <Text style={[styles.headerTitle, tab == 'tab1' && styles.active]}>펌</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={[styles.tab, tab == 'tab2' && styles.active]}>
+              <TouchableOpacity onPress={() => tabHandler('tab2')}>
+                <Text style={[styles.headerTitle, tab == 'tab2' && styles.active]}>생머리</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={[styles.tab, tab == 'tab3' && styles.active]}>
+              <TouchableOpacity onPress={() => tabHandler('tab3')}>
+                <Text style={[styles.headerTitle, tab == 'tab3' && styles.active]}>
+                  {userInfo.gender == 'male' ? '포마드' : '단발'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.tabLine}></View>
+        </ScrollView>
+      </View>
+      <View>
+        <ScrollView horizontal={true} style={styles.styleView}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => selectStyle('none')}
+            style={styles.styleBox}>
+            <Text style={afterStyle == 'none' ? styles.styleTitleSelected : styles.styleTitle}>
+              효과없음
+            </Text>
+            <Image
+              style={styles.styleImage}
+              source={{
+                uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
+              }}
+            />
+          </TouchableOpacity>
+          {list}
+        </ScrollView>
+      </View>
       <View style={styles.backButtonBox}>
-        <TouchableOpacity activeOpacity={0.8} onPress={goBack}>
-          <Text style={styles.backButton}>돌아가기</Text>
+        <TouchableOpacity activeOpacity={0.8} onPress={submit}>
+          <Text style={styles.backButton}>선택하기</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -41,12 +127,71 @@ const styles = StyleSheet.create({
   },
   selectBox: {
     flexDirection: 'row',
+    alignItems: 'center',
     padding: 10,
+    paddingTop: 0,
+  },
+  content: {
+    width: '100%',
+    height: '50%',
+    borderWidth: 1,
+    borderColor: 'rgb(214,214,214)',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
   },
   header: {
     fontSize: 23,
     fontWeight: '700',
-    marginBottom: 6
+  },
+  tabLine: {
+    borderBottomWidth: 1,
+    borderColor: '#e2e2e2',
+  },
+  headerTitle: {
+    fontSize: 15,
+  },
+  tab: {
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  active: {
+    fontWeight: 'bold',
+    borderBottomWidth: 3,
+    borderColor: 'black',
+    paddingBottom: 5,
+  },
+  styleView: {
+    padding: 10,
+    marginTop: 10,
+  },
+  styleBox: {
+    alignItems: 'center',
+    width: 110,
+    height: '100%',
+  },
+  styleTitle: {
+    fontSize: 16,
+    color: 'grey',
+  },
+  styleTitleSelected: {
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  styleImage: {
+    width: 100,
+    height: 100,
+    backgroundColor: 'grey',
+    marginTop: 10,
+    padding: 5,
+    borderWidth: 1,
+    borderColor: 'rgb(243,243,243)',
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    margin: 20,
+    marginBottom: 0,
   },
   backButtonBox: {
     alignItems: 'center',
@@ -55,7 +200,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     height: 70,
-    backgroundColor: 'rgb(11,14,43)'
+    backgroundColor: 'rgb(11,14,43)',
   },
   backButton: {
     fontSize: 17,
@@ -63,20 +208,6 @@ const styles = StyleSheet.create({
     color: 'white',
     width: '50%',
   },
-  keywordNormal: {
-    justifyContent: 'center',
-    borderColor: 'rgb(214,214,214)',
-    borderWidth: 1.3,
-    borderRadius: 3,
-    height: 50,
-    marginTop: 10,
-    marginRight: 10
-  },
-  keywordTextNormal: {
-    marginLeft: 15,
-    fontSize: 15,
-    padding: 10,
-  }
 });
 
 export default SelectFromBidiScreen;
