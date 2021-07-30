@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import styleMenu from './style.json';
+import info from './info.json';
 
 function SelectFromBidiScreen({ navigation, route }) {
   const { setAfterImageStyle, userInfo: userInfo } = route.params;
@@ -22,7 +22,7 @@ function SelectFromBidiScreen({ navigation, route }) {
     const nextTab = tab;
     setTab(nextTab);
   };
-  const list = styleMenu[userInfo.gender].map(({ id, styleName }) => (
+  const list = info[userInfo.gender].map(({ id, styleName }) => (
     <TouchableOpacity
       key={id}
       activeOpacity={0.8}

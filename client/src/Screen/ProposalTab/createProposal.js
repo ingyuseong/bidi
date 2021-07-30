@@ -13,9 +13,9 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
+import info from './info.json';
 
 import { LogBox } from 'react-native';
-
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
 function CreateProposalScreen({ navigation }) {
@@ -41,6 +41,9 @@ function CreateProposalScreen({ navigation }) {
   ]);
 
   const [location, setLocation] = useState('');
+  const [keyword, setKeyword] = useState(info['keyword']);
+  const [keyCount, setKeyCount] = useState(0);
+
   const [onePress, setOnePress] = useState(false);
   const [twoPress, setTwoPress] = useState(false);
   const [threePress, setThreePress] = useState(false);
@@ -71,14 +74,25 @@ function CreateProposalScreen({ navigation }) {
     getUserInfo(user);
   }, []);
 
-  // Functions
-  const touchProps = (state, func) => {
-    return {
-      underlayColor: 'white',
-      style: state ? styles.keywordPress : styles.keywordNormal,
-      onPress: () => func(!state),
-    };
+  const selectKeyword = (id) => {
+    if (keyCount < 3 || keyword[id].selected) {
+      setKeyword(keyword.map((key) => (key.id == id ? { ...key, selected: !key.selected } : key)));
+      if (!keyword[id].selected) setKeyCount(keyCount + 1);
+      else setKeyCount(keyCount - 1);
+    } else alert('3개를 초과하였습니다!');
   };
+
+  const keywordList = info['keyword'].map(({ id, title }) => (
+    <TouchableHighlight
+      key={id}
+      underlayColor="white"
+      style={keyword[id].selected ? styles.keywordPress : styles.keywordNormal}
+      onPress={() => selectKeyword(id)}>
+      <Text style={keyword[id].selected ? styles.keywordTextPress : styles.keywordTextNormal}>
+        {title}
+      </Text>
+    </TouchableHighlight>
+  ));
 
   const proposalHandler = async (e) => {
     navigation.navigate('SelectAfterImage', {
@@ -90,16 +104,12 @@ function CreateProposalScreen({ navigation }) {
   const initializeHandler = async (e) => {
     setPriceValue(null);
     setDistanceValue(null);
-    setOnePress(null);
-    setTwoPress(null);
-    setThreePress(null);
-    setFourPress(null);
-    setFivePress(null);
+    setKeyword(info['keyword']);
     setDescription('');
   };
 
   const submitHandler = async (e) => {
-    const keywords = [onePress, twoPress, threePress, fourPress, fivePress];
+    const keywords = keyword.filter((key) => key.selected);
     await fetch('http://127.0.0.1:3000' + '/api/proposal/register', {
       method: 'POST',
       headers: {
@@ -252,37 +262,7 @@ function CreateProposalScreen({ navigation }) {
         </Text>
       </View>
       <View style={styles.keywordBox}>
-        <View style={styles.keywordRow}>
-          <TouchableHighlight underlayColor="white" {...touchProps(onePress, setOnePress)}>
-            <Text style={onePress ? styles.keywordTextPress : styles.keywordTextNormal}>
-              💰 합리적인 가격
-            </Text>
-          </TouchableHighlight>
-          <TouchableHighlight underlayColor="white" {...touchProps(twoPress, setTwoPress)}>
-            <Text style={twoPress ? styles.keywordTextPress : styles.keywordTextNormal}>
-              ✂️ 똑같이 해주세요!
-            </Text>
-          </TouchableHighlight>
-        </View>
-        <View style={styles.keywordRow}>
-          <TouchableHighlight underlayColor="white" {...touchProps(threePress, setThreePress)}>
-            <Text style={threePress ? styles.keywordTextPress : styles.keywordTextNormal}>
-              😎 경력자 찾아요
-            </Text>
-          </TouchableHighlight>
-          <TouchableHighlight underlayColor="white" {...touchProps(fourPress, setFourPress)}>
-            <Text style={fourPress ? styles.keywordTextPress : styles.keywordTextNormal}>
-              ⏰ 시간약속 잘 지켜주세요
-            </Text>
-          </TouchableHighlight>
-        </View>
-        <View style={styles.keywordRow}>
-          <TouchableHighlight underlayColor="white" {...touchProps(fivePress, setFivePress)}>
-            <Text style={fivePress ? styles.keywordTextPress : styles.keywordTextNormal}>
-              👌 저에게 어울리는 다른 스타일도 괜찮아요
-            </Text>
-          </TouchableHighlight>
-        </View>
+        <View style={styles.keywordRow}>{keywordList}</View>
       </View>
 
       {/* 5. 상세 설명 */}
@@ -420,6 +400,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexWrap: 'wrap',
     flexDirection: 'row',
+    alignContent: 'space-around',
     marginBottom: 7,
   },
   keywordNormal: {
@@ -430,6 +411,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     height: 40,
     marginRight: 10,
+    marginBottom: 10,
   },
   keywordPress: {
     alignItems: 'center',
@@ -439,6 +421,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     height: 40,
     marginRight: 10,
+    marginBottom: 10,
   },
   keywordTextNormal: {
     padding: 10,
