@@ -23,7 +23,7 @@ function DesignerTabStack() {
           } else if (route.name === 'Biid') {
             iconName = 'document-text-outline';
           } else if (route.name === 'Proposal') {
-            iconName = 'add-outline';
+            iconName = 'add-circle-outline';
           } else if (route.name === 'History') {
             iconName = 'md-timer-outline';
           } else if (route.name === 'Mypage') {
