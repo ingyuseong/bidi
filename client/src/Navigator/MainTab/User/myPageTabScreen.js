@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Stack } from '../../../App';
-import MypageScreen from '../../Screen/MypageTab/mypageScreen';
+import { Stack } from '../../../../App';
+import MypageScreen from '../../../Screen/MypageTab/mypageScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const MypageStack = createStackNavigator();

@@ -67,7 +67,8 @@ const RegisterScreen = ({ navigation, route }) => {
     })
       .then((response) => response.json())
       .then(async (result) => {
-        await BidiStorage.storeData(STORAGE_KEY, { id: result.data });
+        const { id, kakao_token, type } = result.data;
+        await BidiStorage.storeData(STORAGE_KEY, { id, type, token: kakao_token });
         navigation.replace('MainTab');
       })
       .catch((error) => {

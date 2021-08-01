@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Stack } from '../../../App';
+import { Stack } from '../../../../App';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import CheckingScreen from '../../Screen/ProposalTab/checkingProposal';
@@ -8,9 +8,9 @@ import CreateProposalScreen from '../../Screen/ProposalTab/createProposal';
 import ProposalRegisteredScreen from '../../Screen/ProposalTab/registeredProposal';
 import SelectAfterImageScreen from '../../Screen/ProposalTab/selectAfterImage';
 
-import SelectFromAlbumScreen from '../../Screen/ProposalTab/selectFromAlbum';
-import SelectFromScrapScreen from '../../Screen/ProposalTab/selectFromScrap';
-import SelectFromBidiScreen from '../../Screen/ProposalTab/selectFromBidi';
+import SelectFromAlbumScreen from '../../../Screen/ProposalTab/selectFromAlbum';
+import SelectFromScrapScreen from '../../../Screen/ProposalTab/selectFromScrap';
+import SelectFromBidiScreen from '../../../Screen/ProposalTab/selectFromBidi';
 
 const ProposalStack = createStackNavigator();
 
