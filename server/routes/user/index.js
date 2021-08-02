@@ -10,4 +10,6 @@ router.get('/:id', controller.getUser)
 router.patch('/:id', controller.editUser)
 router.delete('/:id', controller.deleteUser)
 
+router.post('/inference', controller.inferenceAI)
+
 module.exports = router

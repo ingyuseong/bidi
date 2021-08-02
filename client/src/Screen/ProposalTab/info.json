@@ -128,20 +128,24 @@
 
   "female": [
     {
-      "id": "style01",
-      "styleName": "스타일1"
+      "id": "style26",
+      "styleName": "올림머리"
+    },
+    {
+      "id": "style14",
+      "styleName": "볼륨매직"
     },
     {
       "id": "style02",
-      "styleName": "스타일2"
+      "styleName": "웨이브펌"
     },
     {
       "id": "style03",
-      "styleName": "스타일3"
+      "styleName": "아이롱펌"
     },
     {
       "id": "style04",
-      "styleName": "볼륨매직"
+      "styleName": "라이트브라운"
     },
     {
       "id": "style05",
@@ -149,11 +153,11 @@
     },
     {
       "id": "style06",
-      "styleName": "볼륨매직"
+      "styleName": "숏컷"
     },
     {
       "id": "style07",
-      "styleName": "볼륨매직"
+      "styleName": "금발헤어"
     },
     {
       "id": "style08",
@@ -177,10 +181,6 @@
     },
     {
       "id": "style13",
-      "styleName": "볼륨매직"
-    },
-    {
-      "id": "style14",
       "styleName": "볼륨매직"
     },
     {
@@ -228,10 +228,6 @@
       "styleName": "볼륨매직"
     },
     {
-      "id": "style26",
-      "styleName": "볼륨매직"
-    },
-    {
       "id": "style27",
       "styleName": "볼륨매직"
     },
@@ -250,6 +246,10 @@
     {
       "id": "style31",
       "styleName": "볼륨매직"
+    },
+    {
+      "id": "style01",
+      "styleName": "짧은머리 c컬펌"
     }
   ],
   "keyword": [

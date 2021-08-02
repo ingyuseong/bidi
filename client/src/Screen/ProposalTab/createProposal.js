@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   TextInput,
+  Alert,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -43,13 +44,6 @@ function CreateProposalScreen({ navigation }) {
   const [location, setLocation] = useState('');
   const [keyword, setKeyword] = useState(info['keyword']);
   const [keyCount, setKeyCount] = useState(0);
-
-  const [onePress, setOnePress] = useState(false);
-  const [twoPress, setTwoPress] = useState(false);
-  const [threePress, setThreePress] = useState(false);
-  const [fourPress, setFourPress] = useState(false);
-  const [fivePress, setFivePress] = useState(false);
-
   const [description, setDescription] = useState('');
 
   const getUserInfo = async (user) => {
@@ -79,7 +73,7 @@ function CreateProposalScreen({ navigation }) {
       setKeyword(keyword.map((key) => (key.id == id ? { ...key, selected: !key.selected } : key)));
       if (!keyword[id].selected) setKeyCount(keyCount + 1);
       else setKeyCount(keyCount - 1);
-    } else alert('3개를 초과하였습니다!');
+    } else Alert.alert('3개를 초과하였습니다!');
   };
 
   const keywordList = info['keyword'].map(({ id, title }) => (
@@ -145,7 +139,7 @@ function CreateProposalScreen({ navigation }) {
           <Image
             style={styles.image}
             source={{
-              uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
+              uri: userInfo.img_src,
             }}
           />
           <View before style={styles.imageTypeLabel}>

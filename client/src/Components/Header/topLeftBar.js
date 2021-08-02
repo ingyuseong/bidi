@@ -5,7 +5,7 @@ function TopLeftBar({ navigation, route }) {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.replace('MainTab')}>
-        <Image source={require('../../../public/img/logo.png')} style={styles.logo} />
+        <Image source={require('../../../public/img/typo_logo.png')} style={styles.logo} />
       </TouchableOpacity>
     </View>
   );

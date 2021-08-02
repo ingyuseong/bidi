@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import info from './info.json';
+import info from '../info.json';
 
 function SelectFromBidiScreen({ navigation, route }) {
   const { setAfterImageStyle, userInfo: userInfo } = route.params;
@@ -32,7 +32,7 @@ function SelectFromBidiScreen({ navigation, route }) {
         {styleName}
       </Text>
       <Image
-        style={styles.styleImage}
+        style={afterStyle == id ? { ...styles.styleImage, opacity: 0.9 } : styles.styleImage}
         source={{
           uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/${userInfo.gender}/${userInfo.gender}_${id}.jpg`,
         }}
@@ -40,9 +40,6 @@ function SelectFromBidiScreen({ navigation, route }) {
     </TouchableOpacity>
   ));
 
-  useEffect(async () => {
-    console.log(userInfo);
-  }, [afterStyle]);
   return (
     <View style={styles.container}>
       <View style={styles.selectBox}>
@@ -102,7 +99,9 @@ function SelectFromBidiScreen({ navigation, route }) {
               효과없음
             </Text>
             <Image
-              style={styles.styleImage}
+              style={
+                afterStyle == 'none' ? { ...styles.styleImage, opacity: 0.9 } : styles.styleImage
+              }
               source={{
                 uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
               }}
@@ -168,16 +167,17 @@ const styles = StyleSheet.create({
   },
   styleBox: {
     alignItems: 'center',
-    width: 110,
-    height: '100%',
+    width: 113,
+    height: 120,
   },
   styleTitle: {
     fontSize: 16,
+    marginBottom: 5,
     color: 'grey',
   },
   styleTitleSelected: {
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: '600',
   },
   styleImage: {
     width: 100,
@@ -187,6 +187,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderWidth: 1,
     borderColor: 'rgb(243,243,243)',
+    opacity: 0.6,
   },
   headerContainer: {
     flexDirection: 'row',

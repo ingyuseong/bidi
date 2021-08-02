@@ -1,6 +1,7 @@
 const userServices = require('../../services/user')
 const { STATUS_CODE, ERROR_MESSAGE } = require('../../lib/constants')
-
+const axios = require('axios')
+const FormData = require('form-data')
 /*
     GET /api/user/:id
     * 사용자 정보 조회 API
@@ -125,7 +126,6 @@ exports.registerUser = async (req, res, next) => {
       userNaverToken = '',
     } = req.body
     const { location } = req.file
-    console.log(req.file)
     const params = {
       type: userType,
       kakao_token: userKakaoToken,
@@ -145,6 +145,34 @@ exports.registerUser = async (req, res, next) => {
       message: '회원가입 성공',
       data: user.id,
     })
+  } catch (error) {
+    console.log(error)
+    res
+      .status(STATUS_CODE.SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+
+exports.inferenceAI = async (req, res, next) => {
+  try {
+    const { id, gender, img_src } = req.body
+    const inference = await axios({
+      method: 'post',
+      url: 'http://ec2-15-165-138-43.ap-northeast-2.compute.amazonaws.com:5000/inference',
+      data: {
+        user_id: id,
+        gender,
+        img_src,
+      },
+    })
+      .then((result) => {
+        response = result.data
+        console.log(response)
+        return res.status(STATUS_CODE.SUCCESS).json(response)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
   } catch (error) {
     console.log(error)
     res
