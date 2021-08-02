@@ -2,12 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import DesignerInfo from '../../../Components/Designer/designerInfo';
 import RecommendStyle from '../../../Components/Designer/recommendStyle';
+import BottomButton from '../../../Components/Common/bottomButton';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Swiper from 'react-native-swiper';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 const infoLists = [
   {
@@ -108,25 +108,13 @@ function BidListScreen() {
             <DesignerInfo info={info} />
             <RecommendStyle />
           </View>
-          <View style={styles.submitBox}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={{ ...styles.submitButton, width: '50%' }}
-              onPress={() => console.log('거절햇어')}>
-              <Text style={{ ...styles.submitText }}>거절하기</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={{
-                ...styles.submitButton,
-                backgroundColor: '#FF533A',
-                borderColor: '#FF533A',
-                width: '50%',
-              }}
-              onPress={() => console.log('수락했네')}>
-              <Text style={{ ...styles.submitText, color: 'white' }}>수락하기</Text>
-            </TouchableOpacity>
-          </View>
+          <BottomButton
+            leftName="거절하기"
+            rightName="수락하기"
+            leftRatio={50}
+            leftHandler={() => console.log('refuse')}
+            rightHandler={() => console.log('accept')}
+          />
         </View>
       ))}
     </Swiper>
@@ -157,26 +145,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: 'white',
     borderColor: 'rgba(0,0,0,0.1)',
-  },
-  submitBox: {
-    position: 'absolute',
-    bottom: 0,
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    width: '100%',
-    height: 70,
-  },
-  submitButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '50%',
-    height: '100%',
-    borderColor: 'rgb(214,214,214)',
-    borderTopWidth: 1,
-  },
-  submitText: {
-    color: 'grey',
-    fontSize: 18,
   },
 });
 

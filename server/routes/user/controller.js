@@ -1,7 +1,7 @@
 const userServices = require('../../services/user')
 const { STATUS_CODE, ERROR_MESSAGE } = require('../../lib/constants')
 const axios = require('axios')
-const FormData = require('form-data')
+require('dotenv').config()
 /*
     GET /api/user/:id
     * 사용자 정보 조회 API
@@ -158,7 +158,7 @@ exports.inferenceAI = async (req, res, next) => {
     const { id, gender, img_src } = req.body
     const inference = await axios({
       method: 'post',
-      url: 'http://ec2-15-165-138-43.ap-northeast-2.compute.amazonaws.com:5000/inference',
+      url: process.env.Bidi_AI_URL,
       data: {
         user_id: id,
         gender,

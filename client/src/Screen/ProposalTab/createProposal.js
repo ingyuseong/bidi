@@ -11,13 +11,14 @@ import {
   Alert,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-
 import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 import info from './info.json';
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
+
+import BottomButton from '../../Components/Common/bottomButton';
 
 function CreateProposalScreen({ navigation }) {
   const [userInfo, setUserInfo] = useState('');
@@ -274,7 +275,7 @@ function CreateProposalScreen({ navigation }) {
       </View>
 
       {/* 6. submit */}
-      <View style={styles.submitBox}>
+      {/* <View style={styles.submitBox}>
         <TouchableOpacity
           activeOpacity={0.8}
           style={{ ...styles.submitButton, width: '60%' }}
@@ -292,7 +293,15 @@ function CreateProposalScreen({ navigation }) {
           onPress={submitHandler}>
           <Text style={{ ...styles.submitText, color: 'white' }}>등록하기</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
+      <View style={{ marginTop: 80 }}></View>
+      <BottomButton
+        leftName="초기화"
+        rightName="등록하기"
+        leftRatio={40}
+        leftHandler={initializeHandler}
+        rightHandler={submitHandler}
+      />
     </ScrollView>
   );
 }
