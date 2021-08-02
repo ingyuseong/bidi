@@ -285,8 +285,8 @@ function CreateProposalScreen({ navigation }) {
           activeOpacity={0.8}
           style={{
             ...styles.submitButton,
-            backgroundColor: 'tomato',
-            borderColor: 'tomato',
+            backgroundColor: '#FF533A',
+            borderColor: '#FF533A',
             width: '40%',
           }}
           onPress={submitHandler}>
@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
     height: 26,
     left: 1,
     bottom: 0,
-    backgroundColor: 'tomato',
+    backgroundColor: '#FF533A',
     borderRadius: 3,
   },
   imageTypeLabelText: {
@@ -410,7 +410,7 @@ const styles = StyleSheet.create({
   keywordPress: {
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: 'tomato',
+    borderColor: '#FF533A',
     borderWidth: 1.3,
     borderRadius: 3,
     height: 40,
@@ -424,7 +424,7 @@ const styles = StyleSheet.create({
   keywordTextPress: {
     padding: 10,
     fontWeight: '600',
-    color: 'tomato',
+    color: '#FF533A',
   },
   TextArea: {
     width: '95%',

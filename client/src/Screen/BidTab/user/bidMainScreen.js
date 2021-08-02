@@ -1,27 +1,31 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import BiidListScreen from './bidListScreen';
-import MyBiidScreen from './myBidScreen';
+import BidListScreen from './bidListScreen';
+import MyBidScreen from './myBidScreen';
 const Tab = createMaterialTopTabNavigator();
 
 function BidMainScreen() {
   return (
     <Tab.Navigator
       swipeEnabled={false}
-      initialRouteName="ReceiveBiid"
+      initialRouteName="ReceiveBid"
       tabBarOptions={{
         activeTintColor: 'black',
-        inactiveTintColor: 'gray',
+        inactiveTintColor: '#DADADA',
+        indicatorStyle: {
+          backgroundColor: 'black',
+        },
         labelStyle: {
           fontSize: 17,
           fontWeight: 'bold',
         },
         tabStyle: {
           height: 50,
+          borderColor: 'black',
         },
       }}>
-      <Tab.Screen name="MyBiid" options={{ title: '내 제안서' }} component={MyBiidScreen} />
-      <Tab.Screen name="ReceiveBiid" options={{ title: '받은 비드' }} component={BiidListScreen} />
+      <Tab.Screen name="MyBiid" options={{ title: '내 제안서' }} component={MyBidScreen} />
+      <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }} component={BidListScreen} />
     </Tab.Navigator>
   );
 }

@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     height: 46,
     marginTop: 25,
     borderRadius: 3,
-    backgroundColor: 'tomato',
+    backgroundColor: '#FF533A',
   },
   buttonText: {
     fontSize: 17,

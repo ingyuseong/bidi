@@ -7,12 +7,42 @@ function RecommendStyle() {
       <Text style={styles.titleText}>추천 스타일</Text>
       <ScrollView horizontal={true}>
         <View style={styles.styleArea}>
-          <Image source={require('../../../public/img/test1.jpeg')} style={styles.styleImg} />
-          <Image source={require('../../../public/img/test2.jpeg')} style={styles.styleImg} />
-          <Image source={require('../../../public/img/test3.jpeg')} style={styles.styleImg} />
-          <Image source={require('../../../public/img/test4.jpeg')} style={styles.styleImg} />
-          <Image source={require('../../../public/img/test1.jpeg')} style={styles.styleImg} />
-          <Image source={require('../../../public/img/test2.jpeg')} style={styles.styleImg} />
+          <Image
+            source={{
+              uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/female/female_style01.jpg',
+            }}
+            style={styles.styleImg}
+          />
+          <Image
+            source={{
+              uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/female/female_style24.jpg',
+            }}
+            style={styles.styleImg}
+          />
+          <Image
+            source={{
+              uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/female/female_style08.jpg',
+            }}
+            style={styles.styleImg}
+          />
+          <Image
+            source={{
+              uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/female/female_style06.jpg',
+            }}
+            style={styles.styleImg}
+          />
+          <Image
+            source={{
+              uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/female/female_style09.jpg',
+            }}
+            style={styles.styleImg}
+          />
+          <Image
+            source={{
+              uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/female/female_style23.jpg',
+            }}
+            style={styles.styleImg}
+          />
         </View>
       </ScrollView>
     </View>
@@ -22,6 +52,7 @@ function RecommendStyle() {
 const styles = StyleSheet.create({
   styleListContainer: {
     margin: 15,
+    height: 120,
   },
   titleText: {
     fontWeight: 'bold',
