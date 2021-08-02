@@ -1,26 +1,25 @@
 import * as React from 'react';
 import { Stack } from '../../../../App';
-import BiidListScreen from '../../../Screen/BiidTab/user/biidMainScreen';
+import BidListScreen from '../../../Screen/BidTab/user/bidMainScreen';
 import detailsScreen from '../../../Screen/detailScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 
-const ViidStack = createStackNavigator();
+const bidStack = createStackNavigator();
 
-function ViidStackScreen() {
+function BidStackScreen() {
   return (
     <Stack.Navigator>
-      <ViidStack.Screen
+      <bidStack.Screen
         name="Profile22"
-        component={BiidListScreen}
+        component={BidListScreen}
         options={{
           title: 'Viidi22',
           headerShown: false,
-          // headerBackImage: BackBtn,
         }}
       />
-      <ViidStack.Screen name="ProfileEdit" component={detailsScreen} />
+      <bidStack.Screen name="ProfileEdit" component={detailsScreen} />
     </Stack.Navigator>
   );
 }
 
-export default ViidStackScreen;
+export default BidStackScreen;

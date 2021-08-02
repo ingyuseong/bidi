@@ -1,10 +1,10 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import BiidListScreen from './biidListScreen';
-import MyBiidScreen from './myBiidScreen';
+import BiidListScreen from './bidListScreen';
+import MyBiidScreen from './myBidScreen';
 const Tab = createMaterialTopTabNavigator();
 
-function BiidMainScreen() {
+function BidMainScreen() {
   return (
     <Tab.Navigator
       swipeEnabled={false}
@@ -26,4 +26,4 @@ function BiidMainScreen() {
   );
 }
 
-export default BiidMainScreen;
+export default BidMainScreen;

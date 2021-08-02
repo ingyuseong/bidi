@@ -98,7 +98,7 @@ const infoLists = [
     userId: 42,
   },
 ];
-function BiidListScreen() {
+function BidListScreen() {
   return (
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
       {infoLists.map((info, index) => (
@@ -151,4 +151,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BiidListScreen;
+export default BidListScreen;
