@@ -1,5 +1,4 @@
-const { Proposal } = require('../../models')
-const { Keyword } = require('../../models')
+const { Proposal, User } = require('../../models')
 
 exports.selectProposal = async (proposalId) =>
   await Proposal.findOne({
@@ -86,6 +85,12 @@ exports.destroyProposal = async (proposalId) =>
 exports.selectAllProposal = async () =>
   await Proposal.findAll({
     raw: true,
+    include: [
+      {
+        model: User,
+        attributes: ['name', 'img_src', 'address'],
+      },
+    ],
   })
     .then((results) => {
       console.log('Success Selecting All Proposal')
@@ -125,3 +130,18 @@ exports.insertProposal = async ({
       console.log('Failed Creating Proposal')
       return err
     })
+
+exports.selectProposalWithUser = async (userId) => {
+  const results = await Proposal.findOne({
+    where: {
+      user_id: userId,
+    },
+    include: [
+      {
+        model: User,
+        attributes: ['name', 'img_src', 'address'],
+      },
+    ],
+  })
+  return results
+}

@@ -87,7 +87,7 @@ exports.deleteProposal = async (req, res, next) => {
 */
 exports.getProposals = async (req, res, next) => {
   try {
-    const proposals = await proposalServices.getProposals()
+    const proposals = await proposalServices.getProposalList()
 
     res.status(STATUS_CODE.SUCCESS).json({
       message: '전체 제안서 목록 조회 성공',

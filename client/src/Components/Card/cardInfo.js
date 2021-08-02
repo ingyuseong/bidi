@@ -1,9 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from '../Common/button';
 
-function DesignerInfo({ info, navigation }) {
+function CardInfo({ info, navigation }) {
   return (
     <View style={styles.designerContainer}>
       <View style={styles.designerInfo}>
@@ -16,15 +20,15 @@ function DesignerInfo({ info, navigation }) {
         <View style={styles.designerBox}>
           <View style={styles.designerNameArea}>
             <Text style={styles.designerName}>{info.name}</Text>
-            <Button
+            {/* <Button
               title="더보기"
-              // pressHandler={() => navigation.navigate('DesignerDetail', { newInfo: info })}
-            />
+              pressHandler={() => navigation.navigate('DesignerDetail', { newInfo: info })}
+            /> */}
           </View>
           <View style={styles.shopInfo}>
-            <Text style={styles.shopName}>@ {info.shopName}</Text>
+            <Text style={styles.shopName}>@ {info.address || info.shopName}</Text>
             <Ionicons name="location-outline" size={15} />
-            <Text style={styles.shopDistance}>{info.distance}</Text>
+            <Text style={styles.shopDistance}>{info.distance_limit || info.distance}km</Text>
           </View>
         </View>
       </View>
@@ -32,7 +36,7 @@ function DesignerInfo({ info, navigation }) {
         {info.keywords &&
           info.keywords.map((item, index) => (
             <View style={styles.tag} key={index}>
-              <Text>#{item}</Text>
+              <Text style={styles.tagText}># {item}</Text>
             </View>
           ))}
       </View>
@@ -45,14 +49,10 @@ function DesignerInfo({ info, navigation }) {
 
 const styles = StyleSheet.create({
   designerContainer: {
+    height: hp('50%'),
     borderBottomWidth: 0,
-    padding: 15,
-    flex: 1,
-  },
-  styleImg: {
-    resizeMode: 'cover',
-    width: 370,
-    height: '100%',
+    paddingLeft: 16,
+    paddingRight: 16,
   },
   designerInfo: {
     flexDirection: 'row',
@@ -99,13 +99,21 @@ const styles = StyleSheet.create({
   tag: {
     paddingLeft: 10,
     paddingRight: 10,
-    backgroundColor: '#e2e2e2',
+    backgroundColor: '#E1ECFF',
+    borderRadius: 2,
     marginTop: 10,
     marginRight: 10,
     height: 30,
     alignItems: 'center',
     justifyContent: 'center',
   },
+  tagText: {
+    color: '#323274',
+    fontWeight: '500',
+    lineHeight: 16,
+    letterSpacing: -0.5,
+    fontSize: 13,
+  },
 });
 
-export default DesignerInfo;
+export default CardInfo;

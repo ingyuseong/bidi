@@ -3,7 +3,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import BiidTabScreen from './User/biidTabScreen';
-import SearchTabScreen from './User/searchTabScreen';
+import SearchTabScreen from './Designer/searchTabScreen';
 import HistoryTabScreen from './User/historyTabScreen';
 import MyPageTabScreen from './User/myPageTabScreen';
 import ProposalTabScreen from './User/proposalTabScreen';

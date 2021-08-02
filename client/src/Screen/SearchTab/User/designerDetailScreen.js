@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
-import DesignerInfo from '../../../Components/Designer/designerInfo';
+import CardInfo from '../../../Components/Card/cardInfo';
 import DesignerHistory from './designerHistoryScreen';
 import DesignerStyleScreen from './designerStyleScreen';
 
@@ -13,7 +13,7 @@ function DesignerDetail({ info }) {
 
   return (
     <ScrollView>
-      <DesignerInfo info={info} />
+      <CardInfo info={info} />
       <View style={styles.line}></View>
       <ScrollView>
         <View style={styles.headerContainer}>

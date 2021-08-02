@@ -2,8 +2,8 @@ const db = require('./db/branding')
 
 const getBrandingList = async () => {
   let results = []
-  const brandingLists = await db.selectAllBranding()
-  for await (const item of brandingLists) {
+  const brandingList = await db.selectAllBranding()
+  for await (const item of brandingList) {
     results.push(await getBrandingInfo(item.userId))
   }
   return results

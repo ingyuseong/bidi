@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
-import DesignerInfo from '../../../Components/Designer/designerInfo';
-import RecommendStyle from '../../../Components/Designer/recommendStyle';
+import CardInfo from '../../../Components/Card/cardInfo';
+import RecommendStyle from '../../../Components/Card/recommendStyle';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -104,7 +104,7 @@ function BiidListScreen() {
       {infoLists.map((info, index) => (
         <View style={styles.container} key={index}>
           <ScrollView style={styles.styleContainer}>
-            <DesignerInfo info={info} />
+            <CardInfo info={info} />
             <RecommendStyle />
           </ScrollView>
           <TouchableOpacity style={styles.moreBtnArea}>
