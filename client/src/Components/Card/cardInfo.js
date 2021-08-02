@@ -49,8 +49,6 @@ function CardInfo({ info, navigation }) {
 
 const styles = StyleSheet.create({
   designerContainer: {
-    height: hp('50%'),
-    borderBottomWidth: 0,
     paddingLeft: 16,
     paddingRight: 16,
   },

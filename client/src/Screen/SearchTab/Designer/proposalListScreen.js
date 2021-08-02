@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
+import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
 
@@ -34,16 +35,30 @@ function ProposalListScreen({ navigation }) {
       </View>
     );
   }
-
+  const config = {
+    velocityThreshold: 0.3,
+    directionalOffsetThreshold: 50,
+  };
+  const onSwipeUp = (state, index) => {
+    console.log('hihi!', state);
+    navigation.navigate('ProposalDetail', { info: infoLists[index] });
+  };
   return (
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
       {infoLists.map((info, index) => (
         <View style={styles.container} key={index}>
-          <CardStyle styleLists={info.images} />
-          <CardInfo info={info} navigation={navigation} />
-          <TouchableOpacity style={styles.bidiBtn}>
-            <Icon name="thumbs-up" size={25} style={styles.bidiIcon} />
-          </TouchableOpacity>
+          <GestureRecognizer
+            onSwipeUp={(state) => onSwipeUp(state, index)}
+            config={config}
+            style={{
+              flex: 1,
+            }}>
+            <CardStyle styleLists={info.images} />
+            <CardInfo info={info} navigation={navigation} />
+            <TouchableOpacity style={styles.bidiBtn}>
+              <Icon name="thumbs-up" size={25} style={styles.bidiIcon} />
+            </TouchableOpacity>
+          </GestureRecognizer>
         </View>
       ))}
     </Swiper>
