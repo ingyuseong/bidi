@@ -18,13 +18,13 @@ const modelAttributes = {
     type: DataTypes.STRING,
   },
   price_limit: {
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
   },
   distance_limit: {
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
   },
   keywords: {
-    type: DataTypes.JSON
+    type: DataTypes.STRING,
   },
   description: {
     type: DataTypes.TEXT,

@@ -2,8 +2,8 @@ import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import BiidTabScreen from './User/bidTabScreen';
-import SearchTabScreen from './User/searchTabScreen';
+import BiidTabScreen from './User/biidTabScreen';
+import SearchTabScreen from './Designer/searchTabScreen';
 import HistoryTabScreen from './User/historyTabScreen';
 import MyPageTabScreen from './User/myPageTabScreen';
 import ProposalTabScreen from './User/proposalTabScreen';
@@ -23,7 +23,7 @@ function DesignerTabStack() {
           } else if (route.name === 'Biid') {
             iconName = 'document-text-outline';
           } else if (route.name === 'Proposal') {
-            iconName = 'add-outline';
+            iconName = 'add-circle-outline';
           } else if (route.name === 'History') {
             iconName = 'md-timer-outline';
           } else if (route.name === 'Mypage') {

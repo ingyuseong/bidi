@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
-import DesignerStyle from '../../../Components/Designer/designerStyle';
-import DesignerInfo from '../../../Components/Designer/designerInfo';
+import CardInfo from '../../../Components/Card/cardInfo';
+import CardStyle from '../../../Components/Card/cardStyle';
 import DesignerDetail from './designerDetailScreen';
 import Swiper from 'react-native-swiper';
 
@@ -45,8 +45,8 @@ function DesignerListScreen({ navigation }) {
           loop={false}
           horizontal={false}>
           <View style={styles.container}>
-            <DesignerStyle styleLists={info.styles} />
-            <DesignerInfo info={info} navigation={navigation} />
+            <CardStyle styleLists={info.styles} />
+            <CardInfo info={info} navigation={navigation} />
           </View>
           <View style={styles.container}>
             <DesignerDetail info={info} />

@@ -1,9 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from '../Common/button';
 
-function DesignerInfo({ info, navigation }) {
+function CardInfo({ info, navigation }) {
   return (
     <View style={styles.designerContainer}>
       <View style={styles.designerInfo}>
@@ -16,11 +20,15 @@ function DesignerInfo({ info, navigation }) {
         <View style={styles.designerBox}>
           <View style={styles.designerNameArea}>
             <Text style={styles.designerName}>{info.name}</Text>
+            {/* <Button
+              title="더보기"
+              pressHandler={() => navigation.navigate('DesignerDetail', { newInfo: info })}
+            /> */}
           </View>
           <View style={styles.shopInfo}>
-            <Text style={styles.shopName}>@ {info.shopName}</Text>
+            <Text style={styles.shopName}>@ {info.address || info.shopName}</Text>
             <Ionicons name="location-outline" size={15} />
-            <Text style={styles.shopDistance}>{info.distance}</Text>
+            <Text style={styles.shopDistance}>{info.distance_limit || info.distance}km</Text>
           </View>
         </View>
         <Button
@@ -111,6 +119,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  tagText: {
+    color: '#323274',
+    fontWeight: '500',
+    lineHeight: 16,
+    letterSpacing: -0.5,
+    fontSize: 13,
+  },
 });
 
-export default DesignerInfo;
+export default CardInfo;

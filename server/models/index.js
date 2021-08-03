@@ -73,4 +73,14 @@ db.BrandingPage.belongsToMany(db.Style, {
   onDelete: 'CASCADE',
 })
 
+// 관계정의 User : Proposal = 1 : N
+db.User.hasMany(db.Proposal, {
+  foreignKey: { allowNull: false },
+  onDelete: 'CASCADE',
+})
+db.Proposal.belongsTo(db.User, {
+  foreignKey: { allowNull: false },
+  onDelete: 'CASCADE',
+})
+
 module.exports = db

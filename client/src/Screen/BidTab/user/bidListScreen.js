@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
-import DesignerInfo from '../../../Components/Designer/designerInfo';
+import CardInfo from '../../../Components/Card/cardInfo';
 import RecommendStyle from '../../../Components/Designer/recommendStyle';
 import BottomButton from '../../../Components/Common/bottomButton';
 import {
@@ -104,10 +104,10 @@ function BidListScreen() {
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
       {infoLists.map((info, index) => (
         <View style={styles.container} key={index}>
-          <View style={styles.styleContainer}>
-            <DesignerInfo info={info} />
+          <ScrollView style={styles.styleContainer}>
+            <CardInfo info={info} />
             <RecommendStyle />
-          </View>
+          </ScrollView>
           <BottomButton
             leftName="거절하기"
             rightName="수락하기"
