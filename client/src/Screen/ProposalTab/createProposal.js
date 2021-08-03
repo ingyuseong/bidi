@@ -104,7 +104,10 @@ function CreateProposalScreen({ navigation }) {
   };
 
   const submitHandler = async (e) => {
-    const keywords = keyword.filter((key) => key.selected);
+    const keywords = keyword
+      .filter((key) => key.selected)
+      .map((key) => key.title)
+      .toString();
     await fetch('http://127.0.0.1:3000' + '/api/proposal/register', {
       method: 'POST',
       headers: {
@@ -128,7 +131,7 @@ function CreateProposalScreen({ navigation }) {
         console.error(error);
       });
   };
-
+  console.log(userInfo);
   return (
     <ScrollView style={styles.container}>
       {/* 1. 헤어스타일 선택하기 */}

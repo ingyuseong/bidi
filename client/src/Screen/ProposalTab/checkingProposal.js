@@ -15,7 +15,7 @@ function CheckingScreen({ navigation }) {
       .then((response) => response.json())
       .then((result) => {
         if (result.data != null) {
-          navigation.replace('ProposalRegistered');
+          navigation.replace('Intro');
         } else {
           navigation.replace('Intro');
         }

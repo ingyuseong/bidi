@@ -136,6 +136,7 @@ exports.registerProposal = async (req, res, next) => {
       data: result.id,
     })
   } catch (error) {
+    console.log(error)
     res
       .status(STATUS_CODE.SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })

@@ -2,7 +2,7 @@ const { User } = require('../../models')
 const { Sequelize } = require('sequelize')
 const { and, or, like, not } = Sequelize.Op
 
-https: exports.selectUser = async (userId) => {
+exports.selectUser = async (userId) => {
   const results = await User.findOne({
     raw: true,
     where: {
