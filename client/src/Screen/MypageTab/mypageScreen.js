@@ -128,7 +128,7 @@ function MypageScreen({ navigation }) {
                 <Text style={styles.countText}>12</Text>
                 <Text style={styles.countTitleText}>매칭내역</Text>
               </View>
-              <View style={styles.countArea}>
+              <View style={{ ...styles.countArea, borderRightWidth: 0 }}>
                 <Text style={styles.countText}>15</Text>
                 <Text style={styles.countTitleText}>스크랩북</Text>
               </View>
@@ -153,7 +153,7 @@ function MypageScreen({ navigation }) {
             <View style={styles.inputForm}>
               <Text style={styles.inputLabel}>닉네임</Text>
               <View style={styles.inputArea}>
-                <Text>{userInfo.nick_name}</Text>
+                <Text style={{ color: '#878787' }}>{userInfo.nick_name}</Text>
               </View>
             </View>
           )}
@@ -161,7 +161,7 @@ function MypageScreen({ navigation }) {
           <View style={styles.inputForm}>
             <Text style={styles.inputLabel}>이름</Text>
             <View style={styles.inputArea}>
-              <Text>{userInfo.name}</Text>
+              <Text style={{ color: '#878787' }}>{userInfo.name}</Text>
             </View>
           </View>
           <View style={styles.inputForm}>
@@ -184,7 +184,7 @@ function MypageScreen({ navigation }) {
           <View style={styles.inputForm}>
             <Text style={styles.inputLabel}>생년월일</Text>
             <View style={styles.inputArea}>
-              <Text>{userInfo.birth}</Text>
+              <Text style={{ color: '#878787' }}>{userInfo.birth}</Text>
             </View>
           </View>
           {isEdit ? (
@@ -203,7 +203,7 @@ function MypageScreen({ navigation }) {
             <View style={styles.inputForm}>
               <Text style={styles.inputLabel}>선호 지역</Text>
               <View style={styles.inputArea}>
-                <Text>{userInfo.address}</Text>
+                <Text style={{ color: '#878787' }}>{userInfo.address}</Text>
               </View>
             </View>
           )}
@@ -211,13 +211,13 @@ function MypageScreen({ navigation }) {
           <View style={styles.inputForm}>
             <Text style={styles.inputLabel}>이메일</Text>
             <View style={styles.inputArea}>
-              <Text>{userInfo.email}</Text>
+              <Text style={{ color: '#878787' }}>{userInfo.email}</Text>
             </View>
           </View>
           <View style={styles.inputForm}>
             <Text style={styles.inputLabel}>핸드폰 번호</Text>
             <View style={styles.inputArea}>
-              <Text>{userInfo.phone_number}</Text>
+              <Text style={{ color: '#878787' }}>{userInfo.phone_number}</Text>
             </View>
           </View>
           <View style={styles.inputForm}>
@@ -253,6 +253,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 20,
     paddingLeft: wp(5),
     paddingRight: wp(5),
   },
@@ -260,7 +261,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 15,
+    marginTop: 15,
+    marginBottom: 20,
   },
   countConatiner: {
     flexDirection: 'row',
@@ -284,6 +286,9 @@ const styles = StyleSheet.create({
   },
   countArea: {
     alignItems: 'center',
+    paddingRight: 20,
+    borderRightWidth: 1,
+    borderColor: '#ECEBEB',
   },
   topArea: {
     paddingTop: wp(2),
@@ -345,6 +350,7 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: '#F5F5F5',
     borderColor: '#fff',
+    color: '#878787',
   },
   selectArea: {
     flexDirection: 'row',
@@ -368,17 +374,20 @@ const styles = StyleSheet.create({
   editBtn: {
     borderWidth: 1,
     borderColor: '#e2e2e2',
-    padding: 10,
+    padding: 5,
+    alignItems: 'center',
+    width: 100,
   },
   editBtnText: {
     color: 'gray',
   },
   countText: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 17,
     marginBottom: hp(1),
   },
   countTitleText: {
+    fontSize: 13,
     color: 'gray',
   },
   line: {

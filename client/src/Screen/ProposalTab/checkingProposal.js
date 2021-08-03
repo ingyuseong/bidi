@@ -15,7 +15,7 @@ function CheckingScreen({ navigation }) {
       .then((response) => response.json())
       .then((result) => {
         if (result.data != null) {
-          navigation.replace('Intro');
+          navigation.replace('ProposalRegistered');
         } else {
           navigation.replace('Intro');
         }
@@ -24,9 +24,12 @@ function CheckingScreen({ navigation }) {
         console.error(error);
       });
   };
-  useEffect(async () => {
-    const user = await BidiStorage.getData(STORAGE_KEY);
-    getProposalInfo(user);
+  useEffect(() => {
+    async function fetchMode() {
+      const user = await BidiStorage.getData(STORAGE_KEY);
+      getProposalInfo(user);
+    }
+    fetchMode();
   }, []);
 
   return (

@@ -28,7 +28,7 @@ function CardInfo({ info, navigation }) {
           <View style={styles.shopInfo}>
             <Text style={styles.shopName}>@ {info.address || info.shopName}</Text>
             <Ionicons name="location-outline" size={15} />
-            <Text style={styles.shopDistance}>{info.distance_limit || info.distance}km</Text>
+            <Text style={styles.shopDistance}>{info.distance_limit || info.distance}</Text>
           </View>
         </View>
         <Button

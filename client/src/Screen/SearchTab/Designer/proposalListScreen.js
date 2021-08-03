@@ -9,23 +9,26 @@ import CardStyle from '../../../Components/Card/cardStyle';
 function ProposalListScreen({ navigation }) {
   const [infoLists, setInfo] = useState([]);
 
-  const getDesignerInfo = async () => {
-    await fetch('http://127.0.0.1:3000' + '/api/proposal/list', {
+  const getDesignerInfo = () => {
+    fetch('http://127.0.0.1:3000' + '/api/proposal/list', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
       },
     })
       .then((response) => response.json())
-      .then(async (result) => {
+      .then((result) => {
         setInfo(result.data);
       })
       .catch((error) => {
         console.error(error);
       });
   };
-  useEffect(async () => {
-    await getDesignerInfo();
+  useEffect(() => {
+    async function fetchMode() {
+      await getDesignerInfo();
+    }
+    fetchMode();
   }, []);
 
   if (infoLists == []) {

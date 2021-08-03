@@ -34,10 +34,13 @@ function BidMainScreen({ navigation }) {
         console.error(error);
       });
   };
-  useEffect(async () => {
-    const user = await BidiStorage.getData(STORAGE_KEY);
-    setUserInfo(user);
-    getProposalInfo(user);
+  useEffect(() => {
+    async function fetchMode() {
+      const user = await BidiStorage.getData(STORAGE_KEY);
+      setUserInfo(user);
+      getProposalInfo(user);
+    }
+    fetchMode();
   }, []);
   return (
     <Tab.Navigator
