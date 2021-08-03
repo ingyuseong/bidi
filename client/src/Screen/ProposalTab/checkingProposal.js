@@ -4,7 +4,7 @@ import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 
 function CheckingScreen({ navigation }) {
-  const [animating, setAnimating] = useState(true);
+  const [animating] = useState(true);
   const getProposalInfo = async (user) => {
     await fetch('http://127.0.0.1:3000' + `/api/proposal/user/${user.id}`, {
       method: 'GET',
@@ -14,8 +14,7 @@ function CheckingScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
-        if (result.data) {
+        if (result.data != null) {
           navigation.replace('ProposalRegistered');
         } else {
           navigation.replace('Intro');

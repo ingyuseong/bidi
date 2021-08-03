@@ -8,9 +8,9 @@ import CreateProposalScreen from '../../../Screen/ProposalTab/createProposal';
 import ProposalRegisteredScreen from '../../../Screen/ProposalTab/registeredProposal';
 import SelectAfterImageScreen from '../../../Screen/ProposalTab/selectAfterImage';
 
-import SelectFromAlbumScreen from '../../../Screen/ProposalTab/selectFromAlbum';
-import SelectFromScrapScreen from '../../../Screen/ProposalTab/selectFromScrap';
-import SelectFromBidiScreen from '../../../Screen/ProposalTab/selectFromBidi';
+import SelectFromAlbumScreen from '../../../Screen/ProposalTab/selectAfterImage/selectFromAlbum';
+import SelectFromScrapScreen from '../../../Screen/ProposalTab/selectAfterImage/selectFromScrap';
+import SelectFromBidiScreen from '../../../Screen/ProposalTab/selectAfterImage/selectFromBidi';
 
 const ProposalStack = createStackNavigator();
 

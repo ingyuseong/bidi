@@ -2,7 +2,7 @@ import React from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import BiidTabScreen from './User/biidTabScreen';
+import BidTabScreen from './User/bidTabScreen';
 import SearchTabScreen from './User/searchTabScreen';
 import HistoryTabScreen from './User/historyTabScreen';
 import MyPageTabScreen from './User/myPageTabScreen';
@@ -20,7 +20,7 @@ function UserTabStack() {
 
           if (route.name === 'Search') {
             iconName = 'search-outline';
-          } else if (route.name === 'Biid') {
+          } else if (route.name === 'Bid') {
             iconName = 'document-text-outline';
           } else if (route.name === 'Proposal') {
             iconName = 'add-outline';
@@ -34,7 +34,7 @@ function UserTabStack() {
         },
       })}
       tabBarOptions={{
-        activeTintColor: 'tomato',
+        activeTintColor: '#FF533A',
         inactiveTintColor: 'gray',
         tabStyle: {
           backgroundColor: 'white',
@@ -49,9 +49,9 @@ function UserTabStack() {
         options={{ headerShown: false, title: '' }}
       />
       <Tab.Screen
-        name="Biid"
-        component={BiidTabScreen}
-        options={{ headerShown: false, title: '' }}
+        name="Bid"
+        component={BidTabScreen}
+        options={{ headerShown: false, title: '', tabBarVisible: false }}
       />
       <Tab.Screen
         name="Proposal"

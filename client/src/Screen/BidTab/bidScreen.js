@@ -138,7 +138,7 @@
 import * as React from 'react';
 import { Button, Text, View } from 'react-native';
 
-function BiidScreen({ navigation }) {
+function BidScreen({ navigation }) {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>비딩 관련 스크린</Text>
@@ -147,4 +147,4 @@ function BiidScreen({ navigation }) {
   );
 }
 
-export default BiidScreen;
+export default BidScreen;

@@ -34,7 +34,7 @@ function DesignerTabStack() {
         },
       })}
       tabBarOptions={{
-        activeTintColor: 'tomato',
+        activeTintColor: '#FF533A',
         inactiveTintColor: 'gray',
         tabStyle: {
           backgroundColor: 'white',

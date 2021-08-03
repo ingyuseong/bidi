@@ -31,12 +31,17 @@ function CardInfo({ info, navigation }) {
             <Text style={styles.shopDistance}>{info.distance_limit || info.distance}km</Text>
           </View>
         </View>
+        <Button
+          style={styles.moreBtn}
+          title="더보기"
+          // pressHandler={() => navigation.navigate('DesignerDetail', { newInfo: info })}
+        />
       </View>
       <View style={styles.designerTag}>
         {info.keywords &&
           info.keywords.map((item, index) => (
             <View style={styles.tag} key={index}>
-              <Text style={styles.tagText}># {item}</Text>
+              <Text style={{ color: '#8D8D8D' }}># {item}</Text>
             </View>
           ))}
       </View>
@@ -49,10 +54,10 @@ function CardInfo({ info, navigation }) {
 
 const styles = StyleSheet.create({
   designerContainer: {
-    paddingLeft: 16,
-    paddingRight: 16,
+    padding: 15,
   },
   designerInfo: {
+    marginTop: 5,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -61,6 +66,8 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 50,
+    borderWidth: 1,
+    borderColor: 'rgb(243,243,243)',
   },
   designerTag: {
     flexDirection: 'row',
@@ -68,9 +75,16 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   designerTextContainer: {
+    alignItems: 'flex-start',
+    height: 150,
     marginTop: 20,
+    padding: 7,
   },
-  designerText: {},
+  designerText: {
+    fontSize: 14,
+    fontWeight: '300',
+    lineHeight: 21,
+  },
   shopInfo: {
     flexDirection: 'row',
   },
@@ -97,7 +111,7 @@ const styles = StyleSheet.create({
   tag: {
     paddingLeft: 10,
     paddingRight: 10,
-    backgroundColor: '#E1ECFF',
+    backgroundColor: '#EEEEEE',
     borderRadius: 2,
     marginTop: 10,
     marginRight: 10,

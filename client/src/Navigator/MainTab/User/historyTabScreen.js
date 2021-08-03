@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Stack } from '../../../../App';
-import biidScreen from '../../../Screen/BiidTab/biidScreen';
+import biidScreen from '../../../Screen/BidTab/bidScreen';
 import detailsScreen from '../../../Screen/detailScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 

@@ -8,15 +8,17 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   TextInput,
+  Alert,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-
 import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
+import info from './info.json';
 
 import { LogBox } from 'react-native';
-
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
+
+import BottomButton from '../../Components/Common/bottomButton';
 
 function CreateProposalScreen({ navigation }) {
   const [userInfo, setUserInfo] = useState('');
@@ -41,14 +43,8 @@ function CreateProposalScreen({ navigation }) {
   ]);
 
   const [location, setLocation] = useState('');
-
-  const [keywords, setKeywords] = useState([]);
-  const [onePress, setOnePress] = useState(false);
-  const [twoPress, setTwoPress] = useState(false);
-  const [threePress, setThreePress] = useState(false);
-  const [fourPress, setFourPress] = useState(false);
-  const [fivePress, setFivePress] = useState(false);
-
+  const [keyword, setKeyword] = useState(info['keyword']);
+  const [keyCount, setKeyCount] = useState(0);
   const [description, setDescription] = useState('');
 
   const getUserInfo = async (user) => {
@@ -73,40 +69,50 @@ function CreateProposalScreen({ navigation }) {
     getUserInfo(user);
   }, []);
 
-  // Functions
-  const touchProps = (state, func) => {
-    return {
-      underlayColor: 'white',
-      style: state ? styles.keywordPress : styles.keywordNormal,
-      onPress: () => func(!state),
-    };
+  const selectKeyword = (id) => {
+    if (keyCount < 3 || keyword[id].selected) {
+      setKeyword(keyword.map((key) => (key.id == id ? { ...key, selected: !key.selected } : key)));
+      if (!keyword[id].selected) setKeyCount(keyCount + 1);
+      else setKeyCount(keyCount - 1);
+    } else Alert.alert('3개를 초과하였습니다!');
   };
 
+  const keywordList = info['keyword'].map(({ id, title }) => (
+    <TouchableHighlight
+      key={id}
+      underlayColor="white"
+      style={keyword[id].selected ? styles.keywordPress : styles.keywordNormal}
+      onPress={() => selectKeyword(id)}>
+      <Text style={keyword[id].selected ? styles.keywordTextPress : styles.keywordTextNormal}>
+        {title}
+      </Text>
+    </TouchableHighlight>
+  ));
+
   const proposalHandler = async (e) => {
-    navigation.navigate('SelectAfterImage', { setAfterImageStyle: setAfterImageStyle });
+    navigation.navigate('SelectAfterImage', {
+      setAfterImageStyle: setAfterImageStyle,
+      userInfo: userInfo,
+    });
   };
 
   const initializeHandler = async (e) => {
     setPriceValue(null);
     setDistanceValue(null);
-    setOnePress(null);
-    setTwoPress(null);
-    setThreePress(null);
-    setFourPress(null);
-    setFivePress(null);
+    setKeyword(info['keyword']);
     setDescription('');
   };
 
   const submitHandler = async (e) => {
-    const keywords = [onePress, twoPress, threePress, fourPress, fivePress];
+    const keywords = keyword.filter((key) => key.selected);
     await fetch('http://127.0.0.1:3000' + '/api/proposal/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
       },
       body: JSON.stringify({
-        before_img: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/profile.png`,
-        after_img: 'after',
+        before_img: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
+        after_img: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/result/${afterImageStyle}.jpg`,
         user_id: userInfo.id,
         price_limit: priceValue,
         distance_limit: distanceValue,
@@ -115,7 +121,7 @@ function CreateProposalScreen({ navigation }) {
         status: 'wait',
       }),
     })
-      .then((res) => {
+      .then(() => {
         navigation.replace('ProposalRegistered');
       })
       .catch((error) => {
@@ -134,7 +140,7 @@ function CreateProposalScreen({ navigation }) {
           <Image
             style={styles.image}
             source={{
-              uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/profile.png`,
+              uri: userInfo.img_src,
             }}
           />
           <View before style={styles.imageTypeLabel}>
@@ -142,11 +148,25 @@ function CreateProposalScreen({ navigation }) {
           </View>
         </View>
         <View style={styles.imageBox}>
-          <View style={styles.image}>
-            <TouchableOpacity activeOpacity={0.8} onPress={proposalHandler}>
-              <Text style={styles.imageLabel}>사진 등록하기</Text>
+          {afterImageStyle == 'none' ? (
+            <View style={styles.image}>
+              <TouchableOpacity activeOpacity={0.8} onPress={proposalHandler}>
+                <Text style={styles.imageLabel}>사진 등록하기</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.imageAfter}
+              onPress={proposalHandler}>
+              <Image
+                style={{ width: '100%', height: '100%' }}
+                source={{
+                  uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/result/${afterImageStyle}.jpg`,
+                }}
+              />
             </TouchableOpacity>
-          </View>
+          )}
           <View style={{ ...styles.imageTypeLabel, backgroundColor: 'rgb(11,14,43)' }}>
             <Text style={styles.imageTypeLabelText}>After</Text>
           </View>
@@ -237,37 +257,7 @@ function CreateProposalScreen({ navigation }) {
         </Text>
       </View>
       <View style={styles.keywordBox}>
-        <View style={styles.keywordRow}>
-          <TouchableHighlight underlayColor="white" {...touchProps(onePress, setOnePress)}>
-            <Text style={onePress ? styles.keywordTextPress : styles.keywordTextNormal}>
-              💰 합리적인 가격
-            </Text>
-          </TouchableHighlight>
-          <TouchableHighlight underlayColor="white" {...touchProps(twoPress, setTwoPress)}>
-            <Text style={twoPress ? styles.keywordTextPress : styles.keywordTextNormal}>
-              ✂️ 똑같이 해주세요!
-            </Text>
-          </TouchableHighlight>
-        </View>
-        <View style={styles.keywordRow}>
-          <TouchableHighlight underlayColor="white" {...touchProps(threePress, setThreePress)}>
-            <Text style={threePress ? styles.keywordTextPress : styles.keywordTextNormal}>
-              😎 경력자 찾아요
-            </Text>
-          </TouchableHighlight>
-          <TouchableHighlight underlayColor="white" {...touchProps(fourPress, setFourPress)}>
-            <Text style={fourPress ? styles.keywordTextPress : styles.keywordTextNormal}>
-              ⏰ 시간약속 잘 지켜주세요
-            </Text>
-          </TouchableHighlight>
-        </View>
-        <View style={styles.keywordRow}>
-          <TouchableHighlight underlayColor="white" {...touchProps(fivePress, setFivePress)}>
-            <Text style={fivePress ? styles.keywordTextPress : styles.keywordTextNormal}>
-              👌 저에게 어울리는 다른 스타일도 괜찮아요
-            </Text>
-          </TouchableHighlight>
-        </View>
+        <View style={styles.keywordRow}>{keywordList}</View>
       </View>
 
       {/* 5. 상세 설명 */}
@@ -285,7 +275,7 @@ function CreateProposalScreen({ navigation }) {
       </View>
 
       {/* 6. submit */}
-      <View style={styles.submitBox}>
+      {/* <View style={styles.submitBox}>
         <TouchableOpacity
           activeOpacity={0.8}
           style={{ ...styles.submitButton, width: '60%' }}
@@ -296,14 +286,22 @@ function CreateProposalScreen({ navigation }) {
           activeOpacity={0.8}
           style={{
             ...styles.submitButton,
-            backgroundColor: 'tomato',
-            borderColor: 'tomato',
+            backgroundColor: '#FF533A',
+            borderColor: '#FF533A',
             width: '40%',
           }}
           onPress={submitHandler}>
           <Text style={{ ...styles.submitText, color: 'white' }}>등록하기</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
+      <View style={{ marginTop: 80 }}></View>
+      <BottomButton
+        leftName="초기화"
+        rightName="등록하기"
+        leftRatio={40}
+        leftHandler={initializeHandler}
+        rightHandler={submitHandler}
+      />
     </ScrollView>
   );
 }
@@ -353,6 +351,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: 'rgb(243,243,243)',
   },
+  imageAfter: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '95%',
+    height: '90%',
+    borderColor: 'rgb(243,243,243)',
+    borderWidth: 1,
+  },
   imageLabel: {
     fontSize: 15,
     color: 'rgb(153,153,153)',
@@ -363,9 +369,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 70,
     height: 26,
-    left: 3,
-    bottom: 1,
-    backgroundColor: 'tomato',
+    left: 1,
+    bottom: 0,
+    backgroundColor: '#FF533A',
     borderRadius: 3,
   },
   imageTypeLabelText: {
@@ -397,6 +403,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexWrap: 'wrap',
     flexDirection: 'row',
+    alignContent: 'space-around',
     marginBottom: 7,
   },
   keywordNormal: {
@@ -407,15 +414,17 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     height: 40,
     marginRight: 10,
+    marginBottom: 10,
   },
   keywordPress: {
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: 'tomato',
+    borderColor: '#FF533A',
     borderWidth: 1.3,
     borderRadius: 3,
     height: 40,
     marginRight: 10,
+    marginBottom: 10,
   },
   keywordTextNormal: {
     padding: 10,
@@ -424,7 +433,7 @@ const styles = StyleSheet.create({
   keywordTextPress: {
     padding: 10,
     fontWeight: '600',
-    color: 'tomato',
+    color: '#FF533A',
   },
   TextArea: {
     width: '95%',
