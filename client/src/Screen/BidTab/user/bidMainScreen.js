@@ -21,13 +21,13 @@ function BidMainScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((result) => {
-        if (result.data != null) {
+        if (result.data) {
           setProposal({
             ...result.data,
             keywords: result.data.keywords.split(','),
           });
         } else {
-          navigation.navigate('MainTab', { screen: 'CreateProposal' });
+          navigation.replace('MainTab', { screen: 'Proposal' });
         }
       })
       .catch((error) => {
@@ -63,14 +63,22 @@ function BidMainScreen({ navigation }) {
       }}>
       {proposal ? (
         <Tab.Screen name="MyBid" options={{ title: '내 제안서' }}>
-          {() => <MyProposalScreen proposal={proposal} userInfo={userInfo} />}
+          {() => (
+            <MyProposalScreen navigation={navigation} proposal={proposal} userInfo={userInfo} />
+          )}
         </Tab.Screen>
       ) : (
         <Tab.Screen name="MyBid" options={{ title: '내 제안서' }}>
           {() => <Text>아직 제안서 x</Text>}
         </Tab.Screen>
       )}
-      <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }} component={BidListScreen} />
+      {proposal ? (
+        <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }} component={BidListScreen} />
+      ) : (
+        <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>
+          {() => <Text></Text>}
+        </Tab.Screen>
+      )}
     </Tab.Navigator>
   );
 }

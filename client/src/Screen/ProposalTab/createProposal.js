@@ -12,8 +12,7 @@ import {
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import BidiStorage from '../../Lib/storage';
-import { STORAGE_KEY } from '../../Lib/constant';
-import info from './info.json';
+import { STORAGE_KEY, KEYWORDS } from '../../Lib/constant';
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
@@ -43,7 +42,7 @@ function CreateProposalScreen({ navigation }) {
   ]);
 
   const [location, setLocation] = useState('');
-  const [keyword, setKeyword] = useState(info['keyword']);
+  const [keyword, setKeyword] = useState(KEYWORDS);
   const [keyCount, setKeyCount] = useState(0);
   const [description, setDescription] = useState('');
 
@@ -80,7 +79,7 @@ function CreateProposalScreen({ navigation }) {
     } else Alert.alert('3개를 초과하였습니다!');
   };
 
-  const keywordList = info['keyword'].map(({ id, title, icon }) => (
+  const keywordList = KEYWORDS.map(({ id, title, icon }) => (
     <TouchableHighlight
       key={id}
       underlayColor="white"
@@ -107,34 +106,41 @@ function CreateProposalScreen({ navigation }) {
   };
 
   const submitHandler = async (e) => {
-    const keywords = keyword
-      .filter((key) => key.selected)
-      .map((key) => key.title)
-      .toString();
-    await fetch('http://127.0.0.1:3000' + '/api/proposal/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        before_src: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
-        after_src: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/result/${afterImageStyle}.jpg`,
-        user_id: userInfo.id,
-        price_limit: priceValue,
-        distance_limit: distanceValue,
-        keywords: keywords.toString(),
-        description,
-        status: 'wait',
-      }),
-    })
-      .then(() => {
-        navigation.replace('ProposalRegistered');
+    if (afterImageStyle != 'none') {
+      const keywords = keyword
+        .filter((key) => key.selected)
+        .map((key) => key.title)
+        .toString();
+      await fetch('http://127.0.0.1:3000' + '/api/proposal/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+        },
+        body: JSON.stringify({
+          before_src: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
+          after_src: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/result/${afterImageStyle}.jpg`,
+          user_id: userInfo.id,
+          price_limit: priceValue,
+          distance_limit: distanceValue,
+          keywords: keywords.toString(),
+          description,
+          status: 'wait',
+        }),
       })
-      .catch((error) => {
-        console.error(error);
-      });
+        .then(() => {
+          navigation.replace('ProposalRegistered');
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else if (priceValue == null) {
+      Alert.alert('사진을 선택해주세요!');
+    } else if (distanceValue == null) {
+      Alert.alert('사진을 선택해주세요!');
+    } else {
+      Alert.alert('사진을 선택해주세요!');
+    }
   };
-  console.log(userInfo);
   return (
     <ScrollView style={styles.container}>
       {/* 1. 헤어스타일 선택하기 */}

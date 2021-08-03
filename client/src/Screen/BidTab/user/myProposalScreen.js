@@ -7,16 +7,38 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
+  Alert,
 } from 'react-native';
 
 import UserInfo from '../../../Components/User/userInfo';
 import BottomButton from '../../../Components/Common/bottomButton';
+import UpdateProposalScreen from './updateProposalScreen';
 
-function MyProposalScreen({ proposal, userInfo }) {
+function MyProposalScreen({ navigation, proposal, userInfo }) {
   const [imageToggle, setImageToggle] = useState(false);
-  const changeImage = () => {
-    console.log(imageToggle);
-    setImageToggle(!imageToggle);
+  const deleteProposal = async () => {
+    await fetch('http://127.0.0.1:3000' + `/api/proposal/${proposal.id}`, {
+      method: 'DELETE',
+    })
+      .then(() => {
+        Alert.alert('삭제 되었습니다!');
+        navigation.replace('MainTab', { screen: 'Search' });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const deleteAlert = () => {
+    Alert.alert('정말 삭제하시겠습니까?', '제안서 등록에는 제한이 있습니다', [
+      { text: '취소', style: 'cancel' },
+      { text: '삭제하기', onPress: deleteProposal },
+    ]);
+  };
+  const updateProposal = () => {
+    navigation.navigate('updateProposal', {
+      proposal: proposal,
+      userInfo: userInfo,
+    });
   };
   return (
     <ScrollView style={styles.container}>
@@ -49,7 +71,9 @@ function MyProposalScreen({ proposal, userInfo }) {
       </View>
       <UserInfo info={userInfo} keywords={proposal.keywords} />
       <View style={styles.descriptionBox}>
-        <Text style={styles.description}>{proposal.description}</Text>
+        <Text style={styles.description}>
+          {proposal.description != '' ? proposal.description : '요구사항 없음'}
+        </Text>
       </View>
       <View style={styles.textBox}>
         <Text style={styles.title}>금액 범위 설정</Text>
@@ -68,8 +92,8 @@ function MyProposalScreen({ proposal, userInfo }) {
         leftName="삭제하기"
         rightName="수정하기"
         leftRatio={40}
-        leftHandler={() => console.log('삭제하기')}
-        rightHandler={() => console.log('수정하기')}
+        leftHandler={deleteAlert}
+        rightHandler={updateProposal}
       />
     </ScrollView>
   );

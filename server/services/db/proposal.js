@@ -40,6 +40,7 @@ exports.updateProposal = async ({
   price_limit,
   distance,
   description,
+  keywords,
   status,
 }) =>
   await Proposal.update(
@@ -50,6 +51,7 @@ exports.updateProposal = async ({
       price_limit,
       distance,
       description,
+      keywords,
       status,
     },
     {

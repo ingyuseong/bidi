@@ -23,12 +23,17 @@ function UserInfo({ info, keywords }) {
         </View>
       </View>
       <View style={styles.userTag}>
-        {keywords &&
+        {keywords != '' ? (
           keywords.map((item, index) => (
             <View style={styles.tag} key={index}>
               <Text style={{ color: '#8D8D8D' }}># {item}</Text>
             </View>
-          ))}
+          ))
+        ) : (
+          <View style={styles.tag}>
+            <Text style={{ color: '#8D8D8D' }}>키워드 없음</Text>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -59,7 +64,6 @@ const styles = StyleSheet.create({
   userTextContainer: {
     alignItems: 'flex-start',
     height: 150,
-    marginTop: 20,
     padding: 7,
   },
   userText: {

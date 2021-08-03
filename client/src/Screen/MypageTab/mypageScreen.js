@@ -228,7 +228,7 @@ function MypageScreen({ navigation }) {
                 disabled={inference ? true : false}
                 onPress={inferenceAI}>
                 <Text style={[styles.selectText, inference == false && styles.active]}>
-                  사용하기
+                  {inference ? '사용중' : '사용하기'}
                 </Text>
               </TouchableOpacity>
             </View>

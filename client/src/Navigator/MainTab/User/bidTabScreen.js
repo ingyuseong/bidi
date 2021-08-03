@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { Stack } from '../../../../App';
-import BidListScreen from '../../../Screen/BidTab/user/bidMainScreen';
 import { createStackNavigator } from '@react-navigation/stack';
+
+import BidMainScreen from '../../../Screen/BidTab/user/bidMainScreen';
+import UpdateProposalScreen from '../../../Screen/BidTab/user/updateProposalScreen';
 
 const bidStack = createStackNavigator();
 
@@ -10,7 +12,15 @@ function BidStackScreen() {
     <Stack.Navigator>
       <bidStack.Screen
         name="bid"
-        component={BidListScreen}
+        component={BidMainScreen}
+        options={{
+          title: 'bid',
+          headerShown: false,
+        }}
+      />
+      <bidStack.Screen
+        name="updateProposal"
+        component={UpdateProposalScreen}
         options={{
           title: 'bid',
           headerShown: false,
