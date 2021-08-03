@@ -1,0 +1,282 @@
+{
+  "male": [
+    {
+      "id": "style01",
+      "styleName": "스타일"
+    },
+    {
+      "id": "style02",
+      "styleName": "스타일"
+    },
+    {
+      "id": "style03",
+      "styleName": "스타일"
+    },
+    {
+      "id": "style04",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style05",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style06",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style07",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style08",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style09",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style10",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style11",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style12",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style13",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style14",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style15",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style16",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style17",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style18",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style19",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style20",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style21",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style22",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style23",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style24",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style25",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style26",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style27",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style28",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style29",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style30",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style31",
+      "styleName": "볼륨매직"
+    }
+  ],
+
+  "female": [
+    {
+      "id": "style26",
+      "styleName": "올림머리"
+    },
+    {
+      "id": "style14",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style02",
+      "styleName": "웨이브펌"
+    },
+    {
+      "id": "style03",
+      "styleName": "아이롱펌"
+    },
+    {
+      "id": "style04",
+      "styleName": "라이트브라운"
+    },
+    {
+      "id": "style05",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style06",
+      "styleName": "숏컷"
+    },
+    {
+      "id": "style07",
+      "styleName": "금발헤어"
+    },
+    {
+      "id": "style08",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style09",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style10",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style11",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style12",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style13",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style15",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style16",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style17",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style18",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style19",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style20",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style21",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style22",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style23",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style24",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style25",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style27",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style28",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style29",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style30",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style31",
+      "styleName": "볼륨매직"
+    },
+    {
+      "id": "style01",
+      "styleName": "짧은머리 c컬펌"
+    }
+  ],
+  "keyword": [
+    {
+      "id": 0,
+      "title": "💰 합리적인 가격",
+      "selected": false
+    },
+    {
+      "id": 1,
+      "title": "✂️ 똑같이 해주세요!",
+      "selected": false
+    },
+    {
+      "id": 2,
+      "title": "😎 경력자 찾아요",
+      "selected": false
+    },
+    {
+      "id": 3,
+      "title": "⏰ 시간약속 잘 지켜주세요",
+      "selected": false
+    },
+    {
+      "id": 4,
+      "title": "👌 저에게 어울리는 다른 스타일도 괜찮아요",
+      "selected": false
+    }
+  ]
+}

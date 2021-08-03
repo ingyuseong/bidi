@@ -21,6 +21,10 @@ exports.getProposal = async (req, res, next) => {
   }
 }
 
+/*
+    GET /api/proposal/user/:userId
+    * 유저의 제안서 정보 조회 API
+*/
 exports.getProposalByUserId = async (req, res, next) => {
   try {
     const { userId } = req.params
@@ -101,12 +105,21 @@ exports.getProposals = async (req, res, next) => {
     * 제안서 등록 API
 */
 const image_upload_S3 = (img) => {
-  return "S3://uploaded.png"
+  return 'S3://uploaded.png'
 }
 
 exports.registerProposal = async (req, res, next) => {
-  try { 
-    const { user_id, before_img, after_img, price_limit, distance_limit, keywords, description, status} = req.body
+  try {
+    const {
+      user_id,
+      before_img,
+      after_img,
+      price_limit,
+      distance_limit,
+      keywords,
+      description,
+      status,
+    } = req.body
     const proposal = {
       user_id,
       before_src: image_upload_S3(before_img),
@@ -115,7 +128,7 @@ exports.registerProposal = async (req, res, next) => {
       distance_limit: Number(distance_limit),
       keywords,
       description,
-      status
+      status,
     }
     const result = await proposalServices.registerProposal(proposal)
     res.status(STATUS_CODE.SUCCESS).json({

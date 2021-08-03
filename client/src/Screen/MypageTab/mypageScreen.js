@@ -12,6 +12,7 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
@@ -23,6 +24,7 @@ function MypageScreen({ navigation }) {
   const [isEdit, setEdit] = useState(false);
   const [userNickName, setUserNickName] = useState('');
   const [userAddress, setUserAddress] = useState('');
+  const [inference, setInference] = useState(false);
 
   const nickNameInputRef = createRef();
   const addressInputRef = createRef();
@@ -39,6 +41,39 @@ function MypageScreen({ navigation }) {
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  const inferenceAI = () => {
+    fetch('http://127.0.0.1:3000' + '/api/user/inference', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        id: userInfo.id,
+        gender: userInfo.gender,
+        img_src: userInfo.img_src,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        const { status, message } = res;
+        if (status == 200) {
+          setTimeout(() => {
+            Alert.alert('이미 AI를 이용가능합니다!');
+          }, 2000);
+        } else {
+          Alert.alert('등록완료되었습니다!');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    setInference(true);
+    alert(
+      // (이거 전역적으로 막아야함, 유저에 상태 추가되어야 할듯?)'
+      'bidi ai가 준비 완료되면 알림으로 알려드릴게요!' + '(이용까지는 3분 정도 소요됩니다!)',
+    );
   };
 
   useEffect(async () => {
@@ -183,6 +218,19 @@ function MypageScreen({ navigation }) {
             <Text style={styles.inputLabel}>핸드폰 번호</Text>
             <View style={styles.inputArea}>
               <Text>{userInfo.phone_number}</Text>
+            </View>
+          </View>
+          <View style={styles.inputForm}>
+            <Text style={styles.inputLabel}>Bidi-Ai</Text>
+            <View style={styles.selectArea}>
+              <TouchableOpacity
+                style={[styles.selectBox, inference == false && styles.active]}
+                disabled={inference ? true : false}
+                onPress={inferenceAI}>
+                <Text style={[styles.selectText, inference == false && styles.active]}>
+                  사용하기
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>

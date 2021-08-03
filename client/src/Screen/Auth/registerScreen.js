@@ -4,11 +4,21 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import { StyleSheet, View, Text, Button, Image, TouchableOpacity, TextInput } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+} from 'react-native';
 import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 import { ScrollView } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 const RegisterScreen = ({ navigation, route }) => {
   const { profile } = route.params;
@@ -39,44 +49,49 @@ const RegisterScreen = ({ navigation, route }) => {
       type: photo.type,
       uri: photo.uri.replace('file://', ''),
     });
-
     Object.keys(body).forEach((key) => {
       data.append(key, body[key]);
     });
-
     return data;
   };
 
   const handleSubmitButton = async () => {
-    await fetch('http://127.0.0.1:3000' + '/api/user/register', {
-      method: 'POST',
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
-      body: createFormData(photo, {
-        userType,
-        userName,
-        userGender,
-        userBirth,
-        userNickName,
-        userPhoneNumber,
-        userEmail,
-        userAddress,
-        userKakaoToken,
-      }),
-    })
-      .then((response) => response.json())
-      .then(async (result) => {
-        await BidiStorage.storeData(STORAGE_KEY, { id: result.data });
-        navigation.replace('MainTab');
+    if (photo) {
+      await fetch('http://127.0.0.1:3000' + '/api/user/register', {
+        method: 'POST',
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+        body: createFormData(photo, {
+          userType,
+          userName,
+          userGender,
+          userBirth,
+          userNickName,
+          userPhoneNumber,
+          userEmail,
+          userAddress,
+          userKakaoToken,
+        }),
       })
-      .catch((error) => {
-        console.error(error);
-      });
+        .then((response) => response.json())
+        .then(async (result) => {
+          const { id, kakao_token, type, gender } = result.data;
+          await BidiStorage.storeData(STORAGE_KEY, { id, type, gender, token: kakao_token });
+          navigation.replace('MainTab');
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      Alert.alert('사진을 등록해주세요!');
+    }
   };
   const handleChoosePhoto = () => {
-    launchImageLibrary({ noData: true }, (response) => {
-      if (response) {
+    launchImageLibrary({ nodata: true }, (response) => {
+      if (response.didCancel) {
+        Alert.alert('프로필 이미지는 꼭 선택해주세요!');
+      } else {
         setPhoto(response.assets[0]);
       }
     });
@@ -85,22 +100,25 @@ const RegisterScreen = ({ navigation, route }) => {
     <ScrollView style={styles.container}>
       <View style={styles.topArea}>
         <Image source={require('../../../public/img/logo.png')} style={styles.logo} />
-        <View style={styles.TextArea}>
-          <Text style={styles.Text}>Bidi 서비스를 이용하기 위해서</Text>
-          <Text style={styles.Text}>간단한 개인정보를 추가로 등록해주세요!</Text>
-        </View>
       </View>
-
       <View style={styles.formArea}>
         <View style={styles.imageArea}>
-          {photo ? (
-            <Image source={{ uri: photo.uri }} style={styles.profile} />
-          ) : (
-            <Image source={require('../../../public/img/profile.png')} style={styles.profile} />
-          )}
+          <View style={styles.profile}>
+            {photo ? (
+              <Image source={{ uri: photo.uri }} style={styles.profileImage} />
+            ) : (
+              <Image
+                source={require('../../../public/img/profile.png')}
+                style={styles.profileImage}
+              />
+            )}
+            <View style={styles.cameraIconArea}>
+              <TouchableOpacity onPress={handleChoosePhoto}>
+                <Icon name="camerao" size={25} style={styles.cameraIcon} />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-
-        <Button title="Choose Photo" onPress={handleChoosePhoto} />
 
         <View style={styles.inputForm}>
           <Text style={styles.inputLabel}>고객 유형</Text>
@@ -147,14 +165,14 @@ const RegisterScreen = ({ navigation, route }) => {
           <Text style={styles.inputLabel}>성별</Text>
           <View style={styles.selectArea}>
             <TouchableOpacity
-              style={[styles.selectBox, userGender == '여성' && styles.active]}
-              onPress={() => setUserGender('여성')}>
-              <Text style={[styles.selectText, userGender == '여성' && styles.active]}>여성</Text>
+              style={[styles.selectBox, userGender == 'female' && styles.active]}
+              onPress={() => setUserGender('female')}>
+              <Text style={[styles.selectText, userGender == 'female' && styles.active]}>여성</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.selectBox, userGender == '남성' && styles.active]}
-              onPress={() => setUserGender('남성')}>
-              <Text style={[styles.selectText, userGender == '남성' && styles.active]}>남성</Text>
+              style={[styles.selectBox, userGender == 'male' && styles.active]}
+              onPress={() => setUserGender('male')}>
+              <Text style={[styles.selectText, userGender == 'male' && styles.active]}>남성</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -203,9 +221,10 @@ const RegisterScreen = ({ navigation, route }) => {
           />
         </View>
       </View>
+
       <View style={styles.btnArea}>
-        <TouchableOpacity style={styles.btn} onPress={handleSubmitButton}>
-          <Text style={{ color: 'white', fontSize: wp('4%') }}>회원가입</Text>
+        <TouchableOpacity onPress={handleSubmitButton}>
+          <Text style={{ color: 'white', fontSize: wp('4%'), fontWeight: '700' }}>회원가입</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -215,10 +234,7 @@ const RegisterScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
     backgroundColor: 'white',
-    paddingLeft: wp(7),
-    paddingRight: wp(7),
   },
   topArea: {
     paddingTop: wp(2),
@@ -233,36 +249,51 @@ const styles = StyleSheet.create({
   },
   formArea: {
     justifyContent: 'center',
-    marginBottom: hp(-5),
+    paddingLeft: wp(7),
+    paddingRight: wp(7),
   },
   imageArea: {
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: hp(2),
+    marginBottom: 30,
+  },
+  cameraIconArea: {
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 100,
+    backgroundColor: 'black',
+    position: 'absolute',
+    bottom: -5,
+    right: 0,
+  },
+  cameraIcon: {
+    color: 'white',
+    padding: 5,
   },
   logo: {
     width: wp(40),
-    height: 100,
+    height: 70,
     resizeMode: 'contain',
   },
   profile: {
-    width: 150,
-    height: 150,
+    width: 130,
+  },
+  profileImage: {
+    width: 130,
+    height: 130,
+    borderColor: 'rgb(243,243,243)',
+    borderWidth: 1,
     borderRadius: 100,
   },
   btnArea: {
-    height: 50,
-    justifyContent: 'center',
-    margin: 40,
     alignItems: 'center',
-  },
-  btn: {
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: -100,
+    height: 70,
     width: '100%',
-    borderRadius: 7,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: 'black',
-    padding: 10,
   },
   inputForm: {
     flexDirection: 'row',

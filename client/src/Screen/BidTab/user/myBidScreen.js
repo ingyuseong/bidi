@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-function MyBiidScreen() {
+function MyBidScreen() {
   return (
     <View>
       <Text>hihi</Text>
@@ -11,4 +11,4 @@ function MyBiidScreen() {
 
 const styles = StyleSheet.create({});
 
-export default MyBiidScreen;
+export default MyBidScreen;

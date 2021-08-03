@@ -18,11 +18,20 @@ const uploadImage = multer(
       acl: 'public-read',
       contentType: multerS3.AUTO_CONTENT_TYPE,
       key: function (req, file, cb) {
-        cb(null, `image/user/${file.originalname}/input/${Date.now()}`)
+        cb(null, `image/profiles/${generateKeys()}`)
       },
     }),
   },
   'NONE'
 )
+
+const generateKeys = () => {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1)
+  }
+  return s4() + s4() + '-' + s4() + s4() + '-' + s4() + s4()
+}
 
 module.exports = uploadImage
