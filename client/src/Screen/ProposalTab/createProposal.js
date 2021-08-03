@@ -77,14 +77,14 @@ function CreateProposalScreen({ navigation }) {
     } else Alert.alert('3개를 초과하였습니다!');
   };
 
-  const keywordList = info['keyword'].map(({ id, title }) => (
+  const keywordList = info['keyword'].map(({ id, title, icon }) => (
     <TouchableHighlight
       key={id}
       underlayColor="white"
       style={keyword[id].selected ? styles.keywordPress : styles.keywordNormal}
       onPress={() => selectKeyword(id)}>
       <Text style={keyword[id].selected ? styles.keywordTextPress : styles.keywordTextNormal}>
-        {title}
+        {icon} {title}
       </Text>
     </TouchableHighlight>
   ));
@@ -114,12 +114,12 @@ function CreateProposalScreen({ navigation }) {
         'Content-Type': 'application/json;charset=UTF-8',
       },
       body: JSON.stringify({
-        before_img: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
-        after_img: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/result/${afterImageStyle}.jpg`,
+        before_src: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
+        after_src: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/result/${afterImageStyle}.jpg`,
         user_id: userInfo.id,
         price_limit: priceValue,
         distance_limit: distanceValue,
-        keywords,
+        keywords: keywords.toString(),
         description,
         status: 'wait',
       }),

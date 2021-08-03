@@ -104,16 +104,12 @@ exports.getProposals = async (req, res, next) => {
     POST /api/proposal/register
     * 제안서 등록 API
 */
-const image_upload_S3 = (img) => {
-  return 'S3://uploaded.png'
-}
-
 exports.registerProposal = async (req, res, next) => {
   try {
     const {
       user_id,
-      before_img,
-      after_img,
+      before_src,
+      after_src,
       price_limit,
       distance_limit,
       keywords,
@@ -122,11 +118,11 @@ exports.registerProposal = async (req, res, next) => {
     } = req.body
     const proposal = {
       user_id,
-      before_src: image_upload_S3(before_img),
-      after_src: image_upload_S3(after_img),
+      before_src,
+      after_src,
       price_limit: Number(price_limit),
       distance_limit: Number(distance_limit),
-      keywords,
+      keywords: String(keywords),
       description,
       status,
     }

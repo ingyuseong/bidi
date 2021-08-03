@@ -104,10 +104,10 @@ function BidListScreen() {
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
       {infoLists.map((info, index) => (
         <View style={styles.container} key={index}>
-          <ScrollView style={styles.styleContainer}>
+          <View style={styles.styleContainer}>
             <CardInfo info={info} />
             <RecommendStyle />
-          </ScrollView>
+          </View>
           <BottomButton
             leftName="거절하기"
             rightName="수락하기"
@@ -143,6 +143,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     borderRadius: 20,
+    borderWidth: 1,
     backgroundColor: 'white',
     borderColor: 'rgba(0,0,0,0.1)',
   },

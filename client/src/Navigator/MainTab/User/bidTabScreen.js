@@ -9,7 +9,7 @@ function BidStackScreen() {
   return (
     <Stack.Navigator>
       <bidStack.Screen
-        name="Profile22"
+        name="bid"
         component={BidListScreen}
         options={{
           title: 'bid',

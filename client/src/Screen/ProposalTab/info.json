@@ -255,27 +255,32 @@
   "keyword": [
     {
       "id": 0,
-      "title": "💰 합리적인 가격",
+      "icon": "💰 ",
+      "title": "합리적인 가격",
       "selected": false
     },
     {
       "id": 1,
-      "title": "✂️ 똑같이 해주세요!",
+      "icon": "✂️ ",
+      "title": "똑같이 해주세요!",
       "selected": false
     },
     {
       "id": 2,
-      "title": "😎 경력자 찾아요",
+      "icon": "😎 ",
+      "title": "경력자 찾아요",
       "selected": false
     },
     {
       "id": 3,
-      "title": "⏰ 시간약속 잘 지켜주세요",
+      "icon": "⏰ ",
+      "title": "시간약속 잘 지켜주세요",
       "selected": false
     },
     {
       "id": 4,
-      "title": "👌 저에게 어울리는 다른 스타일도 괜찮아요",
+      "icon": "👌 ",
+      "title": "저에게 어울리는 다른 스타일도 괜찮아요",
       "selected": false
     }
   ]

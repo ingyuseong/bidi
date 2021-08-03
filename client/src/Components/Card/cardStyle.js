@@ -26,15 +26,12 @@ function CardStyle({ styleLists }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    height: hp('50%'),
-  },
+  container: {},
   wrapper: {},
   styleContainer: {},
   styleImg: {
     resizeMode: 'cover',
     width: '100%',
-    height: 400,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },

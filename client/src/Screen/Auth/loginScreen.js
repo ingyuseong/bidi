@@ -32,8 +32,17 @@ const LoginScreen = ({ navigation }) => {
       .then((response) => response.json())
       .then(async ({ data }) => {
         if (data) {
-          const { id, kakao_token, gender, type } = data;
-          await BidiStorage.storeData(STORAGE_KEY, { id, type, gender, token: kakao_token });
+          const { id, type, kakao_token, nick_name, name, gender, address, img_src } = data;
+          await BidiStorage.storeData(STORAGE_KEY, {
+            id,
+            type,
+            token: kakao_token,
+            nick_name,
+            name,
+            gender,
+            address,
+            img_src,
+          });
           navigation.replace('MainTab');
         }
         navigation.replace('Register', {
