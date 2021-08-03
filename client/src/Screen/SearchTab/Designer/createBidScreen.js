@@ -13,7 +13,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
 
-function CreateBiidScreen({ navigation, route }) {
+function CreateBidScreen({ navigation, route }) {
   const { info } = route.params;
   const [priceOpen, setPriceOpen] = useState(false);
   const [priceValue, setPriceValue] = useState(null);
@@ -23,10 +23,10 @@ function CreateBiidScreen({ navigation, route }) {
     { label: '염색', value: '염색' },
   ]);
   const [needCare, setNeedCare] = useState(null);
-  const [biidLetter, setBiidLetter] = useState('');
+  const [bidLetter, setBidLetter] = useState('');
 
-  const registerBiidHandler = () => {
-    navigation.navigate('BiidRegistered');
+  const registerBidHandler = () => {
+    navigation.navigate('BidRegistered');
   };
 
   return (
@@ -100,9 +100,9 @@ function CreateBiidScreen({ navigation, route }) {
             <Text style={styles.titleText}>비드 레터</Text>
           </View>
           <TextInput
-            style={styles.biidLetterArea}
-            value={biidLetter}
-            onChangeText={(text) => setBiidLetter(text)}
+            style={styles.bidLetterArea}
+            value={bidLetter}
+            onChangeText={(text) => setBidLetter(text)}
             placeholder="고객님께서 코멘트를 남겨주세요. 정성스러운 비드를 남겨주실 수록 더 많은 선택을 받으실 수 있습니다! (최대 400자)"
             autoCapitalize="sentences"
             autoCorrect
@@ -140,7 +140,7 @@ function CreateBiidScreen({ navigation, route }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.bottomBtn, styles.rightBtn]}
-            onPress={registerBiidHandler}>
+            onPress={registerBidHandler}>
             <Text style={styles.rightBtnText}>발송하기</Text>
           </TouchableOpacity>
         </View>
@@ -217,7 +217,7 @@ const styles = StyleSheet.create({
     borderColor: '#0A0A32',
     color: '#0A0A32',
   },
-  biidLetterArea: {
+  bidLetterArea: {
     height: 167,
     borderWidth: 1,
     borderColor: '#DBDBDB',
@@ -285,4 +285,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-export default CreateBiidScreen;
+export default CreateBidScreen;

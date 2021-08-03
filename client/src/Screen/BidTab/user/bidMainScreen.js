@@ -24,7 +24,7 @@ function BidMainScreen() {
           borderColor: 'black',
         },
       }}>
-      <Tab.Screen name="MyBiid" options={{ title: '내 제안서' }} component={MyBidScreen} />
+      <Tab.Screen name="MyBid" options={{ title: '내 제안서' }} component={MyBidScreen} />
       <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }} component={BidListScreen} />
     </Tab.Navigator>
   );

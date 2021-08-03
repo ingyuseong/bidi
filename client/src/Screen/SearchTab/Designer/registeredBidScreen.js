@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 
-function RegisteredBiidScreen() {
+function RegisteredBidScreen() {
   return (
     <View style={styles.container}>
       <View>
-        <Image source={require('../../../../public/img/finish_biid.jpg')} style={styles.img} />
+        <Image source={require('../../../../public/img/finish_bid.jpg')} style={styles.img} />
       </View>
       <View style={styles.textArea}>
         <View style={styles.rowArea}>
@@ -59,4 +59,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisteredBiidScreen;
+export default RegisteredBidScreen;

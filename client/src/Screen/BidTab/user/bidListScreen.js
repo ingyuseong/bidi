@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import CardInfo from '../../../Components/Card/cardInfo';
-import RecommendStyle from '../../../Components/Designer/recommendStyle';
+import RecommendStyle from '../../../Components/Card/recommendStyle';
 import BottomButton from '../../../Components/Common/bottomButton';
 import {
   widthPercentageToDP as wp,
