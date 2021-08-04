@@ -65,23 +65,23 @@ db.BrandingPage.belongsTo(db.User, {
 
 // 관계정의 User : Bid = 1 : N
 db.User.hasMany(db.Bid, {
-  foreignKey: 'customer_id',
-  targetKey: 'id',
+  foreignKey: { name: 'customer_id', allowNull: false },
+  targetKey: { name: 'id', allowNull: false },
   onDelete: 'CASCADE',
 })
 db.Bid.belongsTo(db.User, {
-  foreignKey: 'customer_id',
-  sourceKey: 'id',
+  foreignKey: { name: 'customer_id', allowNull: false },
+  sourceKey: { name: 'id', allowNull: false },
   onDelete: 'CASCADE',
 })
 db.User.hasMany(db.Bid, {
-  foreignKey: 'designer_id',
-  targetKey: 'id',
+  foreignKey: { name: 'customer_id', allowNull: false },
+  targetKey: { name: 'id', allowNull: false },
   onDelete: 'CASCADE',
 })
 db.Bid.belongsTo(db.User, {
-  foreignKey: 'designer_id',
-  sourceKey: 'id',
+  foreignKey: { name: 'customer_id', allowNull: false },
+  sourceKey: { name: 'id', allowNull: false },
   onDelete: 'CASCADE',
 })
 
@@ -120,6 +120,8 @@ db.Bid.belongsToMany(db.Style, {
 })
 
 // 관계정의 Bid : Proposal = 1 : 1
-db.Proposal.hasOne(db.Bid, { foreignKey: 'proposal_id' })
+db.Proposal.hasOne(db.Bid, {
+  foreignKey: { name: 'proposal_id', allowNull: false },
+})
 
 module.exports = db
