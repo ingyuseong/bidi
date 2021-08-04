@@ -43,7 +43,6 @@ function ProposalListScreen({ navigation }) {
     directionalOffsetThreshold: 50,
   };
   const onSwipeUp = (state, index) => {
-    console.log('hihi!', state);
     navigation.navigate('ProposalDetail', { info: infoLists[index] });
   };
   return (
@@ -56,7 +55,7 @@ function ProposalListScreen({ navigation }) {
             style={{
               flex: 1,
             }}>
-            <CardStyle styleLists={info.images} />
+            <CardStyle styleLists={info.images} isUser={false} />
             <CardInfo info={info} navigation={navigation} />
             <TouchableOpacity style={styles.bidiBtn}>
               <Icon name="thumbs-up" size={25} style={styles.bidiIcon} />

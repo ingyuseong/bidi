@@ -1,4 +1,28 @@
 export const STORAGE_KEY = 'user';
+
+export const LARGE_CATEGORY = [
+  { label: '커트', value: '커트' },
+  { label: '파마', value: '파마' },
+  { label: '염색', value: '염색' },
+];
+
+export const SMALL_CATEGORY = {
+  미선택: ['대분류를 선택해주세요!'],
+  커트: [
+    { label: '남성 커트', value: '남성 커트' },
+    { label: '댄디 커트', value: '댄디 커트' },
+    { label: '다듬기', value: '다듬기' },
+  ],
+  파마: [
+    { label: '뿌리 파마', value: '뿌리 파마' },
+    { label: '볼륨 파마', value: '볼륨 파마' },
+    { label: '가르마 파마', value: '가르마 파마' },
+  ],
+  염색: [
+    { label: '기본 염색', value: '기본 염색' },
+    { label: '프리미엄 염색', value: '프리미엄 염색' },
+  ],
+};
 export const KEYWORDS = [
   {
     id: 0,
