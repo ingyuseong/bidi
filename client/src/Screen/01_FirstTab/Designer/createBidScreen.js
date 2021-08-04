@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -36,8 +37,6 @@ function CreateBidScreen({ navigation, route }) {
   }, []);
 
   useEffect(() => {
-    console.log(largeCategoryValue);
-    console.log(SMALL_CATEGORY[largeCategoryValue]);
     setSmallCategoryItems(SMALL_CATEGORY[largeCategoryValue]);
   }, [largeCategoryValue]);
 
@@ -68,8 +67,9 @@ function CreateBidScreen({ navigation, route }) {
       }),
     })
       .then((response) => response.json())
-      .then(async ({ data }) => {
-        if (data) {
+      .then(async (response) => {
+        if (response) {
+          Alert.alert('Bid 작성이 성공적으로 완료되었습니다!');
           navigation.navigate('ProposalList');
         }
       })

@@ -56,7 +56,7 @@ exports.updateProposal = async ({
     },
     {
       where: {
-        id: id,
+        id,
       },
     }
   )
