@@ -101,7 +101,8 @@ function CreateProposalScreen({ navigation }) {
   const initializeHandler = async (e) => {
     setPriceValue(null);
     setDistanceValue(null);
-    setKeyword(info['keyword']);
+    setKeyword(KEYWORDS);
+    setKeyCount(0);
     setDescription('');
   };
 

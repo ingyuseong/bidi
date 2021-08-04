@@ -101,6 +101,7 @@ function UpdateProposalScreen({ navigation, route }) {
     setPriceValue(null);
     setDistanceValue(null);
     setKeyword(KEYWORDS);
+    setKeyCount(0);
     setDescription('');
   };
 

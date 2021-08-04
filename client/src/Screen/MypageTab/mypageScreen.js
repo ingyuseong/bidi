@@ -76,9 +76,12 @@ function MypageScreen({ navigation }) {
     );
   };
 
-  useEffect(async () => {
-    const user = await BidiStorage.getData(STORAGE_KEY);
-    getUserInfo(user);
+  useEffect(() => {
+    const fetchMode = async () => {
+      const user = await BidiStorage.getData(STORAGE_KEY);
+      getUserInfo(user);
+    };
+    fetchMode();
   }, []);
   const logoutHandler = () => {
     BidiStorage.clearData().then(() => {

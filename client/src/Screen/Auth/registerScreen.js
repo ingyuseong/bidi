@@ -87,6 +87,8 @@ const RegisterScreen = ({ navigation, route }) => {
             address,
             img_src,
           });
+        })
+        .then(() => {
           navigation.replace('MainTab');
         })
         .catch((error) => {

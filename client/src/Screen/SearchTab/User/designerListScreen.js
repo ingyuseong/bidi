@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
 import DesignerDetail from './designerDetailScreen';
@@ -23,8 +24,8 @@ function DesignerListScreen({ navigation }) {
         console.error(error);
       });
   };
-  useEffect(async () => {
-    await getDesignerInfo();
+  useEffect(() => {
+    getDesignerInfo();
   }, []);
 
   if (infoLists == []) {
@@ -47,6 +48,9 @@ function DesignerListScreen({ navigation }) {
           <View style={styles.container}>
             <CardStyle styleLists={info.styles} />
             <CardInfo info={info} navigation={navigation} />
+            <TouchableOpacity style={styles.bidiBtn}>
+              <Icon name="thumbs-up" size={25} style={styles.bidiIcon} />
+            </TouchableOpacity>
           </View>
           <View style={styles.container}>
             <DesignerDetail info={info} />
@@ -60,12 +64,32 @@ const styles = StyleSheet.create({
   wrapper: {},
   container: {
     flex: 1,
-    marginLeft: 10,
-    marginRight: 10,
+    margin: 16,
     backgroundColor: 'white',
     borderWidth: 1,
     borderColor: '#e2e2e2',
-    borderBottomWidth: 0,
+    borderRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    position: 'relative',
+  },
+  bidiBtn: {
+    position: 'absolute',
+    backgroundColor: '#FF533A',
+    width: 50,
+    height: 50,
+    right: 0,
+    top: '60%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bidiIcon: {
+    color: 'white',
   },
   styleContainer: {
     flex: 1.5,

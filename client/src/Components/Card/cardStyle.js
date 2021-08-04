@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -15,7 +15,7 @@ function CardStyle({ styleLists }) {
             <Image
               style={styles.styleImg}
               source={{
-                uri: item || item.img_src,
+                uri: item.img_src,
               }}
             />
           </View>
@@ -26,12 +26,13 @@ function CardStyle({ styleLists }) {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { flex: 1 },
   wrapper: {},
   styleContainer: {},
   styleImg: {
     resizeMode: 'cover',
     width: '100%',
+    height: 400,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },

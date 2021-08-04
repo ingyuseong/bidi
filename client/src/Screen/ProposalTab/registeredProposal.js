@@ -20,9 +20,12 @@ function ProposalRegisteredScreen({ navigation }) {
         console.error(error);
       });
   };
-  useEffect(async () => {
-    const user = await BidiStorage.getData(STORAGE_KEY);
-    getUserInfo(user);
+  useEffect(() => {
+    const fetchMode = async () => {
+      const user = await BidiStorage.getData(STORAGE_KEY);
+      getUserInfo(user);
+    };
+    fetchMode();
   }, []);
 
   const designerHandler = async () => {
@@ -52,7 +55,7 @@ function ProposalRegisteredScreen({ navigation }) {
         </View>
       </View>
       <TouchableOpacity activeOpacity={0.8} style={styles.button} onPress={designerHandler}>
-        <Text style={styles.buttonText}>디자이너 직접 찾아보기</Text>
+        <Text style={styles.buttonText}>디자이너 직접 찾아보기 >></Text>
       </TouchableOpacity>
     </View>
   );
