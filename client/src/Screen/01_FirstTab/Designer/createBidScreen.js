@@ -50,7 +50,7 @@ function CreateBidScreen({ navigation, route }) {
   }, []);
 
   const registerBidHandler = async () => {
-    await fetch('http://127.0.0.1:3000' + '/api/bidi/register', {
+    await fetch('http://127.0.0.1:3000' + '/api/bid/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
@@ -64,11 +64,14 @@ function CreateBidScreen({ navigation, route }) {
         letter: bidLetter,
         need_care: needCare,
         status: 'wait',
+        styles: [1, 2, 3],
       }),
     })
       .then((response) => response.json())
       .then(async ({ data }) => {
-        console.log(data);
+        if (data) {
+          navigation.navigate('ProposalList');
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -84,7 +87,7 @@ function CreateBidScreen({ navigation, route }) {
             <Text style={styles.titleText}>희망 예산</Text>
           </View>
           <View style={styles.priceArea}>
-            <Text style={styles.text}>{info.price_limit}</Text>
+            <Text style={styles.text}>{info.price_limit}원 이하</Text>
           </View>
         </View>
         <View style={styles.line}></View>
