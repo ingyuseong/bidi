@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 function DesignerTabStack() {
   return (
     <Tab.Navigator
-      initialRouteName="Bid"
+      initialRouteName="Search"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
           let iconName;

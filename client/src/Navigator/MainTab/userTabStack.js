@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 function UserTabStack() {
   return (
     <Tab.Navigator
-      initialRouteName="Viid"
+      initialRouteName="Search"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
           let iconName;
