@@ -8,6 +8,9 @@ const modelAttributes = {
     primaryKey: true,
     autoIncrement: true,
   },
+  user_id: {
+    type: DataTypes.INTEGER,
+  },
   title: {
     type: DataTypes.STRING,
   },
@@ -20,7 +23,13 @@ const modelAttributes = {
   gender: {
     type: DataTypes.STRING,
   },
-  img_src: {
+  img_src_one: {
+    type: DataTypes.STRING,
+  },
+  img_src_two: {
+    type: DataTypes.STRING,
+  },
+  img_src_three: {
     type: DataTypes.STRING,
   },
 }

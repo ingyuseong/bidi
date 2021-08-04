@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const { DataTypes } = Sequelize
-const modelName = 'brandingPage'
+const modelName = 'bid'
 
 const modelAttributes = {
   id: {
@@ -8,20 +8,29 @@ const modelAttributes = {
     primaryKey: true,
     autoIncrement: true,
   },
-  user_id: {
+  customer_id: {
     type: DataTypes.INTEGER,
   },
-  description: {
+  designer_id: {
+    type: DataTypes.INTEGER,
+  },
+  proposal_id: {
+    type: DataTypes.INTEGER,
+  },
+  large_category: {
     type: DataTypes.STRING,
   },
-  shop_name: {
+  small_category: {
     type: DataTypes.STRING,
   },
-  keywords: {
+  letter: {
     type: DataTypes.STRING,
   },
-  main: {
+  need_care: {
     type: DataTypes.BOOLEAN,
+  },
+  status: {
+    type: DataTypes.STRING,
   },
   created_at: {
     type: DataTypes.DATE,
