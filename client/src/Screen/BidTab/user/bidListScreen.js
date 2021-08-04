@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native';
 import CardInfo from '../../../Components/Card/cardInfo';
-import RecommendStyle from '../../../Components/Designer/recommendStyle';
+import RecommendStyle from '../../../Components/Card/recommendStyle';
 import BottomButton from '../../../Components/Common/bottomButton';
 import {
   widthPercentageToDP as wp,
@@ -104,10 +104,10 @@ function BidListScreen() {
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
       {infoLists.map((info, index) => (
         <View style={styles.container} key={index}>
-          <ScrollView style={styles.styleContainer}>
+          <View style={styles.styleContainer}>
             <CardInfo info={info} />
             <RecommendStyle />
-          </ScrollView>
+          </View>
           <BottomButton
             leftName="거절하기"
             rightName="수락하기"

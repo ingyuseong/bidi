@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Stack } from '../../../../App';
 import ProposalListScreen from '../../../Screen/SearchTab/Designer/proposalListScreen';
 import ProposalDetailScreen from '../../../Screen/SearchTab/Designer/proposalDetailScreen';
-import CreateBiidScreen from '../../../Screen/SearchTab/Designer/createBiidScreen';
-import RegisteredBiidScreen from '../../../Screen/SearchTab/Designer/registeredBiidScreen';
+import CreateBidScreen from '../../../Screen/SearchTab/Designer/createBidScreen';
+import RegisteredBidScreen from '../../../Screen/SearchTab/Designer/registeredBidScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const SearchStack = createStackNavigator();
@@ -26,15 +26,15 @@ function SearchTabScreen() {
         }}
       />
       <SearchStack.Screen
-        name="CreateBiid"
-        component={CreateBiidScreen}
+        name="CreateBid"
+        component={CreateBidScreen}
         options={{
           headerShown: false,
         }}
       />
       <SearchStack.Screen
-        name="BiidRegistered"
-        component={RegisteredBiidScreen}
+        name="BidRegistered"
+        component={RegisteredBidScreen}
         options={{
           headerShown: false,
         }}

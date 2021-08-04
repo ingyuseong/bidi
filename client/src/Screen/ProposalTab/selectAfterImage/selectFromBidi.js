@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import info from '../info.json';
+import { STYLE_INFO } from '../../../Lib/constant';
 
 function SelectFromBidiScreen({ navigation, route }) {
-  const { setAfterImageStyle, userInfo: userInfo } = route.params;
+  const { setAfterImageStyle, userInfo, type } = route.params;
   const [afterStyle, setAfterStyle] = useState('none');
   const [tab, setTab] = useState('tab1');
 
@@ -13,7 +13,16 @@ function SelectFromBidiScreen({ navigation, route }) {
   };
   const submit = async () => {
     setAfterImageStyle(afterStyle);
-    navigation.navigate('CreateProposal');
+    if (type == 'update') {
+      navigation.navigate('MainTab', {
+        screen: 'bidTab',
+        params: {
+          screen: 'updateProposal',
+        },
+      });
+    } else {
+      navigation.navigate('CreateProposal');
+    }
   };
   const selectStyle = (style) => {
     setAfterStyle(style);
@@ -22,7 +31,7 @@ function SelectFromBidiScreen({ navigation, route }) {
     const nextTab = tab;
     setTab(nextTab);
   };
-  const list = info[userInfo.gender].map(({ id, styleName }) => (
+  const list = STYLE_INFO[userInfo.gender].map(({ id, styleName }) => (
     <TouchableOpacity
       key={id}
       activeOpacity={0.8}

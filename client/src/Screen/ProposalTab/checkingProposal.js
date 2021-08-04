@@ -24,9 +24,12 @@ function CheckingScreen({ navigation }) {
         console.error(error);
       });
   };
-  useEffect(async () => {
-    const user = await BidiStorage.getData(STORAGE_KEY);
-    getProposalInfo(user);
+  useEffect(() => {
+    async function fetchMode() {
+      const user = await BidiStorage.getData(STORAGE_KEY);
+      getProposalInfo(user);
+    }
+    fetchMode();
   }, []);
 
   return (

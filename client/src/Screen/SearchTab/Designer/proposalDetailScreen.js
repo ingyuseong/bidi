@@ -6,7 +6,7 @@ import CardStyle from '../../../Components/Card/cardStyle';
 function ProposalDetailScreen({ navigation, route }) {
   const { info } = route.params;
   const acceptHandler = () => {
-    navigation.navigate('CreateBiid', { info });
+    navigation.navigate('CreateBid', { info });
   };
   return (
     <View style={styles.container}>

@@ -6,6 +6,7 @@ const getBrandingList = async () => {
   for await (const item of brandingList) {
     results.push(await getBrandingInfo(item.userId))
   }
+
   return results
 }
 
@@ -19,6 +20,7 @@ const getBrandingInfo = async (userId) => {
   for (const brandingStyle of brandingStyles) {
     styles = makeStyleData(brandingStyle.dataValues.styleMenus)
   }
+
   result.id = brandingInfo.id
   result.userId = brandingInfo.user_id
   result.name = brandingInfo['user.name']

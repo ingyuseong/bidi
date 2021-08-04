@@ -76,8 +76,19 @@ const RegisterScreen = ({ navigation, route }) => {
       })
         .then((response) => response.json())
         .then(async (result) => {
-          const { id, kakao_token, type, gender } = result.data;
-          await BidiStorage.storeData(STORAGE_KEY, { id, type, gender, token: kakao_token });
+          const { id, type, kakao_token, nick_name, name, gender, address, img_src } = result.data;
+          await BidiStorage.storeData(STORAGE_KEY, {
+            id,
+            type,
+            token: kakao_token,
+            nick_name,
+            name,
+            gender,
+            address,
+            img_src,
+          });
+        })
+        .then(() => {
           navigation.replace('MainTab');
         })
         .catch((error) => {

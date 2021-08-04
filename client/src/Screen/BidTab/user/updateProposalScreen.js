@@ -11,16 +11,15 @@ import {
   Alert,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import BidiStorage from '../../Lib/storage';
-import { STORAGE_KEY, KEYWORDS } from '../../Lib/constant';
+import { STORAGE_KEY, KEYWORDS } from '../../../Lib/constant';
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
-import BottomButton from '../../Components/Common/bottomButton';
+import BottomButton from '../../../Components/Common/bottomButton';
 
-function CreateProposalScreen({ navigation }) {
-  const [userInfo, setUserInfo] = useState('');
+function UpdateProposalScreen({ navigation, route }) {
+  const { proposal, userInfo } = route.params;
   const [afterImageStyle, setAfterImageStyle] = useState('none');
   // DropDown 관련
   const [priceOpen, setPriceOpen] = useState(false);
@@ -46,27 +45,20 @@ function CreateProposalScreen({ navigation }) {
   const [keyCount, setKeyCount] = useState(0);
   const [description, setDescription] = useState('');
 
-  const getUserInfo = async (user) => {
-    await fetch('http://127.0.0.1:3000' + `/api/user/${user.id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        setUserInfo(result.data);
-        setLocation(result.data.address);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
   useEffect(() => {
     async function fetchMode() {
-      const user = await BidiStorage.getData(STORAGE_KEY);
-      getUserInfo(user);
+      await setLocation(userInfo.address);
+      await setPriceValue(proposal.price_limit);
+      await setDistanceValue(proposal.distance_limit);
+      await setKeyword(
+        keyword.map((key) =>
+          proposal.keywords.includes(key.title) ? { ...key, selected: true } : key,
+        ),
+      );
+      await setKeyCount(proposal.keywords.length);
+      await setDescription(proposal.description);
+      const styleArr = proposal.after_src.split('/');
+      await setAfterImageStyle(styleArr[styleArr.length - 1].split('.')[0]);
     }
     fetchMode();
   }, []);
@@ -91,10 +83,17 @@ function CreateProposalScreen({ navigation }) {
     </TouchableHighlight>
   ));
 
-  const proposalHandler = async (e) => {
-    navigation.navigate('SelectAfterImage', {
-      setAfterImageStyle: setAfterImageStyle,
-      userInfo: userInfo,
+  const proposalHandler = () => {
+    navigation.navigate('MainTab', {
+      screen: 'proposal',
+      params: {
+        screen: 'SelectAfterImage',
+        params: {
+          setAfterImageStyle: setAfterImageStyle,
+          userInfo: userInfo,
+          type: 'update',
+        },
+      },
     });
   };
 
@@ -107,41 +106,41 @@ function CreateProposalScreen({ navigation }) {
   };
 
   const submitHandler = async (e) => {
-    if (afterImageStyle != 'none') {
-      const keywords = keyword
-        .filter((key) => key.selected)
-        .map((key) => key.title)
-        .toString();
-      await fetch('http://127.0.0.1:3000' + '/api/proposal/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-        },
-        body: JSON.stringify({
-          before_src: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
-          after_src: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/result/${afterImageStyle}.jpg`,
-          user_id: userInfo.id,
-          price_limit: priceValue,
-          distance_limit: distanceValue,
-          keywords: keywords.toString(),
-          description,
-          status: 'wait',
-        }),
+    const keywords = keyword
+      .filter((key) => key.selected)
+      .map((key) => key.title)
+      .toString();
+    await fetch('http://127.0.0.1:3000' + `/api/proposal/${proposal.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        id: proposal.id,
+        user_id: userInfo.user_id,
+        before_src: proposal.berfore_src,
+        after_src: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/result/${afterImageStyle}.jpg`,
+        price_limit: priceValue,
+        distance_limit: distanceValue,
+        keywords: keywords.toString(),
+        description,
+        status: proposal.status,
+      }),
+    })
+      .then(() => {
+        navigation.replace('bid');
       })
-        .then(() => {
-          navigation.replace('ProposalRegistered');
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } else if (priceValue == null) {
-      Alert.alert('사진을 선택해주세요!');
-    } else if (distanceValue == null) {
-      Alert.alert('사진을 선택해주세요!');
-    } else {
-      Alert.alert('사진을 선택해주세요!');
-    }
+      .catch((error) => {
+        console.error(error);
+      });
   };
+  const editAlert = () => {
+    Alert.alert('정말 수정하시겠어요?', '', [
+      { text: '취소', style: 'cancel' },
+      { text: '수정하기', onPress: submitHandler },
+    ]);
+  };
+
   return (
     <ScrollView style={styles.container}>
       {/* 1. 헤어스타일 선택하기 */}
@@ -287,33 +286,13 @@ function CreateProposalScreen({ navigation }) {
         />
       </View>
 
-      {/* 6. submit */}
-      {/* <View style={styles.submitBox}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={{ ...styles.submitButton, width: '60%' }}
-          onPress={initializeHandler}>
-          <Text style={{ ...styles.submitText }}>초기화하기</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={{
-            ...styles.submitButton,
-            backgroundColor: '#FF533A',
-            borderColor: '#FF533A',
-            width: '40%',
-          }}
-          onPress={submitHandler}>
-          <Text style={{ ...styles.submitText, color: 'white' }}>등록하기</Text>
-        </TouchableOpacity>
-      </View> */}
       <View style={{ marginTop: 80 }}></View>
       <BottomButton
         leftName="초기화"
-        rightName="등록하기"
+        rightName="수정하기"
         leftRatio={40}
         leftHandler={initializeHandler}
-        rightHandler={submitHandler}
+        rightHandler={editAlert}
       />
     </ScrollView>
   );
@@ -478,7 +457,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateProposalScreen;
+export default UpdateProposalScreen;
 
 // const { userInfo } = route.params;
 

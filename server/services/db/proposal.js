@@ -40,6 +40,7 @@ exports.updateProposal = async ({
   price_limit,
   distance,
   description,
+  keywords,
   status,
 }) =>
   await Proposal.update(
@@ -50,6 +51,7 @@ exports.updateProposal = async ({
       price_limit,
       distance,
       description,
+      keywords,
       status,
     },
     {
@@ -111,9 +113,9 @@ exports.insertProposal = async ({
   description,
   status,
 }) =>
-  Proposal.create({
+  await Proposal.create({
     raw: true,
-    user_id,
+    userId: user_id,
     before_src,
     after_src,
     price_limit,
@@ -127,6 +129,7 @@ exports.insertProposal = async ({
       return results
     })
     .catch((err) => {
+      console.log(err)
       console.log('Failed Creating Proposal')
       return err
     })

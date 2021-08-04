@@ -20,9 +20,12 @@ function ProposalRegisteredScreen({ navigation }) {
         console.error(error);
       });
   };
-  useEffect(async () => {
-    const user = await BidiStorage.getData(STORAGE_KEY);
-    getUserInfo(user);
+  useEffect(() => {
+    const fetchMode = async () => {
+      const user = await BidiStorage.getData(STORAGE_KEY);
+      getUserInfo(user);
+    };
+    fetchMode();
   }, []);
 
   const designerHandler = async () => {
@@ -52,7 +55,7 @@ function ProposalRegisteredScreen({ navigation }) {
         </View>
       </View>
       <TouchableOpacity activeOpacity={0.8} style={styles.button} onPress={designerHandler}>
-        <Text style={styles.buttonText}>디자이너 둘러보기</Text>
+        <Text style={styles.buttonText}>디자이너 직접 찾아보기 >></Text>
       </TouchableOpacity>
     </View>
   );
@@ -105,14 +108,22 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 170,
-    height: 46,
-    borderRadius: 3,
+    width: '90%',
+    height: 55,
+    borderRadius: 55,
     backgroundColor: '#FF533A',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   buttonText: {
     fontSize: 17,
-    fontWeight: '400',
+    fontWeight: '500',
     color: 'white',
   },
 });

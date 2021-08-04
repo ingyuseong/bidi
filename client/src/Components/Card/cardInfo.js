@@ -28,14 +28,14 @@ function CardInfo({ info, navigation }) {
           <View style={styles.shopInfo}>
             <Text style={styles.shopName}>@ {info.address || info.shopName}</Text>
             <Ionicons name="location-outline" size={15} />
-            <Text style={styles.shopDistance}>{info.distance_limit || info.distance}km</Text>
+            <Text style={styles.shopDistance}>{info.distance_limit || info.distance}</Text>
           </View>
         </View>
-        <Button
+        {/* <Button
           style={styles.moreBtn}
           title="더보기"
           // pressHandler={() => navigation.navigate('DesignerDetail', { newInfo: info })}
-        />
+        /> */}
       </View>
       <View style={styles.designerTag}>
         {info.keywords &&
@@ -63,8 +63,8 @@ const styles = StyleSheet.create({
   },
   designerImg: {
     resizeMode: 'cover',
-    width: 70,
-    height: 70,
+    width: 55,
+    height: 55,
     borderRadius: 50,
     borderWidth: 1,
     borderColor: 'rgb(243,243,243)',
@@ -72,12 +72,12 @@ const styles = StyleSheet.create({
   designerTag: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 15,
+    marginTop: 10,
   },
   designerTextContainer: {
     alignItems: 'flex-start',
     height: 150,
-    marginTop: 20,
+    marginTop: 10,
     padding: 7,
   },
   designerText: {
