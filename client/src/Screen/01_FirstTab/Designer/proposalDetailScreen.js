@@ -16,7 +16,7 @@ function ProposalDetailScreen({ navigation, route }) {
         <View style={styles.priceContainer}>
           <Text style={styles.priceTitleText}>희망 예산</Text>
           <View style={styles.priceArea}>
-            <Text style={styles.priceText}>{info.price_limit}</Text>
+            <Text style={styles.priceText}>{info.price_limit}원 이하</Text>
           </View>
         </View>
       </ScrollView>
