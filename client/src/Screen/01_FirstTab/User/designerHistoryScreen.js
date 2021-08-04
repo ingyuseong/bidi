@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 
-function DesignerHistory({ info }) {
+function DesignerHistoryScreen({ info }) {
   return (
     <>
       <View style={styles.titleContainer}>
@@ -174,4 +174,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DesignerHistory;
+export default DesignerHistoryScreen;

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import CardStyle from '../../../Components/Card/cardStyle';
 import CardInfo from '../../../Components/Card/cardInfo';
-import DesignerHistory from './designerHistoryScreen';
+import DesignerHistoryScreen from './designerHistoryScreen';
 import DesignerStyleScreen from './designerStyleScreen';
 
-function DesignerDetail({ info }) {
+function DesignerDetailScreen({ info }) {
   const [tab, setTab] = useState('tab1');
   const tabHandler = () => {
     const nextTab = tab == 'tab1' ? 'tab2' : 'tab1';
@@ -13,8 +14,8 @@ function DesignerDetail({ info }) {
 
   return (
     <ScrollView>
-      <CardInfo info={info} />
-      <View style={styles.line}></View>
+      {/* <CardInfo info={info} />
+      <View style={styles.line}></View> */}
       <ScrollView>
         <View style={styles.headerContainer}>
           <View style={[styles.tab, tab == 'tab1' && styles.active]}>
@@ -32,7 +33,11 @@ function DesignerDetail({ info }) {
         </View>
         <View style={styles.tabLine}></View>
         <View style={styles.contentContainer}>
-          {tab == 'tab1' ? <DesignerStyleScreen info={info} /> : <DesignerHistory info={info} />}
+          {tab == 'tab1' ? (
+            <DesignerStyleScreen info={info} />
+          ) : (
+            <DesignerHistoryScreen info={info} />
+          )}
         </View>
       </ScrollView>
     </ScrollView>
@@ -72,4 +77,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DesignerDetail;
+export default DesignerDetailScreen;

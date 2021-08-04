@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import BidiStorage from '../../Lib/storage';
-import { STORAGE_KEY } from '../../Lib/constant';
+import BidiStorage from '../../../Lib/storage';
+import { STORAGE_KEY } from '../../../Lib/constant';
 
-function ProposalRegisteredScreen({ navigation }) {
+function RegisteredProposalScreen({ navigation }) {
   const [userInfo, setUserInfo] = useState('');
   const getUserInfo = async (user) => {
     await fetch('http://127.0.0.1:3000' + `/api/user/${user.id}`, {
@@ -38,7 +38,7 @@ function ProposalRegisteredScreen({ navigation }) {
         <View style={styles.imageContainer}>
           <Image
             style={styles.image}
-            source={require('../../../public/img/proposal_registered.png')}
+            source={require('../../../../public/img/proposal_registered.png')}
           />
         </View>
       </View>
@@ -55,7 +55,7 @@ function ProposalRegisteredScreen({ navigation }) {
         </View>
       </View>
       <TouchableOpacity activeOpacity={0.8} style={styles.button} onPress={designerHandler}>
-        <Text style={styles.buttonText}>디자이너 직접 찾아보기 >></Text>
+        <Text style={styles.buttonText}>디자이너 직접 찾아보기 {'>>'}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -128,4 +128,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProposalRegisteredScreen;
+export default RegisteredProposalScreen;

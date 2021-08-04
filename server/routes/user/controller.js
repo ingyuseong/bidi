@@ -124,6 +124,7 @@ exports.registerUser = async (req, res, next) => {
       userAddress,
       userKakaoToken = '',
       userNaverToken = '',
+      aiStatus = 'wait',
     } = req.body
     const { location } = req.file
     const params = {
@@ -138,6 +139,7 @@ exports.registerUser = async (req, res, next) => {
       phone_number: userPhoneNumber,
       birth: userBirth,
       gender: userGender,
+      ai_status: aiStatus,
     }
     const user = await userServices.registerUser(params)
 

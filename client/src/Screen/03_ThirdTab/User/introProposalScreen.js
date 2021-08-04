@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-function ProposalIntroScreen({ navigation }) {
+function IntroProposalScreen({ navigation }) {
   const proposalHandler = async () => {
     navigation.replace('CreateProposal');
   };
@@ -18,7 +18,10 @@ function ProposalIntroScreen({ navigation }) {
       </View>
       <View style={styles.content}>
         <View style={styles.imageContainer}>
-          <Image style={styles.image} source={require('../../../public/img/proposal_intro.png')} />
+          <Image
+            style={styles.image}
+            source={require('../../../../public/img/proposal_intro.png')}
+          />
         </View>
         <View style={styles.description}>
           <Text style={styles.text}>기존 사진을 등록하거나</Text>
@@ -96,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProposalIntroScreen;
+export default IntroProposalScreen;

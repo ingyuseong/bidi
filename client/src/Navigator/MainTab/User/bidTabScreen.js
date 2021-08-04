@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Stack } from '../../../../App';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import BidMainScreen from '../../../Screen/BidTab/user/bidMainScreen';
-import UpdateProposalScreen from '../../../Screen/BidTab/user/updateProposalScreen';
+import BidMainScreen from '../../../Screen/02_SecondTab/User/bidMainScreen';
+import UpdateProposalScreen from '../../../Screen/02_SecondTab/User/updateProposalScreen';
 
 const bidStack = createStackNavigator();
 

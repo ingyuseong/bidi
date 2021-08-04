@@ -34,6 +34,7 @@ exports.updateUser = async ({
   lat,
   lng,
   img_src,
+  ai_status,
 }) => {
   const results = await User.update({
     raw: true,
@@ -46,6 +47,7 @@ exports.updateUser = async ({
     lat,
     lng,
     img_src,
+    ai_status,
     where: {
       id,
     },
@@ -102,6 +104,7 @@ exports.insertUser = async ({
     nick_name,
     birth,
     phone_number,
+    ai_status: 'wait',
   })
   return results
 }
