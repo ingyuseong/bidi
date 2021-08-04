@@ -48,8 +48,10 @@ db.User = require('./user')(sequelize, Sequelize)
 db.Proposal = require('./proposal')(sequelize, Sequelize)
 db.BrandingPage = require('./brandingPage')(sequelize, Sequelize)
 db.Style = require('./style')(sequelize, Sequelize)
+db.Bid = require('./bid')(sequelize, Sequelize)
 
 db.StyleMenu = require('./relation/styleMenu')(sequelize, Sequelize)
+db.BidStyle = require('./relation/bidStyle')(sequelize, Sequelize)
 
 // 관계정의 User : BrandingPage = 1 : N
 db.User.hasMany(db.BrandingPage, {
@@ -61,15 +63,25 @@ db.BrandingPage.belongsTo(db.User, {
   onDelete: 'CASCADE',
 })
 
-// 관계정의 BrandingPage : Style = N : N
-db.Style.belongsToMany(db.BrandingPage, {
-  through: 'styleMenu',
-  as: 'styleMenus',
+// 관계정의 User : Bid = 1 : N
+db.User.hasMany(db.Bid, {
+  foreignKey: 'customer_id',
+  targetKey: 'id',
   onDelete: 'CASCADE',
 })
-db.BrandingPage.belongsToMany(db.Style, {
-  through: 'styleMenu',
-  as: 'styleMenus',
+db.Bid.belongsTo(db.User, {
+  foreignKey: 'customer_id',
+  sourceKey: 'id',
+  onDelete: 'CASCADE',
+})
+db.User.hasMany(db.Bid, {
+  foreignKey: 'designer_id',
+  targetKey: 'id',
+  onDelete: 'CASCADE',
+})
+db.Bid.belongsTo(db.User, {
+  foreignKey: 'designer_id',
+  sourceKey: 'id',
   onDelete: 'CASCADE',
 })
 
@@ -82,5 +94,32 @@ db.Proposal.belongsTo(db.User, {
   foreignKey: { allowNull: false },
   onDelete: 'CASCADE',
 })
+
+// 관계정의 BrandingPage : Style = M : N
+db.Style.belongsToMany(db.BrandingPage, {
+  through: 'styleMenu',
+  as: 'styleMenus',
+  onDelete: 'CASCADE',
+})
+db.BrandingPage.belongsToMany(db.Style, {
+  through: 'styleMenu',
+  as: 'styleMenus',
+  onDelete: 'CASCADE',
+})
+
+// 관계정의 Bid : Style = M : N
+db.Style.belongsToMany(db.Bid, {
+  through: 'bidStyle',
+  as: 'bidStyles',
+  onDelete: 'CASCADE',
+})
+db.Bid.belongsToMany(db.Style, {
+  through: 'bidStyle',
+  as: 'bidStyles',
+  onDelete: 'CASCADE',
+})
+
+// 관계정의 Bid : Proposal = 1 : 1
+db.Proposal.hasOne(db.Bid, { foreignKey: 'proposal_id' })
 
 module.exports = db
