@@ -8,7 +8,7 @@ function TopRightBar({ navigation, route }) {
       <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Mypage')}>
         <Icon name="bell-o" size={25} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('Mypage')}>
+      <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('DM')}>
         <Icon name="send-o" size={25} />
       </TouchableOpacity>
     </View>
