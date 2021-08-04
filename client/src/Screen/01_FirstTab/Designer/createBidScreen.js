@@ -12,10 +12,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import DropDownPicker from 'react-native-dropdown-picker';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
-import { LARGE_CATEGORY, SMALL_CATEGORY } from '../../../Lib/constant';
+import BidiStorage from '../../../Lib/storage';
+import { LARGE_CATEGORY, SMALL_CATEGORY, STORAGE_KEY } from '../../../Lib/constant';
 
 function CreateBidScreen({ navigation, route }) {
-  const { info } = route.params;
+  const { info, userId, proposalId } = route.params;
+  const [userInfo, setUserInfo] = useState(null);
   const [largeCategoryOpen, setLargeCategoryOpen] = useState(false);
   const [largeCategoryValue, setLargeCategoryValue] = useState('미선택');
   const [largeCategoryItems, setLargeCategoryItems] = useState(LARGE_CATEGORY);
@@ -39,14 +41,43 @@ function CreateBidScreen({ navigation, route }) {
     setSmallCategoryItems(SMALL_CATEGORY[largeCategoryValue]);
   }, [largeCategoryValue]);
 
-  const registerBidHandler = () => {
-    console.log(smallCategoryValue);
+  useEffect(() => {
+    async function fetchMode() {
+      const user = await BidiStorage.getData(STORAGE_KEY);
+      setUserInfo(user);
+    }
+    fetchMode();
+  }, []);
+
+  const registerBidHandler = async () => {
+    await fetch('http://127.0.0.1:3000' + '/api/bidi/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        customer_id: userId,
+        designer_id: userInfo.id,
+        proposal_id: proposalId,
+        large_category: largeCategoryValue,
+        small_category: smallCategoryValue,
+        letter: bidLetter,
+        need_care: needCare,
+        status: 'wait',
+      }),
+    })
+      .then((response) => response.json())
+      .then(async ({ data }) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
-  console.log(largeCategoryValue);
   return (
     <View style={styles.container}>
       <ScrollView>
-        <CardStyle styleLists={info.images} />
+        <CardStyle styleLists={info.images} height={400} />
         <CardInfo info={info} navigation={navigation} />
         <View style={styles.priceContainer}>
           <View style={styles.titleTextArea}>
@@ -63,6 +94,7 @@ function CreateBidScreen({ navigation, route }) {
           </View>
           <DropDownPicker
             zIndex={1000}
+            key={1}
             open={largeCategoryOpen}
             onOpen={onLargeCategoryOpen}
             value={largeCategoryValue}
@@ -80,6 +112,7 @@ function CreateBidScreen({ navigation, route }) {
           {largeCategoryValue !== '미선택' && (
             <DropDownPicker
               zIndex={500}
+              key={2}
               open={smallCategoryOpen}
               onOpen={onSmallCategoryOpen}
               value={smallCategoryValue}

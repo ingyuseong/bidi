@@ -4,14 +4,14 @@ import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
 
 function ProposalDetailScreen({ navigation, route }) {
-  const { info } = route.params;
+  const { info, userId, proposalId } = route.params;
   const acceptHandler = () => {
-    navigation.navigate('CreateBid', { info });
+    navigation.navigate('CreateBid', { info, userId, proposalId });
   };
   return (
     <View style={styles.container}>
       <ScrollView>
-        <CardStyle styleLists={info.images} />
+        <CardStyle styleLists={info.images} height={400} />
         <CardInfo info={info} navigation={navigation} />
         <View style={styles.priceContainer}>
           <Text style={styles.priceTitleText}>희망 예산</Text>

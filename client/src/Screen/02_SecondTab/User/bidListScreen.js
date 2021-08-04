@@ -105,7 +105,7 @@ function BidListScreen() {
       {infoLists.map((info, index) => (
         <View style={styles.container} key={index}>
           <View style={styles.styleContainer}>
-            <CardInfo info={info} />
+            <CardInfo info={info} height={150} />
             <RecommendStyle />
           </View>
           <BottomButton
