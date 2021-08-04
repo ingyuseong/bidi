@@ -15,7 +15,7 @@ function CardStyle({ styleLists }) {
             <Image
               style={styles.styleImg}
               source={{
-                uri: item.img_src,
+                uri: item.img_src_one,
               }}
             />
           </View>

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 
 function DesignerStyleScreen({ info }) {
+  console.log(info);
   return (
     <>
       <View style={styles.titleContainer}>
@@ -25,7 +26,7 @@ function DesignerStyleScreen({ info }) {
               <Image
                 style={styles.styleImg}
                 source={{
-                  uri: item.img_src,
+                  uri: item.img_src_one,
                 }}
               />
             </View>
