@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { Stack } from '../../../../App';
-import DesignerListScreen from '../../../Screen/SearchTab/User/designerListScreen';
-import DesignerDetailScreen from '../../../Screen/SearchTab/User/designerDetailScreen';
-import detailsScreen from '../../../Screen/detailScreen';
+import DesignerListScreen from '../../../Screen/01_FirstTab/User/designerListScreen';
+import DesignerDetailScreen from '../../../Screen/01_FirstTab/User/designerDetailScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const SearchStack = createStackNavigator();
@@ -20,13 +19,6 @@ function SearchTabScreen() {
       <SearchStack.Screen
         name="DesignerDetail"
         component={DesignerDetailScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <SearchStack.Screen
-        name="search2"
-        component={detailsScreen}
         options={{
           headerShown: false,
         }}

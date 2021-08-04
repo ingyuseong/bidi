@@ -47,6 +47,9 @@ const modelAttributes = {
   img_src: {
     type: DataTypes.STRING,
   },
+  ai_status: {
+    type: DataTypes.STRING,
+  },
   created_at: {
     type: DataTypes.DATE,
     allowNull: false,

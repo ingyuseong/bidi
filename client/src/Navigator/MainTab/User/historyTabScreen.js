@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Stack } from '../../../../App';
-import bidScreen from '../../../Screen/BidTab/bidScreen';
-import detailsScreen from '../../../Screen/detailScreen';
+import bidScreen from '../../../Screen/04_FourthTab/User/bidScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const HistoryStack = createStackNavigator();
@@ -12,14 +11,6 @@ function HistoryTabScreen() {
       <HistoryStack.Screen
         name="Profile"
         component={bidScreen}
-        options={{
-          headerShown: false,
-          // headerBackImage: BackBtn,
-        }}
-      />
-      <HistoryStack.Screen
-        name="ProfileEdit"
-        component={detailsScreen}
         options={{
           headerShown: false,
           // headerBackImage: BackBtn,

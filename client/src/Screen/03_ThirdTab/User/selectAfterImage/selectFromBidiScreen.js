@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { STYLE_INFO } from '../../../Lib/constant';
+import { STYLE_INFO } from '../../../../Lib/constant';
 
 function SelectFromBidiScreen({ navigation, route }) {
   const { setAfterImageStyle, userInfo, type } = route.params;

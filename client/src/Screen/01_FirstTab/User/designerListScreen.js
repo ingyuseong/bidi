@@ -37,26 +37,30 @@ function DesignerListScreen({ navigation }) {
   }
   return (
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
-      {infoLists.map((info, index) => (
-        <Swiper
-          key={index}
-          style={styles.wrapper}
-          showsButtons={false}
-          showsPagination={false}
-          loop={false}
-          horizontal={false}>
-          <View style={styles.container}>
-            <CardStyle styleLists={info.styles} />
-            <CardInfo info={info} navigation={navigation} />
-            <TouchableOpacity style={styles.bidiBtn}>
-              <Icon name="thumbs-up" size={25} style={styles.bidiIcon} />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.container}>
-            <DesignerDetail info={info} />
-          </View>
-        </Swiper>
-      ))}
+      {infoLists ? (
+        infoLists.map((info, index) => (
+          <Swiper
+            key={index}
+            style={styles.wrapper}
+            showsButtons={false}
+            showsPagination={false}
+            loop={false}
+            horizontal={false}>
+            <View style={styles.container}>
+              <CardStyle styleLists={info.styles} />
+              <CardInfo info={info} navigation={navigation} />
+              <TouchableOpacity style={styles.bidiBtn}>
+                <Icon name="thumbs-up" size={25} style={styles.bidiIcon} />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.container}>
+              <DesignerDetail info={info} />
+            </View>
+          </Swiper>
+        ))
+      ) : (
+        <View></View>
+      )}
     </Swiper>
   );
 }

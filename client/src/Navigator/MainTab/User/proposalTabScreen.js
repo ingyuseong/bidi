@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Stack } from '../../../../App';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import CheckingScreen from '../../../Screen/ProposalTab/checkingProposal';
-import ProposalIntroScreen from '../../../Screen/ProposalTab/introProposal';
-import CreateProposalScreen from '../../../Screen/ProposalTab/createProposal';
-import ProposalRegisteredScreen from '../../../Screen/ProposalTab/registeredProposal';
-import SelectAfterImageScreen from '../../../Screen/ProposalTab/selectAfterImage';
+import CheckingProposalScreen from '../../../Screen/03_ThirdTab/User/checkingProposalScreen';
+import IntroProposalScreen from '../../../Screen/03_ThirdTab/User/introProposalScreen';
+import CreateProposalScreen from '../../../Screen/03_ThirdTab/User/createProposalScreen';
+import RegisteredProposalScreen from '../../../Screen/03_ThirdTab/User/registeredProposalScreen';
+import SelectAfterImageScreen from '../../../Screen/03_ThirdTab/User/selectAfterImageScreen';
 
-import SelectFromAlbumScreen from '../../../Screen/ProposalTab/selectAfterImage/selectFromAlbum';
-import SelectFromScrapScreen from '../../../Screen/ProposalTab/selectAfterImage/selectFromScrap';
-import SelectFromBidiScreen from '../../../Screen/ProposalTab/selectAfterImage/selectFromBidi';
+import SelectFromAlbumScreen from '../../../Screen/03_ThirdTab/User/selectAfterImage/selectFromAlbumScreen';
+import SelectFromScrapScreen from '../../../Screen/03_ThirdTab/User/selectAfterImage/selectFromScrapScreen';
+import SelectFromBidiScreen from '../../../Screen/03_ThirdTab/User/selectAfterImage/selectFromBidiScreen';
 
 const ProposalStack = createStackNavigator();
 
@@ -19,12 +19,12 @@ function ProposalTabScreen({ navigation }) {
     <Stack.Navigator>
       <ProposalStack.Screen
         name="Loading"
-        component={CheckingScreen}
+        component={CheckingProposalScreen}
         options={{ headerShown: false, title: '' }}
       />
       <ProposalStack.Screen
         name="Intro"
-        component={ProposalIntroScreen}
+        component={IntroProposalScreen}
         options={{ headerShown: false, title: '' }}
       />
       <ProposalStack.Screen
@@ -34,7 +34,7 @@ function ProposalTabScreen({ navigation }) {
       />
       <ProposalStack.Screen
         name="ProposalRegistered"
-        component={ProposalRegisteredScreen}
+        component={RegisteredProposalScreen}
         options={{ headerShown: false, title: '' }}
       />
       <ProposalStack.Screen

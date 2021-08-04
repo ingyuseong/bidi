@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Stack } from '../../../../App';
-import ProposalListScreen from '../../../Screen/SearchTab/Designer/proposalListScreen';
-import ProposalDetailScreen from '../../../Screen/SearchTab/Designer/proposalDetailScreen';
-import CreateBidScreen from '../../../Screen/SearchTab/Designer/createBidScreen';
-import RegisteredBidScreen from '../../../Screen/SearchTab/Designer/registeredBidScreen';
+import ProposalListScreen from '../../../Screen/01_FirstTab/Designer/proposalListScreen';
+import ProposalDetailScreen from '../../../Screen/01_FirstTab/Designer/proposalDetailScreen';
+import CreateBidScreen from '../../../Screen/01_FirstTab/Designer/createBidScreen';
+import RegisteredBidScreen from '../../../Screen/01_FirstTab/Designer/registeredBidScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const SearchStack = createStackNavigator();

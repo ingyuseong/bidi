@@ -11,13 +11,13 @@ import {
   Alert,
 } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import BidiStorage from '../../Lib/storage';
-import { STORAGE_KEY, KEYWORDS } from '../../Lib/constant';
+import BidiStorage from '../../../Lib/storage';
+import { STORAGE_KEY, KEYWORDS } from '../../../Lib/constant';
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
-import BottomButton from '../../Components/Common/bottomButton';
+import BottomButton from '../../../Components/Common/bottomButton';
 
 function CreateProposalScreen({ navigation }) {
   const [userInfo, setUserInfo] = useState('');
