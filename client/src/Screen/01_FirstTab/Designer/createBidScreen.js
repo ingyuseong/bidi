@@ -1,18 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-  Image,
-  Alert,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import DropDownPicker from 'react-native-dropdown-picker';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
+import BidCategory from '../../../Components/Bid/bidCategory';
+import BidLetter from '../../../Components/Bid/bidLetter';
+import BidNeedCare from '../../../Components/Bid/bidNeedCare';
+import BidRefStyle from '../../../Components/Bid/bidRefStyle';
 import BidiStorage from '../../../Lib/storage';
 import { LARGE_CATEGORY, SMALL_CATEGORY, STORAGE_KEY } from '../../../Lib/constant';
 
@@ -27,14 +20,6 @@ function CreateBidScreen({ navigation, route }) {
   const [smallCategoryItems, setSmallCategoryItems] = useState([]);
   const [needCare, setNeedCare] = useState(null);
   const [bidLetter, setBidLetter] = useState('');
-
-  const onLargeCategoryOpen = useCallback(() => {
-    setSmallCategoryOpen(false);
-  }, []);
-
-  const onSmallCategoryOpen = useCallback(() => {
-    setLargeCategoryOpen(false);
-  }, []);
 
   useEffect(() => {
     setSmallCategoryItems(SMALL_CATEGORY[largeCategoryValue]);
@@ -91,103 +76,23 @@ function CreateBidScreen({ navigation, route }) {
           </View>
         </View>
         <View style={styles.line}></View>
-        <View style={styles.boxContainer}>
-          <View style={styles.titleTextArea}>
-            <Text style={styles.titleText}>시술 정보</Text>
-          </View>
-          <DropDownPicker
-            zIndex={1000}
-            key={1}
-            open={largeCategoryOpen}
-            onOpen={onLargeCategoryOpen}
-            value={largeCategoryValue}
-            items={largeCategoryItems}
-            setOpen={setLargeCategoryOpen}
-            setValue={setLargeCategoryValue}
-            setItems={setLargeCategoryItems}
-            placeholder="대분류"
-            style={{ ...styles.dropDownArea, height: 42, marginBottom: 16 }}
-            dropDownContainerStyle={styles.dropDownArea}
-            placeholderStyle={{ color: 'grey', fontSize: 15 }}
-            listParentLabelStyle={{ color: 'grey', fontSize: 15 }}
-            listMode="SCROLLVIEW"
-          />
-          {largeCategoryValue !== '미선택' && (
-            <DropDownPicker
-              zIndex={500}
-              key={2}
-              open={smallCategoryOpen}
-              onOpen={onSmallCategoryOpen}
-              value={smallCategoryValue}
-              items={smallCategoryItems}
-              setOpen={setSmallCategoryOpen}
-              setValue={setSmallCategoryValue}
-              setItems={setSmallCategoryItems}
-              placeholder="소분류"
-              style={{ ...styles.dropDownArea, height: 42 }}
-              dropDownContainerStyle={styles.dropDownArea}
-              placeholderStyle={{ color: 'grey', fontSize: 15 }}
-              listParentLabelStyle={{ color: 'grey', fontSize: 15, backgroundColor: 'white' }}
-              listMode="SCROLLVIEW"
-            />
-          )}
-        </View>
-        <View style={styles.boxContainer}>
-          <View style={styles.titleTextArea}>
-            <Text style={styles.titleText}>케어가 필요하신가요?</Text>
-          </View>
-          <View style={styles.needCareArea}>
-            <TouchableOpacity
-              style={[styles.needCareBtn, needCare === true && styles.active]}
-              onPress={() => setNeedCare(true)}>
-              <Text style={[styles.needCareText, needCare === true && styles.active]}>네</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.needCareBtn, needCare === false && styles.active]}
-              onPress={() => setNeedCare(false)}>
-              <Text style={[styles.needCareText, needCare === false && styles.active]}>아니오</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View style={styles.boxContainer}>
-          <View style={styles.titleTextArea}>
-            <Text style={styles.titleText}>비드 레터</Text>
-          </View>
-          <TextInput
-            style={styles.bidLetterArea}
-            value={bidLetter}
-            onChangeText={(text) => setBidLetter(text)}
-            placeholder="고객님께서 코멘트를 남겨주세요. 정성스러운 비드를 남겨주실 수록 더 많은 선택을 받으실 수 있습니다! (최대 400자)"
-            autoCapitalize="sentences"
-            autoCorrect
-            maxLength={400}
-            multiline={true}
-            returnKeyType="next"
-          />
-        </View>
-        <View style={styles.boxContainer}>
-          <View style={styles.titleTextArea}>
-            <Text style={styles.titleText}>추천 스타일</Text>
-          </View>
-          <View style={styles.styleContainer}>
-            <TouchableOpacity style={styles.styleArea}>
-              <Image
-                source={{ uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/tes1.jpeg' }}
-                style={styles.styleImg}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.styleArea}>
-              <Image
-                source={{ uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/test7.jpeg' }}
-                style={styles.styleImg}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.styleArea, styles.addStyleArea]}>
-              <Icon name="add" size={50} style={styles.addIcon} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.styleArea}></TouchableOpacity>
-          </View>
-        </View>
+        <BidCategory
+          largeCategoryOpen={largeCategoryOpen}
+          setLargeCategoryOpen={setLargeCategoryOpen}
+          largeCategoryValue={largeCategoryValue}
+          setLargeCategoryValue={setLargeCategoryValue}
+          largeCategoryItems={largeCategoryItems}
+          setLargeCategoryItems={setLargeCategoryItems}
+          smallCategoryOpen={smallCategoryOpen}
+          setSmallCategoryOpen={setSmallCategoryOpen}
+          smallCategoryValue={smallCategoryValue}
+          setSmallCategoryValue={setSmallCategoryValue}
+          smallCategoryItems={smallCategoryItems}
+          setSmallCategoryItems={setSmallCategoryItems}
+        />
+        <BidNeedCare needCare={needCare} setNeedCare={setNeedCare} />
+        <BidLetter bidLetter={bidLetter} setBidLetter={setBidLetter} />
+        <BidRefStyle />
         <View style={styles.bottomBtnArea}>
           <TouchableOpacity style={[styles.bottomBtn, styles.leftBtn]}>
             <Text style={styles.leftBtnText}>임시저장</Text>
@@ -217,6 +122,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     zIndex: 0,
   },
+
   titleText: {
     color: '#111111',
     fontWeight: 'bold',
@@ -244,70 +150,7 @@ const styles = StyleSheet.create({
     height: 9,
     marginBottom: 16,
   },
-  dropDownArea: {
-    flex: 1,
-    borderColor: 'rgb(214,214,214)',
-    borderRadius: 3,
-    zIndex: 100,
-  },
-  needCareArea: {
-    flexDirection: 'row',
-  },
-  needCareBtn: {
-    width: 80,
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#DBDBDB',
-    borderRadius: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 16,
-  },
-  needCareText: {
-    color: '#878787',
-    fontSize: 14,
-    lineHeight: 17,
-  },
-  active: {
-    borderColor: '#0A0A32',
-    color: '#0A0A32',
-  },
-  bidLetterArea: {
-    height: 167,
-    borderWidth: 1,
-    borderColor: '#DBDBDB',
-    borderRadius: 3,
-    paddingTop: 16,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingBottom: 16,
-  },
-  styleContainer: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-  },
-  styleArea: {
-    width: 168,
-    height: 168,
-    backgroundColor: '#F5F5F5',
-    borderRadius: 3,
-    marginRight: 8,
-    marginBottom: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  addStyleArea: {
-    backgroundColor: '#DDDDDD',
-  },
-  styleImg: {
-    width: 168,
-    height: 168,
-    resizeMode: 'cover',
-    borderRadius: 3,
-  },
-  addIcon: {
-    color: '#fff',
-  },
+
   bottomBtnArea: {
     flexDirection: 'row',
   },

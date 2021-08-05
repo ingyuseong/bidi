@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
-import BidItem from '../../../Components/Bid/bidItem';
+import BidListItem from '../../../Components/Bid/bidListItem';
 
 function WaitBidListScreen({ navigation, bidList }) {
   const [waitBidList, setWaitBidList] = useState([]);
@@ -11,7 +11,7 @@ function WaitBidListScreen({ navigation, bidList }) {
   return (
     <ScrollView style={styles.container}>
       {waitBidList.map((bid, index) => (
-        <BidItem key={index} info={bid} />
+        <BidListItem key={index} info={bid} navigation={navigation} />
       ))}
     </ScrollView>
   );

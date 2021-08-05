@@ -3,7 +3,10 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { convertDate } from '../../Lib/utils';
 
-function BidItem({ info }) {
+function BidListItem({ info, navigation }) {
+  const moreBtnHandler = () => {
+    navigation.navigate('updateBid', { info });
+  };
   return (
     <View style={styles.bidContainer}>
       <View style={styles.bidBox}>
@@ -11,7 +14,7 @@ function BidItem({ info }) {
           <View style={styles.dateView}>
             <Text style={styles.dateText}>{convertDate(info.created_at)}</Text>
           </View>
-          <TouchableOpacity style={styles.moreBtn}>
+          <TouchableOpacity style={styles.moreBtn} onPress={moreBtnHandler}>
             <Text style={styles.moreBtnText}>더보기</Text>
             <Ionicons name="chevron-forward" size={15} />
           </TouchableOpacity>
@@ -147,4 +150,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BidItem;
+export default BidListItem;
