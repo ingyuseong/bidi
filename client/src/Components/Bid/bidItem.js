@@ -1,15 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { convertDate } from '../../Lib/utils';
 
 function BidItem({ info }) {
-  console.log(info);
   return (
     <View style={styles.bidContainer}>
       <View style={styles.bidBox}>
         <View style={styles.bidHeaderArea}>
           <View style={styles.dateView}>
-            <Text style={styles.dateText}>2021.7.25</Text>
+            <Text style={styles.dateText}>{convertDate(info.created_at)}</Text>
           </View>
           <TouchableOpacity style={styles.moreBtn}>
             <Text style={styles.moreBtnText}>더보기</Text>
@@ -18,30 +18,28 @@ function BidItem({ info }) {
         </View>
         <View style={styles.bidContentArea}>
           <View style={styles.bidProfileArea}>
-            <Image
-              source={{ uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/tes1.jpeg' }}
-              style={styles.bidProfileImg}
-            />
+            <Image source={{ uri: info.proposal.after_src }} style={styles.bidProfileImg} />
           </View>
           <View style={styles.bidInfoArea}>
             <View style={styles.nameArea}>
-              <Text style={styles.nameText}>유아인</Text>
+              <Text style={styles.nameText}>{info.user.name}</Text>
             </View>
             <View style={styles.locationArea}>
               <View style={styles.locationView}>
-                <Text style={styles.locationText}>성북구 안암동</Text>
+                <Text style={styles.locationText}>@ {info.user.address}</Text>
               </View>
               <View style={styles.locationView}>
-                <Text style={styles.locationText}>4km</Text>
+                <Ionicons name="location-outline" size={15} />
+                <Text style={styles.locationText}>{info.proposal.distance_limit}</Text>
               </View>
             </View>
             <View style={styles.tagArea}>
-              <View style={styles.tagView}>
-                <Text style={styles.tagText}># 합리적인 가격</Text>
-              </View>
-              <View style={styles.tagView}>
-                <Text style={styles.tagText}># 합리적인 가격</Text>
-              </View>
+              {info?.proposal?.keywords &&
+                info.proposal.keywords.split(',').map((keyword, index) => (
+                  <View style={styles.tagView} key={index}>
+                    <Text style={styles.tagText}># {keyword}</Text>
+                  </View>
+                ))}
             </View>
             <View style={styles.descriptionArea}>
               <Text style={styles.descriptionText} numberOfLines={2}>
@@ -59,7 +57,6 @@ function BidItem({ info }) {
 const styles = StyleSheet.create({
   bidBox: {
     flex: 1,
-    height: 180,
     padding: 16,
   },
   bidHeaderArea: {
@@ -108,6 +105,8 @@ const styles = StyleSheet.create({
   },
   locationView: {
     marginRight: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   locationText: {
     color: '#111111',
@@ -117,6 +116,7 @@ const styles = StyleSheet.create({
   },
   tagArea: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   tagView: {
     backgroundColor: '#EEEEEE',

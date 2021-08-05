@@ -1,4 +1,4 @@
-const { Bid, BidStyle } = require('../../models')
+const { Bid, BidStyle, User, Proposal } = require('../../models')
 
 exports.updateBid = async ({
   id,
@@ -50,10 +50,15 @@ exports.destroyBid = async (bidId) =>
 
 exports.selectAllBidByDesignerId = async (userId) =>
   await Bid.findAll({
-    raw: true,
     where: {
       designer_id: userId,
     },
+    include: [
+      {
+        model: Proposal,
+        required: true,
+      },
+    ],
   })
     .then((results) => {
       console.log('Success Selecting All Bid')
