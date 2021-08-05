@@ -14,7 +14,7 @@ import MainTabStack from './src/Navigator/MainTab/mainTabStack';
 import MypageScreen from './src/Screen/05_MypageTab/mypageScreen';
 // import MainScreen from './src/Screen/mainScreen'
 
-import DMListScreen from './src/Screen/DM/messageListScreen';
+import DMStack from './src/Navigator/DM/directMessageStack';
 
 const navTheme = DefaultTheme;
 navTheme.colors.background = 'white';
@@ -46,7 +46,7 @@ function App() {
         <Stack.Screen name="MainTab" component={MainTabStack} />
         
         {/*DM Screen*/}
-        <Stack.Screen name="DM" component={DMListScreen} />
+        <Stack.Screen name="DM" component={DMStack} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

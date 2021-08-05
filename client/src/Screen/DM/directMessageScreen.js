@@ -5,10 +5,10 @@ import {
   StyleSheet,
 } from 'react-native';
 
-function DMListScreen({ navigation }) {
+function DMScreen({ navigation }) {
   return (
     <View style={styles.container}>
-        <Text style={styles.defaultText}>DM 만들거임 -ㅅ-</Text>
+        <Text style={styles.defaultText}>여기서 채팅하면 됨</Text>
     </View>
   );
 }
@@ -26,4 +26,4 @@ defaultText: {
     fontSize: 20,
   },
 });
-export default DMListScreen;
+export default DMScreen;
