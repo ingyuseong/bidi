@@ -48,7 +48,6 @@ exports.getProposalByUserId = async (req, res, next) => {
 exports.editProposal = async (req, res, next) => {
   try {
     const params = req.body
-    console.log(req.body)
     const proposal = await proposalServices.editProposal(params)
 
     res.status(STATUS_CODE.SUCCESS).json({

@@ -88,7 +88,6 @@ exports.checkToken = async (req, res, next) => {
   try {
     const { token } = req.body
     const user = await userServices.getUserByToken(token)
-    console.log('>>', user)
 
     if (user) {
       return res.status(STATUS_CODE.SUCCESS).json({
@@ -169,7 +168,6 @@ exports.inferenceAI = async (req, res, next) => {
     })
       .then((result) => {
         response = result.data
-        console.log(response)
         return res.status(STATUS_CODE.SUCCESS).json(response)
       })
       .catch(function (error) {

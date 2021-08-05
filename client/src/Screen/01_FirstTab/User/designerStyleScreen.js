@@ -1,8 +1,55 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { TouchableOpacity, StyleSheet, Text, View, Image } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import BidiStorage from '../../../Lib/storage';
+import { STORAGE_KEY } from '../../../Lib/constant';
 
 function DesignerStyleScreen({ info }) {
-  console.log(info);
+  const [userInfo, setUserInfo] = useState({});
+  const [styleScraps, setStyleScraps] = useState([]);
+  const getStyleScrapList = async (user) => {
+    await fetch('http://127.0.0.1:3000' + `/api/styleScrap/${user.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then(async (result) => {
+        await setStyleScraps(result.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const registerStyleScrap = async (style_id) => {
+    await fetch('http://127.0.0.1:3000' + `/api/styleScrap/${userInfo.id}/${style_id}`, {
+      method: 'POST',
+    })
+      .then(() => {
+        console.log(style_id);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const deleteStyleScrap = async (style_id) => {
+    await fetch('http://127.0.0.1:3000' + `/api/styleScrap/${userInfo.id}/${style_id}`, {
+      method: 'DELETE',
+    })
+      .then(() => {})
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  useEffect(() => {
+    async function fetchMode() {
+      const user = await BidiStorage.getData(STORAGE_KEY);
+      setUserInfo(user);
+      getStyleScrapList(user);
+    }
+    fetchMode();
+  }, []);
   return (
     <>
       <View style={styles.titleContainer}>
@@ -29,6 +76,15 @@ function DesignerStyleScreen({ info }) {
                   uri: item.img_src_one,
                 }}
               />
+              <View style={styles.styleScrapIcon}>
+                <TouchableOpacity onPress={() => registerStyleScrap(item.id)}>
+                  {styleScraps.some((style) => style.id == item.id) ? (
+                    <Icon name="heart" color="#FF533A" size={20} />
+                  ) : (
+                    <Icon name="heart-o" color="#FF533A" size={20} />
+                  )}
+                </TouchableOpacity>
+              </View>
             </View>
             <View>
               <Text style={styles.styleTitle}>{item.title}</Text>
@@ -77,6 +133,11 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 150,
     resizeMode: 'center',
+  },
+  styleScrapIcon: {
+    position: 'absolute',
+    top: 10,
+    right: 5,
   },
   styleContainer: {
     flexDirection: 'row',
