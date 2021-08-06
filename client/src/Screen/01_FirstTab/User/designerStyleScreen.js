@@ -16,7 +16,11 @@ function DesignerStyleScreen({ info }) {
     })
       .then((response) => response.json())
       .then(async (result) => {
-        await setStyleScraps(result.data);
+        await setStyleScraps(
+          result.data.map((style) => {
+            return { id: style.id, isScraped: true };
+          }),
+        );
       })
       .catch((error) => {
         console.error(error);
@@ -26,8 +30,15 @@ function DesignerStyleScreen({ info }) {
     await fetch('http://127.0.0.1:3000' + `/api/styleScrap/${userInfo.id}/${style_id}`, {
       method: 'POST',
     })
-      .then(() => {
-        console.log(style_id);
+      .then((response) => response.json())
+      .then((result) => {
+        setStyleScraps([
+          ...styleScraps,
+          {
+            id: result.data.styleId,
+            isScraped: true,
+          },
+        ]);
       })
       .catch((error) => {
         console.error(error);
@@ -37,7 +48,18 @@ function DesignerStyleScreen({ info }) {
     await fetch('http://127.0.0.1:3000' + `/api/styleScrap/${userInfo.id}/${style_id}`, {
       method: 'DELETE',
     })
-      .then(() => {})
+      .then((response) => {
+        setStyleScraps(
+          styleScraps.map((item) => {
+            if (item.id == style_id) {
+              return {
+                ...item,
+                isScraped: false,
+              };
+            } else return item;
+          }),
+        );
+      })
       .catch((error) => {
         console.error(error);
       });
@@ -77,13 +99,15 @@ function DesignerStyleScreen({ info }) {
                 }}
               />
               <View style={styles.styleScrapIcon}>
-                <TouchableOpacity onPress={() => registerStyleScrap(item.id)}>
-                  {styleScraps.some((style) => style.id == item.id) ? (
+                {styleScraps.some((style) => (style.id == item.id) & style.isScraped) ? (
+                  <TouchableOpacity onPress={() => deleteStyleScrap(item.id)}>
                     <Icon name="heart" color="#FF533A" size={20} />
-                  ) : (
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity onPress={() => registerStyleScrap(item.id)}>
                     <Icon name="heart-o" color="#FF533A" size={20} />
-                  )}
-                </TouchableOpacity>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
             <View>
