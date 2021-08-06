@@ -58,7 +58,7 @@ function HistoryMainScreen({ navigation }) {
       }}>
       <Tab.Screen name="MyScrap" options={{ title: '내 스크랩' }}>
         {() =>
-          styleScraps ? (
+          styleScraps.length ? (
             <StyleScrapScreen
               styleScraps={styleScraps}
               userInfo={userInfo}
