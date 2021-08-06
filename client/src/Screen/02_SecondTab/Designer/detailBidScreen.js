@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import CardInfo from '../../../Components/Card/cardInfo';
+import CardDisableStyle from '../../../Components/Card/cardDisableStyle';
 import CardStyle from '../../../Components/Card/cardStyle';
 import BidCategory from '../../../Components/Bid/bidCategory';
 import BidLetter from '../../../Components/Bid/bidLetter';
@@ -93,7 +94,15 @@ function DetailBidScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <CardStyle styleLists={[info.proposal.before_src, info.proposal.after_src]} height={400} />
+        {info.status === 'done' || info.status === 'cancel' ? (
+          <CardDisableStyle styleImage={info.proposal.after_src} status={info.status} />
+        ) : (
+          <CardStyle
+            styleLists={[info.proposal.before_src, info.proposal.after_src]}
+            height={400}
+          />
+        )}
+
         <CardInfo
           info={{
             ...info,
@@ -132,28 +141,30 @@ function DetailBidScreen({ navigation, route }) {
         <BidNeedCare needCare={needCare} setNeedCare={setNeedCare} isEdit={isEdit} />
         <BidLetter bidLetter={bidLetter} setBidLetter={setBidLetter} isEdit={isEdit} />
         <BidRefStyle />
-        <View style={styles.bottomBtnArea}>
-          {isEdit ? (
-            <TouchableOpacity
-              style={[styles.bottomBtn, styles.rightBtn]}
-              onPress={() => editAlert(info.id)}>
-              <Text style={styles.rightBtnText}>저장하기</Text>
-            </TouchableOpacity>
-          ) : (
-            <>
-              <TouchableOpacity
-                style={[styles.bottomBtn, styles.leftBtn]}
-                onPress={() => deleteAlert(info.id)}>
-                <Text style={styles.leftBtnText}>삭제하기</Text>
-              </TouchableOpacity>
+        {info.status === 'wait' && (
+          <View style={styles.bottomBtnArea}>
+            {isEdit ? (
               <TouchableOpacity
                 style={[styles.bottomBtn, styles.rightBtn]}
-                onPress={editToggleHandler}>
-                <Text style={styles.rightBtnText}>수정하기</Text>
+                onPress={() => editAlert(info.id)}>
+                <Text style={styles.rightBtnText}>저장하기</Text>
               </TouchableOpacity>
-            </>
-          )}
-        </View>
+            ) : (
+              <>
+                <TouchableOpacity
+                  style={[styles.bottomBtn, styles.leftBtn]}
+                  onPress={() => deleteAlert(info.id)}>
+                  <Text style={styles.leftBtnText}>삭제하기</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.bottomBtn, styles.rightBtn]}
+                  onPress={editToggleHandler}>
+                  <Text style={styles.rightBtnText}>수정하기</Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        )}
       </ScrollView>
     </View>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, Text } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -28,7 +28,10 @@ function CardStyle({ styleLists, isUser, height }) {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   wrapper: {},
-  styleContainer: {},
+  styleContainer: {
+    position: 'relative',
+  },
+
   styleImg: {
     resizeMode: 'cover',
     width: '100%',

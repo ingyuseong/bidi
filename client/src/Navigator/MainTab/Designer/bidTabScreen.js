@@ -22,7 +22,7 @@ function BidStackScreen() {
         name="detailBid"
         component={DetailBidScreen}
         options={{
-          title: 'bid',
+          title: 'bidㅋㅋ',
         }}
       />
     </Stack.Navigator>

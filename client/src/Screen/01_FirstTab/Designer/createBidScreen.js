@@ -89,9 +89,10 @@ function CreateBidScreen({ navigation, route }) {
           setSmallCategoryValue={setSmallCategoryValue}
           smallCategoryItems={smallCategoryItems}
           setSmallCategoryItems={setSmallCategoryItems}
+          isEdit={true}
         />
-        <BidNeedCare needCare={needCare} setNeedCare={setNeedCare} />
-        <BidLetter bidLetter={bidLetter} setBidLetter={setBidLetter} />
+        <BidNeedCare needCare={needCare} setNeedCare={setNeedCare} isEdit={true} />
+        <BidLetter bidLetter={bidLetter} setBidLetter={setBidLetter} isEdit={true} />
         <BidRefStyle />
         <View style={styles.bottomBtnArea}>
           <TouchableOpacity style={[styles.bottomBtn, styles.leftBtn]}>
