@@ -1,23 +1,29 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 
-function BidLetter({ bidLetter, setBidLetter }) {
+function BidLetter({ bidLetter, setBidLetter, isEdit }) {
   return (
     <View style={styles.boxContainer}>
       <View style={styles.titleTextArea}>
         <Text style={styles.titleText}>비드 레터</Text>
       </View>
-      <TextInput
-        style={styles.bidLetterArea}
-        value={bidLetter}
-        onChangeText={(text) => setBidLetter(text)}
-        placeholder="고객님께서 코멘트를 남겨주세요. 정성스러운 비드를 남겨주실 수록 더 많은 선택을 받으실 수 있습니다! (최대 400자)"
-        autoCapitalize="sentences"
-        autoCorrect
-        maxLength={400}
-        multiline={true}
-        returnKeyType="next"
-      />
+      {isEdit ? (
+        <TextInput
+          style={styles.bidLetterArea}
+          value={bidLetter}
+          onChangeText={(text) => setBidLetter(text)}
+          placeholder="고객님께서 코멘트를 남겨주세요. 정성스러운 비드를 남겨주실 수록 더 많은 선택을 받으실 수 있습니다! (최대 400자)"
+          autoCapitalize="sentences"
+          autoCorrect
+          maxLength={400}
+          multiline={true}
+          returnKeyType="next"
+        />
+      ) : (
+        <View style={{ ...styles.bidLetterArea, backgroundColor: '#F5F5F5', borderWidth: 0 }}>
+          <Text style={styles.bidLetterText}>{bidLetter}</Text>
+        </View>
+      )}
     </View>
   );
 }
@@ -48,6 +54,12 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
     paddingBottom: 16,
+  },
+  bidLetterText: {
+    color: '#111111',
+    lineHeight: 21,
+    fontSize: 13,
+    fontWeight: '400',
   },
 });
 

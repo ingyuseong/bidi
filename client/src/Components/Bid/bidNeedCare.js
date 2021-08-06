@@ -1,24 +1,32 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-function BidNeedCare({ needCare, setNeedCare }) {
+function BidNeedCare({ needCare, setNeedCare, isEdit }) {
   return (
     <View style={styles.boxContainer}>
       <View style={styles.titleTextArea}>
         <Text style={styles.titleText}>케어가 필요하신가요?</Text>
       </View>
-      <View style={styles.needCareArea}>
-        <TouchableOpacity
-          style={[styles.needCareBtn, needCare === true && styles.active]}
-          onPress={() => setNeedCare(true)}>
-          <Text style={[styles.needCareText, needCare === true && styles.active]}>네</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.needCareBtn, needCare === false && styles.active]}
-          onPress={() => setNeedCare(false)}>
-          <Text style={[styles.needCareText, needCare === false && styles.active]}>아니오</Text>
-        </TouchableOpacity>
-      </View>
+      {isEdit ? (
+        <View style={styles.needCareArea}>
+          <TouchableOpacity
+            style={[styles.needCareBtn, needCare === true && styles.active]}
+            onPress={() => setNeedCare(true)}>
+            <Text style={[styles.needCareText, needCare === true && styles.active]}>네</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.needCareBtn, needCare === false && styles.active]}
+            onPress={() => setNeedCare(false)}>
+            <Text style={[styles.needCareText, needCare === false && styles.active]}>아니오</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={{ ...styles.needCareBtn, backgroundColor: '#F5F5F5', borderWidth: 0 }}>
+          <Text style={{ ...styles.needCareText, color: '#111111' }}>
+            {needCare ? '네' : '아니오'}
+          </Text>
+        </View>
+      )}
     </View>
   );
 }

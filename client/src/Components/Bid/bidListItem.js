@@ -5,7 +5,7 @@ import { convertDate } from '../../Lib/utils';
 
 function BidListItem({ info, navigation }) {
   const moreBtnHandler = () => {
-    navigation.navigate('updateBid', { info });
+    navigation.navigate('detailBid', { info });
   };
   return (
     <View style={styles.bidContainer}>
