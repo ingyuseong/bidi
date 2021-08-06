@@ -33,6 +33,28 @@ exports.updateBid = async ({
       return err
     })
 
+exports.updateBidStatus = async ({ id, status }) =>
+  await Bid.update(
+    {
+      raw: true,
+      status,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  )
+    .then((results) => {
+      console.log('Success Updating Bid Status')
+      return results
+    })
+    .catch((err) => {
+      console.log(err)
+      console.log('Failed Updating Bid Status')
+      return err
+    })
+
 exports.destroyBid = async (bidId) =>
   await Bid.destroy({
     where: {
