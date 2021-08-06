@@ -119,9 +119,14 @@ db.Bid.belongsToMany(db.Style, {
   onDelete: 'CASCADE',
 })
 
-// 관계정의 Bid : Proposal = 1 : 1
-db.Proposal.hasOne(db.Bid, {
-  foreignKey: { name: 'proposal_id', allowNull: false },
+// 관계정의 Proposal : Bid  = 1 : N
+db.Proposal.hasMany(db.Bid, {
+  foreignKey: { allowNull: false },
+  onDelete: 'CASCADE',
+})
+db.Bid.belongsTo(db.Proposal, {
+  foreignKey: { allowNull: false },
+  onDelete: 'CASCADE',
 })
 
 module.exports = db

@@ -13,4 +13,9 @@ const checkType = async () => {
   }
 };
 
-export { checkType };
+const convertDate = (timestamp) => {
+  const date = new Date(timestamp);
+  return date.getFullYear() + ' ' + date.getMonth() + ' ' + date.getDay();
+};
+
+export { checkType, convertDate };
