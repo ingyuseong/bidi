@@ -287,26 +287,6 @@ function CreateProposalScreen({ navigation }) {
         />
       </View>
 
-      {/* 6. submit */}
-      {/* <View style={styles.submitBox}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={{ ...styles.submitButton, width: '60%' }}
-          onPress={initializeHandler}>
-          <Text style={{ ...styles.submitText }}>초기화하기</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={{
-            ...styles.submitButton,
-            backgroundColor: '#FF533A',
-            borderColor: '#FF533A',
-            width: '40%',
-          }}
-          onPress={submitHandler}>
-          <Text style={{ ...styles.submitText, color: 'white' }}>등록하기</Text>
-        </TouchableOpacity>
-      </View> */}
       <View style={{ marginTop: 80 }}></View>
       <BottomButton
         leftName="초기화"

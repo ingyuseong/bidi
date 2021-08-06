@@ -51,6 +51,7 @@ db.Style = require('./style')(sequelize, Sequelize)
 db.Bid = require('./bid')(sequelize, Sequelize)
 
 db.StyleMenu = require('./relation/styleMenu')(sequelize, Sequelize)
+db.StyleScrap = require('./relation/styleScrap')(sequelize, Sequelize)
 db.BidStyle = require('./relation/bidStyle')(sequelize, Sequelize)
 
 // 관계정의 User : BrandingPage = 1 : N
@@ -92,6 +93,18 @@ db.User.hasMany(db.Proposal, {
 })
 db.Proposal.belongsTo(db.User, {
   foreignKey: { allowNull: false },
+  onDelete: 'CASCADE',
+})
+
+// 관계정의 User : StyleScrap = M : N
+db.Style.belongsToMany(db.User, {
+  through: 'styleScrap',
+  as: 'styleScraps',
+  onDelete: 'CASCADE',
+})
+db.User.belongsToMany(db.Style, {
+  through: 'styleScrap',
+  as: 'styleScraps',
   onDelete: 'CASCADE',
 })
 
