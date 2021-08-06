@@ -32,7 +32,8 @@ const LoginScreen = ({ navigation }) => {
       .then((response) => response.json())
       .then(async ({ data }) => {
         if (data) {
-          const { id, type, kakao_token, nick_name, name, gender, address, img_src } = data;
+          const { id, type, kakao_token, nick_name, name, gender, address, img_src, ai_status } =
+            data;
           await BidiStorage.storeData(STORAGE_KEY, {
             id,
             type,
@@ -42,6 +43,7 @@ const LoginScreen = ({ navigation }) => {
             gender,
             address,
             img_src,
+            ai_status,
           });
           navigation.replace('MainTab');
         }

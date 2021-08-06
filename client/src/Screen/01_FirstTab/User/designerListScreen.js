@@ -49,7 +49,7 @@ function DesignerListScreen({ navigation }) {
             <View style={{ height: '60%' }}>
               <CardStyle styleLists={info.styles} />
             </View>
-            <CardInfo info={info} navigation={navigation} />
+            <CardInfo info={info} navigation={navigation} height={150} />
             <TouchableOpacity style={styles.bidiBtn}>
               <Icon name="thumbs-up" size={25} style={styles.bidiIcon} />
             </TouchableOpacity>

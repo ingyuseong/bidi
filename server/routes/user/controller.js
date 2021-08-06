@@ -144,7 +144,7 @@ exports.registerUser = async (req, res, next) => {
 
     res.status(STATUS_CODE.SUCCESS).json({
       message: '회원가입 성공',
-      data: user.id,
+      data: user,
     })
   } catch (error) {
     console.log(error)

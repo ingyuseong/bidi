@@ -6,16 +6,16 @@ import {
 } from 'react-native-responsive-screen';
 import Swiper from 'react-native-swiper';
 
-function CardStyle({ styleLists }) {
+function CardStyle({ styleLists, isUser, height }) {
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, height }}>
       <Swiper style={styles.wrapper} showsButtons={true} showsPagination={false} loop={false}>
         {styleLists.map((item, index) => (
           <View style={styles.styleContainer} key={index}>
             <Image
               style={styles.styleImg}
               source={{
-                uri: item.img_src_one,
+                uri: isUser ? item.img_src_one : item,
               }}
             />
           </View>
