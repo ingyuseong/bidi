@@ -64,14 +64,23 @@ function BidMainScreen({ navigation }) {
           {() => <WaitBidListScreen navigation={navigation} bidList={bid} userInfo={userInfo} />}
         </Tab.Screen>
       ) : (
-        <Tab.Screen name="NoBidList" options={{ title: '대기 중' }} component={NoBidListScreen} />
+        <Tab.Screen
+          name="NoWaitBidList"
+          options={{ title: '대기 중' }}
+          component={NoBidListScreen}
+        />
       )}
-
-      <Tab.Screen
-        name="ProcessBidList"
-        options={{ title: '매칭 중' }}
-        component={ProcessBidListScreen}
-      />
+      {bid ? (
+        <Tab.Screen name="ProcessBidList" options={{ title: '매칭 중' }}>
+          {() => <ProcessBidListScreen navigation={navigation} bidList={bid} userInfo={userInfo} />}
+        </Tab.Screen>
+      ) : (
+        <Tab.Screen
+          name="NoProcessBidList"
+          options={{ title: '대기 중' }}
+          component={NoBidListScreen}
+        />
+      )}
     </Tab.Navigator>
   );
 }

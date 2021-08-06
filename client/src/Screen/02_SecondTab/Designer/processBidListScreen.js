@@ -5,7 +5,9 @@ import BidListItem from '../../../Components/Bid/bidListItem';
 function ProcessBidListScreen({ navigation, bidList }) {
   const [waitBidList, setWaitBidList] = useState([]);
   useEffect(() => {
-    const newBidList = bidList.filter((bid) => bid.status === ('process' || 'done' || 'cancel'));
+    const newBidList = bidList.filter(
+      (bid) => bid.status === 'process' || bid.status === 'done' || bid.status === 'cancel',
+    );
     setWaitBidList([...newBidList]);
   }, []);
   return (

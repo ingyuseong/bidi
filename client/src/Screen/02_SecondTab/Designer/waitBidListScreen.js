@@ -6,6 +6,7 @@ function WaitBidListScreen({ navigation, bidList }) {
   const [waitBidList, setWaitBidList] = useState([]);
   useEffect(() => {
     const newBidList = bidList.filter((bid) => bid.status === 'wait');
+    console.log('<<', bidList);
     setWaitBidList([...newBidList]);
   }, []);
   return (
