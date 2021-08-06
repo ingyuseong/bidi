@@ -9,12 +9,14 @@ import {
   Image,
 } from 'react-native';
 
+import CardList from '../../Components/Card/cardList';
+
 // function DMListScreen({ users, navigation }) {
 function DMListScreen({ navigation, route }) {
 
   const [query, setQuery] = useState('');
 
-  const { params: { users } } = route;
+  const { params: { users, messages } } = route;
 
   // const matchItem = (user, idx) => {
   //     if (idx > 1) {
@@ -38,9 +40,11 @@ function DMListScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
+
       <View>
         <Text style={styles.headerText}>새로운 매치</Text>
       </View>
+
       <ScrollView style={styles.matches} horizontal={true} showsHorizontalScrollIndicator={false}>
       {/* <View style={styles.matches}> */}
         {/* <Button style={styles.matchItem} title='아이린'/> */}
@@ -58,6 +62,7 @@ function DMListScreen({ navigation, route }) {
         }
       {/* </View> */}
       </ScrollView>
+
       <View styles={styles.searchBarContainer}>
         <TextInput
           value={query}
@@ -69,10 +74,17 @@ function DMListScreen({ navigation, route }) {
       <View>
         <Text style={styles.headerText}>메세지</Text>
       </View>
-      <View style={{backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center', width: '100%', height: '43%', }}>
+
+      <CardList items={messages}/>
+
+
+      
+
+      
+      {/* <View style={{backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center', width: '100%', height: '43%', }}>
         <Text style={styles.emptyText}>아직 메세지가 없습니다.</Text>
       </View>
-      <View style={{backgroundColor: '#ffffff', width: '100%', height: '20%'}} />
+      <View style={{backgroundColor: '#ffffff', width: '100%', height: '20%'}} /> */}
     </View>
   );
 }
@@ -164,6 +176,30 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     fontSize: 16,
     padding: 13,
-  }
+  },
+  messageList: {
+
+  },
+  messageProfileImage: {
+    width: 65,
+    height: 65,
+    margin: 2,
+    borderRadius: 100,
+    marginRight: 15,
+  },
+  messageCard: {
+    width: '100%',
+    flexDirection: 'row',
+  },
+  messageCardInfo: {
+    width: '100%',
+    flexDirection: 'column',
+    alignItems: 'flex-start'
+  },
+  messageCardUserInfo: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
 });
 export default DMListScreen;

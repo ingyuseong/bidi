@@ -86,42 +86,75 @@ const dummyUsers = [
 
 const dummyMessages = [
   {
-    userId: 1,
+    designerId: 0,
+    profile: DaHyeon,
+    authenticated: true,
+    name: '다현',
     userSent: false,
-    content: '네, 안녕하세요~! 다현입니다.',
+    content: '네, 안녕하세요~! 다현이에요.',
     createdAt: '2021-07-15 08:44:12',
+    checked: false,
   },
   {
-    userId: 1,
+    designerId: 1,
+    profile: Irene,
+    name: '아이린',
+    authenticated: false,
     userSent: false,
-    content: '그럼요! 손상케어는 제가 전문가 과정도 수료했습니다!',
-    createdAt: '2021-07-15 08:44:15',
-  },
-  {
-    userId: 1,
-    userSent: false,
-    content: '고객님. 지금 당장 예약은 조금 어려울시고요ㅠㅠ 괜찮으시면 다음주 수요일은 어떠세요?',
-    createdAt: '2021-07-15 08:44:20',
-  },
-  {
-    userId: 1,
-    userSent: true,
-    content: '앗..',
-    createdAt: '2021-07-15 08:44:30',
-  },
-  {
-    userId: 1,
-    userSent: true,
-    content: '그럼 수요일 몇시에 가능하신가요?',
-    createdAt: '2021-07-15 08:44:45',
-  },
-  {
-    userId: 2,
-    userSent: true,
     content: '연락주셔서 감사합니다. 벨벳헤어 실장 아이린입니다!',
     createdAt: '2021-07-08 18:20:37',
+    checked: true,
+  },
+  {
+    designerId: 4,
+    profile: SanaKim,
+    name: '김사나',
+    authenticated: true,
+    userSent: true,
+    content: '"쥐-드래곤 머리"해주세요.',
+    createdAt: '2021-06-30 21:20:37',
+    checked: true,
   },
 ];
+
+// const dummyMessages = [
+//   {
+//     userId: 1,
+//     userSent: false,
+//     content: '네, 안녕하세요~! 다현입니다.',
+//     createdAt: '2021-07-15 08:44:12',
+//   },
+//   {
+//     userId: 1,
+//     userSent: false,
+//     content: '그럼요! 손상케어는 제가 전문가 과정도 수료했습니다!',
+//     createdAt: '2021-07-15 08:44:15',
+//   },
+//   {
+//     userId: 1,
+//     userSent: false,
+//     content: '고객님. 지금 당장 예약은 조금 어려울시고요ㅠㅠ 괜찮으시면 다음주 수요일은 어떠세요?',
+//     createdAt: '2021-07-15 08:44:20',
+//   },
+//   {
+//     userId: 1,
+//     userSent: true,
+//     content: '앗..',
+//     createdAt: '2021-07-15 08:44:30',
+//   },
+//   {
+//     userId: 1,
+//     userSent: true,
+//     content: '그럼 수요일 몇시에 가능하신가요?',
+//     createdAt: '2021-07-15 08:44:45',
+//   },
+//   {
+//     userId: 2,
+//     userSent: true,
+//     content: '연락주셔서 감사합니다. 벨벳헤어 실장 아이린입니다!',
+//     createdAt: '2021-07-08 18:20:37',
+//   },
+// ];
 
 
 const Stack = createStackNavigator();
