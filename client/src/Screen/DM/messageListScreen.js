@@ -39,7 +39,7 @@ function DMListScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.matchText}>새로운 매치</Text>
+        <Text style={styles.headerText}>새로운 매치</Text>
       </View>
       <ScrollView style={styles.matches} horizontal={true} showsHorizontalScrollIndicator={false}>
       {/* <View style={styles.matches}> */}
@@ -49,10 +49,10 @@ function DMListScreen({ navigation, route }) {
           users.map((user, idx) => (
             // <Button style={styles.matchItem} title={user} key={idx}/>
             <View style={styles.matchItem} key={idx}>
-              <View style={idx > 1 ? styles.matchItemImageContainer : styles.matchNewItemImageContainer}>
-                <Image source={user[0]} style={idx > 1 ? styles.matchItemImage : styles.matchNewItemImage} />
+              <View style={user['new'] ? styles.matchNewItemImageContainer : styles.matchItemImageContainer}>
+                <Image source={user['profile']} style={user['new'] ? styles.matchNewItemImage : styles.matchItemImage} />
               </View>
-              <Text style={styles.matchItemText}>{user[1]}</Text>
+              <Text style={styles.matchItemText}>{user['name']}</Text>
             </View>
           ))
         }
@@ -66,7 +66,13 @@ function DMListScreen({ navigation, route }) {
           placeholder='검색'
         />
       </View>
-      <View style={{backgroundColor: 'white', width: '100%', height: '71%'}}/>
+      <View>
+        <Text style={styles.headerText}>메세지</Text>
+      </View>
+      <View style={{backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center', width: '100%', height: '43%', }}>
+        <Text style={styles.emptyText}>아직 메세지가 없습니다.</Text>
+      </View>
+      <View style={{backgroundColor: '#ffffff', width: '100%', height: '20%'}} />
     </View>
   );
 }
@@ -80,7 +86,21 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
   },
-  matchText: {
+  emptyText: {
+    textAlign: 'center',
+    padding: 17,
+    fontWeight: 'bold',
+    fontSize: 20,
+    lineHeight: 19,
+    color: '#878787',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+  },
+  headerText: {
       textAlign: 'left',
       padding: 17,
       fontWeight: 'bold',
@@ -109,7 +129,7 @@ const styles = StyleSheet.create({
     borderColor: '#ffffff',
     borderStyle: 'solid',
     borderWidth: 2,
-    margin: 1,
+    margin: 2,
     padding: 0,
   },
   matchNewItemImage: {
@@ -126,7 +146,7 @@ const styles = StyleSheet.create({
     borderColor: '#ff533a',
     borderStyle: 'solid',
     borderWidth: 2,
-    margin: 1,
+    margin: 2,
     padding: 0,
   },
   matchItemText: {
@@ -135,7 +155,7 @@ const styles = StyleSheet.create({
     // fontWeight: 'bold',
   },
   searchBarContainer: {
-    flex: 1
+    flex: 1,
   },
   searchBar: {
     width: 356,
