@@ -7,7 +7,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from '../Common/button';
 
-function CardInfo({ info, navigation }) {
+function CardInfo({ info, navigation, height }) {
   return (
     <View style={styles.designerContainer}>
       <View style={styles.designerInfo}>
@@ -45,7 +45,7 @@ function CardInfo({ info, navigation }) {
             </View>
           ))}
       </View>
-      <View style={styles.designerTextContainer}>
+      <View style={{ ...styles.designerTextContainer, height }}>
         <Text style={styles.designerText}>{info.description}</Text>
       </View>
     </View>
@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
   },
   designerTextContainer: {
     alignItems: 'flex-start',
-    height: 150,
     marginTop: 10,
     padding: 7,
   },

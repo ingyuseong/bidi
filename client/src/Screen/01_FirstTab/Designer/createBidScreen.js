@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,34 +12,82 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import DropDownPicker from 'react-native-dropdown-picker';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
+import BidiStorage from '../../../Lib/storage';
+import { LARGE_CATEGORY, SMALL_CATEGORY, STORAGE_KEY } from '../../../Lib/constant';
 
 function CreateBidScreen({ navigation, route }) {
-  const { info } = route.params;
-  const [priceOpen, setPriceOpen] = useState(false);
-  const [priceValue, setPriceValue] = useState(null);
-  const [priceItems, setPriceItems] = useState([
-    { label: '커트', value: '커트' },
-    { label: '파마', value: '파마' },
-    { label: '염색', value: '염색' },
-  ]);
+  const { info, userId, proposalId } = route.params;
+  const [userInfo, setUserInfo] = useState(null);
+  const [largeCategoryOpen, setLargeCategoryOpen] = useState(false);
+  const [largeCategoryValue, setLargeCategoryValue] = useState('미선택');
+  const [largeCategoryItems, setLargeCategoryItems] = useState(LARGE_CATEGORY);
+  const [smallCategoryOpen, setSmallCategoryOpen] = useState(false);
+  const [smallCategoryValue, setSmallCategoryValue] = useState(null);
+  const [smallCategoryItems, setSmallCategoryItems] = useState([]);
   const [needCare, setNeedCare] = useState(null);
   const [bidLetter, setBidLetter] = useState('');
 
-  const registerBidHandler = () => {
-    navigation.navigate('BidRegistered');
-  };
+  const onLargeCategoryOpen = useCallback(() => {
+    setSmallCategoryOpen(false);
+  }, []);
 
+  const onSmallCategoryOpen = useCallback(() => {
+    setLargeCategoryOpen(false);
+  }, []);
+
+  useEffect(() => {
+    console.log(largeCategoryValue);
+    console.log(SMALL_CATEGORY[largeCategoryValue]);
+    setSmallCategoryItems(SMALL_CATEGORY[largeCategoryValue]);
+  }, [largeCategoryValue]);
+
+  useEffect(() => {
+    async function fetchMode() {
+      const user = await BidiStorage.getData(STORAGE_KEY);
+      setUserInfo(user);
+    }
+    fetchMode();
+  }, []);
+
+  const registerBidHandler = async () => {
+    await fetch('http://127.0.0.1:3000' + '/api/bid/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        customer_id: userId,
+        designer_id: userInfo.id,
+        proposal_id: proposalId,
+        large_category: largeCategoryValue,
+        small_category: smallCategoryValue,
+        letter: bidLetter,
+        need_care: needCare,
+        status: 'wait',
+        styles: [1, 2, 3],
+      }),
+    })
+      .then((response) => response.json())
+      .then(async ({ data }) => {
+        if (data) {
+          navigation.navigate('ProposalList');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <View style={styles.container}>
       <ScrollView>
-        <CardStyle styleLists={info.images} />
+        <CardStyle styleLists={info.images} height={400} />
         <CardInfo info={info} navigation={navigation} />
         <View style={styles.priceContainer}>
           <View style={styles.titleTextArea}>
             <Text style={styles.titleText}>희망 예산</Text>
           </View>
           <View style={styles.priceArea}>
-            <Text style={styles.text}>{info.price_limit}</Text>
+            <Text style={styles.text}>{info.price_limit}원 이하</Text>
           </View>
         </View>
         <View style={styles.line}></View>
@@ -49,34 +97,40 @@ function CreateBidScreen({ navigation, route }) {
           </View>
           <DropDownPicker
             zIndex={1000}
-            open={priceOpen}
-            value={priceValue}
-            items={priceItems}
-            setOpen={setPriceOpen}
-            setValue={setPriceValue}
-            setItems={setPriceItems}
+            key={1}
+            open={largeCategoryOpen}
+            onOpen={onLargeCategoryOpen}
+            value={largeCategoryValue}
+            items={largeCategoryItems}
+            setOpen={setLargeCategoryOpen}
+            setValue={setLargeCategoryValue}
+            setItems={setLargeCategoryItems}
             placeholder="대분류"
-            style={styles.dropDownArea}
+            style={{ ...styles.dropDownArea, height: 42, marginBottom: 16 }}
             dropDownContainerStyle={styles.dropDownArea}
             placeholderStyle={{ color: 'grey', fontSize: 15 }}
             listParentLabelStyle={{ color: 'grey', fontSize: 15 }}
             listMode="SCROLLVIEW"
           />
-          <DropDownPicker
-            zIndex={1000}
-            open={priceOpen}
-            value={priceValue}
-            items={priceItems}
-            setOpen={setPriceOpen}
-            setValue={setPriceValue}
-            setItems={setPriceItems}
-            placeholder="소분류"
-            style={styles.dropDownArea}
-            dropDownContainerStyle={styles.dropDownArea}
-            placeholderStyle={{ color: 'grey', fontSize: 15 }}
-            listParentLabelStyle={{ color: 'grey', fontSize: 15 }}
-            listMode="SCROLLVIEW"
-          />
+          {largeCategoryValue !== '미선택' && (
+            <DropDownPicker
+              zIndex={500}
+              key={2}
+              open={smallCategoryOpen}
+              onOpen={onSmallCategoryOpen}
+              value={smallCategoryValue}
+              items={smallCategoryItems}
+              setOpen={setSmallCategoryOpen}
+              setValue={setSmallCategoryValue}
+              setItems={setSmallCategoryItems}
+              placeholder="소분류"
+              style={{ ...styles.dropDownArea, height: 42 }}
+              dropDownContainerStyle={styles.dropDownArea}
+              placeholderStyle={{ color: 'grey', fontSize: 15 }}
+              listParentLabelStyle={{ color: 'grey', fontSize: 15, backgroundColor: 'white' }}
+              listMode="SCROLLVIEW"
+            />
+          )}
         </View>
         <View style={styles.boxContainer}>
           <View style={styles.titleTextArea}>
@@ -150,7 +204,7 @@ function CreateBidScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { flex: 1, overflow: 'scroll', backgroundColor: 'white' },
   priceContainer: {
     marginTop: 26,
     marginBottom: 16,
@@ -161,6 +215,7 @@ const styles = StyleSheet.create({
     margin: 16,
     marginTop: 0,
     marginBottom: 24,
+    zIndex: 0,
   },
   titleText: {
     color: '#111111',
@@ -193,7 +248,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderColor: 'rgb(214,214,214)',
     borderRadius: 3,
-    height: 42,
+    zIndex: 100,
   },
   needCareArea: {
     flexDirection: 'row',
