@@ -7,8 +7,7 @@ import {
   Image,
 } from 'react-native';
 
-// Temporary
-import DaHyeon from '../../../public/img/DM/dahyeon.jpeg'
+
 
 import ChatBubble from './chatBubble';
 
@@ -20,10 +19,9 @@ function ChatBubbleList({ messages }) {
           </View>
           {
             messages.map((message, idx) => (
-                <ChatBubble message={message} key={idx} />
+                <ChatBubble message={message} ckpt={idx === 2} key={idx} />
             ))
           }
-          <Image source={DaHyeon} style={styles.checkPointImage} />
       </ScrollView>
     )
 }
@@ -43,14 +41,6 @@ const styles = StyleSheet.create({
         fontSize: 11,
         lineHeight: 22,
     },
-    checkPointImage: {
-        position: 'absolute',
-        top: 240,
-        left: 10,
-        width: 24,
-        height: 24,
-        borderRadius: 100,
-    }
   });
 
   export default ChatBubbleList;

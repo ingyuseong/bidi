@@ -9,7 +9,7 @@ import {
   Image,
 } from 'react-native';
 
-function CardListItem({ navigation, item }) {
+function DMHeader({ navigation, item }) {
 
     return (
         <TouchableOpacity
@@ -100,4 +100,4 @@ const styles = StyleSheet.create({
     }
   });
 
-  export default CardListItem;
+  export default DMHeader;

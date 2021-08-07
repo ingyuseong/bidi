@@ -110,7 +110,7 @@ const dummyMessages = [
     userSent: true,
     content: '"쥐-드래곤 머리"해주세요.',
     createdAt: '2021-06-30 21:20:37',
-    checked: true,
+    checked: false,
   },
 ];
 

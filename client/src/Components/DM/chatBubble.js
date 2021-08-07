@@ -9,10 +9,14 @@ import {
   Image,
 } from 'react-native';
 
-function ChatBubble({ message }) {
+// Temporary
+import DaHyeon from '../../../public/img/DM/dahyeon.jpeg'
+
+function ChatBubble({ message, ckpt }) {
 
     return (
         <View style={message.customerSent ? styles.customerTextContainer : styles.desginerTextContainer} >
+            { ckpt && <Image source={DaHyeon} style={styles.checkPointImage} />}
             <Text style={message.customerSent ? styles.customerText : styles.designerText}>{message.content}</Text>
         </View>
     )
@@ -61,6 +65,14 @@ const styles = StyleSheet.create({
         lineHeight: 22,
         backfaceVisibility: 'hidden',
       },
+      checkPointImage: {
+        position: 'absolute',
+        top: '65%',
+        left: 10,
+        width: 24,
+        height: 24,
+        borderRadius: 100,
+    }
   });
 
   export default ChatBubble;
