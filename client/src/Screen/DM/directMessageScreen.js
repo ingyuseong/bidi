@@ -7,11 +7,13 @@ import {
   ScrollView,
 } from 'react-native';
 
+import ChatBubbleList from '../../Components/DM/chatBubbleList';
+
 const dummyMessages = [
   {
     userId: 1,
     custormerSent: false,
-    content: '네, 안녕하세요~! 다현입니다.',
+    content: '네, 안녕하세요~! 다현입니다😘',
     createdAt: '2021-07-15 08:44:12',
   },
   {
@@ -57,20 +59,12 @@ function DMScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.messageContainer}>
-        {
-          dummyMessages.map((message, idx) => (
-            <View style={message.customerSent ? {width: '100%', alignItems: 'flex-end'} : {width: '100%', alignItems: 'flex-start'}} key={idx}>
-              <Text style={message.customerSent ? styles.customerText : styles.designerText}>{message.content}</Text>
-            </View>
-          ))
-        }
-      </ScrollView>
+      <ChatBubbleList messages={dummyMessages} />
       <TextInput
         value={message}
         style={styles.messageSender}
         onChangeText={setMessage}
-        placeholder='      메세지 보내기...'
+        placeholder='메세지 보내기...'
       />
     </View>
   );
@@ -82,21 +76,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  messageContainer: {
-    width: '100%',
-  },
-  designerText: {
-    textAlign: 'left',
-    padding: 20,
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-  customerText: {
-    textAlign: 'right',
-    padding: 20,
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
   messageSenderContainer: {
   },
   messageSender: {
@@ -107,6 +86,7 @@ const styles = StyleSheet.create({
     borderColor: '#dfdfdf',
     borderRadius: 22,
     marginBottom: 30,
+    paddingLeft: 20,
   },
 });
 export default DMScreen;
