@@ -1,7 +1,7 @@
 import React, { useState, useEffect, createRef, useLayoutEffect } from 'react';
 import {
   Text,
-  Button,
+  TouchableOpacity,
   View,
   StyleSheet,
   TextInput,
@@ -9,9 +9,8 @@ import {
   Image,
 } from 'react-native';
 
-import CardList from '../../Components/Card/cardList';
+import CardList from '../../Components/DM/cardList';
 
-// function DMListScreen({ users, navigation }) {
 function DMListScreen({ navigation, route }) {
 
   const [query, setQuery] = useState('');
@@ -29,6 +28,7 @@ function DMListScreen({ navigation, route }) {
   //     }
   // }
 
+  // Header style configuration
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '',
@@ -52,12 +52,20 @@ function DMListScreen({ navigation, route }) {
         {
           users.map((user, idx) => (
             // <Button style={styles.matchItem} title={user} key={idx}/>
-            <View style={styles.matchItem} key={idx}>
+            <TouchableOpacity
+              style={styles.matchItem}
+              onPress={() => {
+                navigation.navigate('DirectMessage', {
+                  userName: user['name'],
+                });
+              }}
+              key={idx}
+            >
               <View style={user['new'] ? styles.matchNewItemImageContainer : styles.matchItemImageContainer}>
                 <Image source={user['profile']} style={user['new'] ? styles.matchNewItemImage : styles.matchItemImage} />
               </View>
               <Text style={styles.matchItemText}>{user['name']}</Text>
-            </View>
+            </TouchableOpacity>
           ))
         }
       {/* </View> */}
@@ -75,11 +83,7 @@ function DMListScreen({ navigation, route }) {
         <Text style={styles.headerText}>메세지</Text>
       </View>
 
-      <CardList items={messages}/>
-
-
-      
-
+      <CardList items={messages} navigation={navigation}/>
       
       {/* <View style={{backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center', width: '100%', height: '43%', }}>
         <Text style={styles.emptyText}>아직 메세지가 없습니다.</Text>

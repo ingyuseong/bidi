@@ -8,9 +8,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import TopLeftBar from '../../Components/Header/topLeftBar';
-import TopRightBar from '../../Components/Header/topRightBar';
-
 import DMListScreen from '../../Screen/DM/messageListScreen';
 import DMScreen from '../../Screen/DM/directMessageScreen';
 

@@ -9,9 +9,17 @@ import {
   Image,
 } from 'react-native';
 
-function CardListItem({item}) {
+function CardListItem({ navigation, item }) {
+
     return (
-        <TouchableOpacity style={styles.cardItem}>
+        <TouchableOpacity
+          style={styles.cardItem}
+          onPress={() => {
+            navigation.navigate('DirectMessage', {
+                userName: item['name']
+            })
+          }}
+        >
             <Image source={item['profile']} style={styles.profileImage} />
             <View style={styles.itemInfo}>
             <View style={styles.itemUserInfo}>
@@ -28,9 +36,6 @@ function CardListItem({item}) {
             </View>
             </View>
         </TouchableOpacity>
-        // <View style={{flexDirection: 'column' }}>
-        //     <Text>gk</Text>
-        // </View>
     )
 }
 

@@ -5,14 +5,13 @@ import {
 } from 'react-native';
 import CardListItem from './cardListItem';
 
-function CardList({ items }) {
+function CardList({ navigation, items }) {
     return (
         <ScrollView style={{flexDirection: 'column', width: '100%', height: '63%', }}>
-            {/* {console.log(items)} */}
         {
           items.map((item, idx) => 
           (
-            <CardListItem item={item} key={idx} />
+            <CardListItem item={item} navigation={navigation} key={idx} />
           ))
         }
       </ScrollView>
