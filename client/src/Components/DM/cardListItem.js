@@ -16,12 +16,12 @@ function CardListItem({ navigation, item }) {
           style={styles.cardItem}
           onPress={() => {
             navigation.navigate('DirectMessage', {
-                userName: item['name']
+                user: item
             })
           }}
         >
           <View>
-            { !item['checked'] && <View style={styles.imagePatch}></View>}
+            { item['unread'] && <View style={styles.imagePatch}></View> }
             <Image source={item['profile']} style={styles.profileImage} />
           </View>      
           <View style={styles.itemInfo}>

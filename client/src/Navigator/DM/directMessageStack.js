@@ -90,7 +90,7 @@ const dummyMessages = [
     userSent: false,
     content: '네, 안녕하세요~! 다현이에요.',
     createdAt: '2021-07-15 08:44:12',
-    checked: false,
+    unread: true,
   },
   {
     designerId: 1,
@@ -100,7 +100,7 @@ const dummyMessages = [
     userSent: false,
     content: '연락주셔서 감사합니다. 벨벳헤어 실장 아이린입니다!',
     createdAt: '2021-07-08 18:20:37',
-    checked: true,
+    unread: false,
   },
   {
     designerId: 4,
@@ -110,7 +110,7 @@ const dummyMessages = [
     userSent: true,
     content: '"쥐-드래곤 머리"해주세요.',
     createdAt: '2021-06-30 21:20:37',
-    checked: false,
+    unread: true,
   },
 ];
 

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import ChatBubbleList from '../../Components/DM/chatBubbleList';
+import DMHeader from '../../Components/DM/dMHeader';
 
 const dummyMessages = [
   {
@@ -44,16 +45,17 @@ const dummyMessages = [
 
 function DMScreen({ navigation, route }) {
 
-  const { params: { userName } } = route;
+  const { params: { user } } = route;
 
   const [message, setMessage] = useState('');
 
   // Header style configuration
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: userName,
+      title: user['name'],
       headerTintColor: 'black',
       headerBackTitle: ' ',
+      headerTitle: () => <DMHeader navigation={navigation} user={user} />
     }, [navigation]);
   });
 

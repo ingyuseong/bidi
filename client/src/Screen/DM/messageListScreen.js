@@ -56,7 +56,7 @@ function DMListScreen({ navigation, route }) {
               style={styles.matchItem}
               onPress={() => {
                 navigation.navigate('DirectMessage', {
-                  userName: user['name'],
+                  user: user,
                 });
               }}
               key={idx}
