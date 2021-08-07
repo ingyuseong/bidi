@@ -1,50 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 
-function RecommendStyle() {
+function RecommendStyle({ bidStyles }) {
   return (
     <View style={styles.styleListContainer}>
       <Text style={styles.titleText}>추천 스타일</Text>
-      <ScrollView horizontal={true}>
-        <View style={styles.styleArea}>
-          <Image
-            source={{
-              uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/female/female_style01.jpg',
-            }}
-            style={styles.styleImg}
-          />
-          <Image
-            source={{
-              uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/female/female_style24.jpg',
-            }}
-            style={styles.styleImg}
-          />
-          <Image
-            source={{
-              uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/female/female_style08.jpg',
-            }}
-            style={styles.styleImg}
-          />
-          <Image
-            source={{
-              uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/female/female_style06.jpg',
-            }}
-            style={styles.styleImg}
-          />
-          <Image
-            source={{
-              uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/female/female_style09.jpg',
-            }}
-            style={styles.styleImg}
-          />
-          <Image
-            source={{
-              uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/female/female_style23.jpg',
-            }}
-            style={styles.styleImg}
-          />
-        </View>
-      </ScrollView>
+      <View style={{ width: 100, height: '100%' }}>
+        {bidStyles.map((item, index) => {
+          <View key={index}>
+            <Text>{item.gender}</Text>
+          </View>;
+        })}
+      </View>
     </View>
   );
 }
@@ -59,6 +26,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
   styleArea: {
+    height: 90,
     flexDirection: 'row',
     marginTop: 10,
   },
