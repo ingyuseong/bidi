@@ -65,7 +65,7 @@ function CreateBidScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <CardStyle styleLists={info.images} height={400} />
+        <CardStyle styleLists={info.images} height={400} isUser={true} />
         <CardInfo info={info} navigation={navigation} />
         <View style={styles.priceContainer}>
           <View style={styles.titleTextArea}>

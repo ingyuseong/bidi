@@ -76,7 +76,6 @@ const RegisterScreen = ({ navigation, route }) => {
       })
         .then((response) => response.json())
         .then(async ({ data }) => {
-          console.log(data);
           if (data) {
             const { id, type, kakao_token, nick_name, name, gender, address, img_src, ai_status } =
               data;

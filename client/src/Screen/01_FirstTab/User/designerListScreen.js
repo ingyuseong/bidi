@@ -47,7 +47,7 @@ function DesignerListScreen({ navigation }) {
           horizontal={false}>
           <View style={styles.container}>
             <View style={{ height: '60%' }}>
-              <CardStyle styleLists={info.styles} />
+              <CardStyle styleLists={info.styles} isUser={true} />
             </View>
             <CardInfo info={info} navigation={navigation} height={150} />
             <TouchableOpacity style={styles.bidiBtn}>

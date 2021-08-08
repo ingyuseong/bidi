@@ -14,9 +14,7 @@ function SelectFromScrapScreen({ navigation, route }) {
   };
 
   const handleChoosePhoto = () => {
-    launchImageLibrary({}, (response) => {
-      console.log('>>', response.assets[0].uri);
-    });
+    launchImageLibrary({}, (response) => {});
   };
 
   return (

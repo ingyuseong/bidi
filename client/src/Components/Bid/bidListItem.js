@@ -5,7 +5,7 @@ import { convertDate } from '../../Lib/utils';
 
 function BidListItem({ info, navigation }) {
   const moreBtnHandler = () => {
-    navigation.navigate('detailBid', { info });
+    navigation.replace('detailBid', { info });
   };
   const cancelAlert = (id) => {
     Alert.alert('정말 취소하시겠습니까?', '취소후에는 변경이 불가능합니다', [
@@ -42,7 +42,16 @@ function BidListItem({ info, navigation }) {
       .then((response) => response.json())
       .then(async (response) => {
         if (response) {
-          Alert.alert('Bid 상태가 성공적으로 완료되었습니다!');
+          Alert.alert('Bid 상태가 성공적으로 수정되었습니다!');
+          navigation.replace('MainTab', {
+            screen: 'Bid',
+            params: {
+              screen: 'ProcessBidList',
+              params: {
+                info,
+              },
+            },
+          });
         }
       })
       .catch((error) => {

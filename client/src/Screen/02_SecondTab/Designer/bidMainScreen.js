@@ -43,7 +43,7 @@ function BidMainScreen({ navigation }) {
   return (
     <Tab.Navigator
       swipeEnabled={false}
-      initialRouteName="ReceiveBid"
+      initialRouteName="ProcessBidList"
       tabBarOptions={{
         activeTintColor: 'black',
         inactiveTintColor: '#DADADA',

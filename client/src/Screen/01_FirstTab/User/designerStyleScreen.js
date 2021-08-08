@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 
 function DesignerStyleScreen({ info }) {
-  console.log(info);
   return (
     <>
       <View style={styles.titleContainer}>

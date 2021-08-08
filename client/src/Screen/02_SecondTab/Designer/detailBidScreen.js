@@ -100,6 +100,7 @@ function DetailBidScreen({ navigation, route }) {
           <CardStyle
             styleLists={[info.proposal.before_src, info.proposal.after_src]}
             height={400}
+            isUser={false}
           />
         )}
 
