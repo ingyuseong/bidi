@@ -10,6 +10,16 @@ const getBrandingList = async () => {
   return results
 }
 
+const getBrandingListByUserId = async (userId) => {
+  let results = []
+  const brandingList = await db.selectAllBrandingByUserId(userId)
+  for await (const item of brandingList) {
+    results.push(await getBrandingInfo(item.userId))
+  }
+
+  return results
+}
+
 const getBrandingInfo = async (userId) => {
   let result = {}
   let styles = []
@@ -44,4 +54,4 @@ const makeStyleData = (styles) => {
   return results
 }
 
-module.exports = { getBrandingInfo, getBrandingList }
+module.exports = { getBrandingListByUserId, getBrandingInfo, getBrandingList }

@@ -4,9 +4,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import BidTabScreen from './Designer/bidTabScreen';
 import SearchTabScreen from './Designer/searchTabScreen';
+import BrandingTabScreen from './Designer/brandingTabScreen';
 import HistoryTabScreen from './User/historyTabScreen';
 import MyPageTabScreen from './User/myPageTabScreen';
-import ProposalTabScreen from './User/proposalTabScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +22,7 @@ function DesignerTabStack() {
             iconName = 'search-outline';
           } else if (route.name === 'Bid') {
             iconName = 'document-text-outline';
-          } else if (route.name === 'Proposal') {
+          } else if (route.name === 'Branding') {
             iconName = 'add-circle-outline';
           } else if (route.name === 'History') {
             iconName = 'md-timer-outline';
@@ -50,9 +50,9 @@ function DesignerTabStack() {
       />
       <Tab.Screen name="Bid" component={BidTabScreen} options={{ headerShown: false, title: '' }} />
       <Tab.Screen
-        name="Proposal"
-        component={ProposalTabScreen}
-        options={{ headerShown: false, title: '', tabBarVisible: false }}
+        name="Branding"
+        component={BrandingTabScreen}
+        options={{ headerShown: false, title: '' }}
       />
       <Tab.Screen
         name="History"

@@ -3,7 +3,7 @@ const { STATUS_CODE, ERROR_MESSAGE } = require('../../lib/constants')
 
 /*
     GET /api/branding/list
-    * 전체 제안서 리스트 정보 조회 API
+    * 전체 브랜딩 리스트 정보 조회 API
 */
 exports.getBrandingList = async (req, res, next) => {
   try {
@@ -25,10 +25,10 @@ exports.getBrandingList = async (req, res, next) => {
     GET /api/branding/:userId
     * 브랜딩 페이지 상세 정보 조회 API
 */
-exports.getBranding = async (req, res, next) => {
+exports.getBrandings = async (req, res, next) => {
   try {
     const { userId } = req.params
-    const brandingInfo = await brandingServices.getBrandingInfo(userId)
+    const brandingInfo = await brandingServices.getBrandingListByUserId(userId)
 
     res.status(STATUS_CODE.SUCCESS).json({
       message: '브랜딩 페이지 정보 조회 성공',

@@ -1,8 +1,19 @@
 const { BrandingPage, Style, StyleMenu, User } = require('../../models')
 
-exports.selectAllBranding = async (userId) => {
+exports.selectAllBranding = async () => {
   const results = await BrandingPage.findAll({
     raw: true,
+  })
+
+  return results
+}
+
+exports.selectAllBrandingByUserId = async (userId) => {
+  const results = await BrandingPage.findAll({
+    raw: true,
+    where: {
+      user_id: userId,
+    },
   })
 
   return results
