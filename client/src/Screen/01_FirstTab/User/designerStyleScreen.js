@@ -4,10 +4,15 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import BidiStorage from '../../../Lib/storage';
 import { STORAGE_KEY } from '../../../Lib/constant';
 
-function DesignerStyleScreen({ info }) {
+import Modal from 'react-native-modal';
+import StyleModal from '../../../Components/Modal/styleModal';
+
+function DesignerStyleScreen({ navigation, info }) {
   const [userInfo, setUserInfo] = useState({});
   const [styleScraps, setStyleScraps] = useState([]);
   const [moreToggle, setMoreToggle] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [styleIndex, setStyleIndex] = useState(0);
 
   const getStyleScrapList = async (user) => {
     await fetch('http://127.0.0.1:3000' + `/api/styleScrap/${user.id}`, {
@@ -34,6 +39,7 @@ function DesignerStyleScreen({ info }) {
     })
       .then((response) => response.json())
       .then((result) => {
+        console.log(result);
         setStyleScraps([
           ...styleScraps,
           {
@@ -65,6 +71,10 @@ function DesignerStyleScreen({ info }) {
       .catch((error) => {
         console.error(error);
       });
+  };
+  const modalOpen = (index) => {
+    setModalVisible(true);
+    setStyleIndex(index);
   };
   const priceFormating = (price) =>
     new Intl.NumberFormat('ko-KR', { currency: 'KRW' }).format(price);
@@ -105,15 +115,19 @@ function DesignerStyleScreen({ info }) {
             {moreToggle || index < 4 ? (
               <View style={{ width: '100%', height: 300 }}>
                 <View style={{ width: '100%' }}>
-                  <Image
-                    style={styles.styleImg}
-                    source={{
-                      uri: item.img_src_one,
-                    }}
-                  />
+                  <TouchableOpacity activeOpacity={0.8} onPress={() => modalOpen(index)}>
+                    <Image
+                      style={styles.styleImg}
+                      source={{
+                        uri: item.img_src_one,
+                      }}
+                    />
+                  </TouchableOpacity>
                   <View style={styles.styleScrapIcon}>
                     {styleScraps.some((style) => (style.id == item.id) & style.isScraped) ? (
-                      <TouchableOpacity onPress={() => deleteStyleScrap(item.id)}>
+                      <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={() => deleteStyleScrap(item.id)}>
                         <Icon name="heart" color="#FF533A" size={20} />
                       </TouchableOpacity>
                     ) : (
@@ -130,15 +144,17 @@ function DesignerStyleScreen({ info }) {
                     <View></View>
                   )}
                 </View>
-                <View>
-                  <Text style={styles.styleTitle}>{item.title}</Text>
-                </View>
-                <View style={styles.styleDescription}>
-                  <Text style={styles.styleDescriptionText}>{textLimiting(item.subtitle)}</Text>
-                </View>
-                <View>
-                  <Text style={styles.stylePrice}>{priceFormating(item.price)}</Text>
-                </View>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => modalOpen(index)}>
+                  <View>
+                    <Text style={styles.styleTitle}>{item.title}</Text>
+                  </View>
+                  <View style={styles.styleDescription}>
+                    <Text style={styles.styleDescriptionText}>{textLimiting(item.subtitle)}</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.stylePrice}>{priceFormating(item.price)}</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
             ) : (
               <View></View>
@@ -159,6 +175,24 @@ function DesignerStyleScreen({ info }) {
           </View>
         </TouchableOpacity>
       )}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        isVisible={modalVisible}
+        style={{
+          alignItems: 'center',
+        }}
+        backdropOpacity={0.3}>
+        <StyleModal
+          styleScraps={info.styles}
+          index={styleIndex}
+          setModalVisible={setModalVisible}
+          setStyleScrapList={setStyleScraps}
+          userInfo={userInfo}
+          navigation={navigation}
+          deleteIcon={false}
+        />
+      </Modal>
     </>
   );
 }

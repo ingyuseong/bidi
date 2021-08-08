@@ -93,7 +93,7 @@ function BidMainScreen({ navigation }) {
       )}
       {bidList ? (
         <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>
-          {() => <BidListScreen userInfo={userInfo} bidList={bidList} />}
+          {() => <BidListScreen userInfo={userInfo} bidList={bidList} navigation={navigation} />}
         </Tab.Screen>
       ) : (
         <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>

@@ -6,7 +6,7 @@ function BottomButton({ leftName, rightName, leftRatio, rightHandler, leftHandle
     <View style={styles.submitBox}>
       <TouchableOpacity
         activeOpacity={0.8}
-        style={{ ...styles.submitButton, width: `${leftRatio}%` }}
+        style={{ ...styles.submitButton, width: `${leftRatio}%`, borderBottomLeftRadius: 20 }}
         onPress={leftHandler}>
         <Text style={{ ...styles.submitText }}>{leftName}</Text>
       </TouchableOpacity>
