@@ -16,6 +16,7 @@ function BottomButton({ leftName, rightName, leftRatio, rightHandler, leftHandle
           ...styles.submitButton,
           backgroundColor: '#FF533A',
           borderColor: '#FF533A',
+          borderBottomRightRadius: 20,
           width: `${100 - leftRatio}%`,
         }}
         onPress={rightHandler}>
@@ -39,6 +40,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '50%',
     height: '100%',
+    backgroundColor: 'white',
     borderColor: '#ECEBEB',
     borderTopWidth: 1,
   },

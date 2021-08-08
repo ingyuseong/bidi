@@ -18,4 +18,12 @@ const convertDate = (timestamp) => {
   return date.getFullYear() + ' ' + date.getMonth() + ' ' + date.getDay();
 };
 
-export { checkType, convertDate };
+const textLimiting = (description, count) => {
+  if (description.length > count) {
+    return description.substr(0, count) + '..';
+  } else {
+    return description;
+  }
+};
+
+export { checkType, convertDate, textLimiting };

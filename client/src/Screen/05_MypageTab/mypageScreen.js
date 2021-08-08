@@ -242,7 +242,9 @@ function MypageScreen({ navigation }) {
             <Text style={styles.editSubmitText}>수정 완료</Text>
           </TouchableOpacity>
         )}
-        <Button title="logout handler" onPress={logoutHandler} />
+        <View style={{ marginBottom: 300 }}>
+          <Button title="logout handler" onPress={logoutHandler} />
+        </View>
       </View>
     </ScrollView>
   );
