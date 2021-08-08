@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 
-import UserInfo from '../../../Components/User/userInfo';
+import UserInfo from '../../../Components/Profile/userInfo';
 import BottomButton from '../../../Components/Common/bottomButton';
 import UpdateProposalScreen from './updateProposalScreen';
 
@@ -41,8 +41,8 @@ function MyProposalScreen({ navigation, proposal, userInfo }) {
     });
   };
   return (
-    <ScrollView>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
         <View style={styles.content}>
           {imageToggle ? (
             <Image
@@ -89,20 +89,21 @@ function MyProposalScreen({ navigation, proposal, userInfo }) {
           />
         </View>
         <View style={{ marginTop: 80 }}></View>
-        <BottomButton
-          leftName="삭제하기"
-          rightName="수정하기"
-          leftRatio={40}
-          leftHandler={deleteAlert}
-          rightHandler={updateProposal}
-        />
-      </View>
-    </ScrollView>
+      </ScrollView>
+      <BottomButton
+        leftName="삭제하기"
+        rightName="수정하기"
+        leftRatio={40}
+        leftHandler={deleteAlert}
+        rightHandler={updateProposal}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    height: '93%',
     backgroundColor: 'white',
     margin: 16,
     borderColor: '#e2e2e2',
