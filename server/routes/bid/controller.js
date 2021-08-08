@@ -105,3 +105,23 @@ exports.getBidByDesignerId = async (req, res, next) => {
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
+
+/*
+    GET /api/bid/user/:userId
+    * 디자이너 ID 기반 bid 조회
+*/
+exports.getBidByCustomerId = async (req, res, next) => {
+  try {
+    const { userId } = req.params
+    const bidList = await bidServices.getBidByCustomerId(userId)
+    res.status(STATUS_CODE.SUCCESS).json({
+      message: '비드 조회 성공',
+      data: { bidList },
+    })
+  } catch (error) {
+    console.log(error)
+    res
+      .status(STATUS_CODE.SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}

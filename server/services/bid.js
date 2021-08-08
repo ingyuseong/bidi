@@ -42,3 +42,15 @@ exports.registerBidStyle = async ({ bidId, styles }) => {
   )
   return results
 }
+
+exports.getBidByCustomerId = async (userId) => {
+  const results = []
+  const bidList = await db.selectAllBidByCustomerId(userId)
+  for await (const bid of bidList) {
+    let result = JSON.stringify(bid)
+    const { name, img_src, address } = await userDb.selectUser(bid.designer_id)
+    result = { ...JSON.parse(result), user: { name, img_src, address } }
+    results.push(result)
+  }
+  return results
+}

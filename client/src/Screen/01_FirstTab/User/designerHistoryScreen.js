@@ -11,10 +11,10 @@ function DesignerHistoryScreen({ info }) {
         </View>
         <View style={styles.selectContainer}>
           <View style={styles.select}>
-            <Text>최신순</Text>
+            <Text style={{ color: '#8D8D8D' }}>최신순</Text>
           </View>
-          <View style={styles.select}>
-            <Text>평점순</Text>
+          <View style={{ ...styles.select, borderLeftWidth: 0 }}>
+            <Text style={{ color: '#8D8D8D' }}>평점순</Text>
           </View>
         </View>
       </View>
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   hasReview: {
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: 'bold',
     marginTop: 10,
   },
@@ -116,8 +116,11 @@ const styles = StyleSheet.create({
   },
   select: {
     borderWidth: 1,
-    borderColor: '#e2e2e2',
-    padding: 10,
+    borderColor: '#DBDBDB',
+    marginTop: 5,
+    padding: 7,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   reviewItem: {
     marginBottom: 40,

@@ -48,11 +48,7 @@ function UserTabStack() {
         component={SearchTabScreen}
         options={{ headerShown: false, title: '' }}
       />
-      <Tab.Screen
-        name="Bid"
-        component={BidTabScreen}
-        options={{ headerShown: false, title: '', tabBarVisible: false }}
-      />
+      <Tab.Screen name="Bid" component={BidTabScreen} options={{ headerShown: false, title: '' }} />
       <Tab.Screen
         name="Proposal"
         component={ProposalTabScreen}
