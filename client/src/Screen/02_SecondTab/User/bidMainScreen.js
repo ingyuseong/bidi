@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import BidListScreen from './bidListScreen';
+import BidProgressScreen from './bidProgressScreen';
 import MyProposalScreen from './myProposalScreen';
 
 import BidiStorage from '../../../Lib/storage';
@@ -13,6 +14,7 @@ function BidMainScreen({ navigation }) {
   const [userInfo, setUserInfo] = useState({});
   const [proposal, setProposal] = useState();
   const [bidList, setBidList] = useState([]);
+  const [progress, setProgress] = useState(false);
   const getProposalInfo = async (user) => {
     await fetch('http://127.0.0.1:3000' + `/api/proposal/user/${user.id}`, {
       method: 'GET',
@@ -46,6 +48,9 @@ function BidMainScreen({ navigation }) {
       .then((result) => {
         if (result.data) {
           setBidList(result.data.bidList);
+          if (result.data.bidList[0].status == 'process') {
+            setProgress(true);
+          }
         }
       })
       .catch((error) => {
@@ -83,7 +88,12 @@ function BidMainScreen({ navigation }) {
       {proposal ? (
         <Tab.Screen name="MyBid" options={{ title: '내 제안서' }}>
           {() => (
-            <MyProposalScreen navigation={navigation} proposal={proposal} userInfo={userInfo} />
+            <MyProposalScreen
+              navigation={navigation}
+              proposal={proposal}
+              userInfo={userInfo}
+              progress={progress}
+            />
           )}
         </Tab.Screen>
       ) : (
@@ -92,8 +102,14 @@ function BidMainScreen({ navigation }) {
         </Tab.Screen>
       )}
       {bidList ? (
-        <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>
-          {() => <BidListScreen userInfo={userInfo} bidList={bidList} navigation={navigation} />}
+        <Tab.Screen
+          name="ReceiveBid"
+          options={progress ? { title: '진행중인 매칭' } : { title: '받은 비드' }}>
+          {progress
+            ? () => (
+                <BidProgressScreen userInfo={userInfo} bidList={bidList} navigation={navigation} />
+              )
+            : () => <BidListScreen userInfo={userInfo} bidList={bidList} navigation={navigation} />}
         </Tab.Screen>
       ) : (
         <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>
