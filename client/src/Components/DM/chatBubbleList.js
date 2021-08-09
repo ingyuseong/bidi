@@ -13,7 +13,11 @@ import ChatBubble from './chatBubble';
 
 function ChatBubbleList({ messages }) {
     return (
-        <ScrollView style={styles.messageContainer}>
+        <ScrollView
+          style={styles.messageContainer}
+          ref={ref => {this.scrollView = ref}}
+          onContentSizeChange={() => this.scrollView.scrollToEnd({animated: true})}
+        >
           <View style={styles.chatDateContainer}>
             <Text style={styles.chatDate}>7월 15일 오전 8:44</Text>
           </View>

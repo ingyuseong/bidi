@@ -47,7 +47,20 @@ function DMScreen({ navigation, route }) {
 
   const { params: { user } } = route;
 
-  const [message, setMessage] = useState('');
+  const [messageText, setMessageText] = useState('');
+  const [messages, setMessages] = useState(dummyMessages);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    let newMessages = [...messages, {
+      userId: 1,
+      customerSent: true,
+      content: messageText,
+      createdAt: '2021-07-15 08:44:45',
+    }]
+    setMessages(newMessages);
+    setMessageText('');
+  }
 
   // Header style configuration
   useLayoutEffect(() => {
@@ -61,11 +74,13 @@ function DMScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <ChatBubbleList messages={dummyMessages} />
+      <ChatBubbleList messages={messages} />
       <TextInput
-        value={message}
+        value={messageText}
         style={styles.messageSender}
-        onChangeText={setMessage}
+        onChangeText={setMessageText}
+        onSubmitEditing={handleSubmit}
+        autoCorrect={false}
         placeholder='메세지 보내기...'
       />
     </View>

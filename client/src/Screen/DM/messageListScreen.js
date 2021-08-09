@@ -17,17 +17,6 @@ function DMListScreen({ navigation, route }) {
 
   const { params: { users, messages } } = route;
 
-  // const matchItem = (user, idx) => {
-  //     if (idx > 1) {
-  //       return <Image source={user[0]} style={styles.matchItemImage />
-  //     } else {
-  //       return (
-  //         <View style={styles.matchNewItemImageContainer}>
-  //           <Image source={user[0]} style={styles.matchItemImage} />
-  //         </View>)
-  //     }
-  // }
-
   // Header style configuration
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -46,12 +35,8 @@ function DMListScreen({ navigation, route }) {
       </View>
 
       <ScrollView style={styles.matches} horizontal={true} showsHorizontalScrollIndicator={false}>
-      {/* <View style={styles.matches}> */}
-        {/* <Button style={styles.matchItem} title='아이린'/> */}
-        {/* <Button style={styles.matchItem} title='나연'/> */}
         {
           users.map((user, idx) => (
-            // <Button style={styles.matchItem} title={user} key={idx}/>
             <TouchableOpacity
               style={styles.matchItem}
               onPress={() => {
@@ -68,7 +53,6 @@ function DMListScreen({ navigation, route }) {
             </TouchableOpacity>
           ))
         }
-      {/* </View> */}
       </ScrollView>
 
       <View styles={styles.searchBarContainer}>
