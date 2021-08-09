@@ -42,22 +42,21 @@ function ProposalListScreen({ navigation }) {
     velocityThreshold: 0.3,
     directionalOffsetThreshold: 50,
   };
-  const onSwipeUp = (state, index) => {
-    console.log('hihi!', state);
-    navigation.navigate('ProposalDetail', { info: infoLists[index] });
+  const onSwipeUp = (state, index, userId, proposalId) => {
+    navigation.navigate('ProposalDetail', { info: infoLists[index], userId, proposalId });
   };
   return (
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
       {infoLists.map((info, index) => (
         <View style={styles.container} key={index}>
           <GestureRecognizer
-            onSwipeUp={(state) => onSwipeUp(state, index)}
+            onSwipeUp={(state) => onSwipeUp(state, index, info.userId, info.id)}
             config={config}
             style={{
               flex: 1,
             }}>
-            <CardStyle styleLists={info.images} />
-            <CardInfo info={info} navigation={navigation} />
+            <CardStyle styleLists={info.images} isUser={false} />
+            <CardInfo info={info} navigation={navigation} height={150} />
             <TouchableOpacity style={styles.bidiBtn}>
               <Icon name="thumbs-up" size={25} style={styles.bidiIcon} />
             </TouchableOpacity>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Text } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { checkType } from '../../Lib/utils';
 import UserTabStack from './userTabStack';
 import DesignerTabStack from './designerTabStack';
 
-function mainTabStack() {
+function mainTabStack({ navigation }) {
   const [mode, setMode] = useState('');
   useEffect(() => {
     async function fetchMode() {
@@ -13,7 +13,14 @@ function mainTabStack() {
     }
     fetchMode();
   }, []);
-  return mode == '' ? <Text>asdf</Text> : mode == 'user' ? <UserTabStack /> : <DesignerTabStack />;
+
+  return mode == '' ? (
+    <ActivityIndicator animating={mode} color="" size="large" />
+  ) : mode == 'user' ? (
+    <UserTabStack />
+  ) : (
+    <DesignerTabStack />
+  );
 }
 
 export default mainTabStack;

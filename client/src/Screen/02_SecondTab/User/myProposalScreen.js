@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 
-import UserInfo from '../../../Components/User/userInfo';
+import UserInfo from '../../../Components/Profile/userInfo';
 import BottomButton from '../../../Components/Common/bottomButton';
 import UpdateProposalScreen from './updateProposalScreen';
 
@@ -41,53 +41,55 @@ function MyProposalScreen({ navigation, proposal, userInfo }) {
     });
   };
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.content}>
-        {imageToggle ? (
-          <Image
-            style={styles.image}
-            source={{
-              uri: proposal.after_src,
-            }}
+    <View style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+        <View style={styles.content}>
+          {imageToggle ? (
+            <Image
+              style={styles.image}
+              source={{
+                uri: proposal.after_src,
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.image}
+              source={{
+                uri: proposal.before_src,
+              }}
+            />
+          )}
+          <TouchableOpacity
+            style={
+              imageToggle
+                ? { ...styles.imageToggleButton, backgroundColor: '#0A0A32' }
+                : styles.imageToggleButton
+            }
+            activeOpacity={0.8}
+            onPress={() => setImageToggle(!imageToggle)}>
+            <Text style={styles.imageToggleText}>{imageToggle ? 'After' : 'Before'}</Text>
+          </TouchableOpacity>
+        </View>
+        <UserInfo info={userInfo} keywords={proposal.keywords} />
+        <View style={styles.descriptionBox}>
+          <Text style={styles.description}>
+            {proposal.description != '' ? proposal.description : '요구사항 없음'}
+          </Text>
+        </View>
+        <View style={styles.textBox}>
+          <Text style={styles.title}>금액 범위 설정</Text>
+        </View>
+        <View style={styles.dropdownBox}>
+          <TextInput
+            style={styles.locationInput}
+            underlineColorAndroid="transparent"
+            editable={false}
+            selectTextOnFocus={false}
+            value={String(proposal.price_limit / 10000) + '만원 이내'}
           />
-        ) : (
-          <Image
-            style={styles.image}
-            source={{
-              uri: proposal.before_src,
-            }}
-          />
-        )}
-        <TouchableOpacity
-          style={
-            imageToggle
-              ? { ...styles.imageToggleButton, backgroundColor: '#0A0A32' }
-              : styles.imageToggleButton
-          }
-          activeOpacity={0.8}
-          onPress={() => setImageToggle(!imageToggle)}>
-          <Text style={styles.imageToggleText}>{imageToggle ? 'After' : 'Before'}</Text>
-        </TouchableOpacity>
-      </View>
-      <UserInfo info={userInfo} keywords={proposal.keywords} />
-      <View style={styles.descriptionBox}>
-        <Text style={styles.description}>
-          {proposal.description != '' ? proposal.description : '요구사항 없음'}
-        </Text>
-      </View>
-      <View style={styles.textBox}>
-        <Text style={styles.title}>금액 범위 설정</Text>
-      </View>
-      <View style={styles.dropdownBox}>
-        <TextInput
-          style={styles.locationInput}
-          underlineColorAndroid="transparent"
-          editable={false}
-          selectTextOnFocus={false}
-          value={String(proposal.price_limit / 10000) + '만원 이내'}
-        />
-      </View>
-      <View style={{ marginTop: 80 }}></View>
+        </View>
+        <View style={{ marginTop: 80 }}></View>
+      </ScrollView>
       <BottomButton
         leftName="삭제하기"
         rightName="수정하기"
@@ -95,15 +97,24 @@ function MyProposalScreen({ navigation, proposal, userInfo }) {
         leftHandler={deleteAlert}
         rightHandler={updateProposal}
       />
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    overflow: 'scroll',
+    height: '93%',
     backgroundColor: 'white',
+    margin: 16,
+    borderColor: '#e2e2e2',
+    borderRadius: 20,
+    shadowColor: 'rgb(17, 17, 17)',
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 15,
   },
   content: {
     width: '100%',
@@ -118,6 +129,8 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   imageToggleButton: {
     alignItems: 'center',

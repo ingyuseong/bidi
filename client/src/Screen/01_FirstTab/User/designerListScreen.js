@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
 import DesignerDetail from './designerDetailScreen';
@@ -47,12 +47,12 @@ function DesignerListScreen({ navigation }) {
           horizontal={false}>
           <View style={styles.container}>
             <View style={{ height: '60%' }}>
-              <CardStyle styleLists={info.styles} />
+              <CardStyle styleLists={info.styles} isUser={true} />
+              <TouchableOpacity style={styles.bidiBtn}>
+                <Icon name="flash" size={25} style={styles.bidiIcon} />
+              </TouchableOpacity>
             </View>
-            <CardInfo info={info} navigation={navigation} />
-            <TouchableOpacity style={styles.bidiBtn}>
-              <Icon name="thumbs-up" size={25} style={styles.bidiIcon} />
-            </TouchableOpacity>
+            <CardInfo info={info} navigation={navigation} height={150} />
           </View>
           <View>
             <DesignerDetail info={info} />
@@ -68,25 +68,25 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 16,
     backgroundColor: 'white',
-    borderWidth: 1,
     borderColor: '#e2e2e2',
     borderRadius: 20,
-    shadowColor: '#000',
+    shadowColor: 'rgb(17, 17, 17)',
     shadowOffset: {
-      width: 0,
+      width: 1,
       height: 1,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.1,
+    shadowRadius: 15,
     position: 'relative',
   },
+
   bidiBtn: {
     position: 'absolute',
     backgroundColor: '#FF533A',
     width: 50,
     height: 50,
+    bottom: -25,
     right: 0,
-    top: '60%',
     justifyContent: 'center',
     alignItems: 'center',
   },

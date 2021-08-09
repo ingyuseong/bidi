@@ -75,21 +75,26 @@ const RegisterScreen = ({ navigation, route }) => {
         }),
       })
         .then((response) => response.json())
-        .then(async (result) => {
-          const { id, type, kakao_token, nick_name, name, gender, address, img_src } = result.data;
-          await BidiStorage.storeData(STORAGE_KEY, {
-            id,
-            type,
-            token: kakao_token,
-            nick_name,
-            name,
-            gender,
-            address,
-            img_src,
-          });
-        })
-        .then(() => {
-          navigation.replace('MainTab');
+        .then(async ({ data }) => {
+          if (data) {
+            const { id, type, kakao_token, nick_name, name, gender, address, img_src, ai_status } =
+              data;
+            BidiStorage.storeData(STORAGE_KEY, {
+              id,
+              type,
+              token: kakao_token,
+              nick_name,
+              name,
+              gender,
+              address,
+              img_src,
+              ai_status,
+            }).then(() => {
+              navigation.replace('MainTab');
+            });
+          } else {
+            Alert.alert('zz');
+          }
         })
         .catch((error) => {
           console.error(error);
@@ -233,11 +238,9 @@ const RegisterScreen = ({ navigation, route }) => {
         </View>
       </View>
 
-      <View style={styles.btnArea}>
-        <TouchableOpacity onPress={handleSubmitButton}>
-          <Text style={{ color: 'white', fontSize: wp('4%'), fontWeight: '700' }}>회원가입</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity onPress={handleSubmitButton} style={styles.btnArea}>
+        <Text style={{ color: 'white', fontSize: wp('4%'), fontWeight: '700' }}>회원가입</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };

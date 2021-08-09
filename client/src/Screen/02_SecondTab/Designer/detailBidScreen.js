@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import CardInfo from '../../../Components/Card/cardInfo';
+import CardDisableStyle from '../../../Components/Card/cardDisableStyle';
 import CardStyle from '../../../Components/Card/cardStyle';
 import BidCategory from '../../../Components/Bid/bidCategory';
 import BidLetter from '../../../Components/Bid/bidLetter';
@@ -9,17 +10,18 @@ import BidRefStyle from '../../../Components/Bid/bidRefStyle';
 import BidiStorage from '../../../Lib/storage';
 import { LARGE_CATEGORY, SMALL_CATEGORY, STORAGE_KEY } from '../../../Lib/constant';
 
-function CreateBidScreen({ navigation, route }) {
-  const { info, userId, proposalId } = route.params;
+function DetailBidScreen({ navigation, route }) {
+  const { info } = route.params;
+  const [isEdit, setIsEdit] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [largeCategoryOpen, setLargeCategoryOpen] = useState(false);
-  const [largeCategoryValue, setLargeCategoryValue] = useState('미선택');
+  const [largeCategoryValue, setLargeCategoryValue] = useState(info.large_category);
   const [largeCategoryItems, setLargeCategoryItems] = useState(LARGE_CATEGORY);
   const [smallCategoryOpen, setSmallCategoryOpen] = useState(false);
-  const [smallCategoryValue, setSmallCategoryValue] = useState(null);
+  const [smallCategoryValue, setSmallCategoryValue] = useState(info.small_category);
   const [smallCategoryItems, setSmallCategoryItems] = useState([]);
-  const [needCare, setNeedCare] = useState(null);
-  const [bidLetter, setBidLetter] = useState('');
+  const [needCare, setNeedCare] = useState(info.need_care);
+  const [bidLetter, setBidLetter] = useState(info.letter);
 
   useEffect(() => {
     setSmallCategoryItems(SMALL_CATEGORY[largeCategoryValue]);
@@ -32,47 +34,93 @@ function CreateBidScreen({ navigation, route }) {
     }
     fetchMode();
   }, []);
-
-  const registerBidHandler = async () => {
-    await fetch('http://127.0.0.1:3000' + '/api/bid/register', {
-      method: 'POST',
+  const editAlert = (id) => {
+    Alert.alert('정말 저장하시겠어요?', '', [
+      { text: '취소', style: 'cancel' },
+      { text: '저장하기', onPress: () => editSubmitHandler(id) },
+    ]);
+  };
+  const editSubmitHandler = async (id) => {
+    await fetch('http://127.0.0.1:3000' + `/api/bid/${id}`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
       },
       body: JSON.stringify({
-        customer_id: userId,
-        designer_id: userInfo.id,
-        proposal_id: proposalId,
         large_category: largeCategoryValue,
         small_category: smallCategoryValue,
-        letter: bidLetter,
         need_care: needCare,
-        status: 'wait',
-        styles: [1, 2, 3],
+        letter: bidLetter,
       }),
     })
       .then((response) => response.json())
       .then(async (response) => {
         if (response) {
-          Alert.alert('Bid 작성이 성공적으로 완료되었습니다!');
-          navigation.navigate('ProposalList');
+          Alert.alert('Bid 수정이 성공적으로 완료되었습니다!');
+          setIsEdit(false);
         }
       })
       .catch((error) => {
         console.error(error);
       });
   };
+  const deleteAlert = (id) => {
+    Alert.alert('정말 삭제하시겠어요?', '', [
+      { text: '취소', style: 'cancel' },
+      { text: '삭제하기', onPress: () => deleteSubmitHandler(id) },
+    ]);
+  };
+  const deleteSubmitHandler = async (id) => {
+    await fetch('http://127.0.0.1:3000' + `/api/bid/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then(async (response) => {
+        if (response) {
+          Alert.alert('Bid 삭제가 성공적으로 완료되었습니다!');
+          navigation.navigate('bid');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const editToggleHandler = () => {
+    setIsEdit(true);
+  };
   return (
     <View style={styles.container}>
       <ScrollView>
-        <CardStyle styleLists={info.images} height={400} isUser={true} />
-        <CardInfo info={info} navigation={navigation} />
+        {info.status === 'done' || info.status === 'cancel' ? (
+          <CardDisableStyle styleImage={info.proposal.after_src} status={info.status} />
+        ) : (
+          <CardStyle
+            styleLists={[info.proposal.before_src, info.proposal.after_src]}
+            height={400}
+            isUser={false}
+          />
+        )}
+
+        <CardInfo
+          info={{
+            ...info,
+            description: info.proposal.description,
+            name: info.user.name,
+            address: info.user.address,
+            img_src: info.user.img_src,
+            distance_limit: info.proposal.distance_limit,
+          }}
+          navigation={navigation}
+        />
         <View style={styles.priceContainer}>
           <View style={styles.titleTextArea}>
             <Text style={styles.titleText}>희망 예산</Text>
           </View>
           <View style={styles.priceArea}>
-            <Text style={styles.text}>{info.price_limit}원 이하</Text>
+            <Text style={styles.text}>{info.proposal.price_limit}원 이하</Text>
           </View>
         </View>
         <View style={styles.line}></View>
@@ -89,21 +137,35 @@ function CreateBidScreen({ navigation, route }) {
           setSmallCategoryValue={setSmallCategoryValue}
           smallCategoryItems={smallCategoryItems}
           setSmallCategoryItems={setSmallCategoryItems}
-          isEdit={true}
+          isEdit={isEdit}
         />
-        <BidNeedCare needCare={needCare} setNeedCare={setNeedCare} isEdit={true} />
-        <BidLetter bidLetter={bidLetter} setBidLetter={setBidLetter} isEdit={true} />
+        <BidNeedCare needCare={needCare} setNeedCare={setNeedCare} isEdit={isEdit} />
+        <BidLetter bidLetter={bidLetter} setBidLetter={setBidLetter} isEdit={isEdit} />
         <BidRefStyle />
-        <View style={styles.bottomBtnArea}>
-          <TouchableOpacity style={[styles.bottomBtn, styles.leftBtn]}>
-            <Text style={styles.leftBtnText}>임시저장</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.bottomBtn, styles.rightBtn]}
-            onPress={registerBidHandler}>
-            <Text style={styles.rightBtnText}>발송하기</Text>
-          </TouchableOpacity>
-        </View>
+        {info.status === 'wait' && (
+          <View style={styles.bottomBtnArea}>
+            {isEdit ? (
+              <TouchableOpacity
+                style={[styles.bottomBtn, styles.rightBtn]}
+                onPress={() => editAlert(info.id)}>
+                <Text style={styles.rightBtnText}>저장하기</Text>
+              </TouchableOpacity>
+            ) : (
+              <>
+                <TouchableOpacity
+                  style={[styles.bottomBtn, styles.leftBtn]}
+                  onPress={() => deleteAlert(info.id)}>
+                  <Text style={styles.leftBtnText}>삭제하기</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.bottomBtn, styles.rightBtn]}
+                  onPress={editToggleHandler}>
+                  <Text style={styles.rightBtnText}>수정하기</Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
+        )}
       </ScrollView>
     </View>
   );
@@ -184,4 +246,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-export default CreateBidScreen;
+export default DetailBidScreen;

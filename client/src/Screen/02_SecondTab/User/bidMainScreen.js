@@ -12,6 +12,7 @@ const Tab = createMaterialTopTabNavigator();
 function BidMainScreen({ navigation }) {
   const [userInfo, setUserInfo] = useState({});
   const [proposal, setProposal] = useState();
+  const [bidList, setBidList] = useState([]);
   const getProposalInfo = async (user) => {
     await fetch('http://127.0.0.1:3000' + `/api/proposal/user/${user.id}`, {
       method: 'GET',
@@ -34,11 +35,29 @@ function BidMainScreen({ navigation }) {
         console.error(error);
       });
   };
+  const getBidList = async (user) => {
+    await fetch('http://127.0.0.1:3000' + `/api/bid/customer/${user.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.data) {
+          setBidList(result.data.bidList);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   useEffect(() => {
     async function fetchMode() {
       const user = await BidiStorage.getData(STORAGE_KEY);
       setUserInfo(user);
       getProposalInfo(user);
+      getBidList(user);
     }
     fetchMode();
   }, []);
@@ -72,11 +91,13 @@ function BidMainScreen({ navigation }) {
           {() => <Text>아직 제안서 x</Text>}
         </Tab.Screen>
       )}
-      {proposal ? (
-        <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }} component={BidListScreen} />
+      {bidList ? (
+        <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>
+          {() => <BidListScreen userInfo={userInfo} bidList={bidList} />}
+        </Tab.Screen>
       ) : (
         <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>
-          {() => <Text></Text>}
+          {() => <Text>asdf</Text>}
         </Tab.Screen>
       )}
     </Tab.Navigator>
