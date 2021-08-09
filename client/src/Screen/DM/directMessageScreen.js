@@ -7,6 +7,8 @@ import {
   ScrollView,
 } from 'react-native';
 
+import io from 'socket.io-client';
+
 import ChatBubbleList from '../../Components/DM/chatBubbleList';
 import DMHeader from '../../Components/DM/dMHeader';
 
@@ -44,11 +46,13 @@ const dummyMessages = [
 ];
 
 function DMScreen({ navigation, route }) {
-
+  
   const { params: { user } } = route;
-
+  
   const [messageText, setMessageText] = useState('');
   const [messages, setMessages] = useState(dummyMessages);
+  
+  const socket = io('http://127.0.0.1:8080');
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -58,9 +62,21 @@ function DMScreen({ navigation, route }) {
       content: messageText,
       createdAt: '2021-07-15 08:44:45',
     }]
-    setMessages(newMessages);
+    // setMessages(newMessages);
+    socket.emit('message text', messageText);
     setMessageText('');
   }
+
+  useEffect(() => {
+    socket.on("message text", msg => {
+      setMessages([...messages, {
+        userId: 1,
+        customerSent: true,
+        content: msg,
+        createdAt: '2021-07-15 08:44:45',
+      }]);
+    });
+  }, []);
 
   // Header style configuration
   useLayoutEffect(() => {
