@@ -32,6 +32,16 @@ const modelAttributes = {
   img_src_three: {
     type: DataTypes.STRING,
   },
+  created_at: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.fn('now'),
+  },
+  updated_at: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.fn('now'),
+  },
 }
 
 const modelOptions = {

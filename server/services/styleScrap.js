@@ -1,3 +1,4 @@
+const style = require('../models/style')
 const db = require('./db/styleScrap')
 
 const registerStyleScrap = async (params) => {
@@ -14,7 +15,6 @@ const getStyleScrapList = async (userId) => {
   let styleScrapList = []
 
   const userStyleScrapList = await db.selectStyleScrapByUser(userId)
-
   for (const styleScrap of userStyleScrapList.styleScraps) {
     const tmpScrap = makeStyleScrapData(styleScrap.dataValues)
     styleScrapList.push(tmpScrap)
@@ -32,6 +32,8 @@ const makeStyleScrapData = (styleScrap) => {
     img_src_one,
     img_src_two,
     img_src_three,
+    created_at,
+    updated_at,
   } = styleScrap
   return {
     id,
@@ -42,6 +44,8 @@ const makeStyleScrapData = (styleScrap) => {
     img_src_one,
     img_src_two,
     img_src_three,
+    created_at,
+    updated_at,
   }
 }
 

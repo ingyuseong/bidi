@@ -17,7 +17,21 @@ const LoginScreen = ({ navigation }) => {
     await checkUser(profile);
   };
 
-  const naverLoginHandler = () => {};
+  const naverLoginHandler = async () => {
+    const token = '1234';
+    await BidiStorage.storeData(STORAGE_KEY, {
+      id: 2,
+      type: '디자이너',
+      token,
+      nick_name: '수현',
+      name: '김수현',
+      gender: 'male',
+      address: '서울특별시 강북구 미아동',
+      img_src: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_designer.png',
+      ai_status: 'wait',
+    });
+    navigation.replace('MainTab');
+  };
 
   const checkUser = async (profile) => {
     await fetch('http://127.0.0.1:3000' + '/api/user/token', {
