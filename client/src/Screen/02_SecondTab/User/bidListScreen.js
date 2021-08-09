@@ -8,16 +8,25 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Swiper from 'react-native-swiper';
+import Modal from 'react-native-modal';
+import StyleModal from '../../../Components/Modal/styleModal';
 
-function BidListScreen({ userInfo, bidList }) {
+function BidListScreen({ navigation, userInfo, bidList }) {
   const [moreToggle, setMoreToggle] = useState(false);
-
+  const [modalVisible, setModalVisible] = useState(false);
+  const [showStyles, setShowStyles] = useState([]);
+  const [styleIndex, setStyleIndex] = useState(0);
   const textLimiting = (description, count) => {
     if (description.length > count) {
       return description.substr(0, count) + '..';
     } else {
       return description;
     }
+  };
+  const modalOpen = async (index, bidStyles) => {
+    await setStyleIndex(index);
+    await setShowStyles(bidStyles);
+    setModalVisible(true);
   };
   return (
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
@@ -32,23 +41,23 @@ function BidListScreen({ userInfo, bidList }) {
               />
               <View>
                 {moreToggle ? (
-                  <View style={{ ...styles.letterArea, height: 160 }}>
-                    <Text style={styles.letterText}>{textLimiting(bid.letter, 150)}</Text>
-                    <View style={styles.moreBtnArea}>
-                      <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
-                        <View style={styles.moreBtn}>
-                          <Text style={styles.moreBtnText}>더보기</Text>
-                        </View>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                ) : (
                   <View style={styles.letterArea}>
                     <Text style={styles.letterText}>{bid.letter}</Text>
                     <View style={{ ...styles.moreBtnArea, alignItems: 'center' }}>
                       <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
                         <View style={{ ...styles.moreBtn, borderWidth: 0 }}>
                           <Icon name="up" size={17} color="#8D8D8D"></Icon>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                ) : (
+                  <View style={{ ...styles.letterArea, height: 160 }}>
+                    <Text style={styles.letterText}>{textLimiting(bid.letter, 150)}</Text>
+                    <View style={styles.moreBtnArea}>
+                      <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
+                        <View style={styles.moreBtn}>
+                          <Text style={styles.moreBtnText}>더보기</Text>
                         </View>
                       </TouchableOpacity>
                     </View>
@@ -63,9 +72,13 @@ function BidListScreen({ userInfo, bidList }) {
                   showsVerticalScrollIndicator={false}
                   showsHorizontalScrollIndicator={false}>
                   {bid.bidStyles.map((item, index) => (
-                    <View key={index}>
+                    <TouchableOpacity
+                      key={index}
+                      activeOpacity={0.8}
+                      style={styles.imageAfter}
+                      onPress={() => modalOpen(index, bid.bidStyles)}>
                       <Image style={styles.styleImg} source={{ uri: item.img_src_one }} />
-                    </View>
+                    </TouchableOpacity>
                   ))}
                 </ScrollView>
               </View>
@@ -79,6 +92,24 @@ function BidListScreen({ userInfo, bidList }) {
             />
             <View style={{ marginBottom: 70 }}></View>
           </View>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            isVisible={modalVisible}
+            style={{
+              alignItems: 'center',
+            }}
+            backdropOpacity={0.3}>
+            <StyleModal
+              styleScraps={showStyles}
+              index={styleIndex}
+              setModalVisible={setModalVisible}
+              setStyleScrapList={bid.bidStyles}
+              userInfo={userInfo}
+              navigation={navigation}
+              deleteIcon={false}
+            />
+          </Modal>
         </View>
       ))}
     </Swiper>
