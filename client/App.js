@@ -6,8 +6,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import LandingScreen from './src/Screen/landingScreen';
 import AuthStack from './src/Navigator/Auth/authStack';
 
-import TopLeftBar from './src/Components/Header/topLeftBar';
-import TopRightBar from './src/Components/Header/topRightBar';
+import TopLeftBar from './src/Components/HeaderBar/topLeftBar';
+import TopRightBar from './src/Components/HeaderBar/topRightBar';
 
 import MainTabStack from './src/Navigator/MainTab/mainTabStack';
 

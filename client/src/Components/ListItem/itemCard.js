@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-na
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { convertDate } from '../../Lib/utils';
 
-function BidListItem({ info, navigation }) {
+function ItemCard({ info, navigation }) {
   const moreBtnHandler = () => {
     navigation.replace('detailBid', { info });
   };
@@ -268,4 +268,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BidListItem;
+export default ItemCard;
