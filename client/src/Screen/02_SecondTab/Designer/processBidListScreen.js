@@ -13,7 +13,7 @@ function ProcessBidListScreen({ navigation, bidList }) {
   return (
     <ScrollView style={styles.container}>
       {waitBidList.map((bid, index) => (
-        <ItemCard key={index} info={bid} navigation={navigation} />
+        <ItemCard key={index} info={bid} navigation={navigation} screen="bid" />
       ))}
     </ScrollView>
   );

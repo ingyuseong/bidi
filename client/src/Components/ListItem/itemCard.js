@@ -1,12 +1,25 @@
 import React, { useState } from 'react';
+import { CommonActions } from '@react-navigation/native';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { convertDate } from '../../Lib/utils';
+import BottomButton from './bottomButton';
 
-function ItemCard({ info, navigation }) {
+function ItemCard({ info, screen, navigation }) {
+  const keywords = info.proposal ? info.proposal.keywords : info.keywords;
+  const img_src = info.proposal ? info.proposal.after_src : info.user.img_src;
+  const distance_limit = info.proposal ? info.proposal.distance_limit : info.distance;
+  const description = info.letter ? info.letter : info.description;
+
+  // status : wait, process, done, cancel, default
+  const status = info.status ? info.status : 'default';
+  const leftBtnText = screen === 'branding' ? '더보기' : '취소됨';
+  const rightBtnText = screen === 'branding' ? '대표 등록' : '시술 완료';
+
   const moreBtnHandler = () => {
     navigation.replace('detailBid', { info });
   };
+  const deleteBtnHandler = () => {};
   const cancelAlert = (id) => {
     Alert.alert('정말 취소하시겠습니까?', '취소후에는 변경이 불가능합니다', [
       { text: '취소', style: 'cancel' },
@@ -29,6 +42,7 @@ function ItemCard({ info, navigation }) {
       },
     ]);
   };
+
   const statusSubmitHandler = async (id, status) => {
     await fetch('http://127.0.0.1:3000' + `/api/bid/status/${id}`, {
       method: 'PATCH',
@@ -43,21 +57,14 @@ function ItemCard({ info, navigation }) {
       .then(async (response) => {
         if (response) {
           Alert.alert('Bid 상태가 성공적으로 수정되었습니다!');
-          navigation.replace('MainTab', {
-            screen: 'Bid',
-            params: {
-              screen: 'ProcessBidList',
-              params: {
-                info,
-              },
-            },
-          });
+          navigation.dispatch(CommonActions.navigate('ProcessBidList'));
         }
       })
       .catch((error) => {
         console.error(error);
       });
   };
+
   return (
     <View style={styles.bidContainer}>
       <View style={styles.bidBox}>
@@ -65,14 +72,20 @@ function ItemCard({ info, navigation }) {
           <View style={styles.dateView}>
             <Text style={styles.dateText}>{convertDate(info.created_at)}</Text>
           </View>
-          <TouchableOpacity style={styles.moreBtn} onPress={moreBtnHandler}>
-            <Text style={styles.moreBtnText}>더보기</Text>
-            <Ionicons name="chevron-forward" size={15} />
-          </TouchableOpacity>
+          {screen === 'branding' ? (
+            <TouchableOpacity style={styles.moreBtn} onPress={deleteBtnHandler}>
+              <Ionicons name="ellipsis-vertical" size={15} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.moreBtn} onPress={moreBtnHandler}>
+              <Text style={styles.moreBtnText}>더보기</Text>
+              <Ionicons name="chevron-forward" size={15} />
+            </TouchableOpacity>
+          )}
         </View>
         <View style={styles.bidContentArea}>
           <View style={styles.bidProfileArea}>
-            <Image source={{ uri: info.proposal.after_src }} style={styles.bidProfileImg} />
+            <Image source={{ uri: img_src }} style={styles.bidProfileImg} />
           </View>
           <View style={styles.bidInfoArea}>
             <View style={styles.nameArea}>
@@ -84,12 +97,12 @@ function ItemCard({ info, navigation }) {
               </View>
               <View style={styles.locationView}>
                 <Ionicons name="location-outline" size={15} />
-                <Text style={styles.locationText}>{info.proposal.distance_limit}</Text>
+                <Text style={styles.locationText}>{distance_limit}</Text>
               </View>
             </View>
             <View style={styles.tagArea}>
-              {info?.proposal?.keywords.length > 0 &&
-                info.proposal.keywords.split(',').map((keyword, index) => (
+              {keywords.length > 0 &&
+                keywords.split(',').map((keyword, index) => (
                   <View style={styles.tagView} key={index}>
                     <Text style={styles.tagText}># {keyword}</Text>
                   </View>
@@ -97,41 +110,27 @@ function ItemCard({ info, navigation }) {
             </View>
             <View style={styles.descriptionArea}>
               <Text style={styles.descriptionText} numberOfLines={2}>
-                {info.letter}
+                {description}
               </Text>
             </View>
           </View>
         </View>
       </View>
-      {info.status !== 'wait' && (
-        <View style={styles.processBox}>
-          <TouchableOpacity
-            style={[styles.processArea, info.status === 'cancel' && styles.cancelBtn]}
-            onPress={() => {
-              cancelAlert(info.id);
-            }}>
-            <Text style={[styles.processAreaText, info.status === 'cancel' && styles.cancelBtn]}>
-              취소됨
-            </Text>
-          </TouchableOpacity>
-          {info.status === 'cancel' && (
-            <TouchableOpacity style={[styles.processArea]}>
-              <Text style={styles.processAreaText}>시술 완료</Text>
-            </TouchableOpacity>
-          )}
-          {info.status === 'process' && (
-            <TouchableOpacity
-              style={[styles.processArea, styles.processBtn]}
-              onPress={() => doneAlert(info.id)}>
-              <Text>시술 진행중</Text>
-            </TouchableOpacity>
-          )}
-          {info.status === 'done' && (
-            <TouchableOpacity style={[styles.processArea, styles.doneBtn]}>
-              <Text style={styles.doneBtn}>시술 완료</Text>
-            </TouchableOpacity>
-          )}
-        </View>
+      {status !== 'wait' && (
+        <BottomButton
+          info={info}
+          navigation={navigation}
+          btnDisable={status === 'cancel' || status == 'done' ? true : false}
+          leftBtnText={leftBtnText}
+          leftBtnHandler={() => {
+            screen === 'branding' ? console.log('hi') : cancelAlert(info.id);
+          }}
+          rightBtnText={rightBtnText}
+          rightBtnHandler={() => {
+            screen === 'branding' ? console.log('hi') : doneAlert(info.id);
+          }}
+          status={status}
+        />
       )}
 
       <View style={styles.line}></View>
@@ -143,6 +142,7 @@ const styles = StyleSheet.create({
   bidBox: {
     flex: 1,
     padding: 16,
+    paddingBottom: 0,
   },
   bidHeaderArea: {
     flexDirection: 'row',
@@ -229,42 +229,6 @@ const styles = StyleSheet.create({
   line: {
     height: 10,
     backgroundColor: '#f4f4f4',
-  },
-  processBox: {
-    flexDirection: 'row',
-    margin: 16,
-    marginTop: 0,
-    justifyContent: 'space-between',
-  },
-  processArea: {
-    width: '49%',
-    height: 36,
-    backgroundColor: '#ffffff',
-    borderWidth: 1,
-    borderColor: '#DDDDDD',
-    borderRadius: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  processAreaText: {
-    color: '#8D8D8D',
-    fontSize: 13,
-    lineHeight: 16,
-    letterSpacing: -0.5,
-  },
-  processBtnText: {},
-  processBtn: {
-    borderColor: '#0A0A32',
-  },
-  cancelBtn: {
-    backgroundColor: '#0A0A32',
-    borderColor: '#0A0A32',
-    color: '#FFFFFF',
-  },
-  doneBtn: {
-    backgroundColor: '#0A0A32',
-    borderColor: '#0A0A32',
-    color: '#FFFFFF',
   },
 });
 

@@ -133,7 +133,7 @@ exports.insertBid = async ({
     raw: true,
     customer_id,
     designer_id,
-    proposal_id,
+    proposalId: proposal_id,
     large_category,
     small_category,
     letter,

@@ -1,4 +1,5 @@
 const db = require('./db/branding')
+const userDb = require('./db/user')
 
 const getBrandingList = async () => {
   let results = []
@@ -11,12 +12,14 @@ const getBrandingList = async () => {
 }
 
 const getBrandingListByUserId = async (userId) => {
-  let results = []
+  const results = []
   const brandingList = await db.selectAllBrandingByUserId(userId)
-  for await (const item of brandingList) {
-    results.push(await getBrandingInfo(item.userId))
+  for await (const branding of brandingList) {
+    let result = JSON.stringify(branding)
+    const { name, img_src, address } = await userDb.selectUser(branding.user_id)
+    result = { ...JSON.parse(result), user: { name, img_src, address } }
+    results.push(result)
   }
-
   return results
 }
 
