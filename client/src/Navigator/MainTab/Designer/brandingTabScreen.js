@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import BrandingMainScreen from '../../../Screen/03_ThirdTab/Designer/brandingMainScreen';
 import CreateBrandingScreen from '../../../Screen/03_ThirdTab/Designer/createBrandingScreen';
+import DetailBrandingScreen from '../../../Screen/03_ThirdTab/Designer/detailBrandingScreen';
+import EditBrandingScreen from '../../../Screen/03_ThirdTab/Designer/editBrandingScreen';
 const BrandingStack = createStackNavigator();
 
 function BrandingTabScreen({ navigation }) {
@@ -17,6 +19,16 @@ function BrandingTabScreen({ navigation }) {
       <BrandingStack.Screen
         name="CreateBranding"
         component={CreateBrandingScreen}
+        options={{ headerShown: false, title: '' }}
+      />
+      <BrandingStack.Screen
+        name="DetailBranding"
+        component={DetailBrandingScreen}
+        options={{ headerShown: false, title: '' }}
+      />
+      <BrandingStack.Screen
+        name="EditBranding"
+        component={EditBrandingScreen}
         options={{ headerShown: false, title: '' }}
       />
     </Stack.Navigator>

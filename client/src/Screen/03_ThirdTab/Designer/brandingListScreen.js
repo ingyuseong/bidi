@@ -18,7 +18,6 @@ function BrandingListScreen({ navigation }) {
       })
         .then((response) => response.json())
         .then(async (response) => {
-          console.log(response.data);
           setBrandingList(response.data);
         })
         .catch((error) => {

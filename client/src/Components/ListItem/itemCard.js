@@ -42,6 +42,9 @@ function ItemCard({ info, screen, navigation }) {
       },
     ]);
   };
+  const moveToDetailBranding = (info) => {
+    navigation.navigate('DetailBranding', { info });
+  };
   const registerAlert = (id) => {
     Alert.alert('대표 포트폴리오로 등록하시겠습니까?', '', [
       { text: '취소', style: 'cancel' },
@@ -134,7 +137,7 @@ function ItemCard({ info, screen, navigation }) {
             </View>
             <View style={styles.tagArea}>
               {keywords.length > 0 &&
-                keywords.split(',').map((keyword, index) => (
+                keywords.map((keyword, index) => (
                   <View style={styles.tagView} key={index}>
                     <Text style={styles.tagText}># {keyword}</Text>
                   </View>
@@ -155,7 +158,7 @@ function ItemCard({ info, screen, navigation }) {
           btnDisable={status === 'cancel' || status == 'done' ? true : false}
           leftBtnText={leftBtnText}
           leftBtnHandler={() => {
-            screen === 'branding' ? console.log('hi') : cancelAlert(info.id);
+            screen === 'branding' ? moveToDetailBranding(info) : cancelAlert(info.id);
           }}
           rightBtnText={rightBtnText}
           rightBtnHandler={() => {

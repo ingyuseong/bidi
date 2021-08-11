@@ -23,11 +23,22 @@ const getBrandingList = async () => {
 
 const getBrandingListByUserId = async (userId) => {
   const results = []
-  const brandingList = await db.selectAllBrandingByUserId(userId)
+  const brandingList = await db.selectBrandingWithStyle(userId)
   for await (const branding of brandingList) {
-    let result = JSON.stringify(branding)
-    const { name, img_src, address } = await userDb.selectUser(branding.user_id)
-    result = { ...JSON.parse(result), user: { name, img_src, address } }
+    const { id, user_id, description, shop_name, keywords, main, created_at } =
+      branding
+    const result = {
+      id,
+      user_id,
+      description,
+      shop_name,
+      keywords: keywords == '' ? [] : keywords.split(','),
+      main,
+      created_at,
+      styles: branding.styleMenus.map((style) => style.dataValues),
+      user: branding.user.dataValues,
+    }
+
     results.push(result)
   }
   return results

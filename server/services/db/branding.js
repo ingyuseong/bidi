@@ -94,6 +94,11 @@ exports.selectBrandingWithStyle = async (userId) => {
         through: {
           model: StyleMenu,
         },
+        required: false,
+      },
+      {
+        model: User,
+        attributes: ['name', 'img_src'],
       },
     ],
   })
