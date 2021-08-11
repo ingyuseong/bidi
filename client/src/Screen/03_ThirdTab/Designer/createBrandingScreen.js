@@ -51,7 +51,7 @@ function CreateBrandingScreen({ navigation }) {
         user_id: userInfo.id,
         description: description,
         shop_name: shopName,
-        keywords: styleTags,
+        keywords: styleTags.toString(),
         main: 0,
         styles: [1, 2, 3],
       }),

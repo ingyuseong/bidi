@@ -1,6 +1,16 @@
 const db = require('./db/branding')
 const userDb = require('./db/user')
 
+const editBranding = async (params) => {
+  const branding = await db.updateBranding({ ...params })
+  return branding
+}
+
+const deleteBranding = async (id) => {
+  const branding = await db.destroyBranding(id)
+  return branding
+}
+
 const getBrandingList = async () => {
   let results = []
   const brandingList = await db.selectAllBranding()
@@ -20,6 +30,21 @@ const getBrandingListByUserId = async (userId) => {
     result = { ...JSON.parse(result), user: { name, img_src, address } }
     results.push(result)
   }
+  return results
+}
+
+const registerBranding = async (params) => {
+  const branding = await db.insertBranding({ ...params })
+  return branding
+}
+
+const registerBrandingStyle = async ({ brandingId, styles }) => {
+  const results = await Promise.all(
+    styles.map((style) => {
+      console.log('???????', brandingId)
+      return db.insertBrandingStyle(brandingId, style)
+    })
+  )
   return results
 }
 
@@ -57,4 +82,12 @@ const makeStyleData = (styles) => {
   return results
 }
 
-module.exports = { getBrandingListByUserId, getBrandingInfo, getBrandingList }
+module.exports = {
+  getBrandingListByUserId,
+  getBrandingInfo,
+  getBrandingList,
+  registerBranding,
+  registerBrandingStyle,
+  editBranding,
+  deleteBranding,
+}
