@@ -59,8 +59,8 @@ function CreateBrandingScreen({ navigation }) {
       .then((response) => response.json())
       .then(async (response) => {
         if (response) {
-          console.log(response.data);
           Alert.alert('포트폴리오 작성이 성공적으로 완료되었습니다!');
+          navigation.navigate('BrandingMain');
         }
       })
       .catch((error) => {

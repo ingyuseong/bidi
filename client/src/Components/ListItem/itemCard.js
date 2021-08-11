@@ -42,7 +42,39 @@ function ItemCard({ info, screen, navigation }) {
       },
     ]);
   };
+  const registerAlert = (id) => {
+    Alert.alert('대표 포트폴리오로 등록하시겠습니까?', '', [
+      { text: '취소', style: 'cancel' },
+      {
+        text: '등록하기',
+        onPress: () => {
+          registerSubmitHandler(id);
+        },
+      },
+    ]);
+  };
 
+  const registerSubmitHandler = async (id) => {
+    await fetch('http://127.0.0.1:3000' + `/api/branding/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        main: 1,
+      }),
+    })
+      .then((response) => response.json())
+      .then(async (response) => {
+        if (response) {
+          Alert.alert('대표 포트폴리오로 등록되었습니다!');
+          navigation.dispatch(CommonActions.navigate('BrandingMain'));
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   const statusSubmitHandler = async (id, status) => {
     await fetch('http://127.0.0.1:3000' + `/api/bid/status/${id}`, {
       method: 'PATCH',
@@ -127,7 +159,7 @@ function ItemCard({ info, screen, navigation }) {
           }}
           rightBtnText={rightBtnText}
           rightBtnHandler={() => {
-            screen === 'branding' ? console.log('hi') : doneAlert(info.id);
+            screen === 'branding' ? registerAlert(info.id) : doneAlert(info.id);
           }}
           status={status}
         />

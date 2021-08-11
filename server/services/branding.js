@@ -41,7 +41,6 @@ const registerBranding = async (params) => {
 const registerBrandingStyle = async ({ brandingId, styles }) => {
   const results = await Promise.all(
     styles.map((style) => {
-      console.log('???????', brandingId)
       return db.insertBrandingStyle(brandingId, style)
     })
   )
