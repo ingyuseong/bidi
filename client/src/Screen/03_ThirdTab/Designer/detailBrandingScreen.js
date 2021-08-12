@@ -7,55 +7,35 @@ import CardInfo from '../../../Components/Card/cardInfo';
 import DesignerDetail from '../../01_FirstTab/User/designerDetailScreen';
 function DetailBrandingScreen({ navigation, route }) {
   const { info } = route.params;
-  console.log('??', info);
   return (
-    <Swiper
-      style={styles.wrapper}
-      showsButtons={false}
-      showsPagination={false}
-      loop={false}
-      horizontal={false}>
-      <View style={styles.container}>
-        <View style={{ height: '60%' }}>
-          <CardStyle styleLists={info.styles} isUser={true} />
-        </View>
-        <CardInfo info={info} navigation={navigation} height={150} />
-        <TouchableOpacity style={styles.editIconArea}>
-          <Icon name="pencil" size={30} style={styles.editIcon} />
-        </TouchableOpacity>
-      </View>
-      <View>
+    <View style={styles.container}>
+      <ScrollView>
+        <CardStyle styleLists={info.styles} isUser={true} height={400} />
+        <CardInfo info={info} navigation={navigation} />
+        <View style={styles.line}></View>
         <DesignerDetail info={info} />
-        <TouchableOpacity
-          style={styles.editIconArea}
-          onPress={() => {
-            navigation.navigate('EditBranding');
-          }}>
-          <Icon name="pencil" size={30} style={styles.editIcon} />
-        </TouchableOpacity>
-      </View>
-    </Swiper>
+      </ScrollView>
+      <TouchableOpacity
+        style={styles.editIconArea}
+        onPress={() => {
+          navigation.navigate('EditBranding', { info });
+        }}>
+        <Icon name="pencil" size={30} style={styles.editIcon} />
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrapper: {},
   container: {
     flex: 1,
-    margin: 16,
+    overflow: 'scroll',
     backgroundColor: 'white',
-    borderColor: '#e2e2e2',
-    borderRadius: 20,
-    shadowColor: 'rgb(17, 17, 17)',
-    shadowOffset: {
-      width: 1,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 15,
-    position: 'relative',
   },
-
+  line: {
+    height: 9,
+    backgroundColor: '#F4F4F4',
+  },
   bidiBtn: {
     position: 'absolute',
     backgroundColor: '#FF533A',
@@ -85,8 +65,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 50,
     position: 'absolute',
-    right: 20,
-    bottom: 20,
+    bottom: 16,
+    right: 16,
   },
   editIcon: {
     color: 'white',

@@ -8,25 +8,27 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from '../Common/button';
 
 function CardInfo({ info, navigation, height }) {
+  const name = info.user ? info.user.name : info.name;
+  const img_src = info.user ? info.user.img_src : info.img_src;
   return (
     <View style={styles.designerContainer}>
       <View style={styles.designerInfo}>
         <Image
           style={styles.designerImg}
           source={{
-            uri: info.img_src,
+            uri: img_src,
           }}
         />
         <View style={styles.designerBox}>
           <View style={styles.designerNameArea}>
-            <Text style={styles.designerName}>{info.name}</Text>
+            <Text style={styles.designerName}>{name}</Text>
             {/* <Button
               title="더보기"
               pressHandler={() => navigation.navigate('DesignerDetail', { newInfo: info })}
             /> */}
           </View>
           <View style={styles.shopInfo}>
-            <Text style={styles.shopName}>@ {info.address || info.shopName}</Text>
+            <Text style={styles.shopName}>@ {info.address || info.shopName || info.shop_name}</Text>
             <Ionicons name="location-outline" size={15} />
             <Text style={styles.shopDistance}>{info.distance_limit || info.distance}km 이내</Text>
           </View>

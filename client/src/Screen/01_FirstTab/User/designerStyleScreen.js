@@ -39,7 +39,6 @@ function DesignerStyleScreen({ navigation, info }) {
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         setStyleScraps([
           ...styleScraps,
           {
@@ -119,7 +118,7 @@ function DesignerStyleScreen({ navigation, info }) {
                     <Image
                       style={styles.styleImg}
                       source={{
-                        uri: item.img_src_one,
+                        uri: item.img_src,
                       }}
                     />
                   </TouchableOpacity>

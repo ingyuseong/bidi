@@ -26,7 +26,6 @@ function BrandingListScreen({ navigation }) {
     }
     fetchMode();
   }, []);
-  console.log(brandingList);
   return (
     <View style={styles.container}>
       {brandingList.length > 0 ? (
