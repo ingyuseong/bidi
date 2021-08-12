@@ -111,12 +111,12 @@ db.User.belongsToMany(db.Style, {
 // 관계정의 Branding : Style = M : N
 db.Style.belongsToMany(db.Branding, {
   through: 'styleMenu',
-  as: 'styleMenuss',
+  as: 'styleMenus',
   onDelete: 'CASCADE',
 })
 db.Branding.belongsToMany(db.Style, {
   through: 'styleMenu',
-  as: 'styleMenuss',
+  as: 'styleMenus',
   onDelete: 'CASCADE',
 })
 

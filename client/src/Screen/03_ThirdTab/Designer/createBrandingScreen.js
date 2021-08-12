@@ -10,9 +10,8 @@ import {
   Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import DropDownPicker from 'react-native-dropdown-picker';
 import BidiStorage from '../../../Lib/storage';
-import { DISTANCE_CATEGORY, STORAGE_KEY } from '../../../Lib/constant';
+import { STORAGE_KEY } from '../../../Lib/constant';
 
 function CreateBrandingScreen({ navigation }) {
   const [userInfo, setUserInfo] = useState();
@@ -24,10 +23,6 @@ function CreateBrandingScreen({ navigation }) {
   const [tagText, setTagText] = useState('');
   const [styleTags, setStyleTags] = useState([]);
   const [styleList, setStyleList] = useState('');
-
-  const [distanceOpen, setDistanceOpen] = useState('');
-  const [distanceValue, setDistanceValue] = useState('');
-  const [distanceItems, setDistanceItems] = useState(DISTANCE_CATEGORY);
 
   const addStyleTags = () => {
     if (styleTags.length > 4) {
@@ -51,8 +46,10 @@ function CreateBrandingScreen({ navigation }) {
         user_id: userInfo.id,
         description: description,
         shop_name: shopName,
+        title: brandingName,
         keywords: styleTags.toString(),
         main: 0,
+        authentication: 0,
         styles: [1, 2, 3],
       }),
     })
@@ -137,26 +134,6 @@ function CreateBrandingScreen({ navigation }) {
           maxLength={50}
           multiline={false}
           returnKeyType="next"
-        />
-      </View>
-      <View style={{ ...styles.inputBox, zIndex: 100 }}>
-        <View style={styles.titleTextArea}>
-          <Text style={styles.titleText}>원하는 거리</Text>
-        </View>
-        <DropDownPicker
-          zIndex={1000}
-          open={distanceOpen}
-          value={distanceValue}
-          items={distanceItems}
-          setOpen={setDistanceOpen}
-          setValue={setDistanceValue}
-          setItems={setDistanceItems}
-          placeholder="반경 선택하기"
-          style={{ ...styles.dropDownArea, height: 42 }}
-          dropDownContainerStyle={styles.dropDownArea}
-          placeholderStyle={{ color: 'grey', fontSize: 15 }}
-          listParentLabelStyle={{ color: 'grey', fontSize: 15 }}
-          listMode="SCROLLVIEW"
         />
       </View>
       <View style={styles.inputBox}>
@@ -354,13 +331,6 @@ const styles = StyleSheet.create({
   },
   addIcon: {
     color: '#fff',
-  },
-  dropDownArea: {
-    flex: 1,
-    borderColor: 'rgb(214,214,214)',
-    borderRadius: 3,
-    backgroundColor: 'white',
-    zIndex: 100,
   },
   line: {
     height: 10,

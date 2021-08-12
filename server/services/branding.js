@@ -25,13 +25,26 @@ const getBrandingListByUserId = async (userId) => {
   const results = []
   const brandingList = await db.selectBrandingWithStyle(userId)
   for await (const branding of brandingList) {
-    const { id, user_id, description, shop_name, keywords, main, created_at } =
-      branding
+    const {
+      id,
+      user_id,
+      title,
+      address,
+      authentication,
+      description,
+      shop_name,
+      keywords,
+      main,
+      created_at,
+    } = branding
     const result = {
       id,
       user_id,
       description,
       shop_name,
+      title,
+      address,
+      authentication,
       keywords: keywords == '' ? [] : keywords.split(','),
       main,
       created_at,

@@ -9,6 +9,7 @@ function ItemCard({ info, screen, navigation }) {
   const keywords = info.proposal ? info.proposal.keywords : info.keywords;
   const img_src = info.proposal ? info.proposal.after_src : info.user.img_src;
   const distance_limit = info.proposal ? info.proposal.distance_limit : info.distance;
+  const address = info.address ? info.address : info.user.address;
   const description = info.letter ? info.letter : info.description;
 
   // status : wait, process, done, cancel, default
@@ -128,11 +129,11 @@ function ItemCard({ info, screen, navigation }) {
             </View>
             <View style={styles.locationArea}>
               <View style={styles.locationView}>
-                <Text style={styles.locationText}>@ {info.user.address}</Text>
+                <Text style={styles.locationText}>@ {address}</Text>
               </View>
               <View style={styles.locationView}>
                 <Ionicons name="location-outline" size={15} />
-                <Text style={styles.locationText}>{distance_limit}</Text>
+                <Text style={styles.locationText}>3km</Text>
               </View>
             </View>
             <View style={styles.tagArea}>

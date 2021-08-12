@@ -69,7 +69,6 @@ exports.getBrandings = async (req, res, next) => {
   try {
     const { userId } = req.params
     const brandingInfo = await brandingServices.getBrandingListByUserId(userId)
-
     res.status(STATUS_CODE.SUCCESS).json({
       message: '브랜딩 페이지 정보 조회 성공',
       data: brandingInfo,

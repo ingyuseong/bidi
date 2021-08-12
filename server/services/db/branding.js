@@ -111,6 +111,9 @@ exports.insertBranding = async ({
   shop_name,
   keywords,
   main,
+  title,
+  address,
+  authentication,
 }) =>
   await Branding.create({
     raw: true,
@@ -119,6 +122,9 @@ exports.insertBranding = async ({
     shop_name,
     keywords,
     main,
+    title,
+    address,
+    authentication,
   })
     .then((results) => {
       console.log('Success Creating Branding')
