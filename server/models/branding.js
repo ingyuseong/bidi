@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const { DataTypes } = Sequelize
-const modelName = 'brandingPage'
+const modelName = 'branding'
 
 const modelAttributes = {
   id: {
@@ -11,16 +11,25 @@ const modelAttributes = {
   user_id: {
     type: DataTypes.INTEGER,
   },
+  title: {
+    type: DataTypes.STRING,
+  },
   description: {
     type: DataTypes.STRING,
   },
   shop_name: {
     type: DataTypes.STRING,
   },
+  address: {
+    type: DataTypes.STRING,
+  },
   keywords: {
     type: DataTypes.STRING,
   },
   main: {
+    type: DataTypes.BOOLEAN,
+  },
+  authentication: {
     type: DataTypes.BOOLEAN,
   },
   created_at: {

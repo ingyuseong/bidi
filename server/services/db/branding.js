@@ -1,4 +1,4 @@
-const { BrandingPage, Style, StyleMenu, User } = require('../../models')
+const { Branding, Style, StyleMenu, User } = require('../../models')
 
 exports.updateBranding = async ({
   id,
@@ -7,7 +7,7 @@ exports.updateBranding = async ({
   keywords,
   main,
 }) =>
-  await BrandingPage.update(
+  await Branding.update(
     {
       raw: true,
       description,
@@ -32,7 +32,7 @@ exports.updateBranding = async ({
     })
 
 exports.destroyBranding = async (brandingId) =>
-  await BrandingPage.destroy({
+  await Branding.destroy({
     where: {
       id: brandingId,
     },
@@ -47,7 +47,7 @@ exports.destroyBranding = async (brandingId) =>
     })
 
 exports.selectAllBranding = async () => {
-  const results = await BrandingPage.findAll({
+  const results = await Branding.findAll({
     raw: true,
   })
 
@@ -55,7 +55,7 @@ exports.selectAllBranding = async () => {
 }
 
 exports.selectAllBrandingByUserId = async (userId) => {
-  const results = await BrandingPage.findAll({
+  const results = await Branding.findAll({
     raw: true,
     where: {
       user_id: userId,
@@ -66,7 +66,7 @@ exports.selectAllBrandingByUserId = async (userId) => {
 }
 
 exports.selectBrandingInfo = async (userId) => {
-  const results = await BrandingPage.findOne({
+  const results = await Branding.findOne({
     raw: true,
     where: {
       user_id: userId,
@@ -83,7 +83,7 @@ exports.selectBrandingInfo = async (userId) => {
 }
 
 exports.selectBrandingWithStyle = async (userId) => {
-  const results = await BrandingPage.findAll({
+  const results = await Branding.findAll({
     where: {
       user_id: userId,
     },
@@ -112,7 +112,7 @@ exports.insertBranding = async ({
   keywords,
   main,
 }) =>
-  await BrandingPage.create({
+  await Branding.create({
     raw: true,
     userId: user_id,
     description,
@@ -132,7 +132,7 @@ exports.insertBranding = async ({
 exports.insertBrandingStyle = async (brandingId, styleId) =>
   await StyleMenu.create({
     raw: true,
-    brandingPageId: brandingId,
+    BrandingId: brandingId,
     styleId,
   })
     .then((results) => {
