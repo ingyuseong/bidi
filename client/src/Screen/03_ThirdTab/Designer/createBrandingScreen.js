@@ -73,15 +73,6 @@ function CreateBrandingScreen({ navigation }) {
   }, []);
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.inputBox}>
-        <View style={styles.titleTextArea}>
-          <Text style={styles.titleText}>대표 이미지</Text>
-        </View>
-        <View style={styles.iconArea}>
-          <Icon name="camera" size={30} style={styles.cameraIcon} />
-          <Text>3/10</Text>
-        </View>
-      </View>
       <View style={styles.line}></View>
       <View style={styles.inputBox}>
         <View style={styles.titleTextArea}>
@@ -118,7 +109,6 @@ function CreateBrandingScreen({ navigation }) {
           returnKeyType="next"
         />
       </View>
-      <View style={styles.line}></View>
       <View style={styles.inputBox}>
         <View style={styles.titleTextArea}>
           <Text style={styles.titleText}>포트폴리오 이름</Text>
@@ -220,18 +210,7 @@ const styles = StyleSheet.create({
   inputBox: {
     margin: 16,
   },
-  iconArea: {
-    width: 90,
-    height: 90,
-    borderWidth: 1,
-    borderColor: '#DBDBDB',
-    borderRadius: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  cameraIcon: {
-    color: 'gray',
-  },
+
   titleText: {
     color: '#111111',
     fontWeight: 'bold',

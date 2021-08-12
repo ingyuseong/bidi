@@ -4,8 +4,11 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-na
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { convertDate } from '../../Lib/utils';
 import BottomButton from './bottomButton';
+import Modal from 'react-native-modal';
 
 function ItemCard({ info, screen, navigation }) {
+  const [modalVisible, setModalVisible] = useState(false);
+
   const keywords = info.proposal ? info.proposal.keywords : info.keywords;
   const img_src = info.proposal ? info.proposal.after_src : info.user.img_src;
   const distance_limit = info.proposal ? info.proposal.distance_limit : info.distance;
@@ -20,7 +23,20 @@ function ItemCard({ info, screen, navigation }) {
   const moreBtnHandler = () => {
     navigation.replace('detailBid', { info });
   };
-  const deleteBtnHandler = () => {};
+  const deleteBtnHandler = () => {
+    setModalVisible(true);
+  };
+  const deleteAlert = (id) => {
+    Alert.alert('정말 삭제하시겠습니까?', '삭제후에는 변경이 불가능합니다', [
+      { text: '취소', style: 'cancel' },
+      {
+        text: '삭제하기',
+        onPress: () => {
+          deleteSubmitHandler(id);
+        },
+      },
+    ]);
+  };
   const cancelAlert = (id) => {
     Alert.alert('정말 취소하시겠습니까?', '취소후에는 변경이 불가능합니다', [
       { text: '취소', style: 'cancel' },
@@ -58,6 +74,27 @@ function ItemCard({ info, screen, navigation }) {
     ]);
   };
 
+  const deleteSubmitHandler = async (id) => {
+    await fetch('http://127.0.0.1:3000' + `/api/branding/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        main: 1,
+      }),
+    })
+      .then((response) => response.json())
+      .then(async (response) => {
+        if (response) {
+          Alert.alert('삭제되었습니다!');
+          navigation.dispatch(CommonActions.navigate('BrandingMain'));
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   const registerSubmitHandler = async (id) => {
     await fetch('http://127.0.0.1:3000' + `/api/branding/${id}`, {
       method: 'PATCH',
@@ -170,6 +207,25 @@ function ItemCard({ info, screen, navigation }) {
       )}
 
       <View style={styles.line}></View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        isVisible={modalVisible}
+        style={{
+          alignItems: 'center',
+        }}
+        backdropOpacity={0.3}>
+        <View style={styles.modalContainer}>
+          <TouchableOpacity
+            style={{ ...styles.modalBox, borderBottomWidth: 1, borderBottomColor: '#DDDDDD' }}
+            onPress={() => deleteAlert(info.id)}>
+            <Text style={styles.modalDeleteText}>포트폴리오 삭제</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.modalBox} onPress={() => setModalVisible(false)}>
+            <Text style={styles.modalCancelText}>닫기</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -265,6 +321,38 @@ const styles = StyleSheet.create({
   line: {
     height: 10,
     backgroundColor: '#f4f4f4',
+  },
+  modalContainer: {
+    width: '100%',
+    height: '15%',
+    backgroundColor: 'white',
+    borderColor: '#e2e2e2',
+    borderRadius: 10,
+    shadowColor: 'rgb(17, 17, 17)',
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalBox: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalDeleteText: {
+    color: '#FF533A',
+    fontSize: 16,
+    lineHeight: 20,
+  },
+  modalCancelText: {
+    color: '#111111',
+    fontSize: 16,
+    lineHeight: 20,
   },
 });
 
