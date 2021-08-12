@@ -3,6 +3,7 @@ import { StyleSheet, ScrollView, TouchableOpacity, View, Text, Image } from 'rea
 import BidiStorage from '../../../Lib/storage';
 import { STORAGE_KEY } from '../../../Lib/constant';
 import ItemCard from '../../../Components/ListItem/itemCard';
+import MainItemCard from '../../../Components/ListItem/mainItemCard';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 function BrandingListScreen({ navigation }) {
@@ -31,9 +32,14 @@ function BrandingListScreen({ navigation }) {
       {brandingList.length > 0 ? (
         <>
           <ScrollView>
-            {brandingList.map((branding, index) => (
-              <ItemCard key={index} info={branding} navigation={navigation} screen="branding" />
-            ))}
+            {brandingList.map((branding, index) => {
+              if (branding.main) {
+                return <MainItemCard key={index} info={branding} navigation={navigation} />;
+              }
+              return (
+                <ItemCard key={index} info={branding} navigation={navigation} screen="branding" />
+              );
+            })}
           </ScrollView>
           <TouchableOpacity
             style={styles.addBrandingBtn}

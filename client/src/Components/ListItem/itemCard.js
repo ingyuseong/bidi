@@ -11,8 +11,9 @@ function ItemCard({ info, screen, navigation }) {
 
   const keywords = info.proposal ? info.proposal.keywords : info.keywords;
   const img_src = info.proposal ? info.proposal.after_src : info.user.img_src;
-  const distance_limit = info.proposal ? info.proposal.distance_limit : info.distance;
+  const distance_limit = info.proposal ? info.proposal.distance_limit : info.position;
   const address = info.address ? info.address : info.user.address;
+  const title = info.proposal ? info.user.name : info.title;
   const description = info.letter ? info.letter : info.description;
 
   // status : wait, process, done, cancel, default
@@ -88,7 +89,8 @@ function ItemCard({ info, screen, navigation }) {
       .then(async (response) => {
         if (response) {
           Alert.alert('삭제되었습니다!');
-          navigation.dispatch(CommonActions.navigate('BrandingMain'));
+          setModalVisible(false);
+          navigation.push('BrandingMain');
         }
       })
       .catch((error) => {
@@ -109,7 +111,7 @@ function ItemCard({ info, screen, navigation }) {
       .then(async (response) => {
         if (response) {
           Alert.alert('대표 포트폴리오로 등록되었습니다!');
-          navigation.dispatch(CommonActions.navigate('BrandingMain'));
+          navigation.push('BrandingMain');
         }
       })
       .catch((error) => {
@@ -162,15 +164,16 @@ function ItemCard({ info, screen, navigation }) {
           </View>
           <View style={styles.bidInfoArea}>
             <View style={styles.nameArea}>
-              <Text style={styles.nameText}>{info.user.name}</Text>
+              <Text style={styles.nameText}>{title}</Text>
             </View>
             <View style={styles.locationArea}>
               <View style={styles.locationView}>
-                <Text style={styles.locationText}>@ {address}</Text>
+                <Ionicons name="at" size={15} />
+                <Text style={styles.locationText}>{address}</Text>
               </View>
               <View style={styles.locationView}>
-                <Ionicons name="location-outline" size={15} />
-                <Text style={styles.locationText}>3km</Text>
+                <Ionicons name={screen === 'branding' ? 'md-cut-outline' : 'location'} size={15} />
+                <Text style={styles.locationText}>{distance_limit}</Text>
               </View>
             </View>
             <View style={styles.tagArea}>
@@ -245,6 +248,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 16,
     marginBottom: 16,
+    alignItems: 'center',
   },
   dateText: {
     color: '#878787',
@@ -290,6 +294,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '400',
     lineHeight: 14,
+    marginLeft: 2,
   },
   tagArea: {
     flexDirection: 'row',
@@ -353,6 +358,9 @@ const styles = StyleSheet.create({
     color: '#111111',
     fontSize: 16,
     lineHeight: 20,
+  },
+  bidInfoArea: {
+    flex: 1,
   },
 });
 

@@ -107,6 +107,7 @@ exports.selectBrandingWithStyle = async (userId) => {
         attributes: ['name', 'img_src'],
       },
     ],
+    order: [['main', 'DESC']],
   })
   return results
 }

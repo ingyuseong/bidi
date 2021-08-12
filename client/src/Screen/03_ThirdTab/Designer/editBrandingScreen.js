@@ -52,7 +52,7 @@ function EditBrandingScreen({ navigation, route }) {
       .then(async (response) => {
         if (response) {
           Alert.alert('포트폴리오 수정이 성공적으로 완료되었습니다!');
-          navigation.navigate('BrandingMain');
+          navigation.push('BrandingMain');
         }
       })
       .catch((error) => {
