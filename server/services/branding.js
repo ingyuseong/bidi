@@ -1,5 +1,10 @@
 const db = require('./db/branding')
-const userDb = require('./db/user')
+
+const editMainBranding = async (id, user_id) => {
+  await db.updateAllBrandingMainStatus(user_id)
+  const branding = db.updateBrandingMainStatus(id, user_id)
+  return branding
+}
 
 const editBranding = async (params) => {
   const branding = await db.updateBranding({ ...params })
@@ -132,5 +137,6 @@ module.exports = {
   registerBranding,
   registerBrandingStyle,
   editBranding,
+  editMainBranding,
   deleteBranding,
 }

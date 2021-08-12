@@ -1,5 +1,47 @@
 const { Branding, Style, StyleMenu, User } = require('../../models')
 
+exports.updateAllBrandingMainStatus = async (user_id) =>
+  await Branding.update(
+    {
+      raw: true,
+      main: 0,
+    },
+    {
+      where: {
+        user_id,
+      },
+    }
+  )
+    .then((results) => {
+      console.log('Success Updating All Branding Status')
+      return results
+    })
+    .catch((err) => {
+      console.log('Failed Updating All Branding Status')
+      return err
+    })
+
+exports.updateBrandingMainStatus = async (id, user_id) =>
+  await Branding.update(
+    {
+      raw: true,
+      main: 1,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  )
+    .then((results) => {
+      console.log('Success Updating Branding Main Status')
+      return results
+    })
+    .catch((err) => {
+      console.log('Failed Updating Branding Main Status')
+      return err
+    })
+
 exports.updateBranding = async ({
   id,
   description,

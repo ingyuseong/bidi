@@ -22,6 +22,26 @@ exports.editBranding = async (req, res, next) => {
 }
 
 /*
+    PATCH /api/branding/main
+    * Branding Main 상태 정보 수정 API
+*/
+exports.editMainBranding = async (req, res, next) => {
+  try {
+    const { id, user_id } = req.body
+    const branding = await brandingServices.editMainBranding(id, user_id)
+
+    res.status(STATUS_CODE.SUCCESS).json({
+      message: '대표 브랜딩 정보 수정 성공',
+      data: { branding },
+    })
+  } catch (error) {
+    res
+      .status(STATUS_CODE.SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+
+/*
     DELETE /api/branding/:id
     * Branding 정보 삭제 API
 */

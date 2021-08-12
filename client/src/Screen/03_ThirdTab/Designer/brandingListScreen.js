@@ -31,14 +31,14 @@ function BrandingListScreen({ navigation }) {
     <View style={styles.container}>
       {brandingList.length > 0 ? (
         <>
+          {brandingList[0].main && <MainItemCard info={brandingList[0]} navigation={navigation} />}
           <ScrollView>
             {brandingList.map((branding, index) => {
-              if (branding.main) {
-                return <MainItemCard key={index} info={branding} navigation={navigation} />;
+              if (!branding.main) {
+                return (
+                  <ItemCard key={index} info={branding} navigation={navigation} screen="branding" />
+                );
               }
-              return (
-                <ItemCard key={index} info={branding} navigation={navigation} screen="branding" />
-              );
             })}
           </ScrollView>
           <TouchableOpacity

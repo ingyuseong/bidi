@@ -98,19 +98,20 @@ function ItemCard({ info, screen, navigation }) {
       });
   };
   const registerSubmitHandler = async (id) => {
-    await fetch('http://127.0.0.1:3000' + `/api/branding/${id}`, {
+    await fetch('http://127.0.0.1:3000' + `/api/branding/main`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
       },
       body: JSON.stringify({
-        main: 1,
+        id: id,
+        user_id: info.user_id,
       }),
     })
       .then((response) => response.json())
       .then(async (response) => {
         if (response) {
-          Alert.alert('대표 포트폴리오로 등록되었습니다!');
+          Alert.alert('대표 포트폴리오 설정되었습니다!');
           navigation.push('BrandingMain');
         }
       })

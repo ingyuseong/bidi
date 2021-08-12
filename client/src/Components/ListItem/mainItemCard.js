@@ -45,6 +45,38 @@ function MainItemCard({ info, navigation }) {
         console.error(error);
       });
   };
+  const cancelAlert = (id) => {
+    Alert.alert('대표 등록을 취소하시겠습니까?', '', [
+      { text: '취소', style: 'cancel' },
+      {
+        text: '등록 취소하기',
+        onPress: () => {
+          statusSubmitHandler(id);
+        },
+      },
+    ]);
+  };
+  const statusSubmitHandler = async (id) => {
+    await fetch('http://127.0.0.1:3000' + `/api/branding/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        main: 0,
+      }),
+    })
+      .then((response) => response.json())
+      .then(async (response) => {
+        if (response) {
+          Alert.alert('대표 포트폴리오 설정이 취소되었습니다!');
+          navigation.push('BrandingMain');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.mainContainer}>
@@ -92,9 +124,9 @@ function MainItemCard({ info, navigation }) {
             moveToDetailBranding(info);
           }}
           rightBtnHandler={() => {
-            Alert.alert('이미 대표로 등록되어있습니다!');
+            cancelAlert(info.id);
           }}
-          rightBtnText={'대표 등록'}
+          rightBtnText={'대표 취소'}
           status="done"
           btnDisable={false}
         />
