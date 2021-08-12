@@ -14,7 +14,7 @@ import UserInfo from '../../../Components/Profile/userInfo';
 import BottomButton from '../../../Components/Common/bottomButton';
 import UpdateProposalScreen from './updateProposalScreen';
 
-function MyProposalScreen({ navigation, proposal, userInfo }) {
+function MyProposalScreen({ navigation, proposal, userInfo, progress }) {
   const [imageToggle, setImageToggle] = useState(false);
   const deleteProposal = async () => {
     await fetch('http://127.0.0.1:3000' + `/api/proposal/${proposal.id}`, {
@@ -88,15 +88,19 @@ function MyProposalScreen({ navigation, proposal, userInfo }) {
             value={String(proposal.price_limit / 10000) + '만원 이내'}
           />
         </View>
-        <View style={{ marginTop: 80 }}></View>
+        <View style={progress ? { marginTop: 30 } : { marginTop: 80 }}></View>
       </ScrollView>
-      <BottomButton
-        leftName="삭제하기"
-        rightName="수정하기"
-        leftRatio={40}
-        leftHandler={deleteAlert}
-        rightHandler={updateProposal}
-      />
+      {progress ? (
+        <></>
+      ) : (
+        <BottomButton
+          leftName="삭제하기"
+          rightName="수정하기"
+          leftRatio={40}
+          leftHandler={deleteAlert}
+          rightHandler={updateProposal}
+        />
+      )}
     </View>
   );
 }

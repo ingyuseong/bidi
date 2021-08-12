@@ -99,8 +99,26 @@ const getBrandingInfo = async (userId) => {
 const makeStyleData = (styles) => {
   let results = []
   for (const item of styles) {
-    const { id, title, subtitle, price, gender, img_src_one } = item.dataValues
-    results.push({ id, title, subtitle, price, gender, img_src_one })
+    const {
+      id,
+      title,
+      subtitle,
+      price,
+      gender,
+      img_src_one,
+      created_at,
+      updated_at,
+    } = item.dataValues
+    results.push({
+      id,
+      title,
+      subtitle,
+      price,
+      gender,
+      img_src_one,
+      created_at,
+      updated_at,
+    })
   }
   return results
 }

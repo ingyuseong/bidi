@@ -1,33 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Alert,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  ScrollView,
-  Image,
-  RefreshControl,
-} from 'react-native';
+import { Alert, Text, TouchableOpacity, View, StyleSheet, ScrollView, Image } from 'react-native';
+import Modal from 'react-native-modal';
+import StyleModal from '../../../Components/Modal/styleModal';
 
 function StyleScrapIntroScreen({ navigation, styleScraps, userInfo }) {
-  const deleteStyleScrapAlert = (style_id) => {
-    Alert.alert('스크랩을 지우시겠어요?', '', [
-      { text: '취소', style: 'cancel' },
-      { text: '삭제하기', onPress: () => deleteStyleScrap(style_id) },
-    ]);
+  const [styleScrapList, setStyleScrapList] = useState(styleScraps);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [styleIndex, setStyleIndex] = useState(0);
+  const modalOpen = (index) => {
+    setModalVisible(true);
+    setStyleIndex(index);
   };
-  const deleteStyleScrap = async (style_id) => {
-    await fetch('http://127.0.0.1:3000' + `/api/styleScrap/${userInfo.id}/${style_id}`, {
-      method: 'DELETE',
-    })
-      .then(() => {
-        Alert.alert('삭제 되었습니다!');
-        navigation.replace('MainTab', { screen: 'History' });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  useEffect(() => {
+    const fetchMode = async () => {
+      setStyleScrapList(
+        styleScraps.map((style) => {
+          return { ...style, isScraped: true };
+        }),
+      );
+    };
+    fetchMode();
+  }, []);
   return (
     <ScrollView>
       <View style={styles.styleContainer}>
@@ -37,7 +30,7 @@ function StyleScrapIntroScreen({ navigation, styleScraps, userInfo }) {
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.imageAfter}
-                onPress={() => deleteStyleScrapAlert(item.id)}>
+                onPress={() => modalOpen(index)}>
                 <Image
                   style={styles.styleImg}
                   source={{
@@ -49,12 +42,31 @@ function StyleScrapIntroScreen({ navigation, styleScraps, userInfo }) {
           </View>
         ))}
       </View>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        isVisible={modalVisible}
+        style={{
+          alignItems: 'center',
+        }}
+        backdropOpacity={0.3}>
+        <StyleModal
+          styleScraps={styleScrapList}
+          index={styleIndex}
+          setModalVisible={setModalVisible}
+          setStyleScrapList={setStyleScrapList}
+          userInfo={userInfo}
+          navigation={navigation}
+          deleteIcon={true}
+        />
+      </Modal>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: 'white',
   },
   styleContainer: {
