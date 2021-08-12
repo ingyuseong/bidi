@@ -4,16 +4,22 @@ exports.updateBranding = async ({
   id,
   description,
   shop_name,
+  position,
   keywords,
   main,
+  title,
+  address,
 }) =>
   await Branding.update(
     {
       raw: true,
       description,
       shop_name,
+      position,
       keywords,
       main,
+      title,
+      address,
     },
     {
       where: {
@@ -112,6 +118,7 @@ exports.insertBranding = async ({
   keywords,
   main,
   title,
+  position,
   address,
   authentication,
 }) =>
@@ -120,6 +127,7 @@ exports.insertBranding = async ({
     userId: user_id,
     description,
     shop_name,
+    position,
     keywords,
     main,
     title,
@@ -138,7 +146,7 @@ exports.insertBranding = async ({
 exports.insertBrandingStyle = async (brandingId, styleId) =>
   await StyleMenu.create({
     raw: true,
-    BrandingId: brandingId,
+    brandingId,
     styleId,
   })
     .then((results) => {

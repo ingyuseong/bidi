@@ -20,6 +20,9 @@ const modelAttributes = {
   shop_name: {
     type: DataTypes.STRING,
   },
+  position: {
+    type: DataTypes.STRING,
+  },
   address: {
     type: DataTypes.STRING,
   },
