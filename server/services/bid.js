@@ -16,16 +16,38 @@ exports.getBidByDesignerId = async (userId) => {
   const results = []
   const bidList = await db.selectAllBidByDesignerId(userId)
   for await (const bid of bidList) {
-    let result = JSON.stringify(bid)
-    const { name, img_src, address } = await userDb.selectUser(bid.customer_id)
-    result = { ...JSON.parse(result), user: { name, img_src, address } }
+    const {
+      id,
+      large_category,
+      small_category,
+      letter,
+      need_care,
+      status,
+      created_at,
+    } = bid
+    const result = {
+      id,
+      user: bid.proposal.user.dataValues,
+      proposal: {
+        ...bid.proposal.dataValues,
+        keywords:
+          bid.proposal.keywords == ''
+            ? []
+            : bid.proposal.keywords.replace(' ', '').split(','),
+      },
+      large_category,
+      small_category,
+      letter,
+      need_care,
+      status,
+      created_at,
+    }
     results.push(result)
   }
   return results
 }
 
 exports.registerBid = async (params) => {
-  console.log(params)
   const bid = await db.insertBid({ ...params })
   return bid
 }

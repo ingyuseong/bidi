@@ -8,10 +8,9 @@ import Modal from 'react-native-modal';
 
 function ItemCard({ info, screen, navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
-  console.log(info);
   const keywords = info.proposal ? info.proposal.keywords : info.keywords;
   const img_src = info.proposal ? info.proposal.after_src : info.user.img_src;
-  const distance_limit = info.proposal ? info.proposal.distance_limit : info.position;
+  const distance_limit = info.proposal ? info.proposal.distance_limit + 'km 이내' : info.position;
   const address = info.address ? info.address : info.user.address;
   const title = info.proposal ? info.user.name : info.title;
   const description = info.letter ? info.letter : info.description;
@@ -133,7 +132,7 @@ function ItemCard({ info, screen, navigation }) {
       .then(async (response) => {
         if (response) {
           Alert.alert('Bid 상태가 성공적으로 수정되었습니다!');
-          navigation.dispatch(CommonActions.navigate('ProcessBidList'));
+          navigation.push('bid', { screen: 'ProcessBidList' });
         }
       })
       .catch((error) => {
@@ -173,7 +172,10 @@ function ItemCard({ info, screen, navigation }) {
                 <Text style={styles.locationText}>{address}</Text>
               </View>
               <View style={styles.locationView}>
-                <Ionicons name={screen === 'branding' ? 'md-cut-outline' : 'location'} size={15} />
+                <Ionicons
+                  name={screen === 'branding' ? 'md-cut-outline' : 'location-outline'}
+                  size={15}
+                />
                 <Text style={styles.locationText}>{distance_limit}</Text>
               </View>
             </View>

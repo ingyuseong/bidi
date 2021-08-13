@@ -34,7 +34,6 @@ function CreateBidScreen({ navigation, route }) {
   }, []);
 
   const registerBidHandler = async () => {
-    console.log('??', userId);
     await fetch('http://127.0.0.1:3000' + '/api/bid/register', {
       method: 'POST',
       headers: {

@@ -130,7 +130,7 @@ exports.selectBrandingInfo = async (userId) => {
   return results
 }
 
-exports.selectBrandingWithStyle = async (userId) => {
+exports.selectBrandingWithStyle = async (userId) =>
   await Branding.findAll({
     where: {
       user_id: userId,
@@ -146,7 +146,7 @@ exports.selectBrandingWithStyle = async (userId) => {
       },
       {
         model: User,
-        attributes: ['name', 'img_src'],
+        attributes: ['name', 'img_src', 'address'],
       },
     ],
     order: [['main', 'DESC']],
@@ -159,7 +159,6 @@ exports.selectBrandingWithStyle = async (userId) => {
       console.log('Failed Selecting All Branding With Style')
       return err
     })
-}
 
 exports.insertBranding = async ({
   user_id,

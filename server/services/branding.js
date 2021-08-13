@@ -58,7 +58,6 @@ const getBrandingListByUserId = async (userId) => {
       styles: branding.styleMenus.map((style) => style.dataValues),
       user: branding.user.dataValues,
     }
-
     results.push(result)
   }
   return results
