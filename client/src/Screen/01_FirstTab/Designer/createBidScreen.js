@@ -65,8 +65,13 @@ function CreateBidScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <CardStyle styleLists={info.images} height={400} isUser={true} />
-        <CardInfo info={info} navigation={navigation} />
+        <CardStyle styleLists={info.images} height={400} isUser={false} />
+        <CardInfo
+          info={info}
+          navigation={navigation}
+          tagBackgroundColor="#E1ECFF"
+          tagColor="#323274"
+        />
         <View style={styles.priceContainer}>
           <View style={styles.titleTextArea}>
             <Text style={styles.titleText}>희망 예산</Text>
