@@ -60,9 +60,17 @@ function MypageScreen({ navigation }) {
         const { status, message } = res;
         if (status == 200) {
           setTimeout(() => {
+            setUserInfo({
+              ...userInfo,
+              ai_status: 'using',
+            });
             Alert.alert('이미 AI를 이용가능합니다!');
           }, 2000);
         } else {
+          setUserInfo({
+            ...userInfo,
+            ai_status: 'using',
+          });
           Alert.alert('등록완료되었습니다!');
         }
       })
@@ -143,6 +151,19 @@ function MypageScreen({ navigation }) {
         </View>
         <View style={styles.line}></View>
         <View style={styles.inputcontainer}>
+          <View style={styles.inputForm}>
+            <Text style={styles.inputLabel}>Bidi-Ai</Text>
+            <View style={styles.selectArea}>
+              <TouchableOpacity
+                style={[styles.selectBox, userInfo.ai_status == 'wait' && styles.active]}
+                disabled={userInfo.ai_status == 'wait' ? false : true}
+                onPress={inferenceAI}>
+                <Text style={[styles.selectText, userInfo.ai_status == 'wait' && styles.active]}>
+                  {userInfo.ai_status == 'wait' ? '사용하기' : '사용중'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
           {isEdit ? (
             <View style={styles.inputForm}>
               <Text style={styles.inputLabel}>닉네임</Text>
@@ -224,19 +245,6 @@ function MypageScreen({ navigation }) {
             <Text style={styles.inputLabel}>핸드폰 번호</Text>
             <View style={styles.inputArea}>
               <Text style={{ color: '#878787' }}>{userInfo.phone_number}</Text>
-            </View>
-          </View>
-          <View style={styles.inputForm}>
-            <Text style={styles.inputLabel}>Bidi-Ai</Text>
-            <View style={styles.selectArea}>
-              <TouchableOpacity
-                style={[styles.selectBox, inference == false && styles.active]}
-                disabled={inference ? true : false}
-                onPress={inferenceAI}>
-                <Text style={[styles.selectText, inference == false && styles.active]}>
-                  {inference ? '사용중' : '사용하기'}
-                </Text>
-              </TouchableOpacity>
             </View>
           </View>
         </View>

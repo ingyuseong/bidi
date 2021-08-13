@@ -49,6 +49,7 @@ db.Proposal = require('./proposal')(sequelize, Sequelize)
 db.Branding = require('./branding')(sequelize, Sequelize)
 db.Style = require('./style')(sequelize, Sequelize)
 db.Bid = require('./bid')(sequelize, Sequelize)
+db.MatchingHistory = require('./matchingHistory')(sequelize, Sequelize)
 
 db.StyleMenu = require('./relation/styleMenu')(sequelize, Sequelize)
 db.StyleScrap = require('./relation/styleScrap')(sequelize, Sequelize)

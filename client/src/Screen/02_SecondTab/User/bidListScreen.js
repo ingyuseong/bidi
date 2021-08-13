@@ -124,7 +124,7 @@ function BidListScreen({ navigation, userInfo, bidList, progress }) {
                       activeOpacity={0.8}
                       style={styles.imageAfter}
                       onPress={() => modalOpen(index, bid.bidStyles)}>
-                      <Image style={styles.styleImg} source={{ uri: item.img_src_one }} />
+                      <Image style={styles.styleImg} source={{ uri: item.img_src }} />
                     </TouchableOpacity>
                   ))}
                 </ScrollView>

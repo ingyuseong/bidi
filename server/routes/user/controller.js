@@ -166,8 +166,9 @@ exports.inferenceAI = async (req, res, next) => {
         img_src,
       },
     })
-      .then((result) => {
+      .then(async (result) => {
         response = result.data
+        const user = await userServices.editAiStatus({ id, ai_status: 'using' })
         return res.status(STATUS_CODE.SUCCESS).json(response)
       })
       .catch(function (error) {

@@ -65,7 +65,7 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
                 <Image
                   style={styles.styleImg}
                   source={{
-                    uri: styleScraps[index].img_src_one,
+                    uri: styleScraps[index].img_src,
                   }}
                 />
                 <TouchableOpacity

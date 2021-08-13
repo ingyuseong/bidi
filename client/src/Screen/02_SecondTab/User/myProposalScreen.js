@@ -107,18 +107,16 @@ function MyProposalScreen({ navigation, proposal, userInfo, progress }) {
 
 const styles = StyleSheet.create({
   container: {
-    height: '93%',
     backgroundColor: 'white',
-    margin: 16,
-    borderColor: '#e2e2e2',
-    borderRadius: 20,
-    shadowColor: 'rgb(17, 17, 17)',
-    shadowOffset: {
-      width: 1,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 15,
+    // borderColor: '#e2e2e2',
+    // borderRadius: 20,
+    // shadowColor: 'rgb(17, 17, 17)',
+    // shadowOffset: {
+    //   width: 1,
+    //   height: 1,
+    // },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 15,
   },
   content: {
     width: '100%',
