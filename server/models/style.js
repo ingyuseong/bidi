@@ -26,6 +26,9 @@ const modelAttributes = {
   img_src: {
     type: DataTypes.STRING,
   },
+  categories: {
+    type: DataTypes.STRING,
+  },
 
   created_at: {
     type: DataTypes.DATE,

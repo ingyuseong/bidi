@@ -1,3 +1,4 @@
+const branding = require('../models/branding')
 const db = require('./db/proposal')
 
 exports.getProposal = async (proposalId) => {
@@ -29,16 +30,29 @@ exports.getProposalList = async () => {
   let results = []
   const proposalList = await db.selectAllProposal()
   for await (const proposal of proposalList) {
+    const {
+      id,
+      before_src,
+      after_src,
+      price_limit,
+      distance_limit,
+      keywords,
+      description,
+      status,
+      created_at,
+    } = proposal
     const result = {
-      ...proposal,
+      id,
+      user: proposal.user.dataValues,
       images: [proposal.before_src, proposal.after_src],
-      keywords:
-        proposal.keywords == ''
-          ? []
-          : proposal.keywords.replace(' ', '').split(','),
-      name: proposal['user.name'],
-      address: proposal['user.address'],
-      img_src: proposal['user.img_src'],
+      before_src,
+      after_src,
+      price_limit,
+      distance_limit,
+      keywords: keywords == '' ? [] : keywords.replace(' ', '').split(','),
+      description,
+      status,
+      created_at,
     }
     results.push(result)
   }

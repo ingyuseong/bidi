@@ -86,13 +86,15 @@ exports.destroyProposal = async (proposalId) =>
 
 exports.selectAllProposal = async () =>
   await Proposal.findAll({
-    raw: true,
     include: [
       {
         model: User,
         attributes: ['name', 'img_src', 'address'],
       },
     ],
+    where: {
+      status: 'wait',
+    },
   })
     .then((results) => {
       console.log('Success Selecting All Proposal')

@@ -131,7 +131,7 @@ exports.selectBrandingInfo = async (userId) => {
 }
 
 exports.selectBrandingWithStyle = async (userId) => {
-  const results = await Branding.findAll({
+  await Branding.findAll({
     where: {
       user_id: userId,
     },
@@ -151,7 +151,14 @@ exports.selectBrandingWithStyle = async (userId) => {
     ],
     order: [['main', 'DESC']],
   })
-  return results
+    .then((results) => {
+      console.log('Success Selecting All Branding With Style')
+      return results
+    })
+    .catch((err) => {
+      console.log('Failed Selecting All Branding With Style')
+      return err
+    })
 }
 
 exports.insertBranding = async ({
