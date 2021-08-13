@@ -23,6 +23,13 @@ export const SMALL_CATEGORY = {
     { label: '프리미엄 염색', value: '프리미엄 염색', key: 11 },
   ],
 };
+
+export const DISTANCE_CATEGORY = [
+  { label: '1km 이내', value: '1', key: 1 },
+  { label: '3km 이내', value: '3', key: 2 },
+  { label: '5km 이내', value: '5', key: 3 },
+];
+
 export const KEYWORDS = [
   {
     id: 0,

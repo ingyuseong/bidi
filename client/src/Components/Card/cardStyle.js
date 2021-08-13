@@ -22,7 +22,7 @@ function CardStyle({ styleLists, isUser, height }) {
             <Image
               style={styles.styleImg}
               source={{
-                uri: isUser ? item.img_src_one : item,
+                uri: isUser ? item.img_src : item,
               }}
             />
           </View>

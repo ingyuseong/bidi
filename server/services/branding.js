@@ -1,5 +1,21 @@
 const db = require('./db/branding')
 
+const editMainBranding = async (id, user_id) => {
+  await db.updateAllBrandingMainStatus(user_id)
+  const branding = db.updateBrandingMainStatus(id, user_id)
+  return branding
+}
+
+const editBranding = async (params) => {
+  const branding = await db.updateBranding({ ...params })
+  return branding
+}
+
+const deleteBranding = async (id) => {
+  const branding = await db.destroyBranding(id)
+  return branding
+}
+
 const getBrandingList = async () => {
   let results = []
   const brandingList = await db.selectAllBranding()
@@ -7,6 +23,58 @@ const getBrandingList = async () => {
     results.push(await getBrandingInfo(item.userId))
   }
 
+  return results
+}
+
+const getBrandingListByUserId = async (userId) => {
+  const results = []
+  const brandingList = await db.selectBrandingWithStyle(userId)
+  for await (const branding of brandingList) {
+    const {
+      id,
+      user_id,
+      title,
+      address,
+      authentication,
+      description,
+      shop_name,
+      position,
+      keywords,
+      main,
+      created_at,
+    } = branding
+    const result = {
+      id,
+      user_id,
+      description,
+      shop_name,
+      position,
+      title,
+      address,
+      authentication,
+      keywords: keywords == '' ? [] : keywords.split(','),
+      main,
+      created_at,
+      styles: branding.styleMenus.map((style) => style.dataValues),
+      user: branding.user.dataValues,
+    }
+
+    results.push(result)
+  }
+  return results
+}
+
+const registerBranding = async (params) => {
+  const branding = await db.insertBranding({ ...params })
+  return branding
+}
+
+const registerBrandingStyle = async ({ brandingId, styles }) => {
+  const results = await Promise.all(
+    styles.map((style) => {
+      return db.insertBrandingStyle(brandingId, style)
+    })
+  )
   return results
 }
 
@@ -62,4 +130,13 @@ const makeStyleData = (styles) => {
   return results
 }
 
-module.exports = { getBrandingInfo, getBrandingList }
+module.exports = {
+  getBrandingListByUserId,
+  getBrandingInfo,
+  getBrandingList,
+  registerBranding,
+  registerBrandingStyle,
+  editBranding,
+  editMainBranding,
+  deleteBranding,
+}
