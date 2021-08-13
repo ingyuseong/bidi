@@ -21,7 +21,7 @@ function ItemCard({ info, screen, navigation }) {
   const rightBtnText = screen === 'branding' ? '대표 등록' : '시술 완료';
 
   const moreBtnHandler = () => {
-    navigation.replace('detailBid', { info });
+    navigation.replace('DetailBid', { info });
   };
   const deleteBtnHandler = () => {
     setModalVisible(true);
@@ -132,7 +132,7 @@ function ItemCard({ info, screen, navigation }) {
       .then(async (response) => {
         if (response) {
           Alert.alert('Bid 상태가 성공적으로 수정되었습니다!');
-          navigation.push('bid', { screen: 'ProcessBidList' });
+          navigation.push('BidMain', { screen: 'ProcessBidList' });
         }
       })
       .catch((error) => {

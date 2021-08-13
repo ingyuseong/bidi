@@ -55,7 +55,7 @@ function CreateBidScreen({ navigation, route }) {
       .then(async (response) => {
         if (response) {
           Alert.alert('Bid 작성이 성공적으로 완료되었습니다!');
-          navigation.navigate('Bid', { screen: 'bid' });
+          navigation.navigate('Bid', { screen: 'BidMain' });
         }
       })
       .catch((error) => {
