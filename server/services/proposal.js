@@ -32,6 +32,7 @@ exports.getProposalList = async () => {
   for await (const proposal of proposalList) {
     const {
       id,
+      user_id,
       before_src,
       after_src,
       price_limit,
@@ -43,6 +44,7 @@ exports.getProposalList = async () => {
     } = proposal
     const result = {
       id,
+      user_id,
       user: proposal.user.dataValues,
       images: [proposal.before_src, proposal.after_src],
       before_src,

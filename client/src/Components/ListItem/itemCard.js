@@ -8,7 +8,7 @@ import Modal from 'react-native-modal';
 
 function ItemCard({ info, screen, navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
-
+  console.log(info);
   const keywords = info.proposal ? info.proposal.keywords : info.keywords;
   const img_src = info.proposal ? info.proposal.after_src : info.user.img_src;
   const distance_limit = info.proposal ? info.proposal.distance_limit : info.position;

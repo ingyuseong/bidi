@@ -50,7 +50,7 @@ function ProposalListScreen({ navigation }) {
       {infoLists.map((info, index) => (
         <View style={styles.container} key={index}>
           <GestureRecognizer
-            onSwipeUp={(state) => onSwipeUp(state, index, info.userId, info.id)}
+            onSwipeUp={(state) => onSwipeUp(state, index, info.user_id, info.id)}
             config={config}
             style={{
               flex: 1,

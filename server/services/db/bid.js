@@ -145,6 +145,7 @@ exports.insertBid = async ({
       return results
     })
     .catch((err) => {
+      console.log(err)
       console.log('Failed Creating Bid')
       return err
     })

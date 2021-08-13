@@ -25,6 +25,7 @@ exports.getBidByDesignerId = async (userId) => {
 }
 
 exports.registerBid = async (params) => {
+  console.log(params)
   const bid = await db.insertBid({ ...params })
   return bid
 }
