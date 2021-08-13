@@ -69,7 +69,15 @@ function ProposalListScreen({ navigation }) {
               tagColor="#323274"
             />
           </GestureRecognizer>
-          <TouchableOpacity style={styles.bidiBtn}>
+          <TouchableOpacity
+            style={styles.bidiBtn}
+            onPress={() =>
+              navigation.navigate('ProposalDetail', {
+                info: infoLists[index],
+                userId: info.user_id,
+                proposalId: info.id,
+              })
+            }>
             <Icon name="pencil" size={25} style={styles.bidiIcon} />
           </TouchableOpacity>
         </View>
