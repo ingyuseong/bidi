@@ -4,7 +4,7 @@ import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import CardInfo from '../../../Components/Card/cardInfo';
-import CardStyle from '../../../Components/Card/cardStyle';
+import CardChangeStyle from '../../../Components/Card/cardChangeStyle';
 
 function ProposalListScreen({ navigation }) {
   const [infoLists, setInfo] = useState([]);
@@ -50,17 +50,36 @@ function ProposalListScreen({ navigation }) {
       {infoLists.map((info, index) => (
         <View style={styles.container} key={index}>
           <GestureRecognizer
-            onSwipeUp={(state) => onSwipeUp(state, index, info.userId, info.id)}
+            onSwipeUp={(state) => onSwipeUp(state, index, info.user_id, info.id)}
             config={config}
             style={{
               flex: 1,
             }}>
-            <CardStyle styleLists={info.images} isUser={false} />
-            <CardInfo info={info} navigation={navigation} height={150} />
-            <TouchableOpacity style={styles.bidiBtn}>
-              <Icon name="thumbs-up" size={25} style={styles.bidiIcon} />
-            </TouchableOpacity>
+            <CardChangeStyle
+              before_src={info.before_src}
+              after_src={info.after_src}
+              isUser={false}
+              height={400}
+            />
+            <CardInfo
+              info={info}
+              navigation={navigation}
+              height={150}
+              tagBackgroundColor="#E1ECFF"
+              tagColor="#323274"
+            />
           </GestureRecognizer>
+          <TouchableOpacity
+            style={styles.bidiBtn}
+            onPress={() =>
+              navigation.navigate('ProposalDetail', {
+                info: infoLists[index],
+                userId: info.user_id,
+                proposalId: info.id,
+              })
+            }>
+            <Icon name="pencil" size={25} style={styles.bidiIcon} />
+          </TouchableOpacity>
         </View>
       ))}
     </Swiper>
@@ -95,10 +114,10 @@ const styles = StyleSheet.create({
   bidiBtn: {
     position: 'absolute',
     backgroundColor: '#0A0A32',
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     right: 0,
-    top: '60%',
+    top: '52%',
     justifyContent: 'center',
     alignItems: 'center',
   },
