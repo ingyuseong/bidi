@@ -5,24 +5,24 @@ import { createStackNavigator } from '@react-navigation/stack';
 import DetailBidScreen from '../../../Screen/02_SecondTab/Designer/detailBidScreen';
 import BidMainScreen from '../../../Screen/02_SecondTab/Designer/bidMainScreen';
 
+import BackBtn from '../../../Components/HeaderBar/backBtn';
 const bidStack = createStackNavigator();
 
 function BidStackScreen() {
   return (
     <Stack.Navigator>
       <bidStack.Screen
-        name="bid"
+        name="BidMain"
         component={BidMainScreen}
         options={{
-          title: 'bid',
           headerShown: false,
         }}
       />
       <bidStack.Screen
-        name="detailBid"
+        name="DetailBid"
         component={DetailBidScreen}
         options={{
-          title: 'bidㅋㅋ',
+          headerBackImage: BackBtn,
         }}
       />
     </Stack.Navigator>

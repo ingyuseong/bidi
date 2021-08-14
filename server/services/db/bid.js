@@ -79,6 +79,13 @@ exports.selectAllBidByDesignerId = async (userId) =>
       {
         model: Proposal,
         required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['id', 'name', 'img_src', 'address'],
+            required: true,
+          },
+        ],
       },
     ],
   })
@@ -87,6 +94,7 @@ exports.selectAllBidByDesignerId = async (userId) =>
       return results
     })
     .catch((err) => {
+      console.log(err)
       console.log('Failed Selecting All Bid')
       return err
     })
