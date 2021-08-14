@@ -59,6 +59,11 @@ function MyProposalScreen({ navigation, proposal, userInfo, progress }) {
               }}
             />
           )}
+          {progress && (
+            <View style={styles.imageCover}>
+              <Text style={styles.imageCoverText}>매칭 중</Text>
+            </View>
+          )}
           <TouchableOpacity
             style={
               imageToggle
@@ -107,16 +112,18 @@ function MyProposalScreen({ navigation, proposal, userInfo, progress }) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    margin: 16,
     backgroundColor: 'white',
-    // borderColor: '#e2e2e2',
-    // borderRadius: 20,
-    // shadowColor: 'rgb(17, 17, 17)',
-    // shadowOffset: {
-    //   width: 1,
-    //   height: 1,
-    // },
-    // shadowOpacity: 0.1,
-    // shadowRadius: 15,
+    borderColor: '#e2e2e2',
+    borderRadius: 20,
+    shadowColor: 'rgb(17, 17, 17)',
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 15,
   },
   content: {
     width: '100%',
@@ -134,6 +141,18 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
+  imageCover: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    backgroundColor: '#111111',
+    alignItems: 'center',
+    justifyContent: 'center',
+    opacity: 0.5,
+  },
+  imageCoverText: { color: 'white', fontSize: 30, fontWeight: '500', opacity: 1 },
   imageToggleButton: {
     alignItems: 'center',
     justifyContent: 'center',

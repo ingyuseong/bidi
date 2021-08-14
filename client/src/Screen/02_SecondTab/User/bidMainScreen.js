@@ -4,6 +4,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import BidListScreen from './bidListScreen';
 import BidProgressScreen from './bidProgressScreen';
 import MyProposalScreen from './myProposalScreen';
+import NoBidScreen from './noBidScreen';
 
 import BidiStorage from '../../../Lib/storage';
 import { STORAGE_KEY } from '../../../Lib/constant';
@@ -48,7 +49,11 @@ function BidMainScreen({ navigation }) {
       .then((result) => {
         if (result.data) {
           setBidList(result.data.bidList);
-          if (result.data.bidList[0].status == 'process') {
+          if (
+            result.data.bidList &&
+            result.data.bidList.length > 0 &&
+            result.data.bidList[0].status == 'process'
+          ) {
             setProgress(true);
           }
         }
@@ -101,7 +106,7 @@ function BidMainScreen({ navigation }) {
           {() => <Text>아직 제안서 x</Text>}
         </Tab.Screen>
       )}
-      {bidList ? (
+      {bidList && bidList.length > 0 ? (
         <Tab.Screen
           name="ReceiveBid"
           options={progress ? { title: '진행중인 매칭' } : { title: '받은 비드' }}>
@@ -113,7 +118,7 @@ function BidMainScreen({ navigation }) {
         </Tab.Screen>
       ) : (
         <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>
-          {() => <Text>asdf</Text>}
+          {() => <NoBidScreen navigation={navigation}></NoBidScreen>}
         </Tab.Screen>
       )}
     </Tab.Navigator>

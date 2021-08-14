@@ -1,4 +1,5 @@
 const bidServices = require('../../services/bid')
+const proposalServices = require('../../services/proposal')
 const matchingHistoryServices = require('../../services/matchingHistory')
 const { STATUS_CODE, ERROR_MESSAGE } = require('../../lib/constants')
 
@@ -34,6 +35,10 @@ exports.registerMatchingHistory = async (req, res, next) => {
     const params = req.body
     const bid = await bidServices.editBidStatus({
       id: params.bid_id,
+      status: 'done',
+    })
+    const proposal = await proposalServices.editProposalStatus({
+      id: params.proposal_id,
       status: 'done',
     })
     const matchingHistory =
