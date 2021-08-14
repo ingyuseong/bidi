@@ -34,6 +34,7 @@ function CreateBidScreen({ navigation, route }) {
   }, []);
 
   const registerBidHandler = async () => {
+    console.log('??', userId);
     await fetch('http://127.0.0.1:3000' + '/api/bid/register', {
       method: 'POST',
       headers: {
@@ -55,7 +56,7 @@ function CreateBidScreen({ navigation, route }) {
       .then(async (response) => {
         if (response) {
           Alert.alert('Bid 작성이 성공적으로 완료되었습니다!');
-          navigation.navigate('ProposalList');
+          navigation.navigate('Bid', { screen: 'bid' });
         }
       })
       .catch((error) => {
@@ -65,8 +66,13 @@ function CreateBidScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <CardStyle styleLists={info.images} height={400} isUser={true} />
-        <CardInfo info={info} navigation={navigation} />
+        <CardStyle styleLists={info.images} height={400} isUser={false} />
+        <CardInfo
+          info={info}
+          navigation={navigation}
+          tagBackgroundColor="#E1ECFF"
+          tagColor="#323274"
+        />
         <View style={styles.priceContainer}>
           <View style={styles.titleTextArea}>
             <Text style={styles.titleText}>희망 예산</Text>

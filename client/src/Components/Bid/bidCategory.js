@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     margin: 16,
     marginTop: 0,
     marginBottom: 24,
-    zIndex: 0,
+    zIndex: 100,
   },
   titleText: {
     color: '#111111',

@@ -52,7 +52,7 @@ const getBrandingListByUserId = async (userId) => {
       title,
       address,
       authentication,
-      keywords: keywords == '' ? [] : keywords.split(','),
+      keywords: keywords == '' ? [] : keywords.replace(' ', '').split(','),
       main,
       created_at,
       styles: branding.styleMenus.map((style) => style.dataValues),

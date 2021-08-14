@@ -12,7 +12,12 @@ function ProposalDetailScreen({ navigation, route }) {
     <View style={styles.container}>
       <ScrollView>
         <CardStyle styleLists={info.images} height={400} isUser={false} />
-        <CardInfo info={info} navigation={navigation} />
+        <CardInfo
+          info={info}
+          navigation={navigation}
+          tagBackgroundColor="#E1ECFF"
+          tagColor="#323274"
+        />
         <View style={styles.priceContainer}>
           <Text style={styles.priceTitleText}>희망 예산</Text>
           <View style={styles.priceArea}>
