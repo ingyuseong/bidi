@@ -7,8 +7,6 @@ import {
   Image,
 } from 'react-native';
 
-
-
 import ChatBubble from './chatBubble';
 
 function ChatBubbleList({ messages }) {
