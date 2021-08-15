@@ -46,7 +46,7 @@ db.Sequelize = Sequelize
 // 모델정의
 db.User = require('./user')(sequelize, Sequelize)
 db.Proposal = require('./proposal')(sequelize, Sequelize)
-db.BrandingPage = require('./brandingPage')(sequelize, Sequelize)
+db.Branding = require('./branding')(sequelize, Sequelize)
 db.Style = require('./style')(sequelize, Sequelize)
 db.Bid = require('./bid')(sequelize, Sequelize)
 
@@ -54,35 +54,35 @@ db.StyleMenu = require('./relation/styleMenu')(sequelize, Sequelize)
 db.StyleScrap = require('./relation/styleScrap')(sequelize, Sequelize)
 db.BidStyle = require('./relation/bidStyle')(sequelize, Sequelize)
 
-// 관계정의 User : BrandingPage = 1 : N
-db.User.hasMany(db.BrandingPage, {
+// 관계정의 User : Branding = 1 : N
+db.User.hasMany(db.Branding, {
   foreignKey: { allowNull: false },
   onDelete: 'CASCADE',
 })
-db.BrandingPage.belongsTo(db.User, {
+db.Branding.belongsTo(db.User, {
   foreignKey: { allowNull: false },
   onDelete: 'CASCADE',
 })
 
 // 관계정의 User : Bid = 1 : N
 db.User.hasMany(db.Bid, {
-  foreignKey: { name: 'customer_id', allowNull: false },
-  targetKey: { name: 'id', allowNull: false },
+  foreignKey: { name: 'customer_id', allowNull: false, as: 'customer' },
+  targetKey: { name: 'id', allowNull: false, as: 'customer' },
   onDelete: 'CASCADE',
 })
 db.Bid.belongsTo(db.User, {
-  foreignKey: { name: 'customer_id', allowNull: false },
-  sourceKey: { name: 'id', allowNull: false },
+  foreignKey: { name: 'customer_id', allowNull: false, as: 'customer' },
+  sourceKey: { name: 'id', allowNull: false, as: 'customer' },
   onDelete: 'CASCADE',
 })
 db.User.hasMany(db.Bid, {
-  foreignKey: { name: 'customer_id', allowNull: false },
-  targetKey: { name: 'id', allowNull: false },
+  foreignKey: { name: 'designer_id', allowNull: false, as: 'designer' },
+  targetKey: { name: 'id', allowNull: false, as: 'designer' },
   onDelete: 'CASCADE',
 })
 db.Bid.belongsTo(db.User, {
-  foreignKey: { name: 'customer_id', allowNull: false },
-  sourceKey: { name: 'id', allowNull: false },
+  foreignKey: { name: 'designer_id', allowNull: false, as: 'designer' },
+  sourceKey: { name: 'id', allowNull: false, as: 'designer' },
   onDelete: 'CASCADE',
 })
 
@@ -108,13 +108,13 @@ db.User.belongsToMany(db.Style, {
   onDelete: 'CASCADE',
 })
 
-// 관계정의 BrandingPage : Style = M : N
-db.Style.belongsToMany(db.BrandingPage, {
+// 관계정의 Branding : Style = M : N
+db.Style.belongsToMany(db.Branding, {
   through: 'styleMenu',
   as: 'styleMenus',
   onDelete: 'CASCADE',
 })
-db.BrandingPage.belongsToMany(db.Style, {
+db.Branding.belongsToMany(db.Style, {
   through: 'styleMenu',
   as: 'styleMenus',
   onDelete: 'CASCADE',

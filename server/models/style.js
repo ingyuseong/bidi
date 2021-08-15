@@ -23,15 +23,13 @@ const modelAttributes = {
   gender: {
     type: DataTypes.STRING,
   },
-  img_src_one: {
+  img_src: {
     type: DataTypes.STRING,
   },
-  img_src_two: {
+  categories: {
     type: DataTypes.STRING,
   },
-  img_src_three: {
-    type: DataTypes.STRING,
-  },
+
   created_at: {
     type: DataTypes.DATE,
     allowNull: false,

@@ -79,6 +79,13 @@ exports.selectAllBidByDesignerId = async (userId) =>
       {
         model: Proposal,
         required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['id', 'name', 'img_src', 'address'],
+            required: true,
+          },
+        ],
       },
     ],
   })
@@ -87,6 +94,7 @@ exports.selectAllBidByDesignerId = async (userId) =>
       return results
     })
     .catch((err) => {
+      console.log(err)
       console.log('Failed Selecting All Bid')
       return err
     })
@@ -133,7 +141,7 @@ exports.insertBid = async ({
     raw: true,
     customer_id,
     designer_id,
-    proposal_id,
+    proposalId: proposal_id,
     large_category,
     small_category,
     letter,
@@ -145,6 +153,7 @@ exports.insertBid = async ({
       return results
     })
     .catch((err) => {
+      console.log(err)
       console.log('Failed Creating Bid')
       return err
     })

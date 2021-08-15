@@ -22,7 +22,7 @@ function CardStyle({ styleLists, isUser, height }) {
             <Image
               style={styles.styleImg}
               source={{
-                uri: isUser ? item.img_src_one : item,
+                uri: isUser ? item.img_src : item,
               }}
             />
           </View>
@@ -33,7 +33,7 @@ function CardStyle({ styleLists, isUser, height }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { flex: 2 },
   wrapper: {},
   styleContainer: {
     position: 'relative',

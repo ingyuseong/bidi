@@ -7,26 +7,30 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from '../Common/button';
 
-function CardInfo({ info, navigation, height }) {
+function CardInfo({ info, navigation, height, tagBackgroundColor, tagColor }) {
+  const name = info.user ? info.user.name : info.name;
+  const img_src = info.user ? info.user.img_src : info.img_src;
   return (
     <View style={styles.designerContainer}>
       <View style={styles.designerInfo}>
         <Image
           style={styles.designerImg}
           source={{
-            uri: info.img_src,
+            uri: img_src,
           }}
         />
         <View style={styles.designerBox}>
           <View style={styles.designerNameArea}>
-            <Text style={styles.designerName}>{info.name}</Text>
+            <Text style={styles.designerName}>{name}</Text>
             {/* <Button
               title="더보기"
               pressHandler={() => navigation.navigate('DesignerDetail', { newInfo: info })}
             /> */}
           </View>
           <View style={styles.shopInfo}>
-            <Text style={styles.shopName}>@ {info.address || info.shopName}</Text>
+            <Text style={styles.shopName}>
+              @ {info.shopName || info.shop_name || info.user.address}
+            </Text>
             <Ionicons name="location-outline" size={15} />
             <Text style={styles.shopDistance}>{info.distance_limit || info.distance}km 이내</Text>
           </View>
@@ -40,13 +44,15 @@ function CardInfo({ info, navigation, height }) {
       <View style={styles.designerTag}>
         {info.keywords &&
           info.keywords.map((item, index) => (
-            <View style={styles.tag} key={index}>
-              <Text style={{ color: '#8D8D8D' }}># {item}</Text>
+            <View style={{ ...styles.tag, backgroundColor: tagBackgroundColor }} key={index}>
+              <Text style={{ ...styles.tagText, color: tagColor }}># {item}</Text>
             </View>
           ))}
       </View>
       <View style={{ ...styles.designerTextContainer, height }}>
-        <Text style={styles.designerText}>{info.description}</Text>
+        <Text style={styles.designerText} numberOfLines={2}>
+          {info.description}
+        </Text>
       </View>
     </View>
   );
@@ -55,6 +61,7 @@ function CardInfo({ info, navigation, height }) {
 const styles = StyleSheet.create({
   designerContainer: {
     padding: 15,
+    flex: 1,
   },
   designerInfo: {
     marginTop: 5,
@@ -101,7 +108,7 @@ const styles = StyleSheet.create({
   designerBox: {
     flexDirection: 'column',
     marginLeft: 20,
-    marginRight: 20,
+    flex: 1,
   },
   shopName: {
     marginRight: 10,
@@ -119,7 +126,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   tagText: {
-    color: '#323274',
+    color: '#8D8D8D',
     fontWeight: '500',
     lineHeight: 16,
     letterSpacing: -0.5,

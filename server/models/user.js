@@ -73,8 +73,5 @@ module.exports = (sequelize) => {
   // model 설정
   const model = sequelize.define(modelName, modelAttributes, modelOptions)
   // 외래키 설정
-  model.associate = (db) => {
-    model.hasMany(db.brandingPage)
-  }
   return model
 }
