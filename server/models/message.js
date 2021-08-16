@@ -19,6 +19,11 @@ const modelAttributes = {
     allowNull: false,
     defaultValue: true,
   },
+  content: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: '',
+  },
   created_at: {
     type: DataTypes.DATE,
     allowNull: false,
