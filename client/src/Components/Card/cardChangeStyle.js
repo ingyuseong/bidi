@@ -16,8 +16,8 @@ function CardChangeStyle({ before_src, after_src, height }) {
         showsButtons={true}
         showsPagination={false}
         loop={false}
-        nextButton={<Icon name="chevron-right" size={30} color="#FF533A"></Icon>}
-        prevButton={<Icon name="chevron-left" size={30} color="#0A0A32"></Icon>}>
+        nextButton={<Icon name="chevron-right" size={20} color="grey"></Icon>}
+        prevButton={<Icon name="chevron-left" size={20} color="grey"></Icon>}>
         <View style={styles.styleContainer}>
           <ImageModal
             resizeMode={'contain'}
@@ -26,8 +26,9 @@ function CardChangeStyle({ before_src, after_src, height }) {
               uri: before_src,
             }}
           />
-          <View style={{ ...styles.textArea, backgroundColor: '#FF533A' }}>
-            <Text style={styles.text}>Before</Text>
+          <View style={styles.statusBar}>
+            <View style={{ width: 60, height: 5, backgroundColor: '#0A0A32' }}></View>
+            <View style={{ width: 60, height: 5, backgroundColor: 'white' }}></View>
           </View>
         </View>
         <View style={styles.styleContainer}>
@@ -38,8 +39,9 @@ function CardChangeStyle({ before_src, after_src, height }) {
               uri: after_src,
             }}
           />
-          <View style={{ ...styles.textArea, backgroundColor: '#0A0A32' }}>
-            <Text style={styles.text}>After</Text>
+          <View style={styles.statusBar}>
+            <View style={{ width: 60, height: 5, backgroundColor: 'white' }}></View>
+            <View style={{ width: 60, height: 5, backgroundColor: '#0A0A32' }}></View>
           </View>
         </View>
       </Swiper>
@@ -74,6 +76,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 15,
     lineHeight: 21,
+  },
+  statusBar: {
+    position: 'absolute',
+    bottom: 20,
+    left: 10,
+    flexDirection: 'row',
   },
 });
 
