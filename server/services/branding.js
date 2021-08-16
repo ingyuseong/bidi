@@ -111,7 +111,7 @@ const makeStyleData = (styles) => {
       subtitle,
       price,
       gender,
-      img_src_one,
+      img_src,
       created_at,
       updated_at,
     } = item.dataValues
@@ -121,7 +121,7 @@ const makeStyleData = (styles) => {
       subtitle,
       price,
       gender,
-      img_src_one,
+      img_src,
       created_at,
       updated_at,
     })

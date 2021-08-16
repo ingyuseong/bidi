@@ -59,13 +59,13 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
               showsButtons={true}
               showsPagination={false}
               loop={false}
-              nextButton={<Icon name="right" size={30} color="white"></Icon>}
-              prevButton={<Icon name="left" size={30} color="white"></Icon>}>
+              nextButton={<Icons name="right" size={30} color="white"></Icons>}
+              prevButton={<Icons name="left" size={30} color="white"></Icons>}>
               <View style={styles.styleBox}>
                 <Image
                   style={styles.styleImg}
                   source={{
-                    uri: styleScraps[index].img_src_one,
+                    uri: styleScraps[index].img_src,
                   }}
                 />
                 <TouchableOpacity

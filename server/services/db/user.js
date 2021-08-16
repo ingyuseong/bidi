@@ -108,3 +108,18 @@ exports.insertUser = async ({
   })
   return results
 }
+
+exports.updateAiStatus = async ({ id, ai_status }) => {
+  const results = await User.update(
+    {
+      ai_status,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  )
+
+  return results
+}

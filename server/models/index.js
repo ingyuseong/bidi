@@ -49,6 +49,7 @@ db.Proposal = require('./proposal')(sequelize, Sequelize)
 db.Branding = require('./branding')(sequelize, Sequelize)
 db.Style = require('./style')(sequelize, Sequelize)
 db.Bid = require('./bid')(sequelize, Sequelize)
+db.MatchingHistory = require('./matchingHistory')(sequelize, Sequelize)
 
 db.StyleMenu = require('./relation/styleMenu')(sequelize, Sequelize)
 db.StyleScrap = require('./relation/styleScrap')(sequelize, Sequelize)
@@ -141,5 +142,9 @@ db.Bid.belongsTo(db.Proposal, {
   foreignKey: { allowNull: false },
   onDelete: 'CASCADE',
 })
+
+// 관계정의 MatchingHistory : Bid = 1 : 1
+db.MatchingHistory.belongsTo(db.Bid)
+db.MatchingHistory.belongsTo(db.Proposal)
 
 module.exports = db

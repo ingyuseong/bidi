@@ -60,3 +60,8 @@ exports.getProposalList = async () => {
   }
   return results
 }
+
+exports.editProposalStatus = async (params) => {
+  const proposal = await db.updateProposalStatus({ ...params })
+  return proposal
+}

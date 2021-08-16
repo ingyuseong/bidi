@@ -17,15 +17,21 @@ exports.selectProposal = async (proposalId) =>
     })
 
 exports.selectProposalByUserId = async (userId) =>
-  await Proposal.findOne({
+  await Proposal.findAll({
     raw: true,
     where: {
       user_id: userId,
     },
   })
     .then((results) => {
-      console.log('Success Selecting Proposal')
-      return results
+      let cur_proposal = {}
+      if (results && results.length > 0) {
+        cur_proposal = results.filter((proposal) => proposal.status != 'done')
+        console.log('Success Selecting Proposal')
+        return cur_proposal[0]
+      } else {
+        return {}
+      }
     })
     .catch((err) => {
       console.log('Failed Selecting Proposal')
@@ -150,3 +156,23 @@ exports.selectProposalWithUser = async (userId) => {
   })
   return results
 }
+
+exports.updateProposalStatus = async ({ id, status }) =>
+  await Proposal.update(
+    {
+      status,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  )
+    .then((results) => {
+      console.log('Success Updating Proposal Status')
+      return results
+    })
+    .catch((err) => {
+      console.log('Failed Updating Proposal Status')
+      return err
+    })

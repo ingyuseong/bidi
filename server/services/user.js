@@ -29,3 +29,8 @@ exports.registerUser = async (params) => {
   const user = await db.insertUser({ ...params })
   return user
 }
+
+exports.editAiStatus = async (params) => {
+  const user = await db.updateAiStatus({ ...params })
+  return user
+}

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
+
 import UserInfo from '../../../Components/Profile/userInfo';
 import Icon from 'react-native-vector-icons/AntDesign';
 import BottomButton from '../../../Components/Common/bottomButton';
@@ -77,88 +79,91 @@ function BidListScreen({ navigation, userInfo, bidList, progress }) {
   };
   return (
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
-      {bidList.map((bid, index) => (
-        <View style={styles.container} key={index}>
-          <View style={styles.bidBox}>
-            <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-              <UserInfo
-                info={bid.user}
-                keywords={[bid.large_category, bid.small_category]}
-                height={150}
+      {bidList &&
+        bidList.map((bid, index) => (
+          <View style={styles.container} key={index}>
+            <View style={styles.bidBox}>
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}>
+                <UserInfo
+                  info={bid.user}
+                  keywords={[bid.large_category, bid.small_category]}
+                  height={150}
+                />
+                <View>
+                  {moreToggle ? (
+                    <View style={styles.letterArea}>
+                      <Text style={styles.letterText}>{bid.letter}</Text>
+                      <View style={{ ...styles.moreBtnArea, alignItems: 'center' }}>
+                        <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
+                          <View style={{ ...styles.moreBtn, borderWidth: 0 }}>
+                            <Icon name="up" size={17} color="#8D8D8D"></Icon>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  ) : (
+                    <View style={{ ...styles.letterArea, height: 160 }}>
+                      <Text style={styles.letterText}>{textLimiting(bid.letter, 150)}</Text>
+                      <View style={styles.moreBtnArea}>
+                        <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
+                          <View style={styles.moreBtn}>
+                            <Text style={styles.moreBtnText}>더보기</Text>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  )}
+                </View>
+                <View style={styles.styleListContainer}>
+                  <Text style={styles.titleText}>추천 스타일</Text>
+                  <ScrollView
+                    horizontal={true}
+                    style={styles.styleArea}
+                    showsVerticalScrollIndicator={false}
+                    showsHorizontalScrollIndicator={false}>
+                    {bid.bidStyles.map((item, index) => (
+                      <TouchableOpacity
+                        key={index}
+                        activeOpacity={0.8}
+                        style={styles.imageAfter}
+                        onPress={() => modalOpen(index, bid.bidStyles)}>
+                        <Image style={styles.styleImg} source={{ uri: item.img_src }} />
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                </View>
+              </ScrollView>
+              <BottomButton
+                leftName="거절하기"
+                rightName="수락하기"
+                leftRatio={50}
+                leftHandler={() => refuseBidAlert(bid.id)}
+                rightHandler={() => progressBidAlert(bid.id)}
               />
-              <View>
-                {moreToggle ? (
-                  <View style={styles.letterArea}>
-                    <Text style={styles.letterText}>{bid.letter}</Text>
-                    <View style={{ ...styles.moreBtnArea, alignItems: 'center' }}>
-                      <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
-                        <View style={{ ...styles.moreBtn, borderWidth: 0 }}>
-                          <Icon name="up" size={17} color="#8D8D8D"></Icon>
-                        </View>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                ) : (
-                  <View style={{ ...styles.letterArea, height: 160 }}>
-                    <Text style={styles.letterText}>{textLimiting(bid.letter, 150)}</Text>
-                    <View style={styles.moreBtnArea}>
-                      <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
-                        <View style={styles.moreBtn}>
-                          <Text style={styles.moreBtnText}>더보기</Text>
-                        </View>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                )}
-              </View>
-              <View style={styles.styleListContainer}>
-                <Text style={styles.titleText}>추천 스타일</Text>
-                <ScrollView
-                  horizontal={true}
-                  style={styles.styleArea}
-                  showsVerticalScrollIndicator={false}
-                  showsHorizontalScrollIndicator={false}>
-                  {bid.bidStyles.map((item, index) => (
-                    <TouchableOpacity
-                      key={index}
-                      activeOpacity={0.8}
-                      style={styles.imageAfter}
-                      onPress={() => modalOpen(index, bid.bidStyles)}>
-                      <Image style={styles.styleImg} source={{ uri: item.img_src_one }} />
-                    </TouchableOpacity>
-                  ))}
-                </ScrollView>
-              </View>
-            </ScrollView>
-            <BottomButton
-              leftName="거절하기"
-              rightName="수락하기"
-              leftRatio={50}
-              leftHandler={() => refuseBidAlert(bid.id)}
-              rightHandler={() => progressBidAlert(bid.id)}
-            />
-            <View style={{ marginBottom: 70 }}></View>
+              <View style={{ marginBottom: 70 }}></View>
+            </View>
+            <Modal
+              animationType="fade"
+              transparent={true}
+              isVisible={modalVisible}
+              style={{
+                alignItems: 'center',
+              }}
+              backdropOpacity={0.3}>
+              <StyleModal
+                styleScraps={showStyles}
+                index={styleIndex}
+                setModalVisible={setModalVisible}
+                setStyleScrapList={bid.bidStyles}
+                userInfo={userInfo}
+                navigation={navigation}
+                deleteIcon={false}
+              />
+            </Modal>
           </View>
-          <Modal
-            animationType="fade"
-            transparent={true}
-            isVisible={modalVisible}
-            style={{
-              alignItems: 'center',
-            }}
-            backdropOpacity={0.3}>
-            <StyleModal
-              styleScraps={showStyles}
-              index={styleIndex}
-              setModalVisible={setModalVisible}
-              setStyleScrapList={bid.bidStyles}
-              userInfo={userInfo}
-              navigation={navigation}
-              deleteIcon={false}
-            />
-          </Modal>
-        </View>
-      ))}
+        ))}
     </Swiper>
   );
 }

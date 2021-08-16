@@ -1,94 +1,46 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
-function DesignerHistoryScreen({ info }) {
+import DesignerReview from '../../../Components/MatchingHistory/DesignerReview';
+import NoHistoryScreen from './noHistoryScreen';
+
+function DesignerHistoryScreen({ matchingHistoryList }) {
+  useEffect(() => {}, []);
   return (
-    <>
-      <View style={styles.titleContainer}>
-        <View style={styles.flex}>
-          <Text style={styles.hasReview}>이 디자이너의 매칭내역</Text>
-          <Text style={[styles.hasReview, styles.countReview]}>6</Text>
-        </View>
-        <View style={styles.selectContainer}>
-          <View style={styles.select}>
-            <Text style={{ color: '#8D8D8D' }}>최신순</Text>
-          </View>
-          <View style={{ ...styles.select, borderLeftWidth: 0 }}>
-            <Text style={{ color: '#8D8D8D' }}>평점순</Text>
-          </View>
-        </View>
-      </View>
-      <View style={styles.reviewContainer}>
-        <View style={styles.reviewItem}>
-          <View style={styles.reviewHeader}>
-            <Image style={styles.reviewImg} source={require('../../../../public/img/test3.jpeg')} />
-            <View style={styles.reviewBox}>
-              <View style={styles.reviewer}>
-                <Text style={styles.reviewName}>kang***</Text>
-                <Text style={styles.reviewDate}>2021.06.21</Text>
+    <View>
+      {matchingHistoryList && matchingHistoryList.length > 0 ? (
+        <View style={{ marginLeft: 20, marginRight: 20 }}>
+          <View style={styles.titleContainer}>
+            <View style={styles.flex}>
+              <Text style={styles.hasReview}>이 디자이너의 매칭내역</Text>
+              <Text style={[styles.hasReview, styles.countReview]}>
+                {matchingHistoryList.length > 9
+                  ? matchingHistoryList.length
+                  : '0' + matchingHistoryList.length}
+              </Text>
+            </View>
+            <View style={styles.selectContainer}>
+              <View style={styles.select}>
+                <Text style={{ color: '#8D8D8D' }}>최신순</Text>
               </View>
-              <View style={styles.reviewer}>
-                <Text style={styles.reviewGrade}>⭐️⭐️⭐️⭐️ 4.0</Text>
+              <View style={{ ...styles.select, borderLeftWidth: 0 }}>
+                <Text style={{ color: '#8D8D8D' }}>평점순</Text>
               </View>
             </View>
           </View>
-          <View style={styles.reviewTag}>
-            <View style={styles.tag}>
-              <Text>#칼단발 선호</Text>
-            </View>
-            <View style={styles.tag}>
-              <Text>#칼단발 선호</Text>
-            </View>
-            <View style={styles.tag}>
-              <Text>#칼단발 선호</Text>
-            </View>
-          </View>
-          <View style={styles.reviewTile}>
-            <Text style={styles.bold}>단발 물결 드라이</Text>
-          </View>
-          <View style={styles.reviewDetail}>
-            <Text>
-              친절하고 좋았어요. 시술 끝나고 손질방법도 알려주셔서 관리하기도 편하네요. 가격대비
-              완전 만족!
-            </Text>
-          </View>
-        </View>
-        <View style={styles.reviewItem}>
-          <View style={styles.reviewHeader}>
-            <Image style={styles.reviewImg} source={require('../../../../public/img/test3.jpeg')} />
-            <View style={styles.reviewBox}>
-              <View style={styles.reviewer}>
-                <Text style={styles.reviewName}>kang***</Text>
-                <Text style={styles.reviewDate}>2021.06.21</Text>
+          <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+            {matchingHistoryList.map((history, index) => (
+              <View key={index}>
+                <DesignerReview history={history} type="customer" />
+                <View style={{ marginBottom: 20 }}></View>
               </View>
-              <View style={styles.reviewer}>
-                <Text style={styles.reviewGrade}>⭐️⭐️⭐️⭐️ 4.0</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.reviewTag}>
-            <View style={styles.tag}>
-              <Text>#칼단발 선호</Text>
-            </View>
-            <View style={styles.tag}>
-              <Text>#칼단발 선호</Text>
-            </View>
-            <View style={styles.tag}>
-              <Text>#칼단발 선호</Text>
-            </View>
-          </View>
-          <View style={styles.reviewTile}>
-            <Text style={styles.bold}>단발 물결 드라이</Text>
-          </View>
-          <View style={styles.reviewDetail}>
-            <Text>
-              친절하고 좋았어요. 시술 끝나고 손질방법도 알려주셔서 관리하기도 편하네요. 가격대비
-              완전 만족!
-            </Text>
-          </View>
+            ))}
+          </ScrollView>
         </View>
-      </View>
-    </>
+      ) : (
+        <NoHistoryScreen />
+      )}
+    </View>
   );
 }
 
