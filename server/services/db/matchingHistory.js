@@ -48,10 +48,6 @@ exports.selectAllMatchingHistoryByCustomerId = async (userId) =>
     order: [['created_at', 'DESC']],
     include: [
       {
-        model: Bid,
-        required: true,
-      },
-      {
         model: Proposal,
         required: true,
       },

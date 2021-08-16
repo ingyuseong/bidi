@@ -1,5 +1,6 @@
 const db = require('./db/matchingHistory')
 const userDb = require('./db/user')
+const bidDb = require('./db/bid')
 
 exports.deleteMatchingHistory = async (id) => {
   const matchingHistory = await db.destroyMatchingHistory(id)
@@ -30,15 +31,26 @@ exports.getMatchingHistoryByCustomerId = async (userId) => {
   const matchingHistoryList = await db.selectAllMatchingHistoryByCustomerId(
     userId
   )
-  console.log(matchingHistoryList)
   for await (const matchingHistory of matchingHistoryList) {
     let result = JSON.stringify(matchingHistory)
-    const { name, nick_name, img_src, address } = await userDb.selectUser(
-      matchingHistory.designer_id
-    )
+    const designer = await userDb.selectUser(matchingHistory.designer_id)
+    const customer = await userDb.selectUser(matchingHistory.customer_id)
+    const bid = await bidDb.selectBidByCustomerId(matchingHistory.bid_id)
     result = {
       ...JSON.parse(result),
-      user: { name, nick_name, img_src, address },
+      designer: {
+        name: designer.name,
+        nick_name: designer.nick_name,
+        img_src: designer.img_src,
+        address: designer.address,
+      },
+      customer: {
+        name: customer.name,
+        nick_name: customer.nick_name,
+        img_src: customer.img_src,
+        address: customer.address,
+      },
+      bid,
     }
     results.push(result)
   }

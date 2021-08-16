@@ -127,6 +127,30 @@ exports.selectAllBidByCustomerId = async (userId) =>
       return err
     })
 
+exports.selectBidByCustomerId = async (bidId) =>
+  await Bid.findOne({
+    where: {
+      id: bidId,
+    },
+    include: [
+      {
+        model: Style,
+        as: 'bidStyles',
+        through: {
+          model: BidStyle,
+        },
+      },
+    ],
+  })
+    .then((results) => {
+      console.log('Success Selecting One Bid')
+      return results
+    })
+    .catch((err) => {
+      console.log('Failed Selecting One Bid')
+      return err
+    })
+
 exports.insertBid = async ({
   customer_id,
   designer_id,

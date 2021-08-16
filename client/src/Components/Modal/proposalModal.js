@@ -33,11 +33,9 @@ function ProposalModal({ setModalVisible, proposal, userInfo, progress }) {
               }}
             />
           )}
-          {progress && (
-            <View style={styles.imageCover}>
-              <Text style={styles.imageCoverText}>매칭 중</Text>
-            </View>
-          )}
+          <View style={styles.imageCover}>
+            <Text style={styles.imageCoverText}>매칭 완료</Text>
+          </View>
           <TouchableOpacity
             style={
               imageToggle
@@ -52,7 +50,7 @@ function ProposalModal({ setModalVisible, proposal, userInfo, progress }) {
             <Icon name="md-close" size={25} color="#8D8D8D" />
           </TouchableOpacity>
         </View>
-        {/* <UserInfo info={userInfo} keywords={proposal.keywords} /> */}
+        <UserInfo info={userInfo} keywords={proposal.keywords.split(',')} />
         <View style={styles.descriptionBox}>
           <Text style={styles.description}>
             {proposal.description != '' ? proposal.description : '요구사항 없음'}
@@ -70,7 +68,7 @@ function ProposalModal({ setModalVisible, proposal, userInfo, progress }) {
             value={String(proposal.price_limit / 10000) + '만원 이내'}
           />
         </View>
-        <View style={progress ? { marginTop: 30 } : { marginTop: 80 }}></View>
+        <View style={{ marginTop: 30 }}></View>
       </ScrollView>
     </View>
   );
@@ -94,7 +92,6 @@ const styles = StyleSheet.create({
   content: {
     width: '100%',
     height: 375,
-    borderWidth: 1,
     borderColor: 'rgb(243,243,243)',
   },
   imageContainer: {
