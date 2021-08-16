@@ -14,14 +14,28 @@ exports.getMatchingHistoryByDesignerId = async (userId) => {
   )
   for await (const matchingHistory of matchingHistoryList) {
     let result = JSON.stringify(matchingHistory)
-    const { name, img_src, address } = await userDb.selectUser(
-      matchingHistory.customer_id
-    )
+    const designer = await userDb.selectUser(matchingHistory.designer_id)
+    const customer = await userDb.selectUser(matchingHistory.customer_id)
+    const bid = await bidDb.selectBidByCustomerId(matchingHistory.bid_id)
     result = {
       ...JSON.parse(result),
-      user: { name, nick_name, img_src, address },
+      designer: {
+        name: designer.name,
+        nick_name: designer.nick_name,
+        img_src: designer.img_src,
+        address: designer.address,
+      },
+      customer: {
+        name: customer.name,
+        nick_name: customer.nick_name,
+        img_src: customer.img_src,
+        address: customer.address,
+      },
+      bid,
     }
-    results.push(result)
+    if (result.review != '') {
+      results.push(result)
+    }
   }
   return results
 }

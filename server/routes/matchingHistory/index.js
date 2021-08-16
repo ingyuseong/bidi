@@ -3,7 +3,7 @@ const controller = require('./controller')
 
 router.post('/register', controller.registerMatchingHistory)
 
-router.get('/user/:userId', controller.getMatchingHistoryByDesignerId)
+router.get('/designer/:userId', controller.getMatchingHistoryByDesignerId)
 router.get('/customer/:userId', controller.getMatchingHistoryByCustomerId)
 
 router.patch('/review/:id', controller.editReview)

@@ -8,7 +8,7 @@ import Modal from 'react-native-modal';
 import ProposalModal from '../Modal/proposalModal';
 import BidModal from '../Modal/bidModal';
 
-function HistoryCard({ history }) {
+function HistoryCard({ history, type }) {
   const [historyItem, setHistoryItem] = useState({});
   const [stars, setStars] = useState(0);
   const [reviewToggle, setReviewToggle] = useState(false);
@@ -72,10 +72,19 @@ function HistoryCard({ history }) {
   return (
     <View style={styles.historyContainer}>
       <View style={styles.designerBox}>
-        <Image style={styles.designerImg} source={{ uri: history.designer.img_src }} />
+        <Image
+          style={styles.designerImg}
+          source={
+            type == 'customer'
+              ? { uri: history.customer.img_src }
+              : { uri: history.designer.img_src }
+          }
+        />
         <View style={styles.designerInfoBox}>
           <View style={styles.designerInfoLine}>
-            <Text style={styles.designerName}>{history.designer.nick_name}</Text>
+            <Text style={styles.designerName}>
+              {type == 'customer' ? history.customer.nick_name : history.designer.nick_name}
+            </Text>
             <View style={{ alignItems: 'center', height: 20 }}>
               <Stars
                 half={true}
@@ -95,7 +104,12 @@ function HistoryCard({ history }) {
             </View>
           </View>
           <View style={styles.designerInfoLine}>
-            <Text style={styles.designerAddress}>@ 이너프헤어</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+              <Icon name="map-marker" size={18} color="grey" />
+              <Text style={styles.designerAddress}>
+                {type == 'customer' ? history.customer.address : history.designer.address}
+              </Text>
+            </View>
             <Text style={styles.historyDate}>{dateFormating(history.created_at)}</Text>
           </View>
         </View>
