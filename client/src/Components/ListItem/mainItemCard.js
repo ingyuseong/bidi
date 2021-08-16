@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import BottomButton from './bottomButton';
+import ItemBottomBtn from './itemBottomBtn';
 import Modal from 'react-native-modal';
 
 function MainItemCard({ info, navigation }) {
@@ -116,7 +116,7 @@ function MainItemCard({ info, navigation }) {
             </TouchableOpacity>
           </View>
         </View>
-        <BottomButton
+        <ItemBottomBtn
           info={info}
           navigation={navigation}
           leftBtnText={'더보기'}

@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { CommonActions } from '@react-navigation/native';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import ItemHeader from './itemHeader';
-import BottomButton from './bottomButton';
 import Modal from 'react-native-modal';
 
 function ItemContent({ info, screen, navigation }) {
@@ -15,10 +12,6 @@ function ItemContent({ info, screen, navigation }) {
   const address = info.address ? info.address : info.user.address;
   const title = info.proposal ? info.user.name : info.title;
   const description = info.letter ? info.letter : info.description;
-
-  // status : wait, process, done, cancel, default
-  const leftBtnText = screen === 'branding' ? '더보기' : '취소됨';
-  const rightBtnText = screen === 'branding' ? '대표 등록' : '시술 완료';
 
   const deleteAlert = (id) => {
     Alert.alert('정말 삭제하시겠습니까?', '삭제후에는 변경이 불가능합니다', [

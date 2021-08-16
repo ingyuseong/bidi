@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableOpacity } from 'react-native';
 
-function BottomButton({ navigation, info, leftBtnText, rightBtnText, screen }) {
+function ItemBottomBtn({ navigation, info, leftBtnText, rightBtnText }) {
+  // status : wait, process, done, cancel, default
   const status = info.status ? info.status : 'default';
   const btnDisable = status === 'cancel' || status == 'done' ? true : false;
 
@@ -168,35 +169,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomButton;
-
-//   /* {status !== 'wait' && (
-//         <View style={styles.processBox}>
-//           <TouchableOpacity
-//             style={[styles.processArea, status === 'cancel' && styles.cancelBtn]}
-//             onPress={() => {
-//               cancelAlert(info.id);
-//             }}>
-//             <Text style={[styles.processAreaText, status === 'cancel' && styles.cancelBtn]}>
-//               취소됨
-//             </Text>
-//           </TouchableOpacity>
-//           {status === 'cancel' && (
-//             <TouchableOpacity style={[styles.processArea]}>
-//               <Text style={styles.processAreaText}>시술 완료</Text>
-//             </TouchableOpacity>
-//           )}
-//           {status === 'process' && (
-//             <TouchableOpacity
-//               style={[styles.processArea, styles.processBtn]}
-//               onPress={() => doneAlert(info.id)}>
-//               <Text>시술 진행중</Text>
-//             </TouchableOpacity>
-//           )}
-//           {status === 'done' && (
-//             <TouchableOpacity style={[styles.processArea, styles.doneBtn]}>
-//               <Text style={styles.doneBtn}>시술 완료</Text>
-//             </TouchableOpacity>
-//           )}
-//         </View>
-//       )} */
+export default ItemBottomBtn;

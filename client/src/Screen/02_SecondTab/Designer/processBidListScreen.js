@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import ItemHeader from '../../../Components/ListItem/itemHeader';
 import ItemContent from '../../../Components/ListItem/itemContent';
-import BottomButton from '../../../Components/ListItem/bottomButton';
+import ItemBottomBtn from '../../../Components/ListItem/itemBottomBtn';
 import Line from '../../../Components/Common/line';
 
 function ProcessBidListScreen({ navigation, bidList }) {
@@ -17,7 +17,7 @@ function ProcessBidListScreen({ navigation, bidList }) {
         <View style={styles.bidContainer} key={index}>
           <ItemHeader navigation={navigation} info={bid} screen="bid" />
           <ItemContent navigation={navigation} info={bid} screen="bid" />
-          <BottomButton
+          <ItemBottomBtn
             navigation={navigation}
             info={bid}
             leftBtnText="취소됨"
