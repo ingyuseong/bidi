@@ -1,13 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, ScrollView, TouchableOpacity, View, Text, Image } from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  View,
+  Text,
+  Alert,
+} from 'react-native';
 import BidiStorage from '../../../Lib/storage';
+import Line from '../../../Components/Common/line';
 import { STORAGE_KEY } from '../../../Lib/constant';
-import ItemContent from '../../../Components/ListItem/itemContent';
-import MainItemCard from '../../../Components/ListItem/mainItemCard';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import ItemHeader from '../../../Components/ListItem/itemHeader';
+import ItemContent from '../../../Components/ListItem/itemContent';
+import ItemBottomBtn from '../../../Components/ListItem/itemBottomBtn';
+import MainItemCard from '../../../Components/ListItem/mainItemCard';
 
 function BrandingListScreen({ navigation }) {
   const [brandingList, setBrandingList] = useState([]);
+  const [loader, setLoader] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+
   useEffect(() => {
     async function fetchMode() {
       const user = await BidiStorage.getData(STORAGE_KEY);
@@ -20,6 +34,7 @@ function BrandingListScreen({ navigation }) {
         .then((response) => response.json())
         .then(async (response) => {
           setBrandingList(response.data);
+          setLoader(false);
         })
         .catch((error) => {
           console.error(error);
@@ -27,6 +42,47 @@ function BrandingListScreen({ navigation }) {
     }
     fetchMode();
   }, []);
+
+  const moveToDetailBranding = (info) => {
+    navigation.navigate('DetailBranding', { info });
+  };
+
+  const registerAlert = (id) => {
+    Alert.alert('대표 포트폴리오로 등록하시겠습니까?', '', [
+      { text: '취소', style: 'cancel' },
+      {
+        text: '등록하기',
+        onPress: () => {
+          registerSubmitHandler(id);
+        },
+      },
+    ]);
+  };
+  const registerSubmitHandler = async (id, userId) => {
+    await fetch('http://127.0.0.1:3000' + `/api/branding/main`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        id: id,
+        user_id: userId,
+      }),
+    })
+      .then((response) => response.json())
+      .then(async (response) => {
+        if (response) {
+          Alert.alert('대표 포트폴리오 설정되었습니다!');
+          navigation.push('BrandingMain');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  if (loader) {
+    return <ActivityIndicator animating={loader} color="" size="large" style={{ flex: 1 }} />;
+  }
   return (
     <View style={styles.container}>
       {brandingList.length > 0 ? (
@@ -36,12 +92,29 @@ function BrandingListScreen({ navigation }) {
             {brandingList.map((branding, index) => {
               if (!branding.main) {
                 return (
-                  <ItemContent
-                    key={index}
-                    info={branding}
-                    navigation={navigation}
-                    screen="branding"
-                  />
+                  <View style={styles.bidContainer} key={index}>
+                    <ItemHeader
+                      navigation={navigation}
+                      info={branding}
+                      screen="branding"
+                      setModalVisible={setModalVisible}
+                    />
+                    <ItemContent
+                      navigation={navigation}
+                      info={branding}
+                      screen="branding"
+                      modalVisible={modalVisible}
+                      setModalVisible={setModalVisible}
+                    />
+                    <ItemBottomBtn
+                      info={branding}
+                      leftBtnText="더보기"
+                      leftBtnHandler={() => moveToDetailBranding(branding)}
+                      rightBtnText="대표 등록"
+                      rightBtnHandler={() => registerAlert(branding.id, branding.user_id)}
+                    />
+                    <Line />
+                  </View>
                 );
               }
             })}

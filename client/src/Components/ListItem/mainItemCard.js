@@ -118,19 +118,16 @@ function MainItemCard({ info, navigation }) {
         </View>
         <ItemBottomBtn
           info={info}
-          navigation={navigation}
-          leftBtnText={'더보기'}
+          leftBtnText="더보기"
           leftBtnHandler={() => {
             moveToDetailBranding(info);
           }}
+          rightBtnText="대표 취소"
           rightBtnHandler={() => {
             cancelAlert(info.id);
           }}
-          rightBtnText={'대표 취소'}
-          status="done"
-          btnDisable={false}
+          isMain={true}
         />
-
         <Modal
           animationType="slide"
           transparent={true}

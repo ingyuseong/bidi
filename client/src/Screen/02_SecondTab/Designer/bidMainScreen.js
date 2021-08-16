@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ActivityIndicator } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import WaitBidListScreen from './waitBidListScreen';
@@ -12,6 +13,7 @@ const Tab = createMaterialTopTabNavigator();
 
 function BidMainScreen({ navigation }) {
   const [bid, setBid] = useState([]);
+  const [loader, setLoader] = useState(true);
   const [userInfo, setUserInfo] = useState();
 
   const getBidInfo = async (user) => {
@@ -25,6 +27,7 @@ function BidMainScreen({ navigation }) {
       .then((result) => {
         if (result.data) {
           setBid([...result.data.bidList]);
+          setLoader(false);
         } else {
           navigation.replace('MainTab', { screen: 'Proposal' });
         }
@@ -41,7 +44,10 @@ function BidMainScreen({ navigation }) {
     }
     fetchMode();
   }, []);
-  console.log(bid);
+
+  if (loader) {
+    return <ActivityIndicator animating={loader} color="" size="large" style={{ flex: 1 }} />;
+  }
   return (
     <Tab.Navigator
       swipeEnabled={false}

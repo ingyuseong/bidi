@@ -4,8 +4,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Modal from 'react-native-modal';
 
-function ItemContent({ info, screen, navigation }) {
-  const [modalVisible, setModalVisible] = useState(false);
+function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }) {
   const keywords = info.proposal ? info.proposal.keywords : info.keywords;
   const img_src = info.proposal ? info.proposal.after_src : info.user.img_src;
   const distance_limit = info.proposal ? info.proposal.distance_limit + 'km 이내' : info.position;
@@ -174,7 +173,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   descriptionArea: {
-    width: '60%',
+    width: 200,
   },
   descriptionText: {
     color: '#111111',
