@@ -1,16 +1,24 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableOpacity } from 'react-native';
 
-function BottomButton({
-  leftBtnHandler,
+function ItemBottomBtn({
+  info,
   leftBtnText,
-  btnDisable,
-  rightBtnHandler,
+  leftBtnHandler,
   rightBtnText,
-  status,
+  rightBtnHandler,
+  isMain,
 }) {
+  // status : wait, process, done, cancel, default
+  let status = info.status ? info.status : 'default';
+  let btnDisable = status === 'cancel' || status == 'done' ? true : false;
+
+  if (isMain) {
+    status = 'done';
+    btnDisable = false;
+  }
   return (
-    <View style={styles.bottomContainer}>
+    <View style={styles.container}>
       <TouchableOpacity
         style={[styles.btnBox, status === 'cancel' && styles.active]}
         onPress={leftBtnHandler}
@@ -30,7 +38,7 @@ function BottomButton({
 }
 
 const styles = StyleSheet.create({
-  bottomContainer: {
+  container: {
     flexDirection: 'row',
     margin: 16,
     marginTop: 0,
@@ -68,35 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomButton;
-
-//   /* {status !== 'wait' && (
-//         <View style={styles.processBox}>
-//           <TouchableOpacity
-//             style={[styles.processArea, status === 'cancel' && styles.cancelBtn]}
-//             onPress={() => {
-//               cancelAlert(info.id);
-//             }}>
-//             <Text style={[styles.processAreaText, status === 'cancel' && styles.cancelBtn]}>
-//               취소됨
-//             </Text>
-//           </TouchableOpacity>
-//           {status === 'cancel' && (
-//             <TouchableOpacity style={[styles.processArea]}>
-//               <Text style={styles.processAreaText}>시술 완료</Text>
-//             </TouchableOpacity>
-//           )}
-//           {status === 'process' && (
-//             <TouchableOpacity
-//               style={[styles.processArea, styles.processBtn]}
-//               onPress={() => doneAlert(info.id)}>
-//               <Text>시술 진행중</Text>
-//             </TouchableOpacity>
-//           )}
-//           {status === 'done' && (
-//             <TouchableOpacity style={[styles.processArea, styles.doneBtn]}>
-//               <Text style={styles.doneBtn}>시술 완료</Text>
-//             </TouchableOpacity>
-//           )}
-//         </View>
-//       )} */
+export default ItemBottomBtn;
