@@ -29,7 +29,7 @@ function App() {
         screenOptions={({ navigation }) => ({
           title: '',
           headerStyle: {
-            backgroundColor: 'white',
+            backgroundColor: '',
             height: 100,
           },
           headerLeft: () => <TopLeftBar navigation={navigation} />,
@@ -44,7 +44,7 @@ function App() {
 
         {/*메인 탭 Navigation*/}
         <Stack.Screen name="MainTab" component={MainTabStack} />
-        
+
         {/*DM Stack Navigation*/}
         <Stack.Screen name="DM" component={DMStack} options={{ headerShown: false }} />
       </Stack.Navigator>
