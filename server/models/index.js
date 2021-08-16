@@ -143,4 +143,8 @@ db.Bid.belongsTo(db.Proposal, {
   onDelete: 'CASCADE',
 })
 
+// 관계정의 MatchingHistory : Bid = 1 : 1
+db.MatchingHistory.belongsTo(db.Bid)
+db.MatchingHistory.belongsTo(db.Proposal)
+
 module.exports = db

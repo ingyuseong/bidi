@@ -52,7 +52,13 @@ function DesignerListScreen({ navigation }) {
                 <Icon name="flash" size={25} style={styles.bidiIcon} />
               </TouchableOpacity>
             </View>
-            <CardInfo info={info} navigation={navigation} height={150} />
+            <CardInfo
+              info={info}
+              navigation={navigation}
+              height={150}
+              tagBackgroundColor={'#eeeeee'}
+              tagColor="#8D8D8D"
+            />
           </View>
           <View>
             <DesignerDetail info={info} />

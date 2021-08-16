@@ -148,9 +148,9 @@ function ItemCard({ info, screen, navigation }) {
       },
       body: JSON.stringify({
         bid_id: id,
-        customer_id,
-        designer_id,
-        proposal_id,
+        customer_id: bid.user.id,
+        designer_id: bid.designer_id,
+        proposal_id: bid.proposal.id,
       }),
     })
       .then((response) => response.json())
@@ -207,7 +207,7 @@ function ItemCard({ info, screen, navigation }) {
             <View style={styles.tagArea}>
               {keywords &&
                 keywords.length > 0 &&
-                keywords.split(',').map((keyword, index) => (
+                keywords.map((keyword, index) => (
                   <View style={styles.tagView} key={index}>
                     <Text style={styles.tagText}># {keyword}</Text>
                   </View>

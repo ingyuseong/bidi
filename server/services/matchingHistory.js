@@ -30,6 +30,7 @@ exports.getMatchingHistoryByCustomerId = async (userId) => {
   const matchingHistoryList = await db.selectAllMatchingHistoryByCustomerId(
     userId
   )
+  console.log(matchingHistoryList)
   for await (const matchingHistory of matchingHistoryList) {
     let result = JSON.stringify(matchingHistory)
     const { name, nick_name, img_src, address } = await userDb.selectUser(
