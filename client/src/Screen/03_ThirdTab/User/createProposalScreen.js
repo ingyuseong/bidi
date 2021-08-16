@@ -22,6 +22,8 @@ import BottomButton from '../../../Components/Common/bottomButton';
 function CreateProposalScreen({ navigation }) {
   const [userInfo, setUserInfo] = useState('');
   const [afterImageStyle, setAfterImageStyle] = useState('none');
+  const [albumImage, setAlbumImage] = useState('');
+  const [isFromAlbum, setIsFromAlbum] = useState(false);
   // DropDown 관련
   const [priceOpen, setPriceOpen] = useState(false);
   const [priceValue, setPriceValue] = useState(null);
@@ -92,8 +94,12 @@ function CreateProposalScreen({ navigation }) {
   ));
 
   const proposalHandler = async (e) => {
+    setIsFromAlbum(false);
+    setAfterImageStyle('none');
     navigation.navigate('SelectAfterImage', {
       setAfterImageStyle: setAfterImageStyle,
+      setAlbumImage: setAlbumImage,
+      setIsFromAlbum: setIsFromAlbum,
       userInfo: userInfo,
     });
   };
@@ -105,35 +111,73 @@ function CreateProposalScreen({ navigation }) {
     setKeyCount(0);
     setDescription('');
   };
+  const createFormData = (photo, body) => {
+    const data = new FormData();
+
+    data.append('afterImage', {
+      name: userInfo.nick_name,
+      type: photo.type,
+      uri: photo.uri.replace('file://', ''),
+    });
+    Object.keys(body).forEach((key) => {
+      data.append(key, body[key]);
+    });
+    return data;
+  };
 
   const submitHandler = async (e) => {
-    if (afterImageStyle != 'none') {
+    if (afterImageStyle != 'none' || isFromAlbum) {
       const keywords = keyword
         .filter((key) => key.selected)
         .map((key) => key.title)
         .toString();
-      await fetch('http://127.0.0.1:3000' + '/api/proposal/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-        },
-        body: JSON.stringify({
-          before_src: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
-          after_src: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/result/${afterImageStyle}.jpg`,
-          user_id: userInfo.id,
-          price_limit: priceValue,
-          distance_limit: distanceValue,
-          keywords: keywords.toString(),
-          description,
-          status: 'wait',
-        }),
-      })
-        .then(() => {
-          navigation.replace('ProposalRegistered');
+      if (isFromAlbum) {
+        await fetch('http://127.0.0.1:3000' + '/api/proposal/register/withfile', {
+          method: 'POST',
+          headers: {
+            'content-type': 'multipart/form-data',
+          },
+          body: createFormData(albumImage, {
+            before_src: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
+            user_id: userInfo.id,
+            price_limit: priceValue,
+            distance_limit: distanceValue,
+            keywords: keywords.toString(),
+            description,
+            status: 'wait',
+          }),
         })
-        .catch((error) => {
-          console.error(error);
-        });
+          .then((response) => response.json())
+          .then((res) => {
+            navigation.replace('ProposalRegistered');
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      } else {
+        await fetch('http://127.0.0.1:3000' + '/api/proposal/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+          },
+          body: JSON.stringify({
+            before_src: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
+            after_src: afterImageStyle,
+            user_id: userInfo.id,
+            price_limit: priceValue,
+            distance_limit: distanceValue,
+            keywords: keywords.toString(),
+            description,
+            status: 'wait',
+          }),
+        })
+          .then(() => {
+            navigation.replace('ProposalRegistered');
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }
     } else if (priceValue == null) {
       Alert.alert('사진을 선택해주세요!');
     } else if (distanceValue == null) {
@@ -162,11 +206,25 @@ function CreateProposalScreen({ navigation }) {
         </View>
         <View style={styles.imageBox}>
           {afterImageStyle == 'none' ? (
-            <View style={styles.image}>
-              <TouchableOpacity activeOpacity={0.8} onPress={proposalHandler}>
-                <Text style={styles.imageLabel}>사진 등록하기</Text>
+            isFromAlbum ? (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.imageAfter}
+                onPress={proposalHandler}>
+                <Image
+                  style={{ width: '100%', height: '100%' }}
+                  source={{
+                    uri: albumImage.uri,
+                  }}
+                />
               </TouchableOpacity>
-            </View>
+            ) : (
+              <View style={styles.image}>
+                <TouchableOpacity activeOpacity={0.8} onPress={proposalHandler}>
+                  <Text style={styles.imageLabel}>사진 등록하기</Text>
+                </TouchableOpacity>
+              </View>
+            )
           ) : (
             <TouchableOpacity
               activeOpacity={0.8}
