@@ -3,14 +3,15 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import WaitBidListScreen from './waitBidListScreen';
 import ProcessBidListScreen from './processBidListScreen';
-import NoBidListScreen from './noBidListScreen';
+import NoWaitBidListScreen from './noWaitBidListScreen';
+import NoProcessBidList from './noProcessBidList';
 import BidiStorage from '../../../Lib/storage';
 import { STORAGE_KEY } from '../../../Lib/constant';
 
 const Tab = createMaterialTopTabNavigator();
 
 function BidMainScreen({ navigation }) {
-  const [bid, setBid] = useState();
+  const [bid, setBid] = useState([]);
   const [userInfo, setUserInfo] = useState();
 
   const getBidInfo = async (user) => {
@@ -40,10 +41,10 @@ function BidMainScreen({ navigation }) {
     }
     fetchMode();
   }, []);
+  console.log(bid);
   return (
     <Tab.Navigator
       swipeEnabled={false}
-      initialRouteName="ProcessBidList"
       tabBarOptions={{
         activeTintColor: 'black',
         inactiveTintColor: '#DADADA',
@@ -59,27 +60,27 @@ function BidMainScreen({ navigation }) {
           borderColor: 'black',
         },
       }}>
-      {bid ? (
-        <Tab.Screen name="WaitBidList" options={{ title: '대기 중' }}>
-          {() => <WaitBidListScreen navigation={navigation} bidList={bid} userInfo={userInfo} />}
-        </Tab.Screen>
-      ) : (
+      {bid.length === 0 ? (
         <Tab.Screen
           name="NoWaitBidList"
           options={{ title: '대기 중' }}
-          component={NoBidListScreen}
+          component={NoWaitBidListScreen}
         />
-      )}
-      {bid ? (
-        <Tab.Screen name="ProcessBidList" options={{ title: '매칭 중' }}>
-          {() => <ProcessBidListScreen navigation={navigation} bidList={bid} userInfo={userInfo} />}
-        </Tab.Screen>
       ) : (
+        <Tab.Screen name="WaitBidList" options={{ title: '대기 중' }}>
+          {() => <WaitBidListScreen navigation={navigation} bidList={bid} userInfo={userInfo} />}
+        </Tab.Screen>
+      )}
+      {bid.length === 0 ? (
         <Tab.Screen
           name="NoProcessBidList"
           options={{ title: '대기 중' }}
-          component={NoBidListScreen}
+          component={NoProcessBidList}
         />
+      ) : (
+        <Tab.Screen name="ProcessBidList" options={{ title: '매칭 중' }}>
+          {() => <ProcessBidListScreen navigation={navigation} bidList={bid} userInfo={userInfo} />}
+        </Tab.Screen>
       )}
     </Tab.Navigator>
   );
