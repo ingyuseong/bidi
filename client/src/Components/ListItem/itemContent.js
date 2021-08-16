@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { CommonActions } from '@react-navigation/native';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { convertDate } from '../../Lib/utils';
+
+import ItemHeader from './itemHeader';
 import BottomButton from './bottomButton';
 import Modal from 'react-native-modal';
 
-function ItemCard({ info, screen, navigation }) {
+function ItemContent({ info, screen, navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const keywords = info.proposal ? info.proposal.keywords : info.keywords;
   const img_src = info.proposal ? info.proposal.after_src : info.user.img_src;
@@ -20,12 +21,6 @@ function ItemCard({ info, screen, navigation }) {
   const leftBtnText = screen === 'branding' ? '더보기' : '취소됨';
   const rightBtnText = screen === 'branding' ? '대표 등록' : '시술 완료';
 
-  const moreBtnHandler = () => {
-    navigation.replace('DetailBid', { info });
-  };
-  const deleteBtnHandler = () => {
-    setModalVisible(true);
-  };
   const deleteAlert = (id) => {
     Alert.alert('정말 삭제하시겠습니까?', '삭제후에는 변경이 불가능합니다', [
       { text: '취소', style: 'cancel' },
@@ -166,23 +161,14 @@ function ItemCard({ info, screen, navigation }) {
   };
 
   return (
-    <View style={styles.bidContainer}>
+    <View style={styles.container}>
       <View style={styles.bidBox}>
-        <View style={styles.bidHeaderArea}>
-          <View style={styles.dateView}>
-            <Text style={styles.dateText}>{convertDate(info.created_at)}</Text>
-          </View>
-          {screen === 'branding' ? (
-            <TouchableOpacity style={styles.moreBtn} onPress={deleteBtnHandler}>
-              <Ionicons name="ellipsis-vertical" size={15} />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity style={styles.moreBtn} onPress={moreBtnHandler}>
-              <Text style={styles.moreBtnText}>더보기</Text>
-              <Ionicons name="chevron-forward" size={15} />
-            </TouchableOpacity>
-          )}
-        </View>
+        <ItemHeader
+          navigation={navigation}
+          info={info}
+          screen={screen}
+          setModalVisible={setModalVisible}
+        />
         <View style={styles.bidContentArea}>
           <View style={styles.bidProfileArea}>
             <Image source={{ uri: img_src }} style={styles.bidProfileImg} />
@@ -263,35 +249,22 @@ function ItemCard({ info, screen, navigation }) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   bidBox: {
     flex: 1,
     padding: 16,
     paddingBottom: 0,
   },
-  bidHeaderArea: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
+
   bidContentArea: {
     flexDirection: 'row',
     marginTop: 16,
     marginBottom: 16,
     alignItems: 'center',
   },
-  dateText: {
-    color: '#878787',
-    fontSize: 14,
-    lineHeight: 17,
-  },
-  moreBtn: {
-    flexDirection: 'row',
-  },
-  moreBtnText: {
-    color: '#0A0A32',
-    fontSize: 14,
-    lineHeight: 17,
-  },
+
   bidProfileArea: {
     marginRight: 16,
   },
@@ -393,4 +366,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ItemCard;
+export default ItemContent;

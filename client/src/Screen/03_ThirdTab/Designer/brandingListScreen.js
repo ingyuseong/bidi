@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, TouchableOpacity, View, Text, Image } from 'react-native';
 import BidiStorage from '../../../Lib/storage';
 import { STORAGE_KEY } from '../../../Lib/constant';
-import ItemCard from '../../../Components/ListItem/itemCard';
+import ItemContent from '../../../Components/ListItem/itemContent';
 import MainItemCard from '../../../Components/ListItem/mainItemCard';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -36,7 +36,12 @@ function BrandingListScreen({ navigation }) {
             {brandingList.map((branding, index) => {
               if (!branding.main) {
                 return (
-                  <ItemCard key={index} info={branding} navigation={navigation} screen="branding" />
+                  <ItemContent
+                    key={index}
+                    info={branding}
+                    navigation={navigation}
+                    screen="branding"
+                  />
                 );
               }
             })}
