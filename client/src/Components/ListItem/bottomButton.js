@@ -1,25 +1,125 @@
 import React from 'react';
 import { StyleSheet, Text, View, Alert, TouchableOpacity } from 'react-native';
 
-function BottomButton({
-  leftBtnHandler,
-  leftBtnText,
-  btnDisable,
-  rightBtnHandler,
-  rightBtnText,
-  status,
-}) {
+function BottomButton({ navigation, info, leftBtnText, rightBtnText, screen }) {
+  const status = info.status ? info.status : 'default';
+  const btnDisable = status === 'cancel' || status == 'done' ? true : false;
+
+  const cancelAlert = (id) => {
+    Alert.alert('정말 취소하시겠습니까?', '취소후에는 변경이 불가능합니다', [
+      { text: '취소', style: 'cancel' },
+      {
+        text: '취소하기',
+        onPress: () => {
+          statusSubmitHandler(id, 'cancel');
+        },
+      },
+    ]);
+  };
+  const doneAlert = (bid) => {
+    Alert.alert('시술이 완료되었습니까?', '완료후에는 변경이 불가능합니다', [
+      { text: '취소', style: 'cancel' },
+      {
+        text: '완료하기',
+        onPress: () => {
+          matchingHistoryHandler(bid);
+        },
+      },
+    ]);
+  };
+  const moveToDetailBranding = (info) => {
+    navigation.navigate('DetailBranding', { info });
+  };
+  const registerAlert = (id) => {
+    Alert.alert('대표 포트폴리오로 등록하시겠습니까?', '', [
+      { text: '취소', style: 'cancel' },
+      {
+        text: '등록하기',
+        onPress: () => {
+          registerSubmitHandler(id);
+        },
+      },
+    ]);
+  };
+  const registerSubmitHandler = async (id) => {
+    await fetch('http://127.0.0.1:3000' + `/api/branding/main`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        id: id,
+        user_id: info.user_id,
+      }),
+    })
+      .then((response) => response.json())
+      .then(async (response) => {
+        if (response) {
+          Alert.alert('대표 포트폴리오 설정되었습니다!');
+          navigation.push('BrandingMain');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const statusSubmitHandler = async (id, status) => {
+    await fetch('http://127.0.0.1:3000' + `/api/bid/status/${id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        status,
+      }),
+    })
+      .then((response) => response.json())
+      .then(async (response) => {
+        if (response) {
+          Alert.alert('Bid 상태가 성공적으로 수정되었습니다!');
+          navigation.push('BidMain', { screen: 'ProcessBidList' });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const matchingHistoryHandler = async (bid) => {
+    const { id, customer_id, designer_id, proposal_id } = bid;
+    await fetch('http://127.0.0.1:3000' + `/api/matchingHistory/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        bid_id: id,
+        customer_id: bid.user.id,
+        designer_id: bid.designer_id,
+        proposal_id: bid.proposal.id,
+      }),
+    })
+      .then((response) => response.json())
+      .then(async (response) => {
+        if (response) {
+          Alert.alert('Bid 상태가 성공적으로 수정되었습니다!');
+          navigation.push('BidMain', { screen: 'ProcessBidList' });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
-    <View style={styles.bottomContainer}>
+    <View style={styles.container}>
       <TouchableOpacity
         style={[styles.btnBox, status === 'cancel' && styles.active]}
-        onPress={leftBtnHandler}
+        onPress={() => cancelAlert(info.id)}
         disabled={btnDisable}>
         <Text style={[styles.btnText, status === 'cancel' && styles.active]}>{leftBtnText}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[styles.btnBox, status === 'done' ? styles.active : styles.defaultBorder]}
-        onPress={rightBtnHandler}
+        onPress={() => doneAlert(info)}
         disabled={btnDisable}>
         <Text style={[styles.btnText, status === 'done' ? styles.active : styles.defaultText]}>
           {rightBtnText}
@@ -30,7 +130,7 @@ function BottomButton({
 }
 
 const styles = StyleSheet.create({
-  bottomContainer: {
+  container: {
     flexDirection: 'row',
     margin: 16,
     marginTop: 0,

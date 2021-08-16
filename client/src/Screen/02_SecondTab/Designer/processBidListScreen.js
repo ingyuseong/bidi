@@ -1,19 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+import ItemHeader from '../../../Components/ListItem/itemHeader';
 import ItemContent from '../../../Components/ListItem/itemContent';
+import BottomButton from '../../../Components/ListItem/bottomButton';
+import Line from '../../../Components/Common/line';
 
 function ProcessBidListScreen({ navigation, bidList }) {
   const [waitBidList, setWaitBidList] = useState([]);
   useEffect(() => {
-    const newBidList = bidList.filter(
-      (bid) => bid.status === 'process' || bid.status === 'done' || bid.status === 'cancel',
-    );
+    const newBidList = bidList.filter((bid) => bid.status === 'process' || bid.status === 'cancel');
     setWaitBidList([...newBidList]);
   }, []);
   return (
     <ScrollView style={styles.container}>
       {waitBidList.map((bid, index) => (
-        <ItemContent key={index} info={bid} navigation={navigation} screen="bid" />
+        <View style={styles.bidContainer} key={index}>
+          <ItemHeader navigation={navigation} info={bid} screen="bid" />
+          <ItemContent navigation={navigation} info={bid} screen="bid" />
+          <BottomButton
+            navigation={navigation}
+            info={bid}
+            leftBtnText="취소됨"
+            rightBtnText="대표 등록"
+          />
+          <Line />
+        </View>
       ))}
     </ScrollView>
   );

@@ -31,6 +31,9 @@ function ItemHeader({ navigation, info, screen, setModalVisible }) {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 16,
+    marginLeft: 16,
+    marginRight: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
