@@ -458,13 +458,3 @@ const styles = StyleSheet.create({
 });
 
 export default UpdateProposalScreen;
-
-// const { userInfo } = route.params;
-
-// const [userType, setUserType] = useState('');
-// const [userName, setUserName] = useState('');
-// const [userEmail, setUserEmail] = useState('');
-// const [userAddress, setUserAddress] = useState('');
-
-// const handleSubmitButton = async () => {
-// };

@@ -18,6 +18,7 @@ exports.getBidByDesignerId = async (userId) => {
   for await (const bid of bidList) {
     const {
       id,
+      designer_id,
       large_category,
       small_category,
       letter,
@@ -27,6 +28,7 @@ exports.getBidByDesignerId = async (userId) => {
     } = bid
     const result = {
       id,
+      designer_id,
       user: bid.proposal.user.dataValues,
       proposal: {
         ...bid.proposal.dataValues,
@@ -79,7 +81,7 @@ exports.getBidByCustomerId = async (userId) => {
       ...JSON.parse(result),
       user: { name, nick_name, img_src, address },
     }
-    if (result.status != 'cancel') results.push(result)
+    if (result.status == 'wait') results.push(result)
     if (result.status == 'process') progressBid.push(result)
   }
   if (progressBid.length) return progressBid

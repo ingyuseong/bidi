@@ -48,13 +48,13 @@ function ItemCard({ info, screen, navigation }) {
       },
     ]);
   };
-  const doneAlert = (id) => {
+  const doneAlert = (bid) => {
     Alert.alert('시술이 완료되었습니까?', '완료후에는 변경이 불가능합니다', [
       { text: '취소', style: 'cancel' },
       {
         text: '완료하기',
         onPress: () => {
-          statusSubmitHandler(id, 'done');
+          matchingHistoryHandler(bid);
         },
       },
     ]);
@@ -139,6 +139,31 @@ function ItemCard({ info, screen, navigation }) {
         console.error(error);
       });
   };
+  const matchingHistoryHandler = async (bid) => {
+    const { id, customer_id, designer_id, proposal_id } = bid;
+    await fetch('http://127.0.0.1:3000' + `/api/matchingHistory/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({
+        bid_id: id,
+        customer_id: bid.user.id,
+        designer_id: bid.designer_id,
+        proposal_id: bid.proposal.id,
+      }),
+    })
+      .then((response) => response.json())
+      .then(async (response) => {
+        if (response) {
+          Alert.alert('Bid 상태가 성공적으로 수정되었습니다!');
+          navigation.dispatch(CommonActions.navigate('ProcessBidList'));
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <View style={styles.bidContainer}>
@@ -180,7 +205,8 @@ function ItemCard({ info, screen, navigation }) {
               </View>
             </View>
             <View style={styles.tagArea}>
-              {keywords.length > 0 &&
+              {keywords &&
+                keywords.length > 0 &&
                 keywords.map((keyword, index) => (
                   <View style={styles.tagView} key={index}>
                     <Text style={styles.tagText}># {keyword}</Text>
@@ -206,7 +232,7 @@ function ItemCard({ info, screen, navigation }) {
           }}
           rightBtnText={rightBtnText}
           rightBtnHandler={() => {
-            screen === 'branding' ? registerAlert(info.id) : doneAlert(info.id);
+            screen === 'branding' ? registerAlert(info.id) : doneAlert(info);
           }}
           status={status}
         />

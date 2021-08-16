@@ -9,36 +9,11 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import UserInfo from '../Profile/userInfo';
 
-import UserInfo from '../../../Components/Profile/userInfo';
-import BottomButton from '../../../Components/Common/bottomButton';
-
-function MyProposalScreen({ navigation, proposal, userInfo, progress }) {
+function ProposalModal({ setModalVisible, proposal, userInfo, progress }) {
   const [imageToggle, setImageToggle] = useState(false);
-  const deleteProposal = async () => {
-    await fetch('http://127.0.0.1:3000' + `/api/proposal/${proposal.id}`, {
-      method: 'DELETE',
-    })
-      .then(() => {
-        Alert.alert('삭제 되었습니다!');
-        navigation.replace('MainTab', { screen: 'Search' });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-  const deleteAlert = () => {
-    Alert.alert('정말 삭제하시겠습니까?', '제안서 등록에는 제한이 있습니다', [
-      { text: '취소', style: 'cancel' },
-      { text: '삭제하기', onPress: deleteProposal },
-    ]);
-  };
-  const updateProposal = () => {
-    navigation.navigate('updateProposal', {
-      proposal: proposal,
-      userInfo: userInfo,
-    });
-  };
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
@@ -58,11 +33,9 @@ function MyProposalScreen({ navigation, proposal, userInfo, progress }) {
               }}
             />
           )}
-          {progress && (
-            <View style={styles.imageCover}>
-              <Text style={styles.imageCoverText}>매칭 중</Text>
-            </View>
-          )}
+          <View style={styles.imageCover}>
+            <Text style={styles.imageCoverText}>매칭 완료</Text>
+          </View>
           <TouchableOpacity
             style={
               imageToggle
@@ -73,8 +46,11 @@ function MyProposalScreen({ navigation, proposal, userInfo, progress }) {
             onPress={() => setImageToggle(!imageToggle)}>
             <Text style={styles.imageToggleText}>{imageToggle ? 'After' : 'Before'}</Text>
           </TouchableOpacity>
+          <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeBtnArea}>
+            <Icon name="md-close" size={25} color="#8D8D8D" />
+          </TouchableOpacity>
         </View>
-        <UserInfo info={userInfo} keywords={proposal.keywords} />
+        <UserInfo info={userInfo} keywords={proposal.keywords.split(',')} />
         <View style={styles.descriptionBox}>
           <Text style={styles.description}>
             {proposal.description != '' ? proposal.description : '요구사항 없음'}
@@ -92,27 +68,16 @@ function MyProposalScreen({ navigation, proposal, userInfo, progress }) {
             value={String(proposal.price_limit / 10000) + '만원 이내'}
           />
         </View>
-        <View style={progress ? { marginTop: 30 } : { marginTop: 80 }}></View>
+        <View style={{ marginTop: 30 }}></View>
       </ScrollView>
-      {progress ? (
-        <></>
-      ) : (
-        <BottomButton
-          leftName="삭제하기"
-          rightName="수정하기"
-          leftRatio={40}
-          leftHandler={deleteAlert}
-          rightHandler={updateProposal}
-        />
-      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    margin: 16,
+    width: '100%',
+    height: '80%',
     backgroundColor: 'white',
     borderColor: '#e2e2e2',
     borderRadius: 20,
@@ -127,7 +92,6 @@ const styles = StyleSheet.create({
   content: {
     width: '100%',
     height: 375,
-    borderWidth: 1,
     borderColor: 'rgb(243,243,243)',
   },
   imageContainer: {
@@ -168,6 +132,11 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#ffffff',
   },
+  closeBtnArea: {
+    position: 'absolute',
+    top: 15,
+    left: 15,
+  },
   descriptionBox: {
     width: '100%',
     alignItems: 'center',
@@ -204,4 +173,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MyProposalScreen;
+export default ProposalModal;

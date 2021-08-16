@@ -34,7 +34,7 @@ function StyleScrapIntroScreen({ navigation, styleScraps, userInfo }) {
                 <Image
                   style={styles.styleImg}
                   source={{
-                    uri: item.img_src_one,
+                    uri: item.img_src,
                   }}
                 />
               </TouchableOpacity>

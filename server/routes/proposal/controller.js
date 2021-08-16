@@ -61,6 +61,25 @@ exports.editProposal = async (req, res, next) => {
   }
 }
 
+exports.editProposalStatus = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const params = req.body
+    const proposal = await proposalServices.editProposalStatus({
+      ...params,
+      id,
+    })
+    res.status(STATUS_CODE.SUCCESS).json({
+      message: '제안서 상태 정보 수정 성공',
+      data: { proposal },
+    })
+  } catch (error) {
+    res
+      .status(STATUS_CODE.SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+
 /*
     DELETE /api/proposal/:id
     * 제안서 정보 삭제 API

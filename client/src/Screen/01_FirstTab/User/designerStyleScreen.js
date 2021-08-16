@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, Image } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import BidiStorage from '../../../Lib/storage';
 import { STORAGE_KEY } from '../../../Lib/constant';
@@ -93,7 +93,7 @@ function DesignerStyleScreen({ navigation, info }) {
     fetchMode();
   }, []);
   return (
-    <>
+    <View style={{ marginLeft: 20, marginRight: 20 }}>
       <View style={styles.titleContainer}>
         <View style={styles.flex}>
           <Text style={styles.hasStyle}>이 디자이너의 스타일</Text>
@@ -192,7 +192,7 @@ function DesignerStyleScreen({ navigation, info }) {
           deleteIcon={false}
         />
       </Modal>
-    </>
+    </View>
   );
 }
 
