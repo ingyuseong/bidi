@@ -175,7 +175,7 @@ function CreateProposalScreen({ navigation }) {
               <Image
                 style={{ width: '100%', height: '100%' }}
                 source={{
-                  uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/result/${afterImageStyle}.jpg`,
+                  uri: afterImageStyle,
                 }}
               />
             </TouchableOpacity>

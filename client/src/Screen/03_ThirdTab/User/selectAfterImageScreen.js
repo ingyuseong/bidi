@@ -19,7 +19,10 @@ function SelectAfterImageScreen({ navigation, route }) {
     navigation.navigate('SelectFromAlbum', { setAfterImageStyle: setAfterImageStyle });
   };
   const selectScrap = async (e) => {
-    navigation.navigate('SelectFromScrap', { setAfterImageStyle: setAfterImageStyle });
+    navigation.navigate('SelectFromScrap', {
+      setAfterImageStyle: setAfterImageStyle,
+      userInfo: userInfo,
+    });
   };
   const selectBidi = async (e) => {
     navigation.navigate('SelectFromBidi', {
