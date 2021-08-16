@@ -88,6 +88,7 @@ exports.selectAllBidByDesignerId = async (userId) =>
         ],
       },
     ],
+    order: [['created_at', 'ASC']],
   })
     .then((results) => {
       console.log('Success Selecting All Bid')
