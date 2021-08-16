@@ -49,6 +49,8 @@ db.Proposal = require('./proposal')(sequelize, Sequelize)
 db.Branding = require('./branding')(sequelize, Sequelize)
 db.Style = require('./style')(sequelize, Sequelize)
 db.Bid = require('./bid')(sequelize, Sequelize)
+db.Room = require('./room')(sequelize, Sequelize)
+db.Message = require('./message')(sequelize, Sequelize)
 
 db.StyleMenu = require('./relation/styleMenu')(sequelize, Sequelize)
 db.StyleScrap = require('./relation/styleScrap')(sequelize, Sequelize)
@@ -96,6 +98,18 @@ db.Proposal.belongsTo(db.User, {
   onDelete: 'CASCADE',
 })
 
+// 관계정의 User : Message = 1 : N
+db.User.hasMany(db.Message, {
+  foreignKey: { name: 'sender_id', allowNull: false, as: 'sender' },
+  targetKey: { name: 'id', allowNull: false, as: 'sender' },
+  onDelete: 'CASCADE',
+})
+db.Message.belongsTo(db.User, {
+  foreignKey: { name: 'sender_id', allowNull: false, as: 'sender' },
+  sourceKey: { name: 'id', allowNull: false, as: 'sender' },
+  onDelete: 'CASCADE',
+})
+
 // 관계정의 User : StyleScrap = M : N
 db.Style.belongsToMany(db.User, {
   through: 'styleScrap',
@@ -138,6 +152,22 @@ db.Proposal.hasMany(db.Bid, {
   onDelete: 'CASCADE',
 })
 db.Bid.belongsTo(db.Proposal, {
+  foreignKey: { allowNull: false },
+  onDelete: 'CASCADE',
+})
+
+// 관계정의 Bid : Room = 1 : 1
+db.Bid.hasOne(db.Room, {
+  foreignKey: { allowNull: false },
+  onDelete: 'CASCADE',
+})
+
+// 관계정의 Room : Message = 1 : N
+db.Room.hasMany(db.Message, {
+  foreignKey: { allowNull: false },
+  onDelete: 'CASCADE',
+})
+db.Message.belongsTo(db.Room, {
   foreignKey: { allowNull: false },
   onDelete: 'CASCADE',
 })
