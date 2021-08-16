@@ -13,7 +13,6 @@ import {
 import DaHyeon from '../../../public/img/DM/dahyeon.jpeg'
 
 function ChatBubble({ message, ckpt }) {
-
     return (
         <View style={message.customerSent ? styles.customerTextContainer : styles.desginerTextContainer} >
           { ckpt && <Image source={DaHyeon} style={styles.checkPointImage} />}

@@ -7,58 +7,21 @@ import {
   ScrollView,
 } from 'react-native';
 
+import useChat from './useChat';
 import ChatBubbleList from '../../Components/DM/chatBubbleList';
 import DMHeader from '../../Components/DM/dMHeader';
 
-const dummyMessages = [
-  {
-    userId: 1,
-    custormerSent: false,
-    content: '네, 안녕하세요~! 다현입니다😘',
-    createdAt: '2021-07-15 08:44:12',
-  },
-  {
-    userId: 1,
-    customerSent: false,
-    content: '그럼요! 손상케어는 제가 전문가 과정도 수료했습니다!',
-    createdAt: '2021-07-15 08:44:15',
-  },
-  {
-    userId: 1,
-    customerSent: false,
-    content: '고객님. 지금 당장 예약은 조금 어려우시고요ㅠㅠ 괜찮으시면 다음주 수요일은 어떠세요?',
-    createdAt: '2021-07-15 08:44:20',
-  },
-  {
-    userId: 1,
-    customerSent: true,
-    content: '앗..',
-    createdAt: '2021-07-15 08:44:30',
-  },
-  {
-    userId: 1,
-    customerSent: true,
-    content: '그럼 수요일 몇시에 가능하신가요?',
-    createdAt: '2021-07-15 08:44:45',
-  },
-];
-
 function DMScreen({ navigation, route }) {
-
+  
   const { params: { user } } = route;
 
+  const roomId = user['id'];
+  const [ messages, SendMessage ] = useChat(roomId);
+  
   const [messageText, setMessageText] = useState('');
-  const [messages, setMessages] = useState(dummyMessages);
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    let newMessages = [...messages, {
-      userId: 1,
-      customerSent: true,
-      content: messageText,
-      createdAt: '2021-07-15 08:44:45',
-    }]
-    setMessages(newMessages);
+    SendMessage(messageText);
     setMessageText('');
   }
 

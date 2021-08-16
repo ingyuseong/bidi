@@ -6,6 +6,10 @@ const { sequelize } = require('./models')
 const app = express()
 const PORT = process.env.PORT
 
+// socket.io configuration
+const { Socket } = require('./socket/socket');
+const { initSocketIo } = require('./socket/init-socket');
+
 sequelize
   .sync({ alter: false })
   .then(() => console.log('DB 연결 성공!'))
@@ -24,5 +28,9 @@ app.use('/api', apiRouter)
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`)
 })
+
+// Start socket.io server on port 4000
+const { io, server } = Socket(app);
+initSocketIo(io, server);
 
 module.exports = app
