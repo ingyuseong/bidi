@@ -12,3 +12,16 @@ exports.getLatestMessage = async (roomId) => {
     })
   return latestMessage
 }
+
+exports.getAllMessageByRoomId = async (roomId) => {
+  const messageList =  await db.selectAllMessageByRoomId(roomId)
+    .then((results) => {
+        console.log('Get All Message Service Successed')
+        return results
+    })
+    .catch((err) => {
+        console.log('Get All Message Service Failed')
+        return err
+    })
+  return messageList
+}

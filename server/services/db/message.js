@@ -10,3 +10,10 @@ exports.selectLatestMessageByRoomId = async (roomId) =>
         },
         order: [['created_at', 'DESC']],
     })
+    
+exports.selectAllMessageByRoomId = async (roomId) => 
+    await Message.findAll({
+        where: {
+            room_id: roomId
+        },
+    })
