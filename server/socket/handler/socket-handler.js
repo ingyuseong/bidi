@@ -7,8 +7,9 @@ const joinRoom = (io, socket, roomId) => {
 }
 
 const createMessage = async (io, socket, message) => {
+    console.log(message)
     const newMessage = await messageServices.registerMessage(message);
-    io.in(String(newMessage.room_id)).emit(eventName.NEW_CHAT_MESSAGE_EVENT, newMessage);
+    io.in(String(newMessage.roomId)).emit(eventName.NEW_CHAT_MESSAGE_EVENT, newMessage);
 }
 
 const disconnectRoomId = (io, socket, roomId) => {

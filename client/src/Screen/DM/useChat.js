@@ -109,11 +109,9 @@ const useChat = (roomId, currentUser) => {
       // roomId,
       // });
     createMessage({
-      roomId,
+      room_id: roomId,
       sender_id: currentUser.id,
       content: messageBody,
-      unread: true,
-      createdAt: '2021-07-15 08:44:45',
     })
   };
 

@@ -23,9 +23,10 @@ exports.insertUser = async ({
     sender_id,
     content
     }) => {
+    console.log(room_id)
     const results = await Message.create({
         raw: true,
-        room_id,
+        roomId: room_id,
         sender_id,
         content,
     })
