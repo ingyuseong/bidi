@@ -13,6 +13,11 @@ import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 import CardList from '../../Components/DM/cardList';
 
+import { JOIN_ROOM, NEW_CHAT_MESSAGE_EVENT, LEAVE_ROOM } from "../../Lib/socket/types/socket-types";
+import { joinRoom, createMessage, leaveRoom } from "../../Lib/socket/emits/socket";
+
+import socket from "../../Lib/socket/socketIO";
+
 function DMListScreen({ navigation, route }) {
 
   const [query, setQuery] = useState('');
@@ -84,6 +89,22 @@ function DMListScreen({ navigation, route }) {
     };
     fetchMode();
   }, []);
+  
+  // socket.io: Join/Leave Rooms
+  useEffect(() => {
+    if (roomInfo.length) {
+      for (room of roomInfo) {
+        joinRoom(room.id)
+      }
+    }
+    return () => {
+      if (roomInfo.length) {
+        for (room of roomInfo) {
+          leaveRoom(room.id)
+        }
+      }
+    }
+  }, [roomInfo])
 
   return (
     <View style={styles.container}>
