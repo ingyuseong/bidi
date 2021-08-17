@@ -39,7 +39,7 @@ function CardListItem({ navigation, item }) {
               }
           </View>
           <View>
-              <Text style={styles.contentText}>{item.latestMessage.latestMessage.length ? item.latestMessage.latestMessage[0].content : ''}</Text>
+              <Text style={styles.contentText}>{item.latestMessage ? item.latestMessage : ''}</Text>
           </View>
           </View>
         </TouchableOpacity>

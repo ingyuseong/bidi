@@ -55,10 +55,11 @@ function DMListScreen({ navigation, route }) {
       console.log("Successfully get RoomInfo by User ID")
       return await Promise.all(
         result.data.roomList.map(async (room) => {
-          const latestMessage = await getLatestMessage(room)
+          const latestMessage = await getLatestMessage(room);
+          const latestMessageContent = latestMessage.latestMessage.length ? latestMessage.latestMessage[0].content : '';
           return {
             ...room,
-            latestMessage: latestMessage,
+            latestMessage: latestMessageContent,
           }
         })
       )})
@@ -96,6 +97,17 @@ function DMListScreen({ navigation, route }) {
       for (room of roomInfo) {
         joinRoom(room.id)
       }
+      socket.on(NEW_CHAT_MESSAGE_EVENT, (message) => {
+        nextRoomInfo = roomInfo.map((room) => {
+          return room.id === message.roomId ? {
+            ...room,
+            latestMessage: message.content,
+          } : {
+            ...room,
+          }
+        });
+        setRoomInfo(nextRoomInfo);
+      });
     }
     return () => {
       if (roomInfo.length) {
