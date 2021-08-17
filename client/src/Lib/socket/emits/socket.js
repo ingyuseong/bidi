@@ -1,4 +1,4 @@
-import { JOIN_ROOM, NEW_CHAT_MESSAGE_EVENT, DISCONNECT} from "../types/socket-types";
+import { JOIN_ROOM, NEW_CHAT_MESSAGE_EVENT, LEAVE_ROOM} from "../types/socket-types";
 import socket from '../socketIO';
 
 export const joinRoom = (roomId) => {
@@ -10,5 +10,5 @@ export const createMessage = (message) => {
 };
 
 export const leaveRoom = (roomId) => {
-    socket.emit(DISCONNECT, roomId);
+    socket.emit(LEAVE_ROOM, roomId);
 };

@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import socketIOClient from "socket.io-client";
+import { JOIN_ROOM, NEW_CHAT_MESSAGE_EVENT, LEAVE_ROOM } from "../../Lib/socket/types/socket-types";
 
 // import socket from "../../Lib/socket/socketIO";
 
 // import { createMessage } from "../../../../server/socket/handler/socket-handler";
 
-const NEW_CHAT_MESSAGE_EVENT = "newChatMessage"; // Name of the event
+// const NEW_CHAT_MESSAGE_EVENT = "newChatMessage"; // Name of the event
 const SOCKET_SERVER_URL = "http://localhost:4000";
 
 const dummyMessages = [
@@ -67,6 +68,7 @@ const useChat = (roomId) => {
     // when the connection is closed
     return () => {
       socketRef.current.disconnect();
+      // socketRef.current.emit('disconnect');
     };
   }, [roomId]);
 
