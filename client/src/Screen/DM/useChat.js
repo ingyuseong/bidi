@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { JOIN_ROOM, NEW_CHAT_MESSAGE_EVENT, LEAVE_ROOM } from "../../Lib/socket/types/socket-types";
+import { joinRoom, createMessage, leaveRoom } from "../../Lib/socket/emits/socket";
 
 import socket from "../../Lib/socket/socketIO";
-
-import { createMessage, leaveRoom } from "../../Lib/socket/emits/socket";
 
 // const NEW_CHAT_MESSAGE_EVENT = "newChatMessage"; // Name of the event
 const SOCKET_SERVER_URL = "http://localhost:4000";
@@ -54,7 +53,8 @@ const useChat = (roomId) => {
     // });
     socketRef.current = socket
 
-    socketRef.current.emit(JOIN_ROOM, roomId)
+    // socketRef.current.emit(JOIN_ROOM, roomId)
+    joinRoom(roomId)
     
     // Listens for incoming messages
     socketRef.current.on(NEW_CHAT_MESSAGE_EVENT, (message) => {
@@ -69,21 +69,28 @@ const useChat = (roomId) => {
     // when the connection is closed
     return () => {
       // socketRef.current.disconnect();
-      socketRef.current.emit(LEAVE_ROOM, roomId);
-      // leaveRoom(roomId);
+      // socketRef.current.emit(LEAVE_ROOM, roomId);
+      leaveRoom(roomId);
     };
   }, [roomId]);
 
   // Sends a message to the server that
   // forwards it to all users in the same room
   const sendMessage = (messageBody) => {
-    socketRef.current.emit(NEW_CHAT_MESSAGE_EVENT, {
+    // socketRef.current.emit(NEW_CHAT_MESSAGE_EVENT, {
+      // userId: socketRef.current.id,
+      // customerSent: true,
+      // content: messageBody,
+      // createdAt: '2021-07-15 08:44:45',
+      // roomId,
+      // });
+    createMessage({
       userId: socketRef.current.id,
       customerSent: true,
       content: messageBody,
       createdAt: '2021-07-15 08:44:45',
       roomId,
-    });
+    })
   };
 
   return [ messages, sendMessage ];
