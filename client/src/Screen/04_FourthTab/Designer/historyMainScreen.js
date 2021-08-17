@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import ReviewListScreen from './reviewListScreen';
 import HistroyListScreen from './histroyListScreen';
+import NoHistoryListScreen from './noHistoryListScreen';
+import ReviewListScreen from './reviewListScreen';
+import NoReviewListScreen from './noReviewListScreen';
 
 import BidiStorage from '../../../Lib/storage';
 import { STORAGE_KEY } from '../../../Lib/constant';
@@ -65,12 +67,18 @@ function HistoryMainScreen({ navigation }) {
           matchingHistoryList && matchingHistoryList.length > 0 ? (
             <HistroyListScreen matchingHistoryList={matchingHistoryList} navigation={navigation} />
           ) : (
-            <Text>매칭내역 없음</Text>
+            <NoHistoryListScreen navigation={navigation} />
           )
         }
       </Tab.Screen>
-      <Tab.Screen name="Review" options={{ title: '내 스크랩' }}>
-        {() => <ReviewListScreen />}
+      <Tab.Screen name="Review" options={{ title: `받은 후기 ${5}` }}>
+        {() =>
+          reviewList && reviewList.length > 0 ? (
+            <ReviewListScreen reviewList={reviewList} navigation={navigation} />
+          ) : (
+            <NoReviewListScreen navigation={navigation} />
+          )
+        }
       </Tab.Screen>
     </Tab.Navigator>
   );
