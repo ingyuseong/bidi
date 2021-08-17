@@ -15,7 +15,7 @@ router.use('/branding', branding)
 router.use('/bid', bid)
 router.use('/matchingHistory', matchingHistory)
 router.use('/room', room)
-router.user('/message', message)
+router.use('/message', message)
 
 router.use('/styleScrap', styleScrap)
 

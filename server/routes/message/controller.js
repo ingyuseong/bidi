@@ -5,12 +5,12 @@ const { STATUS_CODE, ERROR_MESSAGE } = require('../../lib/constants')
     GET /api/message/latest/:roomId
     * room ID 기반 가장 최근 message 조회
 */
-exports.getAllRoomByCustomerId = async (req, res, next) => {
+exports.getLatestMessageByRoomId = async (req, res, next) => {
   try {
     const { roomId } = req.params
     const latestMessage = await messageServices.getLatestMessage(roomId)
     res.status(STATUS_CODE.SUCCESS).json({
-      message: '채팅방 조회 성공',
+      message: '가장 최근 메세지 조회 성공',
       data: { latestMessage },
     })
   } catch (error) {

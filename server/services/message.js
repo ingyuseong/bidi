@@ -1,7 +1,7 @@
 const db = require('./db/message');
 
 exports.getLatestMessage = async (roomId) => {
-  return await db.selectLatestMessageByRoomId(roomId)
+  const latestMessage =  await db.selectLatestMessageByRoomId(roomId)
     .then((results) => {
         console.log('Message Service Successed')
         return results
@@ -10,4 +10,5 @@ exports.getLatestMessage = async (roomId) => {
         console.log('Message Service Failed')
         return err
     })
+  return latestMessage
 }

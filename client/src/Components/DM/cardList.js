@@ -6,6 +6,7 @@ import {
 import CardListItem from './cardListItem';
 
 function CardList({ navigation, items }) {
+
     return (
         <ScrollView style={{flexDirection: 'column', width: '100%', height: '63%', }}>
         {

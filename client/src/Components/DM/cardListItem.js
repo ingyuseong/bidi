@@ -11,6 +11,8 @@ import {
 
 function CardListItem({ navigation, item }) {
 
+  console.log(item.latestMessage.latestMessage.length)
+
     return (
         <TouchableOpacity
           style={styles.cardItem}
@@ -22,11 +24,11 @@ function CardListItem({ navigation, item }) {
         >
           <View>
             { item['unread'] && <View style={styles.imagePatch}></View> }
-            <Image source={item['profile']} style={styles.profileImage} />
+            <Image source={{uri: item.user.img_src}} style={styles.profileImage} />
           </View>      
           <View style={styles.itemInfo}>
           <View style={styles.itemUserInfo}>
-              <Text style={styles.nameText}>{item['name']}</Text>
+              <Text style={styles.nameText}>{item.user.name}</Text>
               {
                   item['authenticated'] &&
                   <View style={styles.authenticatedPatch}>
@@ -35,7 +37,7 @@ function CardListItem({ navigation, item }) {
               }
           </View>
           <View>
-              <Text style={styles.contentText}>{item['content']}</Text>
+              <Text style={styles.contentText}>{item.latestMessage.latestMessage.length ? item.latestMessage.latestMessage[0].content : ''}</Text>
           </View>
           </View>
         </TouchableOpacity>
