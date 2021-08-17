@@ -63,7 +63,7 @@ function HistoryMainScreen({ navigation }) {
       <Tab.Screen name="MatchingHistory" options={{ title: '매칭내역' }}>
         {() =>
           matchingHistoryList && matchingHistoryList.length > 0 ? (
-            <HistroyListScreen matchingHistoryList={matchingHistoryList} />
+            <HistroyListScreen matchingHistoryList={matchingHistoryList} navigation={navigation} />
           ) : (
             <Text>매칭내역 없음</Text>
           )

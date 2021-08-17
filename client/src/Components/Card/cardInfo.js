@@ -29,7 +29,7 @@ function CardInfo({ info, navigation, height, tagBackgroundColor, tagColor }) {
           </View>
           <View style={styles.shopInfo}>
             <Text style={styles.shopName}>
-              @ {info.shopName || info.shop_name || info.user.address}
+              @ {info.shopName || info.shop_name || info.address || info.user.address}
             </Text>
             <Ionicons name="location-outline" size={15} />
             <Text style={styles.shopDistance}>{info.distance_limit || info.distance}km 이내</Text>

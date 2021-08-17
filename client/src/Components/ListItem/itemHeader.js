@@ -3,24 +3,21 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { convertDate } from '../../Lib/utils';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-function ItemHeader({ navigation, info, screen, setModalVisible }) {
-  const moreBtnHandler = () => {
-    navigation.navigate('DetailBid', { info });
-  };
-  const deleteBtnHandler = () => {
-    setModalVisible(true);
-  };
+function ItemHeader({ info, screen, clickHandler }) {
   return (
     <View style={styles.container}>
       <View style={styles.dateArea}>
         <Text style={styles.dateText}>{convertDate(info.created_at)}</Text>
       </View>
       {screen === 'branding' ? (
-        <TouchableOpacity style={styles.btnArea} onPress={deleteBtnHandler}>
-          <Ionicons name="ellipsis-vertical" size={15} />
+        <TouchableOpacity style={styles.btnArea} onPress={clickHandler}>
+          <Ionicons
+            name={screen === 'branding' ? 'ellipsis-vertical' : 'chevron-forward'}
+            size={15}
+          />
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity style={styles.btnArea} onPress={moreBtnHandler}>
+        <TouchableOpacity style={styles.btnArea} onPress={clickHandler}>
           <Text style={styles.btnText}>더보기</Text>
           <Ionicons name="chevron-forward" size={15} />
         </TouchableOpacity>

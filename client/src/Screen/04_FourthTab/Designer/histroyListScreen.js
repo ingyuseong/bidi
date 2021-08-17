@@ -9,7 +9,14 @@ function HistroyListScreen({ matchingHistoryList, navigation }) {
     <ScrollView style={styles.container}>
       {matchingHistoryList.map((history, index) => (
         <View style={styles.historyContainer} key={index}>
-          <ItemHeader navigation={navigation} info={history} screen="history" />
+          <ItemHeader
+            navigation={navigation}
+            info={history}
+            screen="history"
+            clickHandler={() => {
+              navigation.navigate('HistoryDetail', { info: history });
+            }}
+          />
           <ItemContent info={history} navigation={navigation} screen="history" />
           <Line />
         </View>

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Stack } from '../../../../App';
 import HistoryMainScreen from '../../../Screen/04_FourthTab/Designer/historyMainScreen';
+import HistoryDetailScreen from '../../../Screen/04_FourthTab/Designer/historyDetailScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const HistoryStack = createStackNavigator();
@@ -14,6 +15,11 @@ function HistoryTabScreen() {
         options={{
           headerShown: false,
         }}
+      />
+      <HistoryStack.Screen
+        name="HistoryDetail"
+        component={HistoryDetailScreen}
+        options={{ headerShown: false, title: '' }}
       />
     </Stack.Navigator>
   );

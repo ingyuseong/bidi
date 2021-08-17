@@ -85,7 +85,13 @@ function ProcessBidListScreen({ navigation, bidList }) {
     <ScrollView style={styles.container}>
       {waitBidList.map((bid, index) => (
         <View style={styles.bidContainer} key={index}>
-          <ItemHeader navigation={navigation} info={bid} screen="bid" />
+          <ItemHeader
+            info={bid}
+            screen="bid"
+            clickHandler={() => {
+              navigation.navigate('DetailBid', { bid });
+            }}
+          />
           <ItemContent navigation={navigation} info={bid} screen="bid" />
           <ItemBottomBtn
             info={bid}

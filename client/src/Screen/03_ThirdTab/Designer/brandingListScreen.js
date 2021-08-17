@@ -94,10 +94,11 @@ function BrandingListScreen({ navigation }) {
                 return (
                   <View style={styles.bidContainer} key={index}>
                     <ItemHeader
-                      navigation={navigation}
                       info={branding}
                       screen="branding"
-                      setModalVisible={setModalVisible}
+                      clickHandler={() => () => {
+                        setModalVisible(true);
+                      }}
                     />
                     <ItemContent
                       navigation={navigation}
