@@ -9,13 +9,33 @@ import {
   Image,
 } from 'react-native';
 
+import BidiStorage from '../../Lib/storage';
+import { STORAGE_KEY } from '../../Lib/constant';
 import CardList from '../../Components/DM/cardList';
 
 function DMListScreen({ navigation, route }) {
 
   const [query, setQuery] = useState('');
+  const [roomInfo, setRoomInfo] = useState([]);
 
   const { params: { users, messages } } = route;
+
+  const getRoomInfo = async (user) => {
+    await fetch('http://127.0.0.1:3000' + `/api/room/customer/${user.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("Successfully get RoomInfo by User ID")
+        setRoomInfo(result.data.roomList)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   // Header style configuration
   useLayoutEffect(() => {
@@ -26,6 +46,13 @@ function DMListScreen({ navigation, route }) {
     }, [navigation]);
   });
 
+  useEffect(() => {
+    const fetchMode = async () => {
+      const user = await BidiStorage.getData(STORAGE_KEY)
+      getRoomInfo(user)
+    };
+    fetchMode();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -36,20 +63,20 @@ function DMListScreen({ navigation, route }) {
 
       <ScrollView style={styles.matches} horizontal={true} showsHorizontalScrollIndicator={false}>
         {
-          users.map((user, idx) => (
+          roomInfo.map((room, idx) => (
             <TouchableOpacity
               style={styles.matchItem}
               onPress={() => {
                 navigation.navigate('DirectMessage', {
-                  user: user,
+                  user: room.user,
                 });
               }}
               key={idx}
             >
-              <View style={user['new'] ? styles.matchNewItemImageContainer : styles.matchItemImageContainer}>
-                <Image source={user['profile']} style={user['new'] ? styles.matchNewItemImage : styles.matchItemImage} />
+              <View style={room.unread_desinger ? styles.matchItemImageContainer : styles.matchNewItemImageContainer}>
+                <Image source={{uri: room.user.img_src}} style={room.unread_desinger ? styles.matchNewItemImage : styles.matchItemImage} />
               </View>
-              <Text style={styles.matchItemText}>{user['name']}</Text>
+              <Text style={styles.matchItemText}>{room.user.name}</Text>
             </TouchableOpacity>
           ))
         }
