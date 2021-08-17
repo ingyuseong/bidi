@@ -16,7 +16,7 @@ function DMScreen({ navigation, route }) {
   const { params: { user, room } } = route;
 
   const roomId = room.id;
-  const [ messages, SendMessage ] = useChat(roomId);
+  const [ messages, SendMessage ] = useChat(roomId, user);
   
   const [messageText, setMessageText] = useState('');
 
@@ -37,7 +37,7 @@ function DMScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <ChatBubbleList messages={messages} user={user} />
+      <ChatBubbleList messages={messages} currentUser={user} />
       <TextInput
         value={messageText}
         style={styles.messageSender}

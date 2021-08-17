@@ -12,12 +12,12 @@ import {
 // Temporary
 import DaHyeon from '../../../public/img/DM/dahyeon.jpeg'
 
-function ChatBubble({ message, ckpt }) {
+function ChatBubble({ message, currentUser, ckpt }) {
     return (
-        <View style={message.customerSent ? styles.customerTextContainer : styles.desginerTextContainer} >
+        <View style={message.sender_id === currentUser.id ? styles.customerTextContainer : styles.desginerTextContainer} >
           { ckpt && <Image source={DaHyeon} style={styles.checkPointImage} />}
-          <View style={message.customerSent ? styles.customerTextBorder : styles.designerTextBorder}>
-            <Text style={message.customerSent ? styles.customerText : styles.designerText}>{message.content}</Text>
+          <View style={message.sender_id === currentUser.id ? styles.customerTextBorder : styles.designerTextBorder}>
+            <Text style={message.sender_id === currentUser.id ? styles.customerText : styles.designerText}>{message.content}</Text>
           </View>
         </View>
     )

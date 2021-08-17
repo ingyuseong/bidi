@@ -9,7 +9,7 @@ import {
 
 import ChatBubble from './chatBubble';
 
-function ChatBubbleList({ messages }) {
+function ChatBubbleList({ messages, currentUser }) {
     return (
         <ScrollView
           style={styles.messageContainer}
@@ -21,7 +21,7 @@ function ChatBubbleList({ messages }) {
           </View>
           {
             messages.map((message, idx) => (
-                <ChatBubble message={message} ckpt={idx === 2} key={idx} />
+                <ChatBubble message={message} currentUser={currentUser} ckpt={idx === 2} key={idx} />
             ))
           }
       </ScrollView>

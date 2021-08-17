@@ -41,7 +41,7 @@ const dummyMessages = [
     },
   ];
 
-const useChat = (roomId) => {
+const useChat = (roomId, currentUser) => {
   const [messages, setMessages] = useState(dummyMessages); // Sent and received messages
   const socketRef = useRef();
 
@@ -109,11 +109,11 @@ const useChat = (roomId) => {
       // roomId,
       // });
     createMessage({
-      userId: socketRef.current.id,
-      customerSent: true,
-      content: messageBody,
-      createdAt: '2021-07-15 08:44:45',
       roomId,
+      sender_id: currentUser.id,
+      content: messageBody,
+      unread: true,
+      createdAt: '2021-07-15 08:44:45',
     })
   };
 
