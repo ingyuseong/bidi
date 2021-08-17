@@ -67,8 +67,8 @@ const useChat = (roomId) => {
     // Destroys the socket reference
     // when the connection is closed
     return () => {
-      socketRef.current.disconnect();
-      // socketRef.current.emit('disconnect');
+      // socketRef.current.disconnect();
+      socketRef.current.emit(LEAVE_ROOM);
     };
   }, [roomId]);
 
