@@ -1,14 +1,29 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
 
-function ReviewListScreen() {
+import HistoryCard from '../../../Components/MatchingHistory/HistoryCard';
+
+function ReviewListScreen({ matchingHistoryList }) {
   return (
-    <View>
-      <Text>review</Text>
-    </View>
+    <ScrollView style={styles.container}>
+      {matchingHistoryList.map((history, index) => (
+        <View key={index}>
+          <HistoryCard history={history} />
+          <View style={styles.line}></View>
+        </View>
+      ))}
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  line: {
+    height: 10,
+    backgroundColor: '#f4f4f4',
+  },
+});
 
 export default ReviewListScreen;

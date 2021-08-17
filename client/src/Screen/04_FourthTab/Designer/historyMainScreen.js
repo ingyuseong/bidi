@@ -14,7 +14,6 @@ const Tab = createMaterialTopTabNavigator();
 
 function HistoryMainScreen({ navigation }) {
   const [userInfo, setUserInfo] = useState({});
-  const [reviewList, setReviewList] = useState([]);
   const [matchingHistoryList, setMatchingHistoryList] = useState([]);
 
   const getMatchingHistoryList = async (user) => {
@@ -71,10 +70,10 @@ function HistoryMainScreen({ navigation }) {
           )
         }
       </Tab.Screen>
-      <Tab.Screen name="Review" options={{ title: `받은 후기 ${5}` }}>
+      <Tab.Screen name="Review" options={{ title: `받은 후기 ${matchingHistoryList.length}` }}>
         {() =>
-          reviewList && reviewList.length > 0 ? (
-            <ReviewListScreen reviewList={reviewList} navigation={navigation} />
+          matchingHistoryList && matchingHistoryList.length > 0 ? (
+            <ReviewListScreen matchingHistoryList={matchingHistoryList} navigation={navigation} />
           ) : (
             <NoReviewListScreen navigation={navigation} />
           )
