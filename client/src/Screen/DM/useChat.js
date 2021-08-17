@@ -45,6 +45,30 @@ const useChat = (roomId) => {
   const [messages, setMessages] = useState(dummyMessages); // Sent and received messages
   const socketRef = useRef();
 
+  const getAllMessageByRoomId = async (roomId) => {
+    await fetch('http://127.0.0.1:3000' + `/api/message/${roomId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log('성공적으로 메세지 가져와보릐긔')
+        setMessages(result.data.messageList)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    const fetchMode = async () => {
+      getAllMessageByRoomId(roomId);
+    };
+    fetchMode();
+  }, []);
+
   useEffect(() => {
     
     // Creates a WebSocket connection

@@ -37,7 +37,7 @@ function DMScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <ChatBubbleList messages={messages} />
+      <ChatBubbleList messages={messages} user={user} />
       <TextInput
         value={messageText}
         style={styles.messageSender}
