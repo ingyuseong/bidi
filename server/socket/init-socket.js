@@ -7,8 +7,8 @@ const initSocketIo = (io, server) => {
         
         // Join a conversation
         const { roomId } = socket.handshake.query;
-        socket.join(roomId);
-        console.log("socket.io server: Connected: " + roomId);
+        // socket.join(roomId);
+        // console.log("socket.io server: Connected: " + roomId);
         
         socketIndex(io, socket, roomId);
     });

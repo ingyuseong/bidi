@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import socketIOClient from "socket.io-client";
 import { JOIN_ROOM, NEW_CHAT_MESSAGE_EVENT, LEAVE_ROOM } from "../../Lib/socket/types/socket-types";
 
-// import socket from "../../Lib/socket/socketIO";
+import socket from "../../Lib/socket/socketIO";
 
-// import { createMessage } from "../../../../server/socket/handler/socket-handler";
+import { createMessage, leaveRoom } from "../../Lib/socket/emits/socket";
 
 // const NEW_CHAT_MESSAGE_EVENT = "newChatMessage"; // Name of the event
 const SOCKET_SERVER_URL = "http://localhost:4000";
@@ -53,6 +53,8 @@ const useChat = (roomId) => {
       query: { roomId },
     });
     // socketRef.current = socket
+
+    socketRef.current.emit(JOIN_ROOM, roomId)
     
     // Listens for incoming messages
     socketRef.current.on(NEW_CHAT_MESSAGE_EVENT, (message) => {
@@ -69,6 +71,7 @@ const useChat = (roomId) => {
     return () => {
       // socketRef.current.disconnect();
       socketRef.current.emit(LEAVE_ROOM);
+      // leaveRoom(roomId);
     };
   }, [roomId]);
 
