@@ -25,3 +25,8 @@ exports.getAllMessageByRoomId = async (roomId) => {
     })
   return messageList
 }
+
+exports.registerMessage = async (params) => {
+  const message = await db.insertUser({ ...params })
+  return message
+}

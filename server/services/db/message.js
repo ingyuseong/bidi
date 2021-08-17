@@ -17,3 +17,17 @@ exports.selectAllMessageByRoomId = async (roomId) =>
             room_id: roomId
         },
     })
+
+exports.insertUser = async ({
+    room_id,
+    sender_id,
+    content
+    }) => {
+    const results = await Message.create({
+        raw: true,
+        room_id,
+        sender_id,
+        content,
+    })
+    return results
+    }
