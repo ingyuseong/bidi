@@ -157,3 +157,39 @@ exports.registerProposal = async (req, res, next) => {
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
+
+exports.registerProposalWithFile = async (req, res, next) => {
+  try {
+    const {
+      user_id,
+      before_src,
+      after_src,
+      price_limit,
+      distance_limit,
+      keywords,
+      description,
+      status,
+    } = req.body
+    const { location } = req.file
+    const proposal = {
+      user_id,
+      before_src,
+      after_src: location,
+      price_limit: Number(price_limit),
+      distance_limit: Number(distance_limit),
+      keywords: String(keywords),
+      description,
+      status,
+    }
+    const result = await proposalServices.registerProposal(proposal)
+    res.status(STATUS_CODE.SUCCESS).json({
+      message: '제안서 등록 성공',
+      data: result.id,
+    })
+  } catch (error) {
+    console.log(error)
+    res
+      .status(STATUS_CODE.SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}

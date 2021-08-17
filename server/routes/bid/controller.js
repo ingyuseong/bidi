@@ -86,6 +86,25 @@ exports.editBidStatus = async (req, res, next) => {
   }
 }
 
+exports.editBidStatusWithProposal = async (req, res, next) => {
+  try {
+    const { proposalId } = req.params
+    const params = req.body
+    const bid = await bidServices.editBidStatusWithProposal({
+      ...params,
+      proposalId,
+    })
+    res.status(STATUS_CODE.SUCCESS).json({
+      message: '비드 상태 정보 수정 성공',
+      data: { bid },
+    })
+  } catch (error) {
+    res
+      .status(STATUS_CODE.SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+
 /*
     GET /api/bid/user/:userId
     * 디자이너 ID 기반 bid 조회

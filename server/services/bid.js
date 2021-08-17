@@ -58,6 +58,10 @@ exports.editBidStatus = async (params) => {
   const bid = await db.updateBidStatus({ ...params })
   return bid
 }
+exports.editBidStatusWithProposal = async (params) => {
+  const bid = await db.updateBidStatusWithProposal({ ...params })
+  return bid
+}
 
 exports.registerBidStyle = async ({ bidId, styles }) => {
   const results = await Promise.all(

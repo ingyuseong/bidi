@@ -12,6 +12,7 @@ function Auth() {
         options={{
           title: '',
           headerBackTitleVisible: false,
+          headerShown: false,
           // headerBackImage: BackBtn,
         }}
       />

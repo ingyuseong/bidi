@@ -42,22 +42,33 @@ function BidListScreen({ navigation, userInfo, bidList, progress }) {
         console.error(error);
       });
   };
-  const progressBidAlert = async (bidId) => {
+  const progressBidAlert = async (bidId, proposalId) => {
     Alert.alert('정말 수락하시겠어요?', '수락하지 않은 나머지 비드는 다시 표시되지 않습니다!', [
       { text: '취소', style: 'cancel' },
-      { text: '수락하기', onPress: () => progressBid(bidId) },
+      { text: '수락하기', onPress: () => progressBid(bidId, proposalId) },
     ]);
   };
-  const progressBid = async (bidId) => {
-    await fetch('http://127.0.0.1:3000' + `/api/bid/status/${bidId}`, {
+  const progressBid = async (bidId, proposalId) => {
+    await fetch('http://127.0.0.1:3000' + `/api/bid/status/withProposal/${proposalId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
       },
       body: JSON.stringify({
-        status: 'process',
+        status: 'cancel',
       }),
     })
+      .then(async () => {
+        await fetch('http://127.0.0.1:3000' + `/api/bid/status/${bidId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+          },
+          body: JSON.stringify({
+            status: 'process',
+          }),
+        });
+      })
       .then(() => {
         navigation.replace('bid');
       })
@@ -140,7 +151,7 @@ function BidListScreen({ navigation, userInfo, bidList, progress }) {
                 rightName="수락하기"
                 leftRatio={50}
                 leftHandler={() => refuseBidAlert(bid.id)}
-                rightHandler={() => progressBidAlert(bid.id)}
+                rightHandler={() => progressBidAlert(bid.id, bid.proposal_id)}
               />
               <View style={{ marginBottom: 70 }}></View>
             </View>

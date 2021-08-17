@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableHighlight,
-  TouchableOpacity,
-  Image,
-  TextInput,
-} from 'react-native';
+import { Text, View, StyleSheet, TouchableHighlight, TouchableOpacity, Image } from 'react-native';
 
 function SelectAfterImageScreen({ navigation, route }) {
-  const { setAfterImageStyle, userInfo } = route.params;
+  const { setAfterImageStyle, setAlbumImage, setIsFromAlbum, userInfo } = route.params;
 
   const goBack = async (e) => {
     navigation.goBack();
   };
   const selectAlbum = async (e) => {
-    navigation.navigate('SelectFromAlbum', { setAfterImageStyle: setAfterImageStyle });
+    navigation.navigate('SelectFromAlbum', {
+      setAlbumImage: setAlbumImage,
+      setIsFromAlbum: setIsFromAlbum,
+      userInfo: userInfo,
+    });
   };
   const selectScrap = async (e) => {
-    navigation.navigate('SelectFromScrap', { setAfterImageStyle: setAfterImageStyle });
+    navigation.navigate('SelectFromScrap', {
+      setAfterImageStyle: setAfterImageStyle,
+      userInfo: userInfo,
+    });
   };
   const selectBidi = async (e) => {
     navigation.navigate('SelectFromBidi', {
