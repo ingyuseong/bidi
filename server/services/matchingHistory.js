@@ -33,6 +33,10 @@ exports.getMatchingHistoryByDesignerId = async (userId) => {
       },
       bid,
     }
+    result.proposal.keywords =
+      result.proposal.keywords == ''
+        ? []
+        : result.proposal.keywords.replace(' ', '').split(',')
     if (result.review != '') {
       results.push(result)
     }
