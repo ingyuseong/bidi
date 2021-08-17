@@ -13,9 +13,9 @@ import DMHeader from '../../Components/DM/dMHeader';
 
 function DMScreen({ navigation, route }) {
   
-  const { params: { user } } = route;
+  const { params: { user, room } } = route;
 
-  const roomId = user['id'];
+  const roomId = user.id;
   const [ messages, SendMessage ] = useChat(roomId);
   
   const [messageText, setMessageText] = useState('');
@@ -28,10 +28,10 @@ function DMScreen({ navigation, route }) {
   // Header style configuration
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: user['name'],
+      title: room.user.name,
       headerTintColor: 'black',
       headerBackTitle: ' ',
-      headerTitle: () => <DMHeader navigation={navigation} user={user} />
+      headerTitle: () => <DMHeader navigation={navigation} user={room.user} />
     }, [navigation]);
   });
 

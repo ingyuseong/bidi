@@ -9,16 +9,18 @@ import {
   Image,
 } from 'react-native';
 
-function CardListItem({ navigation, item }) {
+import BidiStorage from '../../Lib/storage';
+import { STORAGE_KEY } from '../../Lib/constant';
 
-  console.log(item.latestMessage.latestMessage.length)
+function CardListItem({ navigation, item }) {
 
     return (
         <TouchableOpacity
           style={styles.cardItem}
-          onPress={() => {
+          onPress={async () => {
             navigation.navigate('DirectMessage', {
-                user: item
+                room: item,
+                user: await BidiStorage.getData(STORAGE_KEY),
             })
           }}
         >

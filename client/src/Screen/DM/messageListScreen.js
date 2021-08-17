@@ -30,12 +30,10 @@ function DMListScreen({ navigation, route }) {
       .then((response) => response.json())
       .then((result) => {
         console.log("Successfully get latest message by Room ID")
-        console.log(result.data)
         return result.data
       })
       .catch((err) => {
         console.log("Failed to get latest message by Room ID")
-        console.log(err);
         return err
       });
   }
@@ -61,11 +59,9 @@ function DMListScreen({ navigation, route }) {
       )})
     .then((result) => {
       console.log('Successfully add Latest Message into RoomInfo')
-      console.log(result)
       setRoomInfo(result)
     })
     .catch((err) => {
-      console.error(err)
       console.log('Latest Message Failed')
     })
   }
@@ -101,9 +97,10 @@ function DMListScreen({ navigation, route }) {
           roomInfo.map((room, idx) => (
             <TouchableOpacity
               style={styles.matchItem}
-              onPress={() => {
+              onPress={async () => {
                 navigation.navigate('DirectMessage', {
-                  user: room.user,
+                  room: room,
+                  user: await BidiStorage.getData(STORAGE_KEY),
                 });
               }}
               key={idx}
