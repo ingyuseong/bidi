@@ -15,7 +15,7 @@ function DMScreen({ navigation, route }) {
   
   const { params: { user, room } } = route;
 
-  const roomId = user.id;
+  const roomId = room.id;
   const [ messages, SendMessage ] = useChat(roomId);
   
   const [messageText, setMessageText] = useState('');

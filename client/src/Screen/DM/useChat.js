@@ -54,7 +54,7 @@ const useChat = (roomId) => {
     socketRef.current = socket
 
     // socketRef.current.emit(JOIN_ROOM, roomId)
-    joinRoom(roomId)
+    // joinRoom(roomId)
     
     // Listens for incoming messages
     socketRef.current.on(NEW_CHAT_MESSAGE_EVENT, (message) => {
@@ -67,11 +67,11 @@ const useChat = (roomId) => {
     
     // Destroys the socket reference
     // when the connection is closed
-    return () => {
-      // socketRef.current.disconnect();
-      // socketRef.current.emit(LEAVE_ROOM, roomId);
-      leaveRoom(roomId);
-    };
+    // return () => {
+    //   // socketRef.current.disconnect();
+    //   // socketRef.current.emit(LEAVE_ROOM, roomId);
+    //   leaveRoom(roomId);
+    // };
   }, [roomId]);
 
   // Sends a message to the server that
