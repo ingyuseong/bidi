@@ -49,10 +49,10 @@ const useChat = (roomId) => {
   useEffect(() => {
     
     // Creates a WebSocket connection
-    socketRef.current = socketIOClient(SOCKET_SERVER_URL, {
-      query: { roomId },
-    });
-    // socketRef.current = socket
+    // socketRef.current = socketIOClient(SOCKET_SERVER_URL, {
+    //   query: { roomId },
+    // });
+    socketRef.current = socket
 
     socketRef.current.emit(JOIN_ROOM, roomId)
     

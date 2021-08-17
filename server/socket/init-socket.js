@@ -9,6 +9,7 @@ const initSocketIo = (io, server) => {
         const { roomId } = socket.handshake.query;
         // socket.join(roomId);
         // console.log("socket.io server: Connected: " + roomId);
+        console.log("socket.io server: Successful Handshake!");
         
         socketIndex(io, socket, roomId);
     });
