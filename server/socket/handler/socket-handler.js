@@ -5,8 +5,8 @@ const joinRoom = (io, socket, roomId) => {
     console.log(`Succesfully join Room #${roomId}!`)
 }
 
-const createMessage = (io, socket, roomId, message) => {
-    io.in(roomId).emit(eventName.NEW_CHAT_MESSAGE_EVENT, message);
+const createMessage = (io, socket, message) => {
+    io.in(String(message.roomId)).emit(eventName.NEW_CHAT_MESSAGE_EVENT, message);
 }
 
 const disconnectRoomId = (io, socket, roomId) => {

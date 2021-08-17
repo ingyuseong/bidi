@@ -61,7 +61,6 @@ const useChat = (roomId) => {
       const incomingMessage = {
         ...message,
         // ownedByCurrentUser: message.senderId === socketRef.current.id,
-        customerSent: true,
       };
       setMessages((messages) => [...messages, incomingMessage]);
     });
@@ -70,7 +69,7 @@ const useChat = (roomId) => {
     // when the connection is closed
     return () => {
       // socketRef.current.disconnect();
-      socketRef.current.emit(LEAVE_ROOM);
+      socketRef.current.emit(LEAVE_ROOM, roomId);
       // leaveRoom(roomId);
     };
   }, [roomId]);
@@ -83,6 +82,7 @@ const useChat = (roomId) => {
       customerSent: true,
       content: messageBody,
       createdAt: '2021-07-15 08:44:45',
+      roomId,
     });
   };
 
