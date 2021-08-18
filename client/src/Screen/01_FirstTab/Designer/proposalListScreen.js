@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
-import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardChangeStyle from '../../../Components/Card/cardChangeStyle';
+import ProposalDetailScreen from './proposalDetailScreen';
 
 function ProposalListScreen({ navigation }) {
   const [infoLists, setInfo] = useState([]);
@@ -38,29 +38,26 @@ function ProposalListScreen({ navigation }) {
       </View>
     );
   }
-  const config = {
-    velocityThreshold: 0.3,
-    directionalOffsetThreshold: 50,
-  };
-  const onSwipeUp = (state, index, userId, proposalId) => {
-    navigation.navigate('ProposalDetail', { info: infoLists[index], userId, proposalId });
-  };
+
   return (
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
       {infoLists.map((info, index) => (
-        <View style={styles.container} key={index}>
-          <GestureRecognizer
-            onSwipeUp={(state) => onSwipeUp(state, index, info.user_id, info.id)}
-            config={config}
-            style={{
-              flex: 1,
-            }}>
-            <CardChangeStyle
-              before_src={info.before_src}
-              after_src={info.after_src}
-              isUser={false}
-              height={400}
-            />
+        <Swiper
+          key={index}
+          style={styles.wrapper}
+          showsButtons={false}
+          showsPagination={false}
+          loop={false}
+          horizontal={false}>
+          <View style={styles.container}>
+            <View style={{ height: '60%' }}>
+              <CardChangeStyle
+                before_src={info.before_src}
+                after_src={info.after_src}
+                isUser={false}
+                height={400}
+              />
+            </View>
             <CardInfo
               info={info}
               navigation={navigation}
@@ -68,19 +65,22 @@ function ProposalListScreen({ navigation }) {
               tagBackgroundColor="#E1ECFF"
               tagColor="#323274"
             />
-          </GestureRecognizer>
-          <TouchableOpacity
-            style={styles.bidiBtn}
-            onPress={() =>
-              navigation.navigate('ProposalDetail', {
-                info: infoLists[index],
-                userId: info.user_id,
-                proposalId: info.id,
-              })
-            }>
-            <Icon name="pencil" size={25} style={styles.bidiIcon} />
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={styles.bidiBtn}
+              onPress={() =>
+                navigation.navigate('ProposalDetail', {
+                  info: infoLists[index],
+                  userId: info.user_id,
+                  proposalId: info.id,
+                })
+              }>
+              <Icon name="pencil" size={25} style={styles.bidiIcon} />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <ProposalDetailScreen props={{ info, userId: info.user_id, proposalId: info.id }} />
+          </View>
+        </Swiper>
       ))}
     </Swiper>
   );
@@ -91,16 +91,15 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 16,
     backgroundColor: 'white',
-    borderWidth: 1,
     borderColor: '#e2e2e2',
     borderRadius: 20,
-    shadowColor: '#000',
+    shadowColor: 'rgb(17, 17, 17)',
     shadowOffset: {
-      width: 0,
+      width: 1,
       height: 1,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.1,
+    shadowRadius: 15,
     position: 'relative',
   },
   styleContainer: {

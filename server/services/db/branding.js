@@ -149,7 +149,10 @@ exports.selectBrandingWithStyle = async (userId) =>
         attributes: ['name', 'img_src', 'address'],
       },
     ],
-    order: [['main', 'DESC']],
+    order: [
+      ['main', 'DESC'],
+      ['created_at', 'ASC'],
+    ],
   })
     .then((results) => {
       console.log('Success Selecting All Branding With Style')

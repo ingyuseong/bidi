@@ -12,7 +12,9 @@ function SelectFromBidiScreen({ navigation, route }) {
     navigation.goBack();
   };
   const submit = async () => {
-    setAfterImageStyle(afterStyle);
+    setAfterImageStyle(
+      `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/result/${afterStyle}.jpg`,
+    );
     if (type == 'update') {
       navigation.navigate('MainTab', {
         screen: 'bidTab',

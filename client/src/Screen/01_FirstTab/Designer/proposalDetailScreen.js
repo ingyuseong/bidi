@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-nati
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
 
-function ProposalDetailScreen({ navigation, route }) {
-  const { info, userId, proposalId } = route.params;
+function ProposalDetailScreen({ navigation, route, props }) {
+  const { info, userId, proposalId } = route ? route.params : props;
   const acceptHandler = () => {
     navigation.navigate('CreateBid', { info, userId, proposalId });
   };
@@ -38,7 +38,7 @@ function ProposalDetailScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: {},
   priceContainer: {
     marginTop: 26,
     marginBottom: 80,

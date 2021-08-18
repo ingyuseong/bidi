@@ -55,6 +55,28 @@ exports.updateBidStatus = async ({ id, status }) =>
       return err
     })
 
+exports.updateBidStatusWithProposal = async ({ proposalId, status }) =>
+  await Bid.update(
+    {
+      raw: true,
+      status,
+    },
+    {
+      where: {
+        proposal_id: proposalId,
+      },
+    }
+  )
+    .then((results) => {
+      console.log('Success Updating Bid Status')
+      return results
+    })
+    .catch((err) => {
+      console.log(err)
+      console.log('Failed Updating Bid Status')
+      return err
+    })
+
 exports.destroyBid = async (bidId) =>
   await Bid.destroy({
     where: {
@@ -88,6 +110,7 @@ exports.selectAllBidByDesignerId = async (userId) =>
         ],
       },
     ],
+    order: [['created_at', 'ASC']],
   })
     .then((results) => {
       console.log('Success Selecting All Bid')

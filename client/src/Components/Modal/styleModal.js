@@ -8,8 +8,8 @@ import {
   Alert,
   TouchableHighlight,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import Icons from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
 
 function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation, deleteIcon }) {
@@ -71,12 +71,12 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
                 <TouchableOpacity
                   onPress={() => setModalVisible(false)}
                   style={styles.closeBtnArea}>
-                  <Icon name="md-close" size={25} color="#8D8D8D" />
+                  <Ionicons name="md-close" size={25} color="#8D8D8D" />
                 </TouchableOpacity>
                 {deleteIcon ? (
                   <View style={styles.styleScrapIcon}>
                     <TouchableOpacity onPress={() => deleteStyleScrapAlert(styleScraps[index].id)}>
-                      <Icons name="heart" color="#FF533A" size={25} />
+                      <Icon name="heart" color="#FF533A" size={25} />
                     </TouchableOpacity>
                   </View>
                 ) : (
@@ -108,7 +108,7 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
           </View>
           {deleteIcon ? (
             <TouchableOpacity onPress={() => deleteStyleScrapAlert()} style={styles.deleteArea}>
-              <Icon name="md-trash-outline" size={20} color="#8D8D8D" />
+              <Ionicons name="md-trash-outline" size={20} color="#8D8D8D" />
               <Text style={styles.deleteText}> 삭제하기</Text>
             </TouchableOpacity>
           ) : (
