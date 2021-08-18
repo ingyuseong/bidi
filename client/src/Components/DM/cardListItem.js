@@ -9,24 +9,28 @@ import {
   Image,
 } from 'react-native';
 
+import BidiStorage from '../../Lib/storage';
+import { STORAGE_KEY } from '../../Lib/constant';
+
 function CardListItem({ navigation, item }) {
 
     return (
         <TouchableOpacity
           style={styles.cardItem}
-          onPress={() => {
+          onPress={async () => {
             navigation.navigate('DirectMessage', {
-                user: item
+                room: item,
+                user: await BidiStorage.getData(STORAGE_KEY),
             })
           }}
         >
           <View>
             { item['unread'] && <View style={styles.imagePatch}></View> }
-            <Image source={item['profile']} style={styles.profileImage} />
+            <Image source={{uri: item.user.img_src}} style={styles.profileImage} />
           </View>      
           <View style={styles.itemInfo}>
           <View style={styles.itemUserInfo}>
-              <Text style={styles.nameText}>{item['name']}</Text>
+              <Text style={styles.nameText}>{item.user.name}</Text>
               {
                   item['authenticated'] &&
                   <View style={styles.authenticatedPatch}>
@@ -35,7 +39,7 @@ function CardListItem({ navigation, item }) {
               }
           </View>
           <View>
-              <Text style={styles.contentText}>{item['content']}</Text>
+              <Text style={styles.contentText}>{item.latestMessage ? item.latestMessage : ''}</Text>
           </View>
           </View>
         </TouchableOpacity>

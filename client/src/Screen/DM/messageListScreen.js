@@ -9,13 +9,69 @@ import {
   Image,
 } from 'react-native';
 
+import BidiStorage from '../../Lib/storage';
+import { STORAGE_KEY } from '../../Lib/constant';
 import CardList from '../../Components/DM/cardList';
+
+import { JOIN_ROOM, NEW_CHAT_MESSAGE_EVENT, LEAVE_ROOM } from "../../Lib/socket/types/socket-types";
+import { joinRoom, createMessage, leaveRoom } from "../../Lib/socket/emits/socket";
+
+import socket from "../../Lib/socket/socketIO";
 
 function DMListScreen({ navigation, route }) {
 
   const [query, setQuery] = useState('');
+  const [roomInfo, setRoomInfo] = useState([]);
 
   const { params: { users, messages } } = route;
+
+  const getLatestMessage = async (room) => {
+    return await fetch('http://127.0.0.1:3000' + `/api/message/latest/${room.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log("Successfully get latest message by Room ID")
+        return result.data
+      })
+      .catch((err) => {
+        console.log("Failed to get latest message by Room ID")
+        return err
+      });
+  }
+
+  const getRoomInfo = async (user) => {
+    return await fetch('http://127.0.0.1:3000' + `/api/room/customer/${user.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    })
+    .then((response) => response.json())
+    .then(async (result) => {
+      console.log("Successfully get RoomInfo by User ID")
+      return await Promise.all(
+        result.data.roomList.map(async (room) => {
+          const latestMessage = await getLatestMessage(room);
+          const latestMessageContent = latestMessage.latestMessage.length ? latestMessage.latestMessage[0].content : '';
+          return {
+            ...room,
+            latestMessage: latestMessageContent,
+          }
+        })
+      )})
+    .then((result) => {
+      console.log('Successfully add Latest Message into RoomInfo')
+      setRoomInfo(result)
+    })
+    .catch((err) => {
+      console.log('Latest Message Failed')
+    })
+  }
+      // setRoomInfo(result.data.roomList)
 
   // Header style configuration
   useLayoutEffect(() => {
@@ -26,6 +82,41 @@ function DMListScreen({ navigation, route }) {
     }, [navigation]);
   });
 
+  useEffect(() => {
+    const fetchMode = async () => {
+      const user = await BidiStorage.getData(STORAGE_KEY)
+      getRoomInfo(user)
+      
+    };
+    fetchMode();
+  }, []);
+  
+  // socket.io: Join/Leave Rooms
+  useEffect(() => {
+    if (roomInfo.length) {
+      for (room of roomInfo) {
+        joinRoom(room.id)
+      }
+      socket.on(NEW_CHAT_MESSAGE_EVENT, (message) => {
+        nextRoomInfo = roomInfo.map((room) => {
+          return room.id === message.roomId ? {
+            ...room,
+            latestMessage: message.content,
+          } : {
+            ...room,
+          }
+        });
+        setRoomInfo(nextRoomInfo);
+      });
+    }
+    return () => {
+      if (roomInfo.length) {
+        for (room of roomInfo) {
+          leaveRoom(room.id)
+        }
+      }
+    }
+  }, [roomInfo])
 
   return (
     <View style={styles.container}>
@@ -36,20 +127,21 @@ function DMListScreen({ navigation, route }) {
 
       <ScrollView style={styles.matches} horizontal={true} showsHorizontalScrollIndicator={false}>
         {
-          users.map((user, idx) => (
+          roomInfo.map((room, idx) => (
             <TouchableOpacity
               style={styles.matchItem}
-              onPress={() => {
+              onPress={async () => {
                 navigation.navigate('DirectMessage', {
-                  user: user,
+                  room: room,
+                  user: await BidiStorage.getData(STORAGE_KEY),
                 });
               }}
               key={idx}
             >
-              <View style={user['new'] ? styles.matchNewItemImageContainer : styles.matchItemImageContainer}>
-                <Image source={user['profile']} style={user['new'] ? styles.matchNewItemImage : styles.matchItemImage} />
+              <View style={room.unread_desinger ? styles.matchItemImageContainer : styles.matchNewItemImageContainer}>
+                <Image source={{uri: room.user.img_src}} style={room.unread_desinger ? styles.matchNewItemImage : styles.matchItemImage} />
               </View>
-              <Text style={styles.matchItemText}>{user['name']}</Text>
+              <Text style={styles.matchItemText}>{room.user.name}</Text>
             </TouchableOpacity>
           ))
         }
@@ -67,7 +159,7 @@ function DMListScreen({ navigation, route }) {
         <Text style={styles.headerText}>메세지</Text>
       </View>
 
-      <CardList items={messages} navigation={navigation}/>
+      <CardList items={roomInfo} navigation={navigation}/>
       
       {/* <View style={{backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center', width: '100%', height: '43%', }}>
         <Text style={styles.emptyText}>아직 메세지가 없습니다.</Text>
@@ -190,4 +282,5 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
 });
+
 export default DMListScreen;

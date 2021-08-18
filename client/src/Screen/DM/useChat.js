@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import socketIOClient from "socket.io-client";
+import { JOIN_ROOM, NEW_CHAT_MESSAGE_EVENT, LEAVE_ROOM } from "../../Lib/socket/types/socket-types";
+import { joinRoom, createMessage, leaveRoom } from "../../Lib/socket/emits/socket";
 
-const NEW_CHAT_MESSAGE_EVENT = "newChatMessage"; // Name of the event
+import socket from "../../Lib/socket/socketIO";
+
+// const NEW_CHAT_MESSAGE_EVENT = "newChatMessage"; // Name of the event
 const SOCKET_SERVER_URL = "http://localhost:4000";
 
 const dummyMessages = [
@@ -37,43 +41,78 @@ const dummyMessages = [
     },
   ];
 
-const useChat = (roomId) => {
+const useChat = (roomId, currentUser) => {
   const [messages, setMessages] = useState(dummyMessages); // Sent and received messages
   const socketRef = useRef();
+
+  const getAllMessageByRoomId = async (roomId) => {
+    await fetch('http://127.0.0.1:3000' + `/api/message/${roomId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log('성공적으로 메세지 가져와보릐긔')
+        setMessages(result.data.messageList)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    const fetchMode = async () => {
+      getAllMessageByRoomId(roomId);
+    };
+    fetchMode();
+  }, []);
 
   useEffect(() => {
     
     // Creates a WebSocket connection
-    socketRef.current = socketIOClient(SOCKET_SERVER_URL, {
-      query: { roomId },
-    });
+    // socketRef.current = socketIOClient(SOCKET_SERVER_URL, {
+    //   query: { roomId },
+    // });
+    socketRef.current = socket
+
+    // socketRef.current.emit(JOIN_ROOM, roomId)
+    // joinRoom(roomId)
     
     // Listens for incoming messages
     socketRef.current.on(NEW_CHAT_MESSAGE_EVENT, (message) => {
       const incomingMessage = {
         ...message,
         // ownedByCurrentUser: message.senderId === socketRef.current.id,
-        customerSent: true,
       };
       setMessages((messages) => [...messages, incomingMessage]);
     });
     
     // Destroys the socket reference
     // when the connection is closed
-    return () => {
-      socketRef.current.disconnect();
-    };
+    // return () => {
+    //   // socketRef.current.disconnect();
+    //   // socketRef.current.emit(LEAVE_ROOM, roomId);
+    //   leaveRoom(roomId);
+    // };
   }, [roomId]);
 
   // Sends a message to the server that
   // forwards it to all users in the same room
   const sendMessage = (messageBody) => {
-    socketRef.current.emit(NEW_CHAT_MESSAGE_EVENT, {
-      userId: socketRef.current.id,
-      customerSent: true,
+    // socketRef.current.emit(NEW_CHAT_MESSAGE_EVENT, {
+      // userId: socketRef.current.id,
+      // customerSent: true,
+      // content: messageBody,
+      // createdAt: '2021-07-15 08:44:45',
+      // roomId,
+      // });
+    createMessage({
+      room_id: roomId,
+      sender_id: currentUser.id,
       content: messageBody,
-      createdAt: '2021-07-15 08:44:45',
-    });
+    })
   };
 
   return [ messages, sendMessage ];

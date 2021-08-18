@@ -6,11 +6,12 @@ const initSocketIo = (io, server) => {
     io.on("connection", (socket) => {
         
         // Join a conversation
-        const { roomId } = socket.handshake.query;
-        socket.join(roomId);
-        console.log("socket.io server: Connected: " + roomId);
+        // const { roomId } = socket.handshake.query;
+        // socket.join(roomId);
+        // console.log("socket.io server: Connected: " + roomId);
+        console.log("socket.io server: Successful Handshake!");
         
-        socketIndex(io, socket, roomId);
+        socketIndex(io, socket);
     });
     
     server.listen(socketPORT, () => {

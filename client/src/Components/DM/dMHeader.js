@@ -19,9 +19,9 @@ function DMHeader({ navigation, user }) {
           // Designer detail(개인 브랜딩 페이지)로 navigate
           // onPress={}
           >
-          <Image source={user['profile']} style={styles.profileImage} />
+          <Image source={{uri: user.img_src}} style={styles.profileImage} />
           <View style={styles.designerTextInfo}>
-              <Text style={styles.nameText}>{user['name']}</Text>
+              <Text style={styles.nameText}>{user.name}</Text>
               <Text style={styles.belongText}>{`@${user['belong']}`}</Text>
           </View>
           <View>

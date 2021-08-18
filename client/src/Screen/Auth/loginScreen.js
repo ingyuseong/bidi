@@ -35,6 +35,18 @@ const LoginScreen = ({ navigation }) => {
     });
     navigation.replace('MainTab');
   };
+    // const token = '1806772812'
+    // await BidiStorage.storeData(STORAGE_KEY, {
+    //   id: 5,
+    //   type: '일반 사용자',
+    //   token,
+    //   nick_name: '쭈빈',
+    //   name: '이주빈',
+    //   gender: 'female',
+    //   address: '서울특별시 성북구 안암동',
+    //   img_src: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/profiles/65d7f922-75791049-4cf6fc7f',
+    //   ai_status: 'using',
+    // });
 
   const checkUser = async (profile) => {
     await fetch('http://127.0.0.1:3000' + '/api/user/token', {
