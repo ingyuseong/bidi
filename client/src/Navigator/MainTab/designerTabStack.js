@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BidTabScreen from './Designer/bidTabScreen';
 import SearchTabScreen from './Designer/searchTabScreen';
 import BrandingTabScreen from './Designer/brandingTabScreen';
-import HistoryTabScreen from './User/historyTabScreen';
+import HistoryTabScreen from './Designer/historyTabScreen';
 import MyPageTabScreen from './User/myPageTabScreen';
 
 const Tab = createBottomTabNavigator();
