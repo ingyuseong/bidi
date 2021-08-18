@@ -8,9 +8,17 @@ function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }
   const keywords = info.proposal ? info.proposal.keywords : info.keywords;
   const img_src = info.proposal ? info.proposal.after_src : info.user.img_src;
   const distance_limit = info.proposal ? info.proposal.distance_limit + 'km 이내' : info.position;
-  const address = info.address ? info.address : info.user.address;
-  const title = info.proposal ? info.user.name : info.title;
-  const description = info.letter ? info.letter : info.description;
+  const address = info.address
+    ? info.address
+    : info.user
+    ? info.user.address
+    : info.customer.address;
+  const title = info.proposal ? (info.user ? info.user.name : info.customer.name) : info.title;
+  const description = info.proposal
+    ? info.proposal.description
+    : info.letter
+    ? info.letter
+    : info.description;
 
   const deleteAlert = (id) => {
     Alert.alert('정말 삭제하시겠습니까?', '삭제후에는 변경이 불가능합니다', [
