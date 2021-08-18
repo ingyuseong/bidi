@@ -13,17 +13,18 @@ import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 import CardList from '../../Components/DM/cardList';
 
-import { JOIN_ROOM, NEW_CHAT_MESSAGE_EVENT, LEAVE_ROOM } from "../../Lib/socket/types/socket-types";
-import { joinRoom, createMessage, leaveRoom } from "../../Lib/socket/emits/socket";
+import { JOIN_ROOM, NEW_CHAT_MESSAGE_EVENT, LEAVE_ROOM } from '../../Lib/socket/types/socket-types';
+import { joinRoom, createMessage, leaveRoom } from '../../Lib/socket/emits/socket';
 
-import socket from "../../Lib/socket/socketIO";
+import socket from '../../Lib/socket/socketIO';
 
 function DMListScreen({ navigation, route }) {
-
   const [query, setQuery] = useState('');
   const [roomInfo, setRoomInfo] = useState([]);
 
-  const { params: { users, messages } } = route;
+  const {
+    params: { users, messages },
+  } = route;
 
   const getLatestMessage = async (room) => {
     return await fetch('http://127.0.0.1:3000' + `/api/message/latest/${room.id}`, {
@@ -34,14 +35,14 @@ function DMListScreen({ navigation, route }) {
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log("Successfully get latest message by Room ID")
-        return result.data
+        console.log('Successfully get latest message by Room ID');
+        return result.data;
       })
       .catch((err) => {
-        console.log("Failed to get latest message by Room ID")
-        return err
+        console.log('Failed to get latest message by Room ID');
+        return err;
       });
-  }
+  };
 
   const getRoomInfo = async (user) => {
     return await fetch('http://127.0.0.1:3000' + `/api/room/customer/${user.id}`, {
@@ -50,61 +51,68 @@ function DMListScreen({ navigation, route }) {
         'Content-Type': 'application/json;charset=UTF-8',
       },
     })
-    .then((response) => response.json())
-    .then(async (result) => {
-      console.log("Successfully get RoomInfo by User ID")
-      return await Promise.all(
-        result.data.roomList.map(async (room) => {
-          const latestMessage = await getLatestMessage(room);
-          const latestMessageContent = latestMessage.latestMessage.length ? latestMessage.latestMessage[0].content : '';
-          return {
-            ...room,
-            latestMessage: latestMessageContent,
-          }
-        })
-      )})
-    .then((result) => {
-      console.log('Successfully add Latest Message into RoomInfo')
-      setRoomInfo(result)
-    })
-    .catch((err) => {
-      console.log('Latest Message Failed')
-    })
-  }
-      // setRoomInfo(result.data.roomList)
+      .then((response) => response.json())
+      .then(async (result) => {
+        console.log('Successfully get RoomInfo by User ID');
+        return await Promise.all(
+          result.data.roomList.map(async (room) => {
+            const latestMessage = await getLatestMessage(room);
+            const latestMessageContent = latestMessage.latestMessage.length
+              ? latestMessage.latestMessage[0].content
+              : '';
+            return {
+              ...room,
+              latestMessage: latestMessageContent,
+            };
+          }),
+        );
+      })
+      .then((result) => {
+        console.log('Successfully add Latest Message into RoomInfo');
+        setRoomInfo(result);
+      })
+      .catch((err) => {
+        console.log('Latest Message Failed');
+      });
+  };
+  // setRoomInfo(result.data.roomList)
 
   // Header style configuration
   useLayoutEffect(() => {
-    navigation.setOptions({
-      title: '',
-      headerTintColor: 'black',
-      headerBackTitle: ' ',
-    }, [navigation]);
+    navigation.setOptions(
+      {
+        title: '',
+        headerTintColor: 'black',
+        headerBackTitle: ' ',
+      },
+      [navigation],
+    );
   });
 
   useEffect(() => {
     const fetchMode = async () => {
-      const user = await BidiStorage.getData(STORAGE_KEY)
-      getRoomInfo(user)
-      
+      const user = await BidiStorage.getData(STORAGE_KEY);
+      getRoomInfo(user);
     };
     fetchMode();
   }, []);
-  
+
   // socket.io: Join/Leave Rooms
   useEffect(() => {
     if (roomInfo.length) {
       for (room of roomInfo) {
-        joinRoom(room.id)
+        joinRoom(room.id);
       }
       socket.on(NEW_CHAT_MESSAGE_EVENT, (message) => {
         nextRoomInfo = roomInfo.map((room) => {
-          return room.id === message.roomId ? {
-            ...room,
-            latestMessage: message.content,
-          } : {
-            ...room,
-          }
+          return room.id === message.roomId
+            ? {
+                ...room,
+                latestMessage: message.content,
+              }
+            : {
+                ...room,
+              };
         });
         setRoomInfo(nextRoomInfo);
       });
@@ -112,39 +120,43 @@ function DMListScreen({ navigation, route }) {
     return () => {
       if (roomInfo.length) {
         for (room of roomInfo) {
-          leaveRoom(room.id)
+          leaveRoom(room.id);
         }
       }
-    }
-  }, [roomInfo])
+    };
+  }, [roomInfo]);
 
   return (
     <View style={styles.container}>
-
       <View>
         <Text style={styles.headerText}>새로운 매치</Text>
       </View>
 
       <ScrollView style={styles.matches} horizontal={true} showsHorizontalScrollIndicator={false}>
-        {
-          roomInfo.map((room, idx) => (
-            <TouchableOpacity
-              style={styles.matchItem}
-              onPress={async () => {
-                navigation.navigate('DirectMessage', {
-                  room: room,
-                  user: await BidiStorage.getData(STORAGE_KEY),
-                });
-              }}
-              key={idx}
-            >
-              <View style={room.unread_desinger ? styles.matchItemImageContainer : styles.matchNewItemImageContainer}>
-                <Image source={{uri: room.user.img_src}} style={room.unread_desinger ? styles.matchNewItemImage : styles.matchItemImage} />
-              </View>
-              <Text style={styles.matchItemText}>{room.user.name}</Text>
-            </TouchableOpacity>
-          ))
-        }
+        {roomInfo.map((room, idx) => (
+          <TouchableOpacity
+            style={styles.matchItem}
+            onPress={async () => {
+              navigation.navigate('DirectMessage', {
+                room: room,
+                user: await BidiStorage.getData(STORAGE_KEY),
+              });
+            }}
+            key={idx}>
+            <View
+              style={
+                room.unread_desinger
+                  ? styles.matchItemImageContainer
+                  : styles.matchNewItemImageContainer
+              }>
+              <Image
+                source={{ uri: room.user.img_src }}
+                style={room.unread_desinger ? styles.matchNewItemImage : styles.matchItemImage}
+              />
+            </View>
+            <Text style={styles.matchItemText}>{room.user.name}</Text>
+          </TouchableOpacity>
+        ))}
       </ScrollView>
 
       <View styles={styles.searchBarContainer}>
@@ -152,15 +164,15 @@ function DMListScreen({ navigation, route }) {
           value={query}
           style={styles.searchBar}
           onChangeText={setQuery}
-          placeholder='검색'
+          placeholder="검색"
         />
       </View>
       <View>
         <Text style={styles.headerText}>메세지</Text>
       </View>
 
-      <CardList items={roomInfo} navigation={navigation}/>
-      
+      <CardList items={roomInfo} navigation={navigation} />
+
       {/* <View style={{backgroundColor: '#ffffff', alignItems: 'center', justifyContent: 'center', width: '100%', height: '43%', }}>
         <Text style={styles.emptyText}>아직 메세지가 없습니다.</Text>
       </View>
@@ -168,8 +180,6 @@ function DMListScreen({ navigation, route }) {
     </View>
   );
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -193,12 +203,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   headerText: {
-      textAlign: 'left',
-      padding: 17,
-      fontWeight: 'bold',
-      fontSize: 16,
-      lineHeight: 19,
-      letterSpacing: -0.5,
+    textAlign: 'left',
+    padding: 17,
+    fontWeight: 'bold',
+    fontSize: 16,
+    lineHeight: 19,
+    letterSpacing: -0.5,
   },
   matches: {
     // flex: 1, // Q. 왜 넣으면 쭉 내려갈까?
@@ -208,8 +218,7 @@ const styles = StyleSheet.create({
     // alignItems: 'flex-start',
     // justifyContent: 'flex-start'
   },
-  matchItem: {
-  },
+  matchItem: {},
   matchItemImage: {
     width: 65,
     height: 65,
@@ -257,9 +266,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     padding: 13,
   },
-  messageList: {
-
-  },
+  messageList: {},
   messageProfileImage: {
     width: 65,
     height: 65,
@@ -274,7 +281,7 @@ const styles = StyleSheet.create({
   messageCardInfo: {
     width: '100%',
     flexDirection: 'column',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
   messageCardUserInfo: {
     width: '100%',
