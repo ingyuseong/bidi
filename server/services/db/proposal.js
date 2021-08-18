@@ -21,7 +21,6 @@ exports.selectProposalByUserId = async (userId) =>
     raw: true,
     where: {
       user_id: userId,
-      status: 'process',
     },
   })
     .then((results) => {
