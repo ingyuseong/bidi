@@ -1,5 +1,5 @@
-const roomDB = require('./db/room');
-const bidDB = require('./db/bid');
+const roomDB = require('./db/room')
+const bidDB = require('./db/bid')
 
 // exports.getAllRoomByCustomerId = async (userId) => {
 //   const bidList = await bidDB.selectAllBidByCustomerId(userId);
@@ -31,36 +31,32 @@ const bidDB = require('./db/bid');
 // //   return results;
 // }
 exports.getAllRoomByCustomerId = async (userId) => {
-  const bidList = await bidDB.selectAllDMBidByCustomerId(userId);
+  const bidList = await bidDB.selectAllDMBidByCustomerId(userId)
   return await Promise.all(
-      bidList.filter(bid => {
-          return bid.status === 'done' && bid.id < 22
-      }).map(async (bid) => {
-          const {
-            id,
-            customer_id,
-            designer_id,
-            proposal_id,
-            user,
-          } = bid;
-    
-          const result = await roomDB.selectRoomByBidId(id);
+    bidList
+      .filter((bid) => {
+        return bid.status === 'done' && bid.id < 50
+      })
+      .map(async (bid) => {
+        const { id, customer_id, designer_id, proposal_id, user } = bid
 
-          return {
-            ...result,
-            customer_id,
-            designer_id,
-            proposal_id,
-            user,
-          }
+        const result = await roomDB.selectRoomByBidId(id)
+
+        return {
+          ...result,
+          customer_id,
+          designer_id,
+          proposal_id,
+          user,
+        }
       })
   )
     .then((results) => {
-        console.log('Room Service Successed')
-        return results
+      console.log('Room Service Successed')
+      return results
     })
     .catch((err) => {
-        console.log('Room Service Failed')
-        return err
+      console.log('Room Service Failed')
+      return err
     })
 }
