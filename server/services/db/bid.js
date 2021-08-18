@@ -173,6 +173,28 @@ exports.selectAllDMBidByCustomerId = async (userId) =>
       return err
     })
 
+exports.selectAllDMBidByDesignerId = async (userId) =>
+  await Bid.findAll({
+    where: {
+      designer_id: userId,
+    },
+    include: [
+      {
+        model: User,
+        attributes: ['id', 'name', 'img_src', 'address'],
+        required: false,
+      },
+    ],
+  })
+    .then((results) => {
+      console.log('Success Selecting DM All Bid')
+      return results
+    })
+    .catch((err) => {
+      console.log('Failed Selecting DM All Bid')
+      return err
+    })
+
 exports.selectBidByCustomerId = async (bidId) =>
   await Bid.findOne({
     where: {
