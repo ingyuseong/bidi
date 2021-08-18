@@ -59,8 +59,8 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
               showsButtons={true}
               showsPagination={false}
               loop={false}
-              nextButton={<Icons name="right" size={30} color="white"></Icons>}
-              prevButton={<Icons name="left" size={30} color="white"></Icons>}>
+              nextButton={<Icon name="right" size={30} color="white"></Icon>}
+              prevButton={<Icon name="left" size={30} color="white"></Icon>}>
               <View style={styles.styleBox}>
                 <Image
                   style={styles.styleImg}

@@ -14,7 +14,7 @@ function CheckingProposalScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((result) => {
-        if (result.data != null) {
+        if (result.data && Object.keys(result.data).length !== 0) {
           navigation.replace('ProposalRegistered');
         } else {
           navigation.replace('Intro');

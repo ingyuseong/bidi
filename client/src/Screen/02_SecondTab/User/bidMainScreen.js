@@ -25,10 +25,10 @@ function BidMainScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then((result) => {
-        if (result.data) {
+        if (result.data && Object.keys(result.data).length !== 0) {
           setProposal({
             ...result.data,
-            keywords: result.data.keywords.split(','),
+            keywords: result?.data?.keywords.split(','),
           });
         } else {
           navigation.replace('MainTab', { screen: 'Proposal' });
