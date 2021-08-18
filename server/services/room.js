@@ -1,5 +1,6 @@
 const roomDB = require('./db/room');
 const bidDB = require('./db/bid');
+const userDB = require('./db/user');
 
 // exports.getAllRoomByCustomerId = async (userId) => {
 //   const bidList = await bidDB.selectAllBidByCustomerId(userId);
@@ -76,9 +77,8 @@ exports.getAllRoomByDesignerId = async (userId) => {
             customer_id,
             designer_id,
             proposal_id,
-            user,
           } = bid;
-    
+          const user = await userDB.selectUser(customer_id);
           const result = await roomDB.selectRoomByBidId(id);
 
           return {

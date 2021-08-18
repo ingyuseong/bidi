@@ -178,13 +178,6 @@ exports.selectAllDMBidByDesignerId = async (userId) =>
     where: {
       designer_id: userId,
     },
-    include: [
-      {
-        model: User,
-        attributes: ['id', 'name', 'img_src', 'address'],
-        required: false,
-      },
-    ],
   })
     .then((results) => {
       console.log('Success Selecting DM All Bid')

@@ -44,7 +44,8 @@ function DMListScreen({ navigation, route }) {
   }
 
   const getRoomInfo = async (user) => {
-    return await fetch('http://127.0.0.1:3000' + `/api/room/customer/${user.id}`, {
+    const userType = user.type === '일반 사용자' ? 'customer' : 'designer';
+    return await fetch('http://127.0.0.1:3000' + `/api/room/${userType}/${user.id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
@@ -53,6 +54,7 @@ function DMListScreen({ navigation, route }) {
     .then((response) => response.json())
     .then(async (result) => {
       console.log("Successfully get RoomInfo by User ID")
+      console.log(result.data)
       return await Promise.all(
         result.data.roomList.map(async (room) => {
           const latestMessage = await getLatestMessage(room);
