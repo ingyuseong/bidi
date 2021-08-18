@@ -78,7 +78,10 @@ function ProposalListScreen({ navigation }) {
             </TouchableOpacity>
           </View>
           <View>
-            <ProposalDetailScreen props={{ info, userId: info.user_id, proposalId: info.id }} />
+            <ProposalDetailScreen
+              navigation={navigation}
+              props={{ info, userId: info.user_id, proposalId: info.id }}
+            />
           </View>
         </Swiper>
       ))}

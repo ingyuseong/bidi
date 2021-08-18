@@ -17,21 +17,15 @@ exports.selectProposal = async (proposalId) =>
     })
 
 exports.selectProposalByUserId = async (userId) =>
-  await Proposal.findAll({
+  await Proposal.findOne({
     raw: true,
     where: {
       user_id: userId,
     },
   })
     .then((results) => {
-      let cur_proposal = {}
-      if (results && results.length > 0) {
-        cur_proposal = results.filter((proposal) => proposal.status != 'done')
-        console.log('Success Selecting Proposal')
-        return cur_proposal[0]
-      } else {
-        return {}
-      }
+      console.log('Success Selecting Proposal')
+      return results
     })
     .catch((err) => {
       console.log('Failed Selecting Proposal')

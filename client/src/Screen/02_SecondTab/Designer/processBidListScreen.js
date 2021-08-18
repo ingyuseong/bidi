@@ -89,7 +89,7 @@ function ProcessBidListScreen({ navigation, bidList }) {
             info={bid}
             screen="bid"
             clickHandler={() => {
-              navigation.navigate('DetailBid', { bid });
+              navigation.navigate('DetailBid', { info: bid });
             }}
           />
           <ItemContent navigation={navigation} info={bid} screen="bid" />

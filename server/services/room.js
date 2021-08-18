@@ -32,8 +32,9 @@ const userDB = require('./db/user');
 // //   return results;
 // }
 exports.getAllRoomByCustomerId = async (userId) => {
-  const bidList = await bidDB.selectAllDMBidByCustomerId(userId);
+  const bidList = await bidDB.selectAllDMBidByCustomerId(userId)
   return await Promise.all(
+<<<<<<< HEAD
       bidList.filter(bid => {
           return bid.status === 'done'
       }).map(async (bid) => {
@@ -46,17 +47,28 @@ exports.getAllRoomByCustomerId = async (userId) => {
           } = bid;
     
           const result = await roomDB.selectRoomByBidId(id);
+=======
+    bidList
+      .filter((bid) => {
+        return bid.status === 'done' && bid.id < 50
+      })
+      .map(async (bid) => {
+        const { id, customer_id, designer_id, proposal_id, user } = bid
 
-          return {
-            ...result,
-            customer_id,
-            designer_id,
-            proposal_id,
-            user,
-          }
+        const result = await roomDB.selectRoomByBidId(id)
+>>>>>>> 31e9dfe378f9896bd0ee20bea7b7a2f8184019a8
+
+        return {
+          ...result,
+          customer_id,
+          designer_id,
+          proposal_id,
+          user,
+        }
       })
   )
     .then((results) => {
+<<<<<<< HEAD
         console.log('Room Service Successed: getAllRoomByCustomerId')
         return results
     })
@@ -97,5 +109,13 @@ exports.getAllRoomByDesignerId = async (userId) => {
     .catch((err) => {
         console.log('Room Service Failed: getAllRoomByDesignerId')
         return err
+=======
+      console.log('Room Service Successed')
+      return results
+    })
+    .catch((err) => {
+      console.log('Room Service Failed')
+      return err
+>>>>>>> 31e9dfe378f9896bd0ee20bea7b7a2f8184019a8
     })
 }

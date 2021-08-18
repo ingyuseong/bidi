@@ -59,8 +59,8 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
               showsButtons={true}
               showsPagination={false}
               loop={false}
-              nextButton={<Icons name="right" size={30} color="white"></Icons>}
-              prevButton={<Icons name="left" size={30} color="white"></Icons>}>
+              nextButton={<Icon name="right" size={30} color="white"></Icon>}
+              prevButton={<Icon name="left" size={30} color="white"></Icon>}>
               <View style={styles.styleBox}>
                 <Image
                   style={styles.styleImg}
@@ -92,10 +92,10 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
             </View>
             <View style={styles.tagArea}>
               <View style={styles.tag}>
-                <Text style={{ color: '#8D8D8D' }}># 카테고리 1</Text>
+                <Text style={{ color: '#8D8D8D' }}># 무난한 스타일</Text>
               </View>
               <View style={styles.tag}>
-                <Text style={{ color: '#8D8D8D' }}># 카테고리 2</Text>
+                <Text style={{ color: '#8D8D8D' }}># 사진보다 더 이쁘게</Text>
               </View>
             </View>
             <View style={styles.subtitleArea}>

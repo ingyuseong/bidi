@@ -29,7 +29,6 @@ exports.getProposalByUserId = async (req, res, next) => {
   try {
     const { userId } = req.params
     const proposal = await proposalServices.getProposalByUserId(userId)
-
     res.status(STATUS_CODE.SUCCESS).json({
       message: '제안서 정보 조회 성공',
       data: proposal,

@@ -92,7 +92,7 @@ const getBrandingInfo = async (userId) => {
   result.userId = brandingInfo.user_id
   result.name = brandingInfo['user.name']
   result.img_src = brandingInfo['user.img_src']
-  result.distance = '1km'
+  result.distance = 1
   result.description = brandingInfo.description
   result.shopName = brandingInfo.shop_name
   result.keywords =

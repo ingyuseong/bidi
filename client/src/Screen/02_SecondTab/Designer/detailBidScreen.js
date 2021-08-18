@@ -81,7 +81,7 @@ function DetailBidScreen({ navigation, route }) {
       .then(async (response) => {
         if (response) {
           Alert.alert('Bid 삭제가 성공적으로 완료되었습니다!');
-          navigation.navigate('BidMain');
+          navigation.push('BidMain');
         }
       })
       .catch((error) => {

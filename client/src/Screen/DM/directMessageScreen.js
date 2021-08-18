@@ -1,38 +1,36 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  ScrollView,
-} from 'react-native';
+import { Text, View, StyleSheet, TextInput, ScrollView } from 'react-native';
 
 import useChat from './useChat';
 import ChatBubbleList from '../../Components/DM/chatBubbleList';
 import DMHeader from '../../Components/DM/dMHeader';
 
 function DMScreen({ navigation, route }) {
-  
-  const { params: { user, room } } = route;
+  const {
+    params: { user, room },
+  } = route;
 
   const roomId = room.id;
-  const [ messages, SendMessage ] = useChat(roomId, user);
-  
+  const [messages, SendMessage] = useChat(roomId, user);
+
   const [messageText, setMessageText] = useState('');
 
   const handleSubmit = (event) => {
     SendMessage(messageText);
     setMessageText('');
-  }
+  };
 
   // Header style configuration
   useLayoutEffect(() => {
-    navigation.setOptions({
-      title: room.user.name,
-      headerTintColor: 'black',
-      headerBackTitle: ' ',
-      headerTitle: () => <DMHeader navigation={navigation} user={room.user} />
-    }, [navigation]);
+    navigation.setOptions(
+      {
+        title: room.user.name,
+        headerTintColor: 'black',
+        headerBackTitle: ' ',
+        headerTitle: () => <DMHeader navigation={navigation} user={room.user} />,
+      },
+      [navigation],
+    );
   });
 
   return (
@@ -44,7 +42,7 @@ function DMScreen({ navigation, route }) {
         onChangeText={setMessageText}
         onSubmitEditing={handleSubmit}
         autoCorrect={false}
-        placeholder='메세지 보내기...'
+        placeholder="메세지 보내기..."
       />
     </View>
   );
@@ -56,8 +54,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  messageSenderContainer: {
-  },
+  messageSenderContainer: {},
   messageSender: {
     width: '90%',
     height: 44,
