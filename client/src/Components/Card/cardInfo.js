@@ -50,7 +50,7 @@ function CardInfo({ info, navigation, height, tagBackgroundColor, tagColor }) {
           ))}
       </View>
       <View style={{ ...styles.designerTextContainer, height }}>
-        <Text style={styles.designerText} numberOfLines={2}>
+        <Text style={styles.designerText} numberOfLines={3}>
           {info.description}
         </Text>
       </View>
