@@ -52,29 +52,32 @@ function DMListScreen({ navigation, route }) {
         'Content-Type': 'application/json;charset=UTF-8',
       },
     })
-    .then((response) => response.json())
-    .then(async (result) => {
-      console.log("Successfully get RoomInfo by User ID")
-      console.log(result.data)
-      return await Promise.all(
-        result.data.roomList.map(async (room) => {
-          const latestMessage = await getLatestMessage(room);
-          const latestMessageContent = latestMessage.latestMessage.length ? latestMessage.latestMessage[0].content : '';
-          return {
-            ...room,
-            latestMessage: latestMessageContent,
-          }
-        })
-      )})
-    .then((result) => {
-      console.log('Successfully add Latest Message into RoomInfo')
-      setRoomInfo(result)
-    })
-    .catch((err) => {
-      console.log('Latest Message Failed')
-    })
-  }
-      // setRoomInfo(result.data.roomList)
+      .then((response) => response.json())
+      .then(async (result) => {
+        console.log('Successfully get RoomInfo by User ID');
+        console.log(result.data);
+        return await Promise.all(
+          result.data.roomList.map(async (room) => {
+            const latestMessage = await getLatestMessage(room);
+            const latestMessageContent = latestMessage.latestMessage.length
+              ? latestMessage.latestMessage[0].content
+              : '';
+            return {
+              ...room,
+              latestMessage: latestMessageContent,
+            };
+          }),
+        );
+      })
+      .then((result) => {
+        console.log('Successfully add Latest Message into RoomInfo');
+        setRoomInfo(result);
+      })
+      .catch((err) => {
+        console.log('Latest Message Failed');
+      });
+  };
+  // setRoomInfo(result.data.roomList)
 
   // Header style configuration
   useLayoutEffect(() => {
@@ -217,7 +220,9 @@ const styles = StyleSheet.create({
     // alignItems: 'flex-start',
     // justifyContent: 'flex-start'
   },
-  matchItem: {},
+  matchItem: {
+    padding: 10,
+  },
   matchItemImage: {
     width: 65,
     height: 65,

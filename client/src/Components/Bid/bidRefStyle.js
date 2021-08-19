@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   styleArea: {
-    width: 168,
-    height: 168,
+    width: 160,
+    height: 160,
     backgroundColor: '#F5F5F5',
     borderRadius: 3,
     marginRight: 8,
@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#DDDDDD',
   },
   styleImg: {
-    width: 168,
-    height: 168,
+    width: 160,
+    height: 160,
     resizeMode: 'cover',
     borderRadius: 3,
   },

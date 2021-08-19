@@ -39,6 +39,7 @@ function HistoryMainScreen({ navigation }) {
     })
       .then((response) => response.json())
       .then(async (result) => {
+        console.log(result);
         if (result.data) {
           await setMatchingHistoryList(result.data.matchingHistoryList);
         }
