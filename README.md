@@ -1,7 +1,7 @@
 # BiDi 
 
 > BiDi - 제안서 기반의 헤어 디자이너 매칭 서비스
-<p align="center"><img src="https://user-images.githubusercontent.com/60457112/130026204-0dbc24f4-93db-4a76-ab22-28f2da361e76.png" title="bidi"/></p>
+<p align="center"><img width="700" src="https://user-images.githubusercontent.com/60457112/130026204-0dbc24f4-93db-4a76-ab22-28f2da361e76.png" title="bidi"/></p>
 
 
 #### 🐱‍🏍 [BiDi-AI Repository]()
