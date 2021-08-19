@@ -14,7 +14,8 @@
 ## 📺 [BiDi 데모 영상](https://www.youtube.com/watch?v=v7ierZX2fzQ&feature=youtu.be)
 > 사진을 클릭하면 유튜브 페이지로 이동합니다   
 
-<a href="https://www.youtube.com/watch?v=gUi0Vg1_k04" target="_blank"><img src="https://user-images.githubusercontent.com/60457112/130026012-32376864-a8a8-42e2-860b-4943b70429e6.png"/></a>
+<div align="center"><a href="https://youtu.be/4CYwmMTDZgc" target="_blank"><img src="https://user-images.githubusercontent.com/60457112/130026012-32376864-a8a8-42e2-860b-4943b70429e6.png"/></a>
+</div>
 
 ## ⚙️ 주요 기능
 
