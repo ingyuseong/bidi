@@ -11,13 +11,13 @@ function BidRefStyle() {
       <View style={styles.styleContainer}>
         <TouchableOpacity style={styles.styleArea}>
           <Image
-            source={{ uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/tes1.jpeg' }}
+            source={{ uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/img3.png' }}
             style={styles.styleImg}
           />
         </TouchableOpacity>
         <TouchableOpacity style={styles.styleArea}>
           <Image
-            source={{ uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/test7.jpeg' }}
+            source={{ uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/style_img8.png' }}
             style={styles.styleImg}
           />
         </TouchableOpacity>
@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   styleArea: {
-    width: 168,
-    height: 168,
+    width: 160,
+    height: 160,
     backgroundColor: '#F5F5F5',
     borderRadius: 3,
     marginRight: 8,
@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#DDDDDD',
   },
   styleImg: {
-    width: 168,
-    height: 168,
+    width: 160,
+    height: 160,
     resizeMode: 'cover',
     borderRadius: 3,
   },

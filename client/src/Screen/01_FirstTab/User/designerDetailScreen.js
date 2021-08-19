@@ -9,7 +9,7 @@ function DesignerDetailScreen({ info }) {
   const [tab, setTab] = useState('tab1');
   const [matchingHistoryList, setMatchingHistoryList] = useState([]);
   const getHistoryList = async () => {
-    await fetch('http://127.0.0.1:3000' + `/api/matchingHistory/designer/${info.id}`, {
+    await fetch('http://127.0.0.1:3000' + `/api/matchingHistory/designer/${info.userId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',

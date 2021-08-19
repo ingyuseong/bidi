@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
@@ -48,7 +48,9 @@ function DesignerListScreen({ navigation }) {
           <View style={styles.container}>
             <View style={{ height: '60%' }}>
               <CardStyle styleLists={info.styles} isUser={true} />
-              <TouchableOpacity style={styles.bidiBtn}>
+              <TouchableOpacity
+                style={styles.bidiBtn}
+                onPress={() => Alert.alert('해당 디자이너에게 제안서가 전송되었습니다!')}>
                 <Icon name="flash" size={25} style={styles.bidiIcon} />
               </TouchableOpacity>
             </View>
