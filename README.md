@@ -71,6 +71,7 @@
 - 자체 학습한 checkpoint 적용 후, inference에 적합하도록 Model pipeline 설계
 - Flask를 통해 AI Model Serving API 개발
 - AWS S3 & EC2 등을 이용하여 프로젝트 아키텍쳐 구성
+
 ## 🗂 Directory
 
 <details>
