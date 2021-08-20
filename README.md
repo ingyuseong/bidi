@@ -58,6 +58,7 @@
 ## ⚒️ 기술 스택
 ### (1) Project Overview - Service App
 <img width="350" src="https://user-images.githubusercontent.com/60457112/130028529-fb992121-dc8f-4fac-8b3a-e137e2124243.png"/>
+<br>
 - React Native를 기반으로 UI/UX 제작 및 IOS 앱 서비스 개발
 - 서버는 API Server와 AI Server로 분리하여 개발
 - AWS, Docker 등을 이용하여 프로젝트 아키텍쳐 구성  
@@ -65,6 +66,7 @@
 ### (2) Project Overview - AI Model
 
 <img width="350" src="https://user-images.githubusercontent.com/60457112/130028634-352104f3-de15-4032-aca6-b262b544cb23.png"/>
+<br>
 - 여러 모델의 inference를 실험 후 StarGAN-v2를 Baseline model로 선정
 - StyleGAN2(이미지 생성) -> Auto Labeling(Hard voting) flow를 통한 dataset 구축
 - seepretty-face, celebA-HQ 및 자체 dataset을 이용해 새롭게 baseline 학습 
