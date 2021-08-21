@@ -143,7 +143,7 @@
 |<img src="https://avatars.githubusercontent.com/u/60457112?v=4" width=300/>|<img src="https://avatars.githubusercontent.com/u/70363646?v=4" width=300/>|<img src="https://avatars.githubusercontent.com/u/37537248?v=4" width=300/>
 |:-:|:-:|:-:|
 |김동현|김장영|성인규|
-| [@dooking](https://github.com/dooking) | [@longshiine](https://github.com/longshiine) | [@staycozyboy](https://github.com/cakenbake) |
+| [@dooking](https://github.com/dooking) | [@longshiine](https://github.com/longshiine) | [@staycozyboy](https://github.com/staycozyboy) |
 
 
 ## ⭐ Show your support
