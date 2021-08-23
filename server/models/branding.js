@@ -14,7 +14,7 @@ const modelAttributes = {
   title: {
     type: DataTypes.STRING,
   },
-  shopName: {
+  shop_name: {
     type: DataTypes.STRING,
   },
   position: {
@@ -50,6 +50,7 @@ const modelOptions = {
   timestamps: false,
   charset: 'utf8',
   tableName: modelName,
+  underscored: true,
 }
 
 module.exports = (sequelize) => {

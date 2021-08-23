@@ -18,37 +18,15 @@ const modelAttributes = {
     type: DataTypes.INTEGER,
   },
   style_type: {
-    type: DataTypes.STRING,
-    validate: {
-      checkStyleType(inputStyleType) {
-        if (
-          !(inputStyleType == 'cut') ||
-          !(inputStyleType == 'perm') ||
-          !(inputStyleType == 'color')
-        ) {
-          throw new Error('스타일 형식이 맞지 않습니다.')
-        }
-      },
-    },
+    type: DataTypes.ENUM('cut', 'perm', 'color'),
   },
   length_type: {
-    type: DataTypes.STRING,
-    validate: {
-      checkLength(inputLength) {
-        if (
-          !(inputLength == 'long') ||
-          !(inputLength == 'medium') ||
-          !(inputLength == 'short')
-        ) {
-          throw new Error('길이 형식이 맞지 않습니다.')
-        }
-      },
-    },
+    type: DataTypes.ENUM('long', 'medium', 'short'),
   },
   letter: {
     type: DataTypes.TEXT,
   },
-  needCare: {
+  need_care: {
     type: DataTypes.BOOLEAN,
   },
 
@@ -75,6 +53,7 @@ const modelOptions = {
   timestamps: false,
   charset: 'utf8',
   tableName: modelName,
+  underscored: true,
 }
 
 module.exports = (sequelize) => {

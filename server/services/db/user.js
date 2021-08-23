@@ -17,7 +17,11 @@ exports.selectUserByToken = async (token) => {
   const results = await User.findOne({
     raw: true,
     where: {
-      [or]: [{ naver_token: token }, { kakao_token: token }],
+      [or]: [
+        { naver_token: token },
+        { kakao_token: token },
+        { apple_token: token },
+      ],
     },
   })
   return results
