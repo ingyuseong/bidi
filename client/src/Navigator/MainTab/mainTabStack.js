@@ -13,7 +13,6 @@ function mainTabStack({ navigation }) {
     }
     fetchMode();
   }, []);
-
   return mode == '' ? (
     <ActivityIndicator animating={mode} color="" size="large" />
   ) : mode == 'user' ? (

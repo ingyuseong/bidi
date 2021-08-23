@@ -19,7 +19,7 @@ import { STORAGE_KEY } from '../../Lib/constant';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { createUserAPI } from '../../Api/user';
+import UserAPI from '../../Api/user';
 
 const RegisterScreen = ({ navigation, route }) => {
   const { profile } = route.params;
@@ -38,7 +38,7 @@ const RegisterScreen = ({ navigation, route }) => {
 
   const handleSubmitButton = async () => {
     if (photo) {
-      const result = await createUserAPI(photo, {
+      const [result, data] = await UserAPI.createUserAPI(photo, {
         userType,
         userName,
         userNickName,
@@ -46,6 +46,35 @@ const RegisterScreen = ({ navigation, route }) => {
         userGenderType,
         userKakaoToken,
       });
+      if (result) {
+        const {
+          id,
+          user_type,
+          naver_token,
+          kakao_token,
+          apple_token,
+          name,
+          nick_name,
+          gender_type,
+          img_src,
+          ai_status,
+        } = data;
+        await BidiStorage.storeData(STORAGE_KEY, {
+          id,
+          user_type,
+          naver_token,
+          kakao_token,
+          apple_token,
+          name,
+          nick_name,
+          gender_type,
+          img_src,
+          ai_status,
+        });
+        navigation.replace('MainTab');
+      } else {
+        Alert.alert(data);
+      }
     } else {
       Alert.alert('사진을 등록해주세요!');
     }

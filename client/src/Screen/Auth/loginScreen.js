@@ -17,6 +17,7 @@ import appleAuth, {
   AppleAuthRequestScope,
   AppleAuthCredentialState,
 } from '@invertase/react-native-apple-authentication';
+import UserAPI from '../../Api/user';
 
 const LoginScreen = ({ navigation }) => {
   const [user, setUser] = useState('');
@@ -24,7 +25,37 @@ const LoginScreen = ({ navigation }) => {
   const kakaoLoginHandler = async () => {
     const token = await login();
     const profile = await getKakaoProfile();
-    await checkUser(profile);
+    const [result, data] = await UserAPI.checkUser(profile);
+    if (data) {
+      const {
+        id,
+        user_type,
+        naver_token,
+        kakao_token,
+        apple_token,
+        name,
+        nick_name,
+        gender_type,
+        img_src,
+        ai_status,
+      } = data;
+      await BidiStorage.storeData(STORAGE_KEY, {
+        id,
+        user_type,
+        naver_token,
+        kakao_token,
+        apple_token,
+        name,
+        nick_name,
+        gender_type,
+        img_src,
+        ai_status,
+      });
+      navigation.replace('MainTab');
+    }
+    navigation.replace('Register', {
+      profile,
+    });
   };
   const appleLoginHandler = async () => {
     try {
@@ -84,42 +115,6 @@ const LoginScreen = ({ navigation }) => {
   //   ai_status: 'using',
   // });
 
-  const checkUser = async (profile) => {
-    await fetch('http://127.0.0.1:3000' + '/api/user/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        token: profile.id,
-      }),
-    })
-      .then((response) => response.json())
-      .then(async ({ data }) => {
-        if (data) {
-          const { id, type, kakao_token, nick_name, name, gender, address, img_src, ai_status } =
-            data;
-          await BidiStorage.storeData(STORAGE_KEY, {
-            id,
-            type,
-            token: kakao_token,
-            nick_name,
-            name,
-            gender,
-            address,
-            img_src,
-            ai_status,
-          });
-          navigation.replace('MainTab');
-        }
-        navigation.replace('Register', {
-          profile,
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
   return (
     <ImageBackground
       source={require('../../../public/img/loginSplash.png')}

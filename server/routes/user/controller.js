@@ -48,7 +48,6 @@ exports.registerUser = async (req, res, next) => {
   }
 }
 exports.checkToken = async (req, res, next) => {
-  console.log('hi')
   try {
     const { token } = req.body
     const user = await userServices.findOneUserByToken(token)

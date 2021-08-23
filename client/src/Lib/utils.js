@@ -2,11 +2,11 @@ import BidiStorage from './storage';
 import { STORAGE_KEY } from './constant';
 
 const checkType = async () => {
-  const { type } = await BidiStorage.getData(STORAGE_KEY);
-  switch (type) {
-    case '일반 사용자':
+  const { user_type } = await BidiStorage.getData(STORAGE_KEY);
+  switch (user_type) {
+    case 'customer':
       return 'user';
-    case '디자이너':
+    case 'designer':
       return 'designer';
     default:
       return false;
