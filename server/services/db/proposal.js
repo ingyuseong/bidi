@@ -66,7 +66,7 @@ exports.findOneProposalByUserId = async (userId) =>
     })
 
 exports.findAllProposal = async () =>
-  await Proposal.findAll({})
+  await Proposal.findAll()
     .then((results) => {
       console.log('Success Selecting All Proposal')
       return results

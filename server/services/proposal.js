@@ -10,7 +10,6 @@ exports.createProposal = async (params) => {
 // Read Proposal Resource [findOne, findAll]
 exports.findOneProposal = async (proposalId) => {
   const proposal = await db.findOneProposal(proposalId)
-  console.log(proposal)
   return proposal
 }
 exports.findOneProposalByUserId = async (userId) => {

@@ -71,12 +71,22 @@ exports.registerWithFile = async (req, res, next) => {
 exports.getProposal = async (req, res, next) => {
   try {
     const { id } = req.params
-    const proposal = await proposalServices.findOneProposal(id)
-
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '제안서 정보 조회 성공',
-      data: proposal,
-    })
+    let proposal = await proposalServices.findOneProposal(id)
+    if (proposal) {
+      proposal = {
+        ...proposal,
+        keyword_array: proposal.keyword_array.split(','),
+      }
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '제안서 정보 조회 성공',
+        data: proposal,
+      })
+    } else {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '제안서 등록안됨',
+        data: null,
+      })
+    }
   } catch (error) {
     res
       .status(STATUS_CODE.SERVER_ERROR)
@@ -86,11 +96,22 @@ exports.getProposal = async (req, res, next) => {
 exports.getProposalByUserId = async (req, res, next) => {
   try {
     const { id } = req.params
-    const proposal = await proposalServices.findOneProposalByUserId(id)
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '제안서 정보 조회 성공',
-      data: proposal,
-    })
+    let proposal = await proposalServices.findOneProposalByUserId(id)
+    if (proposal) {
+      proposal = {
+        ...proposal,
+        keyword_array: proposal.keyword_array.split(','),
+      }
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '제안서 정보 조회 성공',
+        data: proposal,
+      })
+    } else {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '제안서 등록안됨',
+        data: null,
+      })
+    }
   } catch (error) {
     res
       .status(STATUS_CODE.SERVER_ERROR)
@@ -99,13 +120,30 @@ exports.getProposalByUserId = async (req, res, next) => {
 }
 exports.getProposalList = async (req, res, next) => {
   try {
-    const proposals = await proposalServices.findAllProposal()
-
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '전체 제안서 목록 조회 성공',
-      data: proposals,
-    })
+    let proposalList = await proposalServices.findAllProposal()
+    if (proposalList && proposalList.length > 0) {
+      proposalList = proposalList.map((proposal) => {
+        let keyword_array = []
+        if (proposal.dataValues.keyword_array) {
+          keyword_array = proposal.dataValues.keyword_array.split(',')
+        }
+        return {
+          ...proposal.dataValues,
+          keyword_array,
+        }
+      })
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '전체 제안서 목록 조회 성공',
+        data: proposalList,
+      })
+    } else {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '제안서 등록안됨',
+        data: null,
+      })
+    }
   } catch (error) {
+    console.log(error)
     res
       .status(STATUS_CODE.SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
