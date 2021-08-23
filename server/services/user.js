@@ -2,7 +2,6 @@ const db = require('./db/user')
 
 // Create User Resource [create]
 exports.createUser = async (params) => {
-  console.log(params)
   const user = await db.createUser({ ...params })
   return user
 }
@@ -18,6 +17,10 @@ exports.findOneUserByToken = async (token) => {
 }
 exports.findAllUser = async () => {
   const user = await db.findAllUser()
+  return user
+}
+exports.findLastUser = async () => {
+  const user = await db.findLastUser()
   return user
 }
 

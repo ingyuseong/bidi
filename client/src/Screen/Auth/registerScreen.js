@@ -46,7 +46,6 @@ const RegisterScreen = ({ navigation, route }) => {
         userGenderType,
         userKakaoToken,
       });
-      console.log('>>', result);
     } else {
       Alert.alert('사진을 등록해주세요!');
     }

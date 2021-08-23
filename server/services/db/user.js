@@ -68,6 +68,15 @@ exports.findAllUser = async () => {
   return results
 }
 
+exports.findLastUser = async () => {
+  const results = await User.findOne({
+    raw: true,
+    limit: 1,
+    order: [['id', 'DESC']],
+  })
+  return results
+}
+
 // Update User Resource [update]
 exports.updateUser = async ({
   id,
