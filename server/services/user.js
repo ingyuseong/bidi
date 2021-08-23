@@ -1,36 +1,37 @@
 const db = require('./db/user')
 
-exports.getUser = async (userId) => {
-  const user = await db.selectUser(userId)
+// Create User Resource [insert]
+exports.createUser = async (params) => {
+  const user = await db.createUser({ ...params })
   return user
 }
 
-exports.getUserByToken = async (token) => {
-  const user = await db.selectUserByToken(token)
+// Read User Resource [findOne, findAll]
+exports.findOneUser = async (userId) => {
+  const user = await db.findOneUser(userId)
+  return user
+}
+exports.findOneUserByToken = async (token) => {
+  const user = await db.findOneUserByToken(token)
+  return user
+}
+exports.findAllUser = async () => {
+  const user = await db.findAllUser()
   return user
 }
 
-exports.editUser = async (params) => {
+// Update User Resource [update]
+exports.updateUser = async (params) => {
   const user = await db.updateUser({ ...params })
   return user
 }
+exports.updateUserAiStatus = async (params) => {
+  const user = await db.updateUserAiStatus({ ...params })
+  return user
+}
 
-exports.deleteUser = async (userId) => {
+// Delete User Resoure [destroy]
+exports.destroyUser = async (userId) => {
   const user = await db.destroyUser(userId)
-  return user
-}
-
-exports.getUsers = async () => {
-  const user = await db.selectAllUser()
-  return user
-}
-
-exports.registerUser = async (params) => {
-  const user = await db.insertUser({ ...params })
-  return user
-}
-
-exports.editAiStatus = async (params) => {
-  const user = await db.updateAiStatus({ ...params })
   return user
 }

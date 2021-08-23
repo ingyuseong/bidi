@@ -2,92 +2,56 @@ const userServices = require('../../services/user')
 const { STATUS_CODE, ERROR_MESSAGE } = require('../../lib/constants')
 const axios = require('axios')
 require('dotenv').config()
-/*
-    GET /api/user/:id
-    * 사용자 정보 조회 API
-*/
-exports.getUser = async (req, res, next) => {
+
+// [ 1. POST Methods ]
+exports.registerUser = async (req, res, next) => {
   try {
-    const { id } = req.params
-    const user = await userServices.getUser(id)
+    const {
+      userType,
+      userNaverToken = '',
+      userKakaoToken = '',
+      userAppleToken = '',
+      userName,
+      userNickName,
+      userPhoneNumber = '',
+      userBirth = '',
+      userGenderType,
+    } = req.body
+    const { location } = req.file
+    const params = {
+      user_type: userType,
+      naver_token: userNaverToken,
+      kakao_token: userKakaoToken,
+      apple_token: userAppleToken,
+      name: userName,
+      nick_name: userNickName,
+      phone_number: userPhoneNumber,
+      birth: userBirth,
+      gender_type: userGenderType,
+      img_src: location,
+      authentication: false,
+      ai_status: false,
+      ai_process: false,
+      ai_count: 0,
+    }
+    const user = await userServices.createUser(params)
 
     res.status(STATUS_CODE.SUCCESS).json({
-      message: '사용자 정보 조회 성공',
+      message: '회원가입 성공',
       data: user,
     })
   } catch (error) {
+    console.log(error)
     res
       .status(STATUS_CODE.SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
-
-/*
-    PATCH /api/user/:id
-    * 사용자 정보 수정 API
-*/
-exports.editUser = async (req, res, next) => {
-  try {
-    const params = req.params
-    const user = await userServices.editUser(params)
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '사용자 정보 수정 성공',
-      data: user,
-    })
-  } catch (error) {
-    res
-      .status(STATUS_CODE.SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
-  }
-}
-
-/*
-    DELETE /api/user/:id
-    * 사용자 정보 삭제 API
-*/
-exports.deleteUser = async (req, res, next) => {
-  try {
-    const { id } = req.params
-    const user = await userServices.deleteUser(id)
-
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '사용자 정보 삭제 성공',
-      data: user,
-    })
-  } catch (error) {
-    res
-      .status(STATUS_CODE.SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
-  }
-}
-
-/*
-    GET /api/user/list
-    * 전체 사용자 목록 조회 API
-*/
-exports.getUsers = async (req, res, next) => {
-  try {
-    const users = await userServices.getUsers()
-
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '전체 사용자 목록 조회 성공',
-      data: users,
-    })
-  } catch (error) {
-    res
-      .status(STATUS_CODE.SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
-  }
-}
-
-/*
-    POST /api/user/token
-    * token을 통해 회원 조회 API
-*/
 exports.checkToken = async (req, res, next) => {
+  console.log('hi')
   try {
     const { token } = req.body
-    const user = await userServices.getUserByToken(token)
+    const user = await userServices.findOneUserByToken(token)
 
     if (user) {
       return res.status(STATUS_CODE.SUCCESS).json({
@@ -105,55 +69,6 @@ exports.checkToken = async (req, res, next) => {
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
-
-/*
-    POST /api/user/register
-    * 회원가입 API
-*/
-exports.registerUser = async (req, res, next) => {
-  try {
-    const {
-      userType,
-      userName,
-      userGender,
-      userBirth,
-      userNickName,
-      userPhoneNumber,
-      userEmail,
-      userAddress,
-      userKakaoToken = '',
-      userNaverToken = '',
-      aiStatus = 'wait',
-    } = req.body
-    const { location } = req.file
-    const params = {
-      type: userType,
-      kakao_token: userKakaoToken,
-      naver_token: userNaverToken,
-      name: userName,
-      address: userAddress,
-      img_src: location,
-      email: userEmail,
-      nick_name: userNickName,
-      phone_number: userPhoneNumber,
-      birth: userBirth,
-      gender: userGender,
-      ai_status: aiStatus,
-    }
-    const user = await userServices.registerUser(params)
-
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '회원가입 성공',
-      data: user,
-    })
-  } catch (error) {
-    console.log(error)
-    res
-      .status(STATUS_CODE.SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
-  }
-}
-
 exports.inferenceAI = async (req, res, next) => {
   try {
     const { id, gender, img_src } = req.body
@@ -168,7 +83,10 @@ exports.inferenceAI = async (req, res, next) => {
     })
       .then(async (result) => {
         response = result.data
-        const user = await userServices.editAiStatus({ id, ai_status: 'using' })
+        const user = await userServices.updateUserAiStatus({
+          id,
+          ai_status: true,
+        })
         return res.status(STATUS_CODE.SUCCESS).json(response)
       })
       .catch(function (error) {
@@ -176,6 +94,69 @@ exports.inferenceAI = async (req, res, next) => {
       })
   } catch (error) {
     console.log(error)
+    res
+      .status(STATUS_CODE.SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+
+// [ 2. GET Methods ]
+exports.getUser = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const user = await userServices.findOneUser(id)
+
+    res.status(STATUS_CODE.SUCCESS).json({
+      message: '사용자 정보 조회 성공',
+      data: user,
+    })
+  } catch (error) {
+    res
+      .status(STATUS_CODE.SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+exports.getUserList = async (req, res, next) => {
+  try {
+    const userList = await userServices.findAllUser()
+    res.status(STATUS_CODE.SUCCESS).json({
+      message: '전체 사용자 목록 조회 성공',
+      data: userList,
+    })
+  } catch (error) {
+    res
+      .status(STATUS_CODE.SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+
+// [ 3. PATCH Methods ]
+exports.patchUser = async (req, res, next) => {
+  try {
+    const params = req.params
+    const user = await userServices.updateUser(params)
+    res.status(STATUS_CODE.SUCCESS).json({
+      message: '사용자 정보 수정 성공',
+      data: user,
+    })
+  } catch (error) {
+    res
+      .status(STATUS_CODE.SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+
+// [ 4. DELETE Methods]
+exports.deleteUser = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const user = await userServices.destroyUser(id)
+
+    res.status(STATUS_CODE.SUCCESS).json({
+      message: '사용자 정보 삭제 성공',
+      data: user,
+    })
+  } catch (error) {
     res
       .status(STATUS_CODE.SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
