@@ -2,6 +2,7 @@ const db = require('./db/user')
 
 // Create User Resource [create]
 exports.createUser = async (params) => {
+  console.log(params)
   const user = await db.createUser({ ...params })
   return user
 }

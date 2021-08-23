@@ -26,7 +26,7 @@ const RegisterScreen = ({ navigation, route }) => {
   const userKakaoToken = profile.id;
   const [userType, setUserType] = useState('');
   const [userName, setUserName] = useState('');
-  const [userGender, setUserGender] = useState('');
+  const [userGenderType, setUserGenderType] = useState('');
   const [userBirth, setUserBirth] = useState('');
   const [userNickName, setUserNickName] = useState('');
   const [photo, setPhoto] = useState(null);
@@ -38,16 +38,15 @@ const RegisterScreen = ({ navigation, route }) => {
 
   const handleSubmitButton = async () => {
     if (photo) {
-      console.log(userNickName);
       const result = await createUserAPI(photo, {
         userType,
         userName,
         userNickName,
         userBirth,
-        userGender,
+        userGenderType,
         userKakaoToken,
       });
-      console.log(result);
+      console.log('>>', result);
     } else {
       Alert.alert('사진을 등록해주세요!');
     }
@@ -88,16 +87,16 @@ const RegisterScreen = ({ navigation, route }) => {
           <Text style={styles.inputLabel}>고객 유형</Text>
           <View style={styles.selectArea}>
             <TouchableOpacity
-              style={[styles.selectBox, userType == '디자이너' && styles.active]}
-              onPress={() => setUserType('디자이너')}>
-              <Text style={[styles.selectText, userType == '디자이너' && styles.active]}>
+              style={[styles.selectBox, userType == 'designer' && styles.active]}
+              onPress={() => setUserType('designer')}>
+              <Text style={[styles.selectText, userType == 'designer' && styles.active]}>
                 디자이너
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.selectBox, userType == '일반 사용자' && styles.active]}
-              onPress={() => setUserType('일반 사용자')}>
-              <Text style={[styles.selectText, userType == '일반 사용자' && styles.active]}>
+              style={[styles.selectBox, userType == 'customer' && styles.active]}
+              onPress={() => setUserType('customer')}>
+              <Text style={[styles.selectText, userType == 'customer' && styles.active]}>
                 일반 사용자
               </Text>
             </TouchableOpacity>
@@ -107,14 +106,18 @@ const RegisterScreen = ({ navigation, route }) => {
           <Text style={styles.inputLabel}>성별</Text>
           <View style={styles.selectArea}>
             <TouchableOpacity
-              style={[styles.selectBox, userGender == 'female' && styles.active]}
-              onPress={() => setUserGender('female')}>
-              <Text style={[styles.selectText, userGender == 'female' && styles.active]}>여성</Text>
+              style={[styles.selectBox, userGenderType == 'female' && styles.active]}
+              onPress={() => setUserGenderType('female')}>
+              <Text style={[styles.selectText, userGenderType == 'female' && styles.active]}>
+                여성
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.selectBox, userGender == 'male' && styles.active]}
-              onPress={() => setUserGender('male')}>
-              <Text style={[styles.selectText, userGender == 'male' && styles.active]}>남성</Text>
+              style={[styles.selectBox, userGenderType == 'male' && styles.active]}
+              onPress={() => setUserGenderType('male')}>
+              <Text style={[styles.selectText, userGenderType == 'male' && styles.active]}>
+                남성
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

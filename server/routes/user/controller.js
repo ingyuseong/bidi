@@ -6,6 +6,7 @@ require('dotenv').config()
 // [ 1. POST Methods ]
 exports.registerUser = async (req, res, next) => {
   try {
+    console.log(req.body)
     const {
       userType,
       userNaverToken = '',

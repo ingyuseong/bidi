@@ -3,8 +3,8 @@ import { createFormData } from '../Lib/utils';
 import BidiStorage from '../Lib/storage';
 import { STORAGE_KEY } from '../Lib/constant';
 
-export const createUserAPI = async (photo, body) => {
-  await fetch(SERVER_URL + '/user/register', {
+export const createUserAPI = (photo, body) => {
+  return fetch(SERVER_URL + '/user/register', {
     method: 'POST',
     headers: {
       'content-type': 'multipart/form-data',
@@ -13,11 +13,9 @@ export const createUserAPI = async (photo, body) => {
   })
     .then((response) => response.json())
     .then(async ({ data }) => {
-      console.log(data);
       return [true, data];
     })
     .catch((error) => {
-      console.error(error);
       return [false, 'error'];
     });
 };
