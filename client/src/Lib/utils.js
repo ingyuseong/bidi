@@ -36,4 +36,18 @@ const textLimiting = (description, count) => {
   }
 };
 
-export { checkType, convertDate, textLimiting, dateFormating };
+const createFormData = (photo, body) => {
+  const data = new FormData();
+
+  data.append('userImage', {
+    name: body.userNickName,
+    type: photo.type,
+    uri: photo.uri.replace('file://', ''),
+  });
+  Object.keys(body).forEach((key) => {
+    data.append(key, body[key]);
+  });
+  return data;
+};
+
+export { checkType, convertDate, textLimiting, dateFormating, createFormData };

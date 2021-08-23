@@ -1,3 +1,5 @@
+export const SERVER_URL = 'http://127.0.0.1:3000/api';
+
 export const STORAGE_KEY = 'user';
 
 export const LARGE_CATEGORY = [

@@ -19,6 +19,7 @@ import { STORAGE_KEY } from '../../Lib/constant';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { createUserAPI } from '../../Api/user';
 
 const RegisterScreen = ({ navigation, route }) => {
   const { profile } = route.params;
@@ -28,69 +29,25 @@ const RegisterScreen = ({ navigation, route }) => {
   const [userGender, setUserGender] = useState('');
   const [userBirth, setUserBirth] = useState('');
   const [userNickName, setUserNickName] = useState('');
-  const [userPhoneNumber, setUserPhoneNumber] = useState('');
   const [photo, setPhoto] = useState(null);
 
   const typeInputRef = createRef();
   const nickNameInputRef = createRef();
   const nameInputRef = createRef();
   const birthInputRef = createRef();
-  const phoneNumberInputRef = createRef();
-
-  const createFormData = (photo, body) => {
-    const data = new FormData();
-
-    data.append('userImage', {
-      name: userNickName,
-      type: photo.type,
-      uri: photo.uri.replace('file://', ''),
-    });
-    Object.keys(body).forEach((key) => {
-      data.append(key, body[key]);
-    });
-    return data;
-  };
 
   const handleSubmitButton = async () => {
     if (photo) {
-      await fetch('http://127.0.0.1:3000' + '/api/user/register', {
-        method: 'POST',
-        headers: {
-          'content-type': 'multipart/form-data',
-        },
-        body: createFormData(photo, {
-          userType,
-          userName,
-          userGender,
-          userBirth,
-          userNickName,
-          userPhoneNumber,
-          userKakaoToken,
-        }),
-      })
-        .then((response) => response.json())
-        .then(async ({ data }) => {
-          if (data) {
-            const { id, type, kakao_token, nick_name, name, gender, img_src, ai_status } = data;
-            BidiStorage.storeData(STORAGE_KEY, {
-              id,
-              type,
-              token: kakao_token,
-              nick_name,
-              name,
-              gender,
-              img_src,
-              ai_status,
-            }).then(() => {
-              navigation.replace('MainTab');
-            });
-          } else {
-            Alert.alert('zz');
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      console.log(userNickName);
+      const result = await createUserAPI(photo, {
+        userType,
+        userName,
+        userNickName,
+        userBirth,
+        userGender,
+        userKakaoToken,
+      });
+      console.log(result);
     } else {
       Alert.alert('사진을 등록해주세요!');
     }
@@ -109,25 +66,24 @@ const RegisterScreen = ({ navigation, route }) => {
       <View style={styles.topArea}>
         <Image source={require('../../../public/img/logo.png')} style={styles.logo} />
       </View>
-      <View style={styles.formArea}>
-        <View style={styles.imageArea}>
-          <View style={styles.profile}>
-            {photo ? (
-              <Image source={{ uri: photo.uri }} style={styles.profileImage} />
-            ) : (
-              <Image
-                source={require('../../../public/img/profile.png')}
-                style={styles.profileImage}
-              />
-            )}
-            <View style={styles.cameraIconArea}>
-              <TouchableOpacity onPress={handleChoosePhoto}>
-                <Icon name="camerao" size={25} style={styles.cameraIcon} />
-              </TouchableOpacity>
-            </View>
+      <View style={styles.imageArea}>
+        <View style={styles.profile}>
+          {photo ? (
+            <Image source={{ uri: photo.uri }} style={styles.profileImage} />
+          ) : (
+            <Image
+              source={require('../../../public/img/profile.png')}
+              style={styles.profileImage}
+            />
+          )}
+          <View style={styles.cameraIconArea}>
+            <TouchableOpacity onPress={handleChoosePhoto}>
+              <Icon name="camerao" size={25} style={styles.cameraIcon} />
+            </TouchableOpacity>
           </View>
         </View>
-
+      </View>
+      <View style={styles.formArea}>
         <View style={styles.inputForm}>
           <Text style={styles.inputLabel}>고객 유형</Text>
           <View style={styles.selectArea}>
@@ -144,6 +100,21 @@ const RegisterScreen = ({ navigation, route }) => {
               <Text style={[styles.selectText, userType == '일반 사용자' && styles.active]}>
                 일반 사용자
               </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.inputForm}>
+          <Text style={styles.inputLabel}>성별</Text>
+          <View style={styles.selectArea}>
+            <TouchableOpacity
+              style={[styles.selectBox, userGender == 'female' && styles.active]}
+              onPress={() => setUserGender('female')}>
+              <Text style={[styles.selectText, userGender == 'female' && styles.active]}>여성</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.selectBox, userGender == 'male' && styles.active]}
+              onPress={() => setUserGender('male')}>
+              <Text style={[styles.selectText, userGender == 'male' && styles.active]}>남성</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -169,21 +140,7 @@ const RegisterScreen = ({ navigation, route }) => {
             returnKeyType="next"
           />
         </View>
-        <View style={styles.inputForm}>
-          <Text style={styles.inputLabel}>성별</Text>
-          <View style={styles.selectArea}>
-            <TouchableOpacity
-              style={[styles.selectBox, userGender == 'female' && styles.active]}
-              onPress={() => setUserGender('female')}>
-              <Text style={[styles.selectText, userGender == 'female' && styles.active]}>여성</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.selectBox, userGender == 'male' && styles.active]}
-              onPress={() => setUserGender('male')}>
-              <Text style={[styles.selectText, userGender == 'male' && styles.active]}>남성</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+
         <View style={styles.inputForm}>
           <Text style={styles.inputLabel}>생년월일</Text>
           <TextInput
@@ -192,17 +149,6 @@ const RegisterScreen = ({ navigation, route }) => {
             placeholderTextColor="gray"
             onChangeText={(input) => setUserBirth(input)}
             ref={birthInputRef}
-            returnKeyType="next"
-          />
-        </View>
-        <View style={styles.inputForm}>
-          <Text style={styles.inputLabel}>핸드폰 번호</Text>
-          <TextInput
-            style={styles.inputArea}
-            placeholder={'010-1234-5678'}
-            placeholderTextColor="gray"
-            onChangeText={(input) => setUserPhoneNumber(input)}
-            ref={phoneNumberInputRef}
             returnKeyType="next"
           />
         </View>
@@ -232,7 +178,8 @@ const styles = StyleSheet.create({
     fontSize: wp(4),
   },
   formArea: {
-    justifyContent: 'center',
+    flex: 1,
+    marginTop: 30,
     paddingLeft: wp(7),
     paddingRight: wp(7),
   },
