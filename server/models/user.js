@@ -8,8 +8,15 @@ const modelAttributes = {
     primaryKey: true,
     autoIncrement: true,
   },
-  type: {
+  user_type: {
     type: DataTypes.STRING,
+    validate: {
+      checkUserType(inputUserType) {
+        if (!(inputUserType == 'customer') || !(inputUserType == 'designer')) {
+          throw new Error('유저 형식이 맞지 않습니다.')
+        }
+      },
+    },
   },
   naver_token: {
     type: DataTypes.STRING,
@@ -17,38 +24,47 @@ const modelAttributes = {
   kakao_token: {
     type: DataTypes.STRING,
   },
-  nick_name: {
+  apple_token: {
     type: DataTypes.STRING,
   },
   name: {
     type: DataTypes.STRING,
   },
-  email: {
+  nickName: {
     type: DataTypes.STRING,
   },
-  phone_number: {
+  phoneNumber: {
     type: DataTypes.STRING,
   },
   birth: {
     type: DataTypes.STRING,
   },
-  gender: {
+  gender_type: {
     type: DataTypes.STRING,
-  },
-  address: {
-    type: DataTypes.STRING,
-  },
-  lat: {
-    type: DataTypes.FLOAT,
-  },
-  lng: {
-    type: DataTypes.FLOAT,
+    validate: {
+      checkGender(inputGender) {
+        if (inputGender != 'female' && inputGender != 'male') {
+          throw new Error('유저 성별 형식이 맞지 않습니다.')
+        }
+      },
+    },
   },
   img_src: {
     type: DataTypes.STRING,
   },
-  ai_status: {
-    type: DataTypes.STRING,
+
+  // Status Attributes
+  authentication: {
+    type: DataTypes.BOOLEAN,
+  },
+  aiStatus: {
+    type: DataTypes.BOOLEAN,
+  },
+  aiProcess: {
+    type: DataTypes.BOOLEAN,
+  },
+  aiCount: {
+    type: DataTypes.INTEGER,
   },
   created_at: {
     type: DataTypes.DATE,
@@ -66,7 +82,6 @@ const modelOptions = {
   timestamps: false,
   charset: 'utf8',
   tableName: modelName,
-  underscored: true,
 }
 
 module.exports = (sequelize) => {

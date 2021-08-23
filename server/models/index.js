@@ -51,9 +51,9 @@ db.Style = require('./style')(sequelize, Sequelize)
 db.Bid = require('./bid')(sequelize, Sequelize)
 db.Room = require('./room')(sequelize, Sequelize)
 db.Message = require('./message')(sequelize, Sequelize)
-db.MatchingHistory = require('./matchingHistory')(sequelize, Sequelize)
+db.Matching = require('./matching')(sequelize, Sequelize)
 
-db.StyleMenu = require('./relation/styleMenu')(sequelize, Sequelize)
+db.BrandingStyle = require('./relation/brandingStyle')(sequelize, Sequelize)
 db.StyleScrap = require('./relation/styleScrap')(sequelize, Sequelize)
 db.BidStyle = require('./relation/bidStyle')(sequelize, Sequelize)
 
@@ -125,13 +125,13 @@ db.User.belongsToMany(db.Style, {
 
 // 관계정의 Branding : Style = M : N
 db.Style.belongsToMany(db.Branding, {
-  through: 'styleMenu',
-  as: 'styleMenus',
+  through: 'brandingStyle',
+  as: 'brandingStyles',
   onDelete: 'CASCADE',
 })
 db.Branding.belongsToMany(db.Style, {
-  through: 'styleMenu',
-  as: 'styleMenus',
+  through: 'brandingStyle',
+  as: 'brandingStyles',
   onDelete: 'CASCADE',
 })
 
@@ -173,8 +173,8 @@ db.Message.belongsTo(db.Room, {
   onDelete: 'CASCADE',
 })
 
-// 관계정의 MatchingHistory : Bid = 1 : 1
-db.MatchingHistory.belongsTo(db.Bid)
-db.MatchingHistory.belongsTo(db.Proposal)
+// 관계정의 Matching : Bid = 1 : 1
+db.Matching.belongsTo(db.Bid)
+db.Matching.belongsTo(db.Proposal)
 
 module.exports = db

@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const { DataTypes } = Sequelize
-const modelName = 'matchingHistory'
+const modelName = 'matching'
 
 const modelAttributes = {
   id: {
@@ -11,20 +11,37 @@ const modelAttributes = {
   bid_id: {
     type: DataTypes.INTEGER,
   },
+  proposal_id: {
+    type: DataTypes.INTEGER,
+  },
   customer_id: {
     type: DataTypes.INTEGER,
   },
   designer_id: {
     type: DataTypes.INTEGER,
   },
-  proposal_id: {
-    type: DataTypes.INTEGER,
+  address: {
+    type: DataTypes.STRING,
+  },
+  shopName: {
+    type: DataTypes.STRING,
   },
   review: {
     type: DataTypes.STRING,
   },
   star: {
     type: DataTypes.FLOAT,
+  },
+
+  // Status Attributes
+  done: {
+    type: DataTypes.BOOLEAN,
+  },
+  canceled: {
+    type: DataTypes.BOOLEAN,
+  },
+  styling_at: {
+    type: DataTypes.DATE,
   },
   created_at: {
     type: DataTypes.DATE,
@@ -42,7 +59,6 @@ const modelOptions = {
   timestamps: false,
   charset: 'utf8',
   tableName: modelName,
-  underscored: true,
 }
 
 module.exports = (sequelize) => {
