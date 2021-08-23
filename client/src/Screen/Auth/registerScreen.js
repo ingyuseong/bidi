@@ -29,8 +29,6 @@ const RegisterScreen = ({ navigation, route }) => {
   const [userBirth, setUserBirth] = useState('');
   const [userNickName, setUserNickName] = useState('');
   const [userPhoneNumber, setUserPhoneNumber] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [userAddress, setUserAddress] = useState('');
   const [photo, setPhoto] = useState(null);
 
   const typeInputRef = createRef();
@@ -38,8 +36,6 @@ const RegisterScreen = ({ navigation, route }) => {
   const nameInputRef = createRef();
   const birthInputRef = createRef();
   const phoneNumberInputRef = createRef();
-  const emailInputRef = createRef();
-  const addressInputRef = createRef();
 
   const createFormData = (photo, body) => {
     const data = new FormData();
@@ -69,16 +65,13 @@ const RegisterScreen = ({ navigation, route }) => {
           userBirth,
           userNickName,
           userPhoneNumber,
-          userEmail,
-          userAddress,
           userKakaoToken,
         }),
       })
         .then((response) => response.json())
         .then(async ({ data }) => {
           if (data) {
-            const { id, type, kakao_token, nick_name, name, gender, address, img_src, ai_status } =
-              data;
+            const { id, type, kakao_token, nick_name, name, gender, img_src, ai_status } = data;
             BidiStorage.storeData(STORAGE_KEY, {
               id,
               type,
@@ -86,7 +79,6 @@ const RegisterScreen = ({ navigation, route }) => {
               nick_name,
               name,
               gender,
-              address,
               img_src,
               ai_status,
             }).then(() => {
@@ -113,7 +105,7 @@ const RegisterScreen = ({ navigation, route }) => {
     });
   };
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.topArea}>
         <Image source={require('../../../public/img/logo.png')} style={styles.logo} />
       </View>
@@ -204,28 +196,6 @@ const RegisterScreen = ({ navigation, route }) => {
           />
         </View>
         <View style={styles.inputForm}>
-          <Text style={styles.inputLabel}>선호 지역</Text>
-          <TextInput
-            style={styles.inputArea}
-            placeholder={'서울특별시 성북구 안암동'}
-            placeholderTextColor="gray"
-            onChangeText={(input) => setUserAddress(input)}
-            ref={addressInputRef}
-            returnKeyType="next"
-          />
-        </View>
-        <View style={styles.inputForm}>
-          <Text style={styles.inputLabel}>이메일</Text>
-          <TextInput
-            style={styles.inputArea}
-            placeholder={'123456@gmail.com'}
-            placeholderTextColor="gray"
-            onChangeText={(input) => setUserEmail(input)}
-            ref={emailInputRef}
-            returnKeyType="next"
-          />
-        </View>
-        <View style={styles.inputForm}>
           <Text style={styles.inputLabel}>핸드폰 번호</Text>
           <TextInput
             style={styles.inputArea}
@@ -241,7 +211,7 @@ const RegisterScreen = ({ navigation, route }) => {
       <TouchableOpacity onPress={handleSubmitButton} style={styles.btnArea}>
         <Text style={{ color: 'white', fontSize: wp('4%'), fontWeight: '700' }}>회원가입</Text>
       </TouchableOpacity>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -304,7 +274,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
-    bottom: -100,
+    bottom: 0,
     height: 70,
     width: '100%',
     backgroundColor: 'black',
@@ -312,7 +282,7 @@ const styles = StyleSheet.create({
   inputForm: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 24,
   },
   inputLabel: {
     width: '20%',

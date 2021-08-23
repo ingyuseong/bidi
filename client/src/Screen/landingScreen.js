@@ -14,7 +14,6 @@ const LandingScreen = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
       setAnimating(false);
-
       BidiStorage.getData(STORAGE_KEY).then((value) => {
         navigation.replace(value == '' ? 'Auth' : 'MainTab');
       });
