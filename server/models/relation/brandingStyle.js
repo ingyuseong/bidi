@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const { DataTypes } = Sequelize
-const modelName = 'styleMenu'
+const modelName = 'brandingStyle'
 
 const modelAttributes = {}
 

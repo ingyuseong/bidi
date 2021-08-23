@@ -17,20 +17,22 @@ const modelAttributes = {
   after_src: {
     type: DataTypes.STRING,
   },
-  price_limit: {
+  priceLimit: {
     type: DataTypes.INTEGER,
   },
-  distance_limit: {
-    type: DataTypes.INTEGER,
-  },
-  keywords: {
+  address: {
     type: DataTypes.STRING,
   },
   description: {
     type: DataTypes.TEXT,
   },
-  status: {
+  keyword_array: {
     type: DataTypes.STRING,
+  },
+
+  // Status Attribute
+  matching: {
+    type: DataTypes.BOOLEAN,
   },
   created_at: {
     type: DataTypes.DATE,
@@ -48,7 +50,6 @@ const modelOptions = {
   timestamps: false,
   charset: 'utf8',
   tableName: modelName,
-  underscored: true,
 }
 
 module.exports = (sequelize) => {

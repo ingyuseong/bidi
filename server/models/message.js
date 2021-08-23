@@ -19,6 +19,11 @@ const modelAttributes = {
     allowNull: false,
     defaultValue: true,
   },
+  content_type: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: '',
+  },
   content: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -40,7 +45,6 @@ const modelOptions = {
   timestamps: false,
   charset: 'utf8',
   tableName: modelName,
-  underscored: true,
 }
 
 module.exports = (sequelize) => {

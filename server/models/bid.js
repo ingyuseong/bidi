@@ -8,29 +8,56 @@ const modelAttributes = {
     primaryKey: true,
     autoIncrement: true,
   },
+  proposal_id: {
+    type: DataTypes.INTEGER,
+  },
   customer_id: {
     type: DataTypes.INTEGER,
   },
   designer_id: {
     type: DataTypes.INTEGER,
   },
-  proposal_id: {
-    type: DataTypes.INTEGER,
-  },
-  large_category: {
+  style_type: {
     type: DataTypes.STRING,
+    validate: {
+      checkStyleType(inputStyleType) {
+        if (
+          !(inputStyleType == 'cut') ||
+          !(inputStyleType == 'perm') ||
+          !(inputStyleType == 'color')
+        ) {
+          throw new Error('스타일 형식이 맞지 않습니다.')
+        }
+      },
+    },
   },
-  small_category: {
+  length_type: {
     type: DataTypes.STRING,
+    validate: {
+      checkLength(inputLength) {
+        if (
+          !(inputLength == 'long') ||
+          !(inputLength == 'medium') ||
+          !(inputLength == 'short')
+        ) {
+          throw new Error('길이 형식이 맞지 않습니다.')
+        }
+      },
+    },
   },
   letter: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
   },
-  need_care: {
+  needCare: {
     type: DataTypes.BOOLEAN,
   },
-  status: {
-    type: DataTypes.STRING,
+
+  // Status Attribute
+  matching: {
+    type: DataTypes.BOOLEAN,
+  },
+  canceled: {
+    type: DataTypes.BOOLEAN,
   },
   created_at: {
     type: DataTypes.DATE,
@@ -48,7 +75,6 @@ const modelOptions = {
   timestamps: false,
   charset: 'utf8',
   tableName: modelName,
-  underscored: true,
 }
 
 module.exports = (sequelize) => {

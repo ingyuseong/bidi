@@ -7,8 +7,8 @@ const app = express()
 const PORT = process.env.PORT
 
 // socket.io configuration
-const { Socket } = require('./socket/socket');
-const { initSocketIo } = require('./socket/init-socket');
+const { Socket } = require('./socket/socket')
+const { initSocketIo } = require('./socket/init-socket')
 
 sequelize
   .sync({ alter: false })
@@ -30,7 +30,7 @@ app.listen(PORT, () => {
 })
 
 // Start socket.io server on port 4000
-const { io, server } = Socket(app);
-initSocketIo(io, server);
+const { io, server } = Socket(app)
+initSocketIo(io, server)
 
 module.exports = app

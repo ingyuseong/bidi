@@ -14,10 +14,7 @@ const modelAttributes = {
   title: {
     type: DataTypes.STRING,
   },
-  description: {
-    type: DataTypes.STRING,
-  },
-  shop_name: {
+  shopName: {
     type: DataTypes.STRING,
   },
   position: {
@@ -26,13 +23,15 @@ const modelAttributes = {
   address: {
     type: DataTypes.STRING,
   },
-  keywords: {
+  description: {
+    type: DataTypes.TEXT,
+  },
+  keyword_array: {
     type: DataTypes.STRING,
   },
+
+  // Status Attribute
   main: {
-    type: DataTypes.BOOLEAN,
-  },
-  authentication: {
     type: DataTypes.BOOLEAN,
   },
   created_at: {
@@ -51,7 +50,6 @@ const modelOptions = {
   timestamps: false,
   charset: 'utf8',
   tableName: modelName,
-  underscored: true,
 }
 
 module.exports = (sequelize) => {
