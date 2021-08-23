@@ -20,10 +20,10 @@ const modelAttributes = {
   designer_id: {
     type: DataTypes.INTEGER,
   },
-  address: {
+  shop_name: {
     type: DataTypes.STRING,
   },
-  shopName: {
+  address: {
     type: DataTypes.STRING,
   },
   review: {
@@ -59,6 +59,7 @@ const modelOptions = {
   timestamps: false,
   charset: 'utf8',
   tableName: modelName,
+  underscored: true,
 }
 
 module.exports = (sequelize) => {

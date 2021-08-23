@@ -17,7 +17,7 @@ const modelAttributes = {
   after_src: {
     type: DataTypes.STRING,
   },
-  priceLimit: {
+  price_limit: {
     type: DataTypes.INTEGER,
   },
   address: {
@@ -50,6 +50,7 @@ const modelOptions = {
   timestamps: false,
   charset: 'utf8',
   tableName: modelName,
+  underscored: true,
 }
 
 module.exports = (sequelize) => {
