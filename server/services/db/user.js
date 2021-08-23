@@ -2,7 +2,7 @@ const { User } = require('../../models')
 const { Sequelize } = require('sequelize')
 const { and, or, like, not } = Sequelize.Op
 
-// Create User Resource [insert]
+// Create User Resource [create]
 exports.createUser = async ({
   user_type,
   naver_token,

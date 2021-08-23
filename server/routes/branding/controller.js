@@ -109,7 +109,6 @@ exports.registerBranding = async (req, res, next) => {
   try {
     const params = req.body
     const brandingInfo = await brandingServices.registerBranding(params)
-    console.log(brandingInfo)
     const brandingStyle = await brandingServices.registerBrandingStyle({
       brandingId: brandingInfo.id,
       styles: params.styles,
