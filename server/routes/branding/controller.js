@@ -1,76 +1,33 @@
 const brandingServices = require('../../services/branding')
 const { STATUS_CODE, ERROR_MESSAGE } = require('../../lib/constants')
 
-/*
-    PATCH /api/branding/:id
-    * Branding 정보 수정 API
-*/
-exports.editBranding = async (req, res, next) => {
+// [ 1. POST Methods ]
+exports.registerBranding = async (req, res, next) => {
   try {
-    const { id } = req.params
     const params = req.body
-    const branding = await brandingServices.editBranding({ ...params, id })
+    const branding = await brandingServices.createBranding(params)
+    await brandingServices.createBrandingStyle({
+      brandingId: branding.id,
+      stylesIdString: params.stylesIdString,
+    })
+
     res.status(STATUS_CODE.SUCCESS).json({
-      message: '브랜딩 정보 수정 성공',
+      message: 'Branding 등록 성공',
       data: { branding },
     })
   } catch (error) {
+    console.log(error)
     res
       .status(STATUS_CODE.SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
-
-/*
-    PATCH /api/branding/main
-    * Branding Main 상태 정보 수정 API
-*/
-exports.editMainBranding = async (req, res, next) => {
-  try {
-    const { id, user_id } = req.body
-    const branding = await brandingServices.editMainBranding(id, user_id)
-
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '대표 브랜딩 정보 수정 성공',
-      data: { branding },
-    })
-  } catch (error) {
-    res
-      .status(STATUS_CODE.SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
-  }
-}
-
-/*
-    DELETE /api/branding/:id
-    * Branding 정보 삭제 API
-*/
-exports.deleteBranding = async (req, res, next) => {
-  try {
-    const { id } = req.params
-    const branding = await brandingServices.deleteBranding(id)
-
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '브랜딩 정보 삭제 성공',
-      data: { branding },
-    })
-  } catch (error) {
-    res
-      .status(STATUS_CODE.SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
-  }
-}
-
-/*
-    GET /api/branding/list
-    * 전체 브랜딩 리스트 정보 조회 API
-*/
+// [ 2. GET Methods ]
 exports.getBrandingList = async (req, res, next) => {
   try {
-    const brandingList = await brandingServices.getBrandingList()
-
+    const brandingList = await brandingServices.findAllBranding()
     res.status(STATUS_CODE.SUCCESS).json({
-      message: '전체 브랜딩 리스트 정보 조회 성공',
+      message: '전체 Brainding 리스트 정보 조회 성공',
       data: brandingList,
     })
   } catch (error) {
@@ -80,18 +37,43 @@ exports.getBrandingList = async (req, res, next) => {
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
-
-/*
-    GET /api/branding/:userId
-    * 브랜딩 페이지 상세 정보 조회 API
-*/
-exports.getBrandings = async (req, res, next) => {
+exports.getBrandingListByUserId = async (req, res, next) => {
   try {
     const { userId } = req.params
-    const brandingInfo = await brandingServices.getBrandingListByUserId(userId)
+    const brandingList = await brandingServices.findAllBrandingByUserId(userId)
     res.status(STATUS_CODE.SUCCESS).json({
-      message: '브랜딩 페이지 정보 조회 성공',
-      data: brandingInfo,
+      message: '유저의 전체 브랜딩 페이지 정보 조회 성공',
+      data: brandingList,
+    })
+  } catch (error) {
+    console.log(error)
+    res
+      .status(STATUS_CODE.SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+exports.getBranding = async (req, res, next) => {
+  try {
+    const { brandingId } = req.params
+    const branding = await brandingServices.findOneBranding(brandingId)
+    res.status(STATUS_CODE.SUCCESS).json({
+      message: 'Brainding 정보 조회 성공',
+      data: branding,
+    })
+  } catch (error) {
+    console.log(error)
+    res
+      .status(STATUS_CODE.SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+exports.getBrandingByUserId = async (req, res, next) => {
+  try {
+    const { userId } = req.params
+    const branding = await brandingServices.findOneBrandingByUserId(userId)
+    res.status(STATUS_CODE.SUCCESS).json({
+      message: '유저의 main Brainding 조회 성공',
+      data: branding,
     })
   } catch (error) {
     console.log(error)
@@ -101,25 +83,51 @@ exports.getBrandings = async (req, res, next) => {
   }
 }
 
-/*
-    POST /api/branding/register
-    * 브랜딩 페이지 등록 API
-*/
-exports.registerBranding = async (req, res, next) => {
+// [ 3. PATCH Methods ]
+exports.patchBranding = async (req, res, next) => {
   try {
+    const { id } = req.params
     const params = req.body
-    const brandingInfo = await brandingServices.registerBranding(params)
-    const brandingStyle = await brandingServices.registerBrandingStyle({
-      brandingId: brandingInfo.id,
-      styles: params.styles,
-    })
-
+    const branding = await brandingServices.updateBranding({ ...params, id })
     res.status(STATUS_CODE.SUCCESS).json({
-      message: '브랜딩 페이지 작성 성공',
-      data: { brandingInfo, brandingStyle },
+      message: 'Branding 정보 수정 성공',
+      data: { branding },
     })
   } catch (error) {
-    console.log(error)
+    res
+      .status(STATUS_CODE.SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+exports.patchMainBranding = async (req, res, next) => {
+  try {
+    const { branding_id, user_id } = req.body
+    const branding = await brandingServices.updateMainBranding({
+      brandingId: branding_id,
+      userId: user_id,
+    })
+    res.status(STATUS_CODE.SUCCESS).json({
+      message: 'main Branding 정보 수정 성공',
+      data: { branding },
+    })
+  } catch (error) {
+    res
+      .status(STATUS_CODE.SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+
+// [ 4. DELETE Methods]
+exports.deleteBranding = async (req, res, next) => {
+  try {
+    const { brandingId } = req.params
+    const branding = await brandingServices.destroyBranding(brandingId)
+
+    res.status(STATUS_CODE.SUCCESS).json({
+      message: 'branding 삭제 성공',
+      data: { branding },
+    })
+  } catch (error) {
     res
       .status(STATUS_CODE.SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
