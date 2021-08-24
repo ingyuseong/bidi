@@ -1,5 +1,10 @@
 const db = require('./db/branding')
 
+// Create Bid Resource [create]
+// Read Bid Resource [findOne, findAll]
+// Update Bid Resource [update]
+// Delete Bid Resoure [destroy]
+
 const editMainBranding = async (id, user_id) => {
   await db.updateAllBrandingMainStatus(user_id)
   const branding = db.updateBrandingMainStatus(id, user_id)
