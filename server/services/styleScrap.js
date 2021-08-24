@@ -1,52 +1,22 @@
-const style = require('../models/style')
 const db = require('./db/styleScrap')
 
-const registerStyleScrap = async (params) => {
-  const styleScrap = await db.insertStyleScrap({ ...params })
+// Create StyleScrap Resource [create]
+exports.createStyleScrap = async (params) => {
+  const styleScrap = await db.createStyleScrap({ ...params })
   return styleScrap
 }
 
-const deleteStyleScrap = async (params) => {
-  const styleScrap = await db.destroyStyleScrap({ ...params })
-  return styleScrap
-}
-
-const getStyleScrapList = async (userId) => {
-  let styleScrapList = []
-
-  const userStyleScrapList = await db.selectStyleScrapByUser(userId)
-  for (const styleScrap of userStyleScrapList.styleScraps) {
-    const tmpScrap = makeStyleScrapData(styleScrap.dataValues)
-    styleScrapList.push(tmpScrap)
-  }
+// Read StyleScrap Resource [findOne, findAll]
+exports.findAllStyleScrap = async (userId) => {
+  const userStyleScrapList = await db.findAllStyleScrapByUser(userId)
+  const styleScrapList = userStyleScrapList.styleScraps.map(
+    (styleScrap) => styleScrap.dataValues
+  )
   return styleScrapList
 }
 
-const makeStyleScrapData = (styleScrap) => {
-  const {
-    id,
-    title,
-    subtitle,
-    price,
-    gender,
-    img_src,
-    img_src_two,
-    img_src_three,
-    created_at,
-    updated_at,
-  } = styleScrap
-  return {
-    id,
-    title,
-    subtitle,
-    price,
-    gender,
-    img_src,
-    img_src_two,
-    img_src_three,
-    created_at,
-    updated_at,
-  }
+// Delete StyleScrap Resoure [destroy]
+exports.destroyStyleScrap = async (params) => {
+  const styleScrap = await db.destroyStyleScrap({ ...params })
+  return styleScrap
 }
-
-module.exports = { registerStyleScrap, deleteStyleScrap, getStyleScrapList }

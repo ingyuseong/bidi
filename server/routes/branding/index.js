@@ -3,20 +3,20 @@ const controller = require('./controller')
 
 /*
     [ 1. POST Methods ]
-    POST /api/branding/register : Branding 등록 API
+    POST /api/branding/register : 포트폴리오 등록 API
     
     [ 2. GET Methods ]
-    GET /api/branding/list         : 전체 Branding 조회 API (main branding only)
-    GET /api/branding/list/:userId : 유저의 전체 Branding 조회 API (every braning of user)
-    GET /api/branding/:brandingId  : 특정 Branding 조회 API (one branding)
-    GET /api/branding/main/:userId : 유저의 메인 Branding 조회 API (main branding of user)
+    GET /api/branding/list         : 전체 포트폴리오 목록 조회 (메인으로 설정된 포트폴리오 only)
+    GET /api/branding/list/:userId : 유저의 전체 포트폴리오 목록 조회
+    GET /api/branding/:brandingId  : 특정 포트폴리오 정보 조회
+    GET /api/branding/main/:userId : 유저의 메인 포트폴리오 정보 조회
 
     [ 3. PATCH Methods ]
-    PATCH /api/branding/patchMain  : Branding Main 설정 API
-    PATCH /api/branding/:id   : Branding 정보 수정 API
+    PATCH /api/branding/main         : 메인 포트폴리오 수정
+    PATCH /api/branding/:brandingId  : 포트폴리오 정보 수정 API
 
     [ 4. DELETE Methods]
-    DELETE /api/branding/:id : Branding 정보 삭제 API
+    DELETE /api/branding/:brandingId : 포트폴리오 삭제 API
 */
 
 router.post('/register', controller.registerBranding)
