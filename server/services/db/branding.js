@@ -88,9 +88,8 @@ exports.findAllBrandingByUserId = async (userId) => {
   })
   return results
 }
-exports.findOneBranding = async (brandingId) => {
-  console.log(brandingId)
-  const results = await Branding.findOne({
+exports.findOneBranding = async (brandingId) =>
+  await Branding.findOne({
     where: {
       id: brandingId,
     },
@@ -105,8 +104,14 @@ exports.findOneBranding = async (brandingId) => {
       },
     ],
   })
-  return results
-}
+    .then((results) => {
+      console.log('Success Selecting branding')
+      return results
+    })
+    .catch((err) => {
+      console.log('Failed Selecting branding')
+      return err
+    })
 exports.findOneBrandingByUserId = async (userId) => {
   const results = await Branding.findOne({
     where: {

@@ -3,6 +3,7 @@ const STATUS_CODE = {
   CREATED: 201,
   CLIENT_ERROR: 400,
   UNAUTHORIZED: 401,
+  NOT_FOUND: 404,
   SERVER_ERROR: 500,
 }
 
@@ -12,4 +13,4 @@ const ERROR_MESSAGE = {
   SERVER_ERROR: 'Server Error',
 }
 
-module.exports = {STATUS_CODE, ERROR_MESSAGE};
+module.exports = { STATUS_CODE, ERROR_MESSAGE }

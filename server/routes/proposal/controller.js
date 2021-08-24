@@ -82,8 +82,8 @@ exports.getProposal = async (req, res, next) => {
         data: proposal,
       })
     } else {
-      res.status(STATUS_CODE.SUCCESS).json({
-        message: '제안서 등록안됨',
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        message: '제안서 정보 조회 실패',
         data: null,
       })
     }
@@ -107,8 +107,8 @@ exports.getProposalByUserId = async (req, res, next) => {
         data: proposal,
       })
     } else {
-      res.status(STATUS_CODE.SUCCESS).json({
-        message: '제안서 등록안됨',
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        message: '제안서 정보 조회 실패',
         data: null,
       })
     }
@@ -137,8 +137,8 @@ exports.getProposalList = async (req, res, next) => {
         data: proposalList,
       })
     } else {
-      res.status(STATUS_CODE.SUCCESS).json({
-        message: '제안서 등록안됨',
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        message: '전체 제안서 정보 조회 실패',
         data: null,
       })
     }
