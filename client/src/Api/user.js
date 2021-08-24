@@ -30,11 +30,13 @@ const UserAPI = {
           token: profile.id,
         }),
       })
-        .then((response) => response.json())
-        .then((result) => {
-          return [true, result.data];
+        .then((result) => result.json())
+        .then(({ data, message, status }) => {
+          if (status === 200) return [true, data, message];
+          else if (status === 400) return [false, data, message];
         });
     } catch (error) {
+      console.log(error);
       return [false, 'error'];
     }
   },

@@ -25,7 +25,8 @@ const LoginScreen = ({ navigation }) => {
   const kakaoLoginHandler = async () => {
     const token = await login();
     const profile = await getKakaoProfile();
-    const [result, data] = await UserAPI.checkUser(profile);
+    const [result, data, message] = await UserAPI.checkUser(profile);
+    console.log(result, data, message);
     if (data) {
       const {
         id,
