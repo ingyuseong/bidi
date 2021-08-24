@@ -68,16 +68,16 @@ db.Branding.belongsTo(db.User, {
 })
 
 // 관계정의 User : Bid = 1 : N
-db.User.hasMany(db.Bid, {
-  foreignKey: { name: 'customer_id', allowNull: false, as: 'customer' },
-  targetKey: { name: 'id', allowNull: false, as: 'customer' },
-  onDelete: 'CASCADE',
-})
-db.Bid.belongsTo(db.User, {
-  foreignKey: { name: 'customer_id', allowNull: false, as: 'customer' },
-  sourceKey: { name: 'id', allowNull: false, as: 'customer' },
-  onDelete: 'CASCADE',
-})
+// db.User.hasMany(db.Bid, {
+//   foreignKey: { name: 'customer_id', allowNull: false, as: 'customer' },
+//   targetKey: { name: 'id', allowNull: false, as: 'customer' },
+//   onDelete: 'CASCADE',
+// })
+// db.Bid.belongsTo(db.User, {
+//   foreignKey: { name: 'customer_id', allowNull: false, as: 'customer' },
+//   sourceKey: { name: 'id', allowNull: false, as: 'customer' },
+//   onDelete: 'CASCADE',
+// })
 db.User.hasMany(db.Bid, {
   foreignKey: { name: 'designer_id', allowNull: false, as: 'designer' },
   targetKey: { name: 'id', allowNull: false, as: 'designer' },

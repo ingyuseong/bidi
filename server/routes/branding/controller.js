@@ -195,9 +195,12 @@ exports.getBrandingByUserId = async (req, res, next) => {
 // [ 3. PATCH Methods ]
 exports.patchBranding = async (req, res, next) => {
   try {
-    const { id } = req.params
+    const { brandingId } = req.params
     const params = req.body
-    const branding = await brandingServices.updateBranding({ ...params, id })
+    const branding = await brandingServices.updateBranding({
+      id: brandingId,
+      ...params,
+    })
     res.status(STATUS_CODE.SUCCESS).json({
       message: 'Branding 정보 수정 성공',
       data: { branding },
@@ -210,9 +213,9 @@ exports.patchBranding = async (req, res, next) => {
 }
 exports.patchMainBranding = async (req, res, next) => {
   try {
-    const { branding_id, user_id } = req.body
+    const { id, user_id } = req.body
     const branding = await brandingServices.updateMainBranding({
-      brandingId: branding_id,
+      brandingId: id,
       userId: user_id,
     })
     res.status(STATUS_CODE.SUCCESS).json({

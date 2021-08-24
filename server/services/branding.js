@@ -6,12 +6,14 @@ exports.createBranding = async (params) => {
   return branding
 }
 exports.createBrandingStyle = async ({ brandingId, stylesIdString }) => {
-  const results = await Promise.all(
-    stylesIdString.split(',').map((styleId) => {
-      return db.createBrandingStyle(brandingId, styleId)
-    })
-  )
-  return results
+  if (stylesIdString) {
+    const results = await Promise.all(
+      stylesIdString.split(',').map((styleId) => {
+        return db.createBrandingStyle(brandingId, styleId)
+      })
+    )
+    return results
+  } else return null
 }
 
 // Read Branding Resource [findOne, findAll]
