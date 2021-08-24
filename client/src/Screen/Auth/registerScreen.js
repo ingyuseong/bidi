@@ -1,4 +1,7 @@
 import React, { useState, createRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { registerUser } from '../../Contexts/User/action';
+import { createFormData } from '../../Lib/utils';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -13,6 +16,7 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
@@ -36,9 +40,11 @@ const RegisterScreen = ({ navigation, route }) => {
   const nameInputRef = createRef();
   const birthInputRef = createRef();
 
+  const { data, loading, error } = useSelector((state) => state.user.userInfo);
+  const dispatch = useDispatch();
   const handleSubmitButton = async () => {
     if (photo) {
-      const [result, data] = await UserAPI.createUserAPI(photo, {
+      const bodyData = createFormData(photo, {
         userType,
         userName,
         userNickName,
@@ -46,34 +52,18 @@ const RegisterScreen = ({ navigation, route }) => {
         userGenderType,
         userKakaoToken,
       });
-      if (result) {
-        const {
-          id,
-          user_type,
-          naver_token,
-          kakao_token,
-          apple_token,
-          name,
-          nick_name,
-          gender_type,
-          img_src,
-          ai_status,
-        } = data;
+      const response = await UserAPI.registerUser(bodyData);
+      if (response) {
+        const { id, user_type, naver_token, kakao_token, apple_token } = response;
+        dispatch(registerUser(response));
         await BidiStorage.storeData(STORAGE_KEY, {
           id,
           user_type,
           naver_token,
           kakao_token,
           apple_token,
-          name,
-          nick_name,
-          gender_type,
-          img_src,
-          ai_status,
         });
         navigation.replace('MainTab');
-      } else {
-        Alert.alert(data);
       }
     } else {
       Alert.alert('사진을 등록해주세요!');
@@ -88,6 +78,9 @@ const RegisterScreen = ({ navigation, route }) => {
       }
     });
   };
+  if (loading) {
+    return <ActivityIndicator animating={loading} color="" size="large" />;
+  }
   return (
     <View style={styles.container}>
       <View style={styles.topArea}>

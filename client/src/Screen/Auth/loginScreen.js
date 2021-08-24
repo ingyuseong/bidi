@@ -25,32 +25,15 @@ const LoginScreen = ({ navigation }) => {
   const kakaoLoginHandler = async () => {
     const token = await login();
     const profile = await getKakaoProfile();
-    const [result, data, message] = await UserAPI.checkUser(profile);
-    console.log(result, data, message);
-    if (data) {
-      const {
-        id,
-        user_type,
-        naver_token,
-        kakao_token,
-        apple_token,
-        name,
-        nick_name,
-        gender_type,
-        img_src,
-        ai_status,
-      } = data;
+    const response = await UserAPI.checkUser(profile);
+    if (response) {
+      const { id, user_type, naver_token, kakao_token, apple_token } = response;
       await BidiStorage.storeData(STORAGE_KEY, {
         id,
         user_type,
         naver_token,
         kakao_token,
         apple_token,
-        name,
-        nick_name,
-        gender_type,
-        img_src,
-        ai_status,
       });
       navigation.replace('MainTab');
     }

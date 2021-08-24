@@ -1,44 +1,17 @@
-import { SERVER_URL } from '../Lib/constant';
-import { createFormData } from '../Lib/utils';
+import { API, formAPI } from './common';
 
 const UserAPI = {
-  createUserAPI: async (photo, body) => {
-    try {
-      return await fetch(SERVER_URL + '/user/register', {
-        method: 'POST',
-        headers: {
-          'content-type': 'multipart/form-data',
-        },
-        body: createFormData(photo, body),
-      })
-        .then((result) => result.json())
-        .then((result) => {
-          return [true, result.data];
-        });
-    } catch (error) {
-      return [false, 'error'];
-    }
+  registerUser: async (body) => {
+    return await formAPI('/user/register', 'post', body);
   },
   checkUser: async (profile) => {
-    try {
-      return await fetch(SERVER_URL + '/user/checkToken', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-        },
-        body: JSON.stringify({
-          token: profile.id,
-        }),
-      })
-        .then((result) => result.json())
-        .then(({ data, message, status }) => {
-          if (status === 200) return [true, data, message];
-          else if (status === 400) return [false, data, message];
-        });
-    } catch (error) {
-      console.log(error);
-      return [false, 'error'];
-    }
+    return await API(
+      '/user/checkToken',
+      'post',
+      JSON.stringify({
+        token: profile.id,
+      }),
+    );
   },
 };
 export default UserAPI;
