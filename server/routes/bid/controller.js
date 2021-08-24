@@ -27,8 +27,30 @@ exports.registerBid = async (req, res, next) => {
 exports.getBid = async (req, res, next) => {
   try {
     const { id } = req.params
-    const bid = await bidServices.findOneBid(id)
+    let bid = await bidServices.findOneBid(id)
     if (bid) {
+      let keyword_array = []
+      if (bid.proposal.keyword_array) {
+        keyword_array = bid.proposal.keyword_array.split(',')
+      }
+      bid = {
+        ...bid.dataValues,
+        proposal: {
+          ...bid.proposal.dataValues,
+          keyword_array,
+        },
+        bidStyles: bid.bidStyles.map((style) => {
+          let style_keyword_array = []
+          if (style.keyword_array) {
+            style_keyword_array = style.keyword_array.split(',')
+          }
+          return {
+            ...style.dataValues,
+            keyword_array: style_keyword_array,
+            img_src_array: style.img_src_array.split(','),
+          }
+        }),
+      }
       res.status(STATUS_CODE.SUCCESS).json({
         message: '비드 정보 조회 성공',
         data: { bid },
@@ -36,7 +58,7 @@ exports.getBid = async (req, res, next) => {
     } else {
       res.status(STATUS_CODE.SUCCESS).json({
         message: '비드 정보 조회 실패',
-        data: { bid },
+        data: null,
       })
     }
   } catch (error) {
@@ -49,8 +71,32 @@ exports.getBid = async (req, res, next) => {
 exports.getBidListByDesignerId = async (req, res, next) => {
   try {
     const { userId } = req.params
-    const bidList = await bidServices.findAllBidByDesignerId(userId)
+    let bidList = await bidServices.findAllBidByDesignerId(userId)
     if (bidList && bidList.length > 0) {
+      bidList = bidList.map((bid) => {
+        let keyword_array = []
+        if (bid.proposal.keyword_array) {
+          keyword_array = bid.proposal.keyword_array.split(',')
+        }
+        return {
+          ...bid.dataValues,
+          proposal: {
+            ...bid.proposal.dataValues,
+            keyword_array,
+          },
+          bidStyles: bid.bidStyles.map((style) => {
+            let style_keyword_array = []
+            if (style.keyword_array) {
+              style_keyword_array = style.keyword_array.split(',')
+            }
+            return {
+              ...style.dataValues,
+              keyword_array: style_keyword_array,
+              img_src_array: style.img_src_array.split(','),
+            }
+          }),
+        }
+      })
       res.status(STATUS_CODE.SUCCESS).json({
         message: '디자이너 비드 목록 조회 성공',
         data: { bidList },
@@ -71,15 +117,39 @@ exports.getBidListByDesignerId = async (req, res, next) => {
 exports.getBidListByCustomerId = async (req, res, next) => {
   try {
     const { userId } = req.params
-    const bidList = await bidServices.findAllBidByCustomerId(userId)
+    let bidList = await bidServices.findAllBidByCustomerId(userId)
     if (bidList && bidList.length > 0) {
+      bidList = bidList.map((bid) => {
+        let keyword_array = []
+        if (bid.proposal.keyword_array) {
+          keyword_array = bid.proposal.keyword_array.split(',')
+        }
+        return {
+          ...bid.dataValues,
+          proposal: {
+            ...bid.proposal.dataValues,
+            keyword_array,
+          },
+          bidStyles: bid.bidStyles.map((style) => {
+            let style_keyword_array = []
+            if (style.keyword_array) {
+              style_keyword_array = style.keyword_array.split(',')
+            }
+            return {
+              ...style.dataValues,
+              keyword_array: style_keyword_array,
+              img_src_array: style.img_src_array.split(','),
+            }
+          }),
+        }
+      })
       res.status(STATUS_CODE.SUCCESS).json({
-        message: '유저 비드 목록 조회 성공',
+        message: '디자이너 비드 목록 조회 성공',
         data: { bidList },
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
-        message: '유저 비드 목록 조회 실패',
+        message: '디자이너 비드 목록 조회 실패',
         data: null,
       })
     }
