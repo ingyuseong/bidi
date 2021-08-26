@@ -6,8 +6,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardChangeStyle from '../../../Components/Card/cardChangeStyle';
 import ProposalDetailScreen from './proposalDetailScreen';
+import Loading from '../../../Components/Common/loading';
 import { getProposalList } from '../../../Contexts/Proposal';
-
 function ProposalListScreen({ navigation }) {
   const { data, loading, error } = useSelector((state) => state.proposal);
   const dispatch = useDispatch();
@@ -15,20 +15,8 @@ function ProposalListScreen({ navigation }) {
   useEffect(() => {
     dispatch(getProposalList());
   }, [dispatch]);
-  if (loading)
-    return (
-      <View>
-        <Text>로딩중...</Text>
-      </View>
-    );
-  if (error)
-    return (
-      <View>
-        <Text>에러...</Text>
-      </View>
-    );
+  if (loading || error) return <Loading loading />;
   if (!data) return null;
-
   return (
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
       {data.map((info, index) => (
