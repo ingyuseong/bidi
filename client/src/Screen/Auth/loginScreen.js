@@ -20,8 +20,6 @@ import appleAuth, {
 import UserAPI from '../../Api/user';
 
 const LoginScreen = ({ navigation }) => {
-  const [user, setUser] = useState('');
-
   const kakaoLoginHandler = async () => {
     const token = await login();
     const profile = await getKakaoProfile();

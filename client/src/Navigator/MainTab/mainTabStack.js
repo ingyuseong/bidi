@@ -11,7 +11,7 @@ import { checkToken } from '../../Contexts/User/action';
 function mainTabStack({ navigation }) {
   const dispatch = useDispatch();
   const [mode, setMode] = useState('');
-  const { data, loading, error } = useSelector((state) => state.user.userInfo) || {
+  const { data, loading, error } = useSelector((state) => state.user) || {
     loading: false,
     data: null,
     error: null,

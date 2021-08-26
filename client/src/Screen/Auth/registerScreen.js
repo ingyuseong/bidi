@@ -38,7 +38,7 @@ const RegisterScreen = ({ navigation, route }) => {
   const nameInputRef = createRef();
   const birthInputRef = createRef();
 
-  const { data, loading, error } = useSelector((state) => state.user.userInfo);
+  const { data, loading, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const handleSubmitButton = async () => {
     if (photo) {
