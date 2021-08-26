@@ -12,7 +12,7 @@ export const API = async (url, method, body) => {
       if (response.ok) {
         return response.json();
       } else {
-        throw new Error(response.json());
+        throw new Error(false);
       }
     })
     .then(({ data }) => data)

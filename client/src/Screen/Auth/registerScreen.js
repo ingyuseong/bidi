@@ -21,9 +21,7 @@ import {
 import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
-import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/AntDesign';
-import UserAPI from '../../Api/user';
 
 const RegisterScreen = ({ navigation, route }) => {
   const { profile } = route.params;
@@ -52,17 +50,13 @@ const RegisterScreen = ({ navigation, route }) => {
         userGenderType,
         userKakaoToken,
       });
-      const response = await UserAPI.registerUser(bodyData);
-      if (response) {
-        const { id, user_type, naver_token, kakao_token, apple_token } = response;
-        dispatch(registerUser(response));
+      await dispatch(registerUser(bodyData));
+      if (data) {
+        const { naver_token, kakao_token, apple_token } = data;
         await BidiStorage.storeData(STORAGE_KEY, {
-          id,
-          user_type,
-          naver_token,
-          kakao_token,
-          apple_token,
+          token: naver_token || kakao_token || apple_token,
         });
+        Alert.alert('회원가입이 정상적으로 완료되었습니다!');
         navigation.replace('MainTab');
       }
     } else {

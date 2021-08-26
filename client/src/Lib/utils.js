@@ -1,7 +1,7 @@
 import BidiStorage from './storage';
 import { STORAGE_KEY } from './constant';
 
-const checkType = async (user_type) => {
+const checkType = (user_type) => {
   switch (user_type) {
     case 'customer':
       return 'user';

@@ -4,12 +4,12 @@ const UserAPI = {
   registerUser: async (body) => {
     return await formAPI('/user/register', 'post', body);
   },
-  checkUser: async (profile) => {
+  checkToken: async (token) => {
     return await API(
       '/user/checkToken',
       'post',
       JSON.stringify({
-        token: profile.id,
+        token,
       }),
     );
   },

@@ -1,31 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { ActivityIndicator, View, Text } from 'react-native';
 import { checkType } from '../../Lib/utils';
 import UserTabStack from './userTabStack';
 import DesignerTabStack from './designerTabStack';
 import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
-import { useSelector } from 'react-redux';
+import { checkToken } from '../../Contexts/User/action';
 
 function mainTabStack({ navigation }) {
+  const dispatch = useDispatch();
   const [mode, setMode] = useState('');
-  const { data, loading, error } = useSelector((state) => state.user.userInfo);
+  const { data, loading, error } = useSelector((state) => state.user.userInfo) || {
+    loading: false,
+    data: null,
+    error: null,
+  };
   useEffect(() => {
     async function fetchMode() {
-      const { user_type } = await BidiStorage.getData(STORAGE_KEY);
-      const currentMode = await checkType(user_type);
-      console.log(user_type, currentMode);
-      setMode(currentMode);
+      const { token } = await BidiStorage.getData(STORAGE_KEY);
+      if (!data) {
+        await dispatch(checkToken(token));
+      }
     }
     fetchMode();
   }, []);
-  return mode == '' ? (
-    <ActivityIndicator animating={mode} color="" size="large" />
-  ) : mode == 'user' ? (
-    <UserTabStack />
-  ) : (
-    <DesignerTabStack />
-  );
+  if (loading || !data) {
+    return <ActivityIndicator animating={mode} color="" size="large" />;
+  }
+  if (data) {
+    const { user_type } = data;
+    return user_type == 'customer' ? <UserTabStack /> : <DesignerTabStack />;
+  }
 }
 
 export default mainTabStack;

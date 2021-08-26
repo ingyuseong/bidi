@@ -1,4 +1,4 @@
-import { REGISTER_USER } from './constant';
+import { REGISTER_USER, CHECK_TOKEN } from './constant';
 import UserAPI from '../../Api/user';
 import { createPromiseThunk } from '../Common/asyncUtils';
 
@@ -12,5 +12,6 @@ import { createPromiseThunk } from '../Common/asyncUtils';
 //   }
 // };
 
-export const registerUser = (payload) => ({ type: REGISTER_USER, payload });
-// export const registerUser = createPromiseThunk(REGISTER_USER, UserAPI.registerUser);
+// export const registerUser = (payload) => ({ type: REGISTER_USER, payload });
+export const registerUser = createPromiseThunk(REGISTER_USER, UserAPI.registerUser);
+export const checkToken = createPromiseThunk(CHECK_TOKEN, UserAPI.checkToken);
