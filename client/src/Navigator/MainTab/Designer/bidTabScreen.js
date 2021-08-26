@@ -5,7 +5,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import DetailBidScreen from '../../../Screen/02_SecondTab/Designer/detailBidScreen';
 import BidMainScreen from '../../../Screen/02_SecondTab/Designer/bidMainScreen';
 
-import BackBtn from '../../../Components/HeaderBar/backBtn';
 const bidStack = createStackNavigator();
 
 function BidStackScreen() {
