@@ -22,7 +22,11 @@ function SearchTabScreen() {
         component={ProposalDetailScreen}
         options={CommonHeader}
       />
-      <SearchStack.Screen name="CreateBid" component={CreateBidScreen} options={DetailHeader} />
+      <SearchStack.Screen
+        name="CreateBid"
+        component={CreateBidScreen}
+        options={{ ...DetailHeader, title: '비드 작성' }}
+      />
       <SearchStack.Screen
         name="BidRegistered"
         component={RegisteredBidScreen}

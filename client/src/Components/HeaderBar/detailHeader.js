@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const DetailHeader = {
-  title: '비드 작성',
   headerBackTitle: '',
   headerBackTitleVisible: false,
   headerTitleStyle: {
