@@ -49,9 +49,9 @@ db.Proposal = require('./proposal')(sequelize, Sequelize)
 db.Branding = require('./branding')(sequelize, Sequelize)
 db.Style = require('./style')(sequelize, Sequelize)
 db.Bid = require('./bid')(sequelize, Sequelize)
+db.Matching = require('./matching')(sequelize, Sequelize)
 db.Room = require('./room')(sequelize, Sequelize)
 db.Message = require('./message')(sequelize, Sequelize)
-db.Matching = require('./matching')(sequelize, Sequelize)
 
 db.BrandingStyle = require('./relation/brandingStyle')(sequelize, Sequelize)
 db.StyleScrap = require('./relation/styleScrap')(sequelize, Sequelize)
@@ -68,16 +68,16 @@ db.Branding.belongsTo(db.User, {
 })
 
 // 관계정의 User : Bid = 1 : N
-db.User.hasMany(db.Bid, {
-  foreignKey: { name: 'customer_id', allowNull: false, as: 'customer' },
-  targetKey: { name: 'id', allowNull: false, as: 'customer' },
-  onDelete: 'CASCADE',
-})
-db.Bid.belongsTo(db.User, {
-  foreignKey: { name: 'customer_id', allowNull: false, as: 'customer' },
-  sourceKey: { name: 'id', allowNull: false, as: 'customer' },
-  onDelete: 'CASCADE',
-})
+// db.User.hasMany(db.Bid, {
+//   foreignKey: { name: 'customer_id', allowNull: false, as: 'customer' },
+//   targetKey: { name: 'id', allowNull: false, as: 'customer' },
+//   onDelete: 'CASCADE',
+// })
+// db.Bid.belongsTo(db.User, {
+//   foreignKey: { name: 'customer_id', allowNull: false, as: 'customer' },
+//   sourceKey: { name: 'id', allowNull: false, as: 'customer' },
+//   onDelete: 'CASCADE',
+// })
 db.User.hasMany(db.Bid, {
   foreignKey: { name: 'designer_id', allowNull: false, as: 'designer' },
   targetKey: { name: 'id', allowNull: false, as: 'designer' },

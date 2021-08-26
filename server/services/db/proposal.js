@@ -137,7 +137,6 @@ exports.updateMatchingStatus = async ({ id, matching }) => {
 
 // Delete Proposal Resource [destroy]
 exports.destroyProposal = async (proposalId) => {
-  console.log(proposalId)
   await Proposal.destroy({
     where: {
       id: proposalId,

@@ -45,7 +45,7 @@ function CreateBrandingScreen({ navigation }) {
         keywords: styleTags.toString(),
         main: 0,
         authentication: 0,
-        styles: [1, 2, 3],
+        styles: '1,2,3',
       }),
     })
       .then((response) => response.json())
