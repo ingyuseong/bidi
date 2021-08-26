@@ -66,7 +66,18 @@ exports.findOneProposalByUserId = async (userId) =>
     })
 
 exports.findAllProposal = async () =>
-  await Proposal.findAll()
+  await Proposal.findAll({
+    where: {
+      matching: false,
+    },
+    include: [
+      {
+        model: User,
+        attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+        required: true,
+      },
+    ],
+  })
     .then((results) => {
       console.log('Success Selecting All Proposal')
       return results
