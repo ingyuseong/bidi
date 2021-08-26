@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import CardInfo from '../../../Components/Card/cardInfo';
-import CardStyle from '../../../Components/Card/cardStyle';
+import CardChangeStyle from '../../../Components/Card/cardChangeStyle';
+
 import BidCategory from '../../../Components/Bid/bidCategory';
 import BidLetter from '../../../Components/Bid/bidLetter';
 import BidNeedCare from '../../../Components/Bid/bidNeedCare';
@@ -10,7 +11,7 @@ import BidiStorage from '../../../Lib/storage';
 import { LARGE_CATEGORY, SMALL_CATEGORY, STORAGE_KEY } from '../../../Lib/constant';
 
 function CreateBidScreen({ navigation, route }) {
-  const { info, userId, proposalId } = route.params;
+  const { proposal } = route.params;
   const [userInfo, setUserInfo] = useState(null);
   const [largeCategoryOpen, setLargeCategoryOpen] = useState(false);
   const [largeCategoryValue, setLargeCategoryValue] = useState('미선택');
@@ -40,9 +41,9 @@ function CreateBidScreen({ navigation, route }) {
         'Content-Type': 'application/json;charset=UTF-8',
       },
       body: JSON.stringify({
-        customer_id: userId,
+        // customer_id: userId,
         designer_id: userInfo.id,
-        proposal_id: proposalId,
+        proposal_id: proposal.id,
         large_category: largeCategoryValue,
         small_category: smallCategoryValue,
         letter: bidLetter,
@@ -65,9 +66,14 @@ function CreateBidScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <CardStyle styleLists={info.images} height={400} isUser={false} />
+        <CardChangeStyle
+          before_src={proposal.before_src}
+          after_src={proposal.after_src}
+          height={400}
+          topRadius={false}
+        />
         <CardInfo
-          info={info}
+          info={proposal}
           navigation={navigation}
           tagBackgroundColor="#E1ECFF"
           tagColor="#323274"
@@ -77,7 +83,7 @@ function CreateBidScreen({ navigation, route }) {
             <Text style={styles.titleText}>희망 예산</Text>
           </View>
           <View style={styles.priceArea}>
-            <Text style={styles.text}>{info.price_limit}원 이하</Text>
+            <Text style={styles.text}>{proposal.price_limit}원 이하</Text>
           </View>
         </View>
         <View style={styles.line}></View>
