@@ -5,7 +5,7 @@ import UserTabStack from './userTabStack';
 import DesignerTabStack from './designerTabStack';
 import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
-import { checkToken } from '../../Contexts/User/action';
+import { checkToken } from '../../Contexts/User';
 
 function mainTabStack({ navigation }) {
   const dispatch = useDispatch();
