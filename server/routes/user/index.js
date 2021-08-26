@@ -10,8 +10,8 @@ const getLastUserId = require('../../middleware/getLastUserId')
     POST /api/user/inferenceAI  : AI inference API
     
     [ 2. GET Methods ]
-    GET /api/user/:id   : 사용자 정보 조회 API
     GET /api/user/list  : 전체 사용자 목록 조회 API
+    GET /api/user/:id   : 사용자 정보 조회 API
 
     [ 3. PATCH Methods ]
     PATCH /api/user/:id  : 사용자 정보 수정 API
