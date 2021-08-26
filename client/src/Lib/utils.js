@@ -1,17 +1,3 @@
-import BidiStorage from './storage';
-import { STORAGE_KEY } from './constant';
-
-const checkType = (user_type) => {
-  switch (user_type) {
-    case 'customer':
-      return 'user';
-    case 'designer':
-      return 'designer';
-    default:
-      return false;
-  }
-};
-
 const convertDate = (timestamp) => {
   const date = new Date(timestamp);
   const year = date.getFullYear();
@@ -49,4 +35,4 @@ const createFormData = (photo, body) => {
   return data;
 };
 
-export { checkType, convertDate, textLimiting, dateFormating, createFormData };
+export { convertDate, textLimiting, dateFormating, createFormData };

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ActivityIndicator, View, Text } from 'react-native';
-import { checkType } from '../../Lib/utils';
 import UserTabStack from './userTabStack';
 import DesignerTabStack from './designerTabStack';
 import BidiStorage from '../../Lib/storage';
@@ -10,7 +9,6 @@ import { checkToken } from '../../Contexts/User/action';
 
 function mainTabStack({ navigation }) {
   const dispatch = useDispatch();
-  const [mode, setMode] = useState('');
   const { data, loading, error } = useSelector((state) => state.user) || {
     loading: false,
     data: null,
@@ -26,7 +24,7 @@ function mainTabStack({ navigation }) {
     fetchMode();
   }, []);
   if (loading || !data) {
-    return <ActivityIndicator animating={mode} color="" size="large" />;
+    return <ActivityIndicator animating={loading} color="" size="large" />;
   }
   if (data) {
     const { user_type } = data;
