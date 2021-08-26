@@ -1,7 +1,8 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import userReducer from '../User';
 import ReduxThunk from 'redux-thunk';
-const rootReducer = combineReducers({ user: userReducer });
+import userReducer from '../User';
+import proposalReducer from '../Proposal';
+const rootReducer = combineReducers({ user: userReducer, proposal: proposalReducer });
 const globalStore = () => {
   return createStore(rootReducer, applyMiddleware(ReduxThunk));
 };

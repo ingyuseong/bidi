@@ -1,47 +1,37 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardChangeStyle from '../../../Components/Card/cardChangeStyle';
 import ProposalDetailScreen from './proposalDetailScreen';
+import { getProposalList } from '../../../Contexts/Proposal';
 
 function ProposalListScreen({ navigation }) {
-  const [infoLists, setInfo] = useState([]);
+  const { data, loading, error } = useSelector((state) => state.proposal);
+  const dispatch = useDispatch();
 
-  const getDesignerInfo = () => {
-    fetch('http://127.0.0.1:3000' + '/api/proposal/list', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        setInfo(result.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
   useEffect(() => {
-    async function fetchMode() {
-      await getDesignerInfo();
-    }
-    fetchMode();
-  }, []);
-
-  if (infoLists == []) {
+    dispatch(getProposalList());
+  }, [dispatch]);
+  if (loading)
     return (
       <View>
-        <Text>Loading..</Text>
+        <Text>로딩중...</Text>
       </View>
     );
-  }
+  if (error)
+    return (
+      <View>
+        <Text>에러...</Text>
+      </View>
+    );
+  if (!data) return null;
 
   return (
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
-      {infoLists.map((info, index) => (
+      {data.map((info, index) => (
         <Swiper
           key={index}
           style={styles.wrapper}
@@ -69,7 +59,7 @@ function ProposalListScreen({ navigation }) {
               style={styles.bidiBtn}
               onPress={() =>
                 navigation.navigate('ProposalDetail', {
-                  info: infoLists[index],
+                  info: data[index],
                   userId: info.user_id,
                   proposalId: info.id,
                 })
