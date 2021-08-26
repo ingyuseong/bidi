@@ -14,8 +14,8 @@ exports.createUser = async ({
   birth,
   gender_type,
   img_src,
-}) => {
-  const results = await User.create({
+}) =>
+  await User.create({
     raw: true,
     user_type,
     naver_token,
@@ -32,20 +32,29 @@ exports.createUser = async ({
     ai_process: false,
     ai_count: 0,
   })
-  return results
-}
+    .then((results) => {
+      return results
+    })
+    .catch((err) => {
+      console.error('Sequelize: Failed Create Resource')
+      throw err
+    })
 
 // Read User Resource [selectOne, selectAll]
-exports.findOneUser = async (userId) => {
-  const results = await User.findOne({
+exports.findOneUser = async (userId) =>
+  await User.findOne({
     raw: true,
     where: {
       id: userId,
     },
   })
-
-  return results
-}
+    .then((results) => {
+      return results
+    })
+    .catch((err) => {
+      console.error('Sequelize: Failed Selecting User')
+      throw err
+    })
 
 exports.findOneUserByToken = async (token) => {
   const results = await User.findOne({

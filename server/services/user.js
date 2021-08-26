@@ -3,7 +3,11 @@ const db = require('./db/user')
 // Create User Resource [create]
 exports.createUser = async (params) => {
   const user = await db.createUser({ ...params })
-  return user
+  if (user) {
+    return user
+  } else {
+    return null
+  }
 }
 
 // Read User Resource [findOne, findAll]

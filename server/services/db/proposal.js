@@ -1,102 +1,91 @@
 const { Proposal, User } = require('../../models')
+const { ERROR_MESSAGE } = require('../../lib/constants')
 
 // Create Proposal Resource [create]
-exports.createProposal = async ({
-  user_id,
-  before_src,
-  after_src,
-  price_limit,
-  address,
-  description,
-  keyword_array,
-}) => {
+exports.createProposal = async (attr) => {
   await Proposal.create({
     raw: true,
-    userId: user_id,
-    before_src,
-    after_src,
-    price_limit,
-    address,
-    description,
-    keyword_array,
+    ...attr,
     matching: false,
   })
     .then((results) => {
-      console.log('Success Creating Proposal')
       return results
     })
     .catch((err) => {
-      console.log('Failed Creating Proposal')
-      console.log(err)
-      return err
+      console.error(ERROR_MESSAGE.SEQUELIZE_CREATE_ERROR)
+      throw err
     })
 }
+
 // Read Proposal Resource [findOne, findAll]
-exports.findOneProposal = async (proposalId) =>
+exports.findOneProposal = async (id) =>
   await Proposal.findOne({
-    raw: true,
     where: {
-      id: proposalId,
+      id,
     },
+    include: [
+      {
+        model: User,
+        attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+        required: true,
+      },
+    ],
   })
     .then((results) => {
-      console.log('Success Selecting Proposal')
       return results
     })
     .catch((err) => {
-      console.log('Failed Selecting Proposal')
-      return err
+      console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+      throw err
     })
-
-exports.findOneProposalByUserId = async (userId) =>
+exports.findOneProposalByUserId = async (id) =>
   await Proposal.findOne({
-    raw: true,
     where: {
-      user_id: userId,
+      user_id: id,
       matching: false,
     },
+    include: [
+      {
+        model: User,
+        attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+        required: true,
+      },
+    ],
   })
     .then((results) => {
-      console.log('Success Selecting Proposal')
       return results
     })
     .catch((err) => {
-      console.log('Failed Selecting Proposal')
-      return err
+      console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+      throw err
     })
-
 exports.findAllProposal = async () =>
-  await Proposal.findAll()
+  await Proposal.findAll({
+    where: {
+      matching: false,
+    },
+    include: [
+      {
+        model: User,
+        attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+        required: true,
+      },
+    ],
+  })
     .then((results) => {
-      console.log('Success Selecting All Proposal')
       return results
     })
     .catch((err) => {
-      console.log('Failed Selecting All Proposal')
-      return err
+      console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+      throw err
     })
 
 // Update Proposal Resource [update]
-exports.updateProposal = async ({
-  id,
-  before_src,
-  after_src,
-  price_limit,
-  address,
-  description,
-  keyword_array,
-  matching,
-}) => {
+exports.updateProposal = async (id, body) =>
   await Proposal.update(
     {
       raw: true,
-      before_src,
-      after_src,
-      price_limit,
-      address,
-      description,
-      keyword_array,
-      matching,
+      ...body,
     },
     {
       where: {
@@ -105,16 +94,13 @@ exports.updateProposal = async ({
     }
   )
     .then((results) => {
-      console.log('Success Updating Proposal')
-      return results
+      return results[0]
     })
     .catch((err) => {
-      console.log('Failed Updating Proposal')
-      return err
+      console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+      throw err
     })
-}
-
-exports.updateMatchingStatus = async ({ id, matching }) => {
+exports.updateMatchingStatus = async (id, matching) =>
   await Proposal.update(
     {
       matching,
@@ -126,28 +112,24 @@ exports.updateMatchingStatus = async ({ id, matching }) => {
     }
   )
     .then((results) => {
-      console.log('Success Updating Proposal Status')
-      return results
+      return results[0]
     })
     .catch((err) => {
-      console.log('Failed Updating Proposal Status')
-      return err
+      console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+      throw err
     })
-}
 
 // Delete Proposal Resource [destroy]
-exports.destroyProposal = async (proposalId) => {
+exports.destroyProposal = async (id) =>
   await Proposal.destroy({
     where: {
-      id: proposalId,
+      id,
     },
   })
     .then((results) => {
-      console.log('Success Destroying Proposal')
-      return results
+      return results[0]
     })
     .catch((err) => {
-      console.log('Failed Destroying Proposal')
-      return err
+      console.error(ERROR_MESSAGE.SEQUELIZE_DELETE_ERROR)
+      throw err
     })
-}

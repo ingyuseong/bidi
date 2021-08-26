@@ -19,7 +19,7 @@ exports.registerBranding = async (req, res, next) => {
   } catch (error) {
     console.log(error)
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
@@ -62,7 +62,7 @@ exports.getBrandingList = async (req, res, next) => {
   } catch (error) {
     console.log(error)
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
@@ -105,7 +105,7 @@ exports.getBrandingListByUserId = async (req, res, next) => {
   } catch (error) {
     console.log(error)
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
@@ -146,7 +146,7 @@ exports.getBranding = async (req, res, next) => {
   } catch (error) {
     console.log(error)
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
@@ -187,7 +187,7 @@ exports.getBrandingByUserId = async (req, res, next) => {
   } catch (error) {
     console.log(error)
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
@@ -207,7 +207,7 @@ exports.patchBranding = async (req, res, next) => {
     })
   } catch (error) {
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
@@ -224,7 +224,7 @@ exports.patchMainBranding = async (req, res, next) => {
     })
   } catch (error) {
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
@@ -241,7 +241,7 @@ exports.deleteBranding = async (req, res, next) => {
     })
   } catch (error) {
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }

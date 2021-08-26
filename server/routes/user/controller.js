@@ -36,14 +36,14 @@ exports.registerUser = async (req, res, next) => {
     }
     const user = await userServices.createUser(params)
 
-    res.status(STATUS_CODE.SUCCESS).json({
+    res.status(STATUS_CODE.CREATED).json({
       message: '회원가입 성공',
       data: user,
     })
   } catch (error) {
     console.log(error)
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
@@ -56,18 +56,16 @@ exports.checkToken = async (req, res, next) => {
       return res.status(STATUS_CODE.SUCCESS).json({
         message: '이미 회원가입한 유저',
         data: user,
-        status: STATUS_CODE.SUCCESS,
       })
     }
-    return res.status(STATUS_CODE.CLIENT_ERROR).json({
+    return res.status(STATUS_CODE.NOT_FOUND).json({
       message: '회원가입 하지 않았음',
-      data: false,
-      status: STATUS_CODE.CLIENT_ERROR,
+      data: null,
     })
   } catch (error) {
-    res.status(STATUS_CODE.SERVER_ERROR).json({
+    res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
       message: ERROR_MESSAGE.SERVER_ERROR,
-      status: STATUS_CODE.SERVER_ERROR,
+      status: STATUS_CODE.INTERNAL_SERVER_ERROR,
     })
   }
 }
@@ -97,7 +95,7 @@ exports.inferenceAI = async (req, res, next) => {
   } catch (error) {
     console.log(error)
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
@@ -114,7 +112,7 @@ exports.getUser = async (req, res, next) => {
     })
   } catch (error) {
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
@@ -127,7 +125,7 @@ exports.getUserList = async (req, res, next) => {
     })
   } catch (error) {
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
@@ -143,7 +141,7 @@ exports.patchUser = async (req, res, next) => {
     })
   } catch (error) {
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
@@ -160,7 +158,7 @@ exports.deleteUser = async (req, res, next) => {
     })
   } catch (error) {
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
