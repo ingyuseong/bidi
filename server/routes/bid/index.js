@@ -11,7 +11,7 @@ const controller = require('./controller')
     GET /api/bid/customer/:userId  : 유저 비드 목록 조회 API
 
     [ 3. PATCH Methods ]
-    PATCH /api/bid/:id      : 비드 수정 API
+    PATCH /api/bid/:id          : 비드 수정 API
     PATCH /api/bid/canceled/:id : 비드 취소 API
 
     [ 4. DELETE Methods]
@@ -20,9 +20,9 @@ const controller = require('./controller')
 
 router.post('/register', controller.registerBid)
 
-router.get('/:id', controller.getBid)
 router.get('/designer/:id', controller.getBidListByDesignerId)
 router.get('/customer/:id', controller.getBidListByCustomerId)
+router.get('/:id', controller.getBid)
 
 router.patch('/:id', controller.patchBid)
 router.patch('/canceled/:id', controller.patchBidCanceled)

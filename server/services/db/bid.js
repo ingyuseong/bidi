@@ -72,48 +72,48 @@ exports.findAllBidByDesignerId = async (id) => {
     return null
   }
 }
-exports.findAllBidByCustomerId = async (id) =>
-  await Bid.findAll({
-    where: {
-      customer_id: id,
-      matching: false,
-      canceled: false,
-    },
-    include: [
-      {
-        model: User,
-        attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-        required: true,
+exports.findAllBidByCustomerId = async (id) => {
+  try {
+    const bidList = await Bid.findAll({
+      where: {
+        customer_id: id,
+        matching: false,
+        canceled: false,
       },
-      {
-        model: Proposal,
-        required: true,
-        include: [
-          {
-            model: User,
-            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-            required: true,
-          },
-        ],
-      },
-      {
-        model: Style,
-        as: 'bidStyles',
-        through: {
-          model: BidStyle,
+      include: [
+        {
+          model: User,
+          attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+          required: true,
         },
-      },
-    ],
-    order: [['updated_at', 'DESC']],
-  })
-    .then((results) => {
-      console.log('Success find All Bid By Customer ID')
-      return results
+        {
+          model: Proposal,
+          required: true,
+          include: [
+            {
+              model: User,
+              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+              required: true,
+            },
+          ],
+        },
+        {
+          model: Style,
+          as: 'bidStyles',
+          through: {
+            model: BidStyle,
+          },
+        },
+      ],
+      order: [['updated_at', 'DESC']],
     })
-    .catch((err) => {
-      console.log('Failed find All Bid By Customer ID')
-      return err
-    })
+    return bidList
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+    console.error(err)
+    return null
+  }
+}
 exports.findOneBid = async (id) =>
   await Bid.findOne({
     where: {

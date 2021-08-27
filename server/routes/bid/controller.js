@@ -101,35 +101,11 @@ exports.getBidListByDesignerId = async (req, res, next) => {
 exports.getBidListByCustomerId = async (req, res, next) => {
   try {
     const { id } = req.params
-    let bidList = await bidServices.findAllBidByCustomerId(id)
+    const bidList = await bidServices.findAllBidByCustomerId(id)
     if (bidList && bidList.length > 0) {
-      bidList = bidList.map((bid) => {
-        let keyword_array = []
-        if (bid.proposal.keyword_array) {
-          keyword_array = bid.proposal.keyword_array.split(',')
-        }
-        return {
-          ...bid.dataValues,
-          proposal: {
-            ...bid.proposal.dataValues,
-            keyword_array,
-          },
-          bidStyles: bid.bidStyles.map((style) => {
-            let style_keyword_array = []
-            if (style.keyword_array) {
-              style_keyword_array = style.keyword_array.split(',')
-            }
-            return {
-              ...style.dataValues,
-              keyword_array: style_keyword_array,
-              img_src_array: style.img_src_array.split(','),
-            }
-          }),
-        }
-      })
       res.status(STATUS_CODE.SUCCESS).json({
         message: '유저 비드 목록 조회 성공',
-        data: { bidList },
+        data: bidList,
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
@@ -137,8 +113,9 @@ exports.getBidListByCustomerId = async (req, res, next) => {
         data: null,
       })
     }
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
