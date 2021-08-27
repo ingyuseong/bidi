@@ -192,14 +192,43 @@ exports.findOneBrandingByDesignerId = async (userId) => {
 }
 
 // Update Branding Resource [update]
-exports.updateBranding = async (params) => {
-  const branding = await db.updateBranding({ ...params })
-  return branding
+exports.updateBranding = async (id, body) => {
+  try {
+    const attr = {
+      title: body.title,
+      shop_name: body.shop_name,
+      address: body.address,
+      position: body.position,
+      description: body.description,
+      keyword_array: body.keyword_array,
+    }
+    const branding = await db.updateBranding(id, attr)
+    if (branding) {
+      return branding
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
-exports.updateMainBranding = async ({ userId, brandingId }) => {
-  await db.updateAllBrandingMainStatus(userId)
-  const branding = db.updateBrandingMainStatus(brandingId)
-  return branding
+exports.updateMainBranding = async (body) => {
+  try {
+    const { user_id, branding_id } = body
+    const otherBrandingList = await db.updateAllOtherBranding(user_id)
+    const branding = await db.updateMainBranding(branding_id)
+    if (branding) {
+      return branding
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
 
 // Delete Branding Resoure [destroy]

@@ -126,17 +126,24 @@ exports.getMainBrandingByDesignerId = async (req, res, next) => {
 // [ 3. PATCH Methods ]
 exports.patchBranding = async (req, res, next) => {
   try {
-    const { brandingId } = req.params
-    const params = req.body
-    const branding = await brandingServices.updateBranding({
-      id: brandingId,
-      ...params,
-    })
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '포트폴리오 정보 수정 성공',
-      data: { branding },
-    })
-  } catch (error) {
+    const { id } = req.params
+    const body = req.body
+    const patchedBrandingCount = await brandingServices.updateBranding(id, body)
+    if (patchedBrandingCount) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '포트폴리오 정보 수정 성공',
+        data: patchedBrandingCount,
+      })
+    } else {
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        // 에러는 없으나, 수정된 정보가 없습니다!
+        message: '포트폴리오 정보 수정 실패(No resources or No change)',
+        data: patchedBrandingCount,
+      })
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
@@ -144,16 +151,23 @@ exports.patchBranding = async (req, res, next) => {
 }
 exports.patchMainBranding = async (req, res, next) => {
   try {
-    const { id, user_id } = req.body
-    const branding = await brandingServices.updateMainBranding({
-      brandingId: id,
-      userId: user_id,
-    })
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: 'main 포트폴리오 정보 수정 성공',
-      data: { branding },
-    })
-  } catch (error) {
+    const body = req.body
+    const patchedBrandingCount = await brandingServices.updateMainBranding(body)
+    if (patchedBrandingCount) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: 'main 포트폴리오 정보 수정 성공',
+        data: patchedBrandingCount,
+      })
+    } else {
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        // 에러는 없으나, 수정된 정보가 없습니다!
+        message: 'main 포트폴리오 정보 수정 실패(No resources or No change)',
+        data: patchedBrandingCount,
+      })
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })

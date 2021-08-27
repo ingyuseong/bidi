@@ -110,101 +110,89 @@ exports.findOneBrandingByUserId = async (id) => {
     return null
   }
 }
-exports.findOneBranding = async (brandingId) =>
-  await Branding.findOne({
-    where: {
-      id: brandingId,
-    },
-    include: [
-      {
-        model: Style,
-        as: 'brandingStyles',
-        through: {
-          model: BrandingStyle,
-        },
-        required: false,
-      },
-    ],
-  })
-    .then((results) => {
-      console.log('Success Selecting branding')
-      return results
-    })
-    .catch((err) => {
-      console.log('Failed Selecting branding')
-      return err
-    })
-
-// Update Branding Resource [update]
-exports.updateBranding = async ({
-  id,
-  title,
-  shop_name,
-  address,
-  position,
-  description,
-  keyword_array,
-  main,
-}) => {
-  return await Branding.update(
-    {
-      raw: true,
-      title,
-      shop_name,
-      address,
-      position,
-      description,
-      keyword_array,
-      main,
-    },
-    {
+exports.findOneBranding = async (id) => {
+  try {
+    const branding = await Branding.findOne({
       where: {
         id,
       },
-    }
-  )
-    .then((results) => {
-      console.log('Success Updating Branding')
-      return results
+      include: [
+        {
+          model: Style,
+          as: 'brandingStyles',
+          through: {
+            model: BrandingStyle,
+          },
+          required: false,
+        },
+      ],
     })
-    .catch((err) => {
-      console.log(err)
-      console.log('Failed Updating Branding')
-      return err
-    })
+    return branding
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+    console.error(err)
+    return null
+  }
 }
-exports.updateAllBrandingMainStatus = async (userId) => {
-  const result = await Branding.update(
-    {
-      main: false,
-    },
-    {
-      where: {
-        user_id: userId,
+
+// Update Branding Resource [update]
+exports.updateBranding = async (id, attr) => {
+  try {
+    const branding = await Branding.update(
+      {
+        raw: true,
+        ...attr,
       },
-    }
-  )
-    .then((results) => {
-      console.log('Success Updating All Branding Status')
-      return results
-    })
-    .catch((err) => {
-      console.log('Failed Updating All Branding Status')
-      return err
-    })
+      {
+        where: {
+          id,
+        },
+      }
+    )
+    return branding[0]
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+    console.error(err)
+    return null
+  }
 }
-exports.updateBrandingMainStatus = async (brandingId) => {
-  const branding = await Branding.update(
-    {
-      main: true,
-    },
-    {
-      where: {
-        id: brandingId,
+exports.updateAllOtherBranding = async (user_id) => {
+  try {
+    const brandingList = await Branding.update(
+      {
+        main: false,
       },
-    }
-  )
-  return branding
+      {
+        where: {
+          user_id,
+        },
+      }
+    )
+    return brandingList[0]
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.updateMainBranding = async (branding_id) => {
+  try {
+    const branding = await Branding.update(
+      {
+        main: true,
+      },
+      {
+        where: {
+          id: branding_id,
+        },
+      }
+    )
+    return branding[0]
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+    console.error(err)
+    return null
+  }
 }
 
 // Delete Branding Resource [destroy]

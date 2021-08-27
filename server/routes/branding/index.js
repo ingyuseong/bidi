@@ -12,7 +12,7 @@ const controller = require('./controller')
     GET /api/branding/main/:id          : 유저의 메인 포트폴리오 정보 조회
 
     [ 3. PATCH Methods ]
-    PATCH /api/branding/main         : 메인 포트폴리오 수정
+    PATCH /api/branding/main         : 메인 포트폴리오 수정(user_id, branding_id)
     PATCH /api/branding/:brandingId  : 포트폴리오 정보 수정 API
 
     [ 4. DELETE Methods]
