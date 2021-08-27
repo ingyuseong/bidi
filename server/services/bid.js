@@ -167,14 +167,40 @@ exports.findOneBid = async (id) => {
 }
 
 // Update Bid Resource [update]
-exports.updateBid = async (params) => {
-  const bid = await db.updateBid({ ...params })
-  return bid
+exports.updateBid = async (id, body) => {
+  try {
+    const attr = {
+      style_type: body.style_type,
+      length_type: body.length_type,
+      letter: body.letter,
+      need_care: body.need_care,
+    }
+    const bid = await db.updateBid(id, attr)
+    if (bid) {
+      return bid
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
 exports.updateBidCanceled = async (id, body) => {
-  const { canceled } = body
-  const bid = await db.updateBidCanceled(id, body)
-  return bid
+  try {
+    const { canceled } = body
+    const bid = await db.updateBidCanceled(id, canceled)
+    if (bid) {
+      return bid
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
 
 // Delete Bid Resoure [destroy]

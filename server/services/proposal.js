@@ -99,7 +99,15 @@ exports.findOneProposalByUserId = async (id) => {
 // Update Proposal Resource [update]
 exports.updateProposal = async (id, body) => {
   try {
-    const proposal = await db.updateProposal(id, body)
+    const attr = {
+      before_src: body.before_src,
+      after_src: body.after_src,
+      price_limit: Number(body.price_limit),
+      address: body.address,
+      description: body.description,
+      keyword_array: body.keyword_array,
+    }
+    const proposal = await db.updateProposal(id, attr)
     if (proposal) {
       return proposal
     } else {

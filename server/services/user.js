@@ -76,9 +76,16 @@ exports.findOneUserByToken = async (body) => {
 // Update User Resource [update]
 exports.updateUser = async (id, body) => {
   try {
-    const user = await db.updateUser(id, body)
+    const attr = {
+      name: body.userName ? body.userName : '',
+      nick_name: body.userNickName ? body.userNickName : '',
+      phone_number: body.userPhoneNumber ? body.userPhoneNumber : '',
+      birth: body.userBirth ? body.userBirth : '',
+      gender_type: body.userGenderType ? body.genderType : '',
+    }
+    const user = await db.updateUser(id, attr)
     if (user) {
-      return user
+      return user[0]
     } else {
       return null
     }

@@ -85,12 +85,12 @@ exports.findOneProposalByUserId = async (id) => {
 }
 
 // Update Proposal Resource [update]
-exports.updateProposal = async (id, body) => {
+exports.updateProposal = async (id, attr) => {
   try {
     const proposal = await Proposal.update(
       {
         raw: true,
-        ...body,
+        ...attr,
       },
       {
         where: {

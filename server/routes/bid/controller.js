@@ -103,14 +103,24 @@ exports.getBid = async (req, res, next) => {
 // [ 3. PATCH Methods ]
 exports.patchBid = async (req, res, next) => {
   try {
-    const { bidId } = req.params
-    const params = req.body
-    const bid = await bidServices.updateBid({ id: bidId, ...params })
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '비드 수정 성공',
-      data: { bid },
-    })
+    const { id } = req.params
+    const body = req.body
+    const patchedBidCount = await bidServices.updateBid(id, body)
+    if (patchedBidCount) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '비드 정보 수정 성공',
+        data: { patchedBidCount },
+      })
+    } else {
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        // 에러는 없으나, 수정된 정보가 없습니다!
+        message: '비드 정보 수정 실패(No resources or No change)',
+        data: patchedBidCount,
+      })
+    }
   } catch (error) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
@@ -120,11 +130,19 @@ exports.patchBidCanceled = async (req, res, next) => {
   try {
     const { id } = req.params
     const body = req.body
-    const bid = await bidServices.updateBidCanceled(id, body)
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '비드 취소 상태 수정 성공',
-      data: { bid },
-    })
+    const patchedBidCount = await bidServices.updateBidCanceled(id, body)
+    if (patchedBidCount) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '비드 취소 상태 수정 성공',
+        data: { patchedBidCount },
+      })
+    } else {
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        // 에러는 없으나, 수정된 정보가 없습니다!
+        message: '비드 취소 상태 실패(No resources or No change)',
+        data: patchedBidCount,
+      })
+    }
   } catch (error) {
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)

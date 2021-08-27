@@ -155,40 +155,26 @@ exports.findOneBid = async (id) =>
     })
 
 // Update Bid Resource [update]
-exports.updateBid = async ({
-  id,
-  style_type,
-  length_type,
-  letter,
-  need_care,
-  matching,
-  canceled,
-}) =>
-  await Bid.update(
-    {
-      raw: true,
-      style_type,
-      length_type,
-      letter,
-      need_care,
-      matching,
-      canceled,
-    },
-    {
-      where: {
-        id,
+exports.updateBid = async (id, attr) => {
+  try {
+    const bid = await Bid.update(
+      {
+        raw: true,
+        ...attr,
       },
-    }
-  )
-    .then((results) => {
-      console.log('Success Updating Bid')
-      return results
-    })
-    .catch((err) => {
-      console.log(err)
-      console.log('Failed Updating Bid')
-      return err
-    })
+      {
+        where: {
+          id,
+        },
+      }
+    )
+    return bid[0]
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+    console.error(err)
+    return null
+  }
+}
 exports.updateBidMatching = async (id) => {
   try {
     const bid = await Bid.update(
@@ -209,26 +195,26 @@ exports.updateBidMatching = async (id) => {
     return null
   }
 }
-exports.updateBidCanceled = async (id, canceled) =>
-  await Bid.update(
-    {
-      raw: true,
-      canceled: true,
-    },
-    {
-      where: {
-        id,
+exports.updateBidCanceled = async (id, canceled) => {
+  try {
+    const bid = await Bid.update(
+      {
+        raw: true,
+        canceled,
       },
-    }
-  )
-    .then((results) => {
-      console.log('Success Updating Bid Canceled Status')
-      return results
-    })
-    .catch((err) => {
-      console.log('Failed Updating Bid Canceled Status')
-      return err
-    })
+      {
+        where: {
+          id,
+        },
+      }
+    )
+    return bid[0]
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+    console.error(err)
+    return null
+  }
+}
 exports.updateBidCancelElseByCustomerId = async (id) => {
   try {
     const bid = await Bid.update(
