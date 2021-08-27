@@ -1,98 +1,81 @@
 const { Bid, BidStyle, User, Style, Proposal } = require('../../models')
 
 // Create Bid Resource [create]
-exports.createBid = async ({
-  proposal_id,
-  customer_id,
-  designer_id,
-  style_type,
-  length_type,
-  letter,
-  need_care,
-}) =>
-  await Bid.create({
-    raw: true,
-    proposalId: proposal_id,
-    customer_id,
-    designer_id,
-    style_type,
-    length_type,
-    letter,
-    need_care,
-    matching: false,
-    canceled: false,
-  })
-    .then((results) => {
-      console.log('Success Creating Bid')
-      return results
+exports.createBid = async (attr) => {
+  try {
+    const bid = await Bid.create({
+      raw: true,
+      ...attr,
+      matching: false,
+      canceled: false,
     })
-    .catch((err) => {
-      console.log('Failed Creating Bid')
-      return err
+    return bid
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.createBidStyle = async (attr) => {
+  try {
+    const bidStyle = await BidStyle.create({
+      raw: true,
+      ...attr,
     })
-
-exports.createBidStyle = async (bidId, styleId) =>
-  await BidStyle.create({
-    raw: true,
-    bidId,
-    styleId,
-  })
-    .then((results) => {
-      console.log('Success Creating BidStyle')
-      return results
-    })
-    .catch((err) => {
-      console.log('Failed Creating BidStyle')
-      return err
-    })
+    return bidStyle
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+    console.error(err)
+    return null
+  }
+}
 
 // Read Bid Resource [findOne, findAll]
-exports.findAllBidByDesignerId = async (userId) =>
-  await Bid.findAll({
-    where: {
-      designer_id: userId,
-      matching: false,
-    },
-    include: [
-      {
-        model: User,
-        attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-        required: true,
+exports.findAllBidByDesignerId = async (id) => {
+  try {
+    const bidList = await Bid.findAll({
+      where: {
+        designer_id: id,
+        matching: false,
       },
-      {
-        model: Proposal,
-        required: true,
-        include: [
-          {
-            model: User,
-            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-            required: true,
-          },
-        ],
-      },
-      {
-        model: Style,
-        as: 'bidStyles',
-        through: {
-          model: BidStyle,
+      include: [
+        {
+          model: User,
+          attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+          required: true,
         },
-      },
-    ],
-    order: [['updated_at', 'DESC']],
-  })
-    .then((results) => {
-      console.log('Success find All Bid By Designer ID')
-      return results
+        {
+          model: Proposal,
+          required: true,
+          include: [
+            {
+              model: User,
+              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+              required: true,
+            },
+          ],
+        },
+        {
+          model: Style,
+          as: 'bidStyles',
+          through: {
+            model: BidStyle,
+          },
+        },
+      ],
+      order: [['updated_at', 'DESC']],
     })
-    .catch((err) => {
-      console.log(err)
-      console.log('Failed find All Bid By Designer ID')
-      return err
-    })
-exports.findAllBidByCustomerId = async (userId) =>
+    return bidList
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.findAllBidByCustomerId = async (id) =>
   await Bid.findAll({
     where: {
-      customer_id: userId,
+      customer_id: id,
       matching: false,
       canceled: false,
     },

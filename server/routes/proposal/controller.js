@@ -14,7 +14,7 @@ exports.registerProposal = async (req, res, next) => {
     } else {
       res.status(STATUS_CODE.BAD_REQUEST).json({
         message: '제안서 등록 실패',
-        data: proposal,
+        data: null,
       })
     }
   } catch (err) {

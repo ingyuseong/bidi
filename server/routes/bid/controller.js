@@ -4,19 +4,26 @@ const { STATUS_CODE, ERROR_MESSAGE } = require('../../lib/constants')
 // [ 1. POST Methods ]
 exports.registerBid = async (req, res, next) => {
   try {
-    const params = req.body
-    const bid = await bidServices.createBid(params)
+    const body = req.body
+    const bid = await bidServices.createBid(body)
     const bidStyle = await bidServices.createBidStyle({
       bidId: bid.id,
-      stylesIdString: params.stylesIdString,
+      stylesIdString: body.stylesIdString,
     })
-
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '비드 작성 성공',
-      data: { bid, bidStyle },
-    })
+    if (bid) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '비드 등록 성공',
+        data: { bid, bidStyle },
+      })
+    } else {
+      res.status(STATUS_CODE.BAD_REQUEST).json({
+        message: '비드 등록 실패',
+        data: null,
+      })
+    }
   } catch (error) {
-    console.log(error)
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
@@ -70,36 +77,12 @@ exports.getBid = async (req, res, next) => {
 }
 exports.getBidListByDesignerId = async (req, res, next) => {
   try {
-    const { userId } = req.params
-    let bidList = await bidServices.findAllBidByDesignerId(userId)
+    const { id } = req.params
+    const bidList = await bidServices.findAllBidByDesignerId(id)
     if (bidList && bidList.length > 0) {
-      bidList = bidList.map((bid) => {
-        let keyword_array = []
-        if (bid.proposal.keyword_array) {
-          keyword_array = bid.proposal.keyword_array.split(',')
-        }
-        return {
-          ...bid.dataValues,
-          proposal: {
-            ...bid.proposal.dataValues,
-            keyword_array,
-          },
-          bidStyles: bid.bidStyles.map((style) => {
-            let style_keyword_array = []
-            if (style.keyword_array) {
-              style_keyword_array = style.keyword_array.split(',')
-            }
-            return {
-              ...style.dataValues,
-              keyword_array: style_keyword_array,
-              img_src_array: style.img_src_array.split(','),
-            }
-          }),
-        }
-      })
       res.status(STATUS_CODE.SUCCESS).json({
         message: '디자이너 비드 목록 조회 성공',
-        data: { bidList },
+        data: bidList,
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
@@ -107,8 +90,9 @@ exports.getBidListByDesignerId = async (req, res, next) => {
         data: null,
       })
     }
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
@@ -116,8 +100,8 @@ exports.getBidListByDesignerId = async (req, res, next) => {
 }
 exports.getBidListByCustomerId = async (req, res, next) => {
   try {
-    const { userId } = req.params
-    let bidList = await bidServices.findAllBidByCustomerId(userId)
+    const { id } = req.params
+    let bidList = await bidServices.findAllBidByCustomerId(id)
     if (bidList && bidList.length > 0) {
       bidList = bidList.map((bid) => {
         let keyword_array = []

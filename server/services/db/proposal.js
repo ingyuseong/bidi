@@ -16,6 +16,7 @@ exports.createProposal = async (attr) => {
     return null
   }
 }
+
 // Read Proposal Resource [findOne, findAll]
 exports.findAllProposal = async () => {
   try {

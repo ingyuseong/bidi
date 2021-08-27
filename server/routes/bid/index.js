@@ -21,8 +21,8 @@ const controller = require('./controller')
 router.post('/register', controller.registerBid)
 
 router.get('/:id', controller.getBid)
-router.get('/designer/:userId', controller.getBidListByDesignerId)
-router.get('/customer/:userId', controller.getBidListByCustomerId)
+router.get('/designer/:id', controller.getBidListByDesignerId)
+router.get('/customer/:id', controller.getBidListByCustomerId)
 
 router.patch('/:id', controller.patchBid)
 router.patch('/canceled/:id', controller.patchBidCanceled)
