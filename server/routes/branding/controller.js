@@ -41,7 +41,7 @@ exports.getBrandingList = async (req, res, next) => {
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
-        message: '전체 포트폴리오 목록 조회 실패',
+        message: '전체 포트폴리오 목록 조회 실패(No resource)',
         data: null,
       })
     }
@@ -65,7 +65,7 @@ exports.getBrandingListByDesignerId = async (req, res, next) => {
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
-        message: '디자이너의 포트폴리오 목록 조회 실패',
+        message: '디자이너의 포트폴리오 목록 조회 실패(No resource)',
         data: null,
       })
     }
@@ -77,42 +77,24 @@ exports.getBrandingListByDesignerId = async (req, res, next) => {
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
-exports.getBrandingByUserId = async (req, res, next) => {
+exports.getMainBrandingByDesignerId = async (req, res, next) => {
   try {
-    const { userId } = req.params
-    let branding = await brandingServices.findOneBrandingByUserId(userId)
+    const { id } = req.params
+    let branding = await brandingServices.findOneBrandingByDesignerId(id)
     if (branding) {
-      let keyword_array = []
-      if (branding.keyword_array) {
-        keyword_array = branding.keyword_array.split(',')
-      }
-      branding = {
-        ...branding.dataValues,
-        keyword_array,
-        brandingStyles: branding.brandingStyles.map((style) => {
-          let style_keyword_array = []
-          if (style.keyword_array) {
-            style_keyword_array = style.keyword_array.split(',')
-          }
-          return {
-            ...style.dataValues,
-            keyword_array: style_keyword_array,
-            img_src_array: style.img_src_array.split(','),
-          }
-        }),
-      }
       res.status(STATUS_CODE.SUCCESS).json({
-        message: '유저의 Brainding 정보 조회 성공',
+        message: '디자이너의 Main 포트폴리오 정보 조회 성공',
         data: branding,
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
-        message: '유저의 포트폴리오 정보 조회 실패',
+        message: '디자이너의 Main 포트폴리오 정보 조회 실패(No resource)',
         data: null,
       })
     }
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })

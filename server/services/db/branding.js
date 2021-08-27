@@ -85,24 +85,30 @@ exports.findAllBrandingByDesignerId = async (id) => {
     return null
   }
 }
-exports.findOneBrandingByUserId = async (userId) => {
-  const results = await Branding.findOne({
-    where: {
-      user_id: userId,
-      main: true,
-    },
-    include: [
-      {
-        model: Style,
-        as: 'brandingStyles',
-        through: {
-          model: BrandingStyle,
-        },
-        required: false,
+exports.findOneBrandingByUserId = async (id) => {
+  try {
+    const branding = await Branding.findOne({
+      where: {
+        user_id: id,
+        main: true,
       },
-    ],
-  })
-  return results
+      include: [
+        {
+          model: Style,
+          as: 'brandingStyles',
+          through: {
+            model: BrandingStyle,
+          },
+          required: false,
+        },
+      ],
+    })
+    return branding
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+    console.error(err)
+    return null
+  }
 }
 exports.findOneBranding = async (brandingId) =>
   await Branding.findOne({
