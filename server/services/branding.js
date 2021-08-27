@@ -88,6 +88,39 @@ exports.findAllBranding = async () => {
     return null
   }
 }
+exports.findOneBranding = async (id) => {
+  try {
+    let branding = await db.findOneBranding(id)
+    if (branding) {
+      let keyword_array = []
+      if (branding.keyword_array) {
+        keyword_array = branding.keyword_array.split(',')
+      }
+      branding = {
+        ...branding.dataValues,
+        keyword_array,
+        brandingStyles: branding.brandingStyles.map((style) => {
+          let style_keyword_array = []
+          if (style.keyword_array) {
+            style_keyword_array = style.keyword_array.split(',')
+          }
+          return {
+            ...style.dataValues,
+            keyword_array: style_keyword_array,
+            img_src_array: style.img_src_array.split(','),
+          }
+        }),
+      }
+      return branding
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
+}
 exports.findAllBrandingByDesignerId = async (id) => {
   try {
     console.log(id)
@@ -123,10 +156,6 @@ exports.findAllBrandingByDesignerId = async (id) => {
     console.error(err)
     return null
   }
-}
-exports.findOneBranding = async (brandingId) => {
-  const branding = await db.findOneBranding(brandingId)
-  return branding
 }
 exports.findOneBrandingByDesignerId = async (userId) => {
   try {

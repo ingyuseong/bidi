@@ -53,11 +53,33 @@ exports.getBrandingList = async (req, res, next) => {
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
+exports.getBranding = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const branding = await brandingServices.findOneBranding(id)
+    if (branding) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '포트폴리오 정보 조회 성공',
+        data: branding,
+      })
+    } else {
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        message: '포트폴리오 정보 조회 실패',
+        data: null,
+      })
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
+    res
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
 exports.getBrandingListByDesignerId = async (req, res, next) => {
   try {
     const { id } = req.params
-    console.log(id)
-    let brandingList = await brandingServices.findAllBrandingByDesignerId(id)
+    const brandingList = await brandingServices.findAllBrandingByDesignerId(id)
     if (brandingList && brandingList.length > 0) {
       res.status(STATUS_CODE.SUCCESS).json({
         message: '디자이너의 포트폴리오 목록 조회 성공',
@@ -80,7 +102,7 @@ exports.getBrandingListByDesignerId = async (req, res, next) => {
 exports.getMainBrandingByDesignerId = async (req, res, next) => {
   try {
     const { id } = req.params
-    let branding = await brandingServices.findOneBrandingByDesignerId(id)
+    const branding = await brandingServices.findOneBrandingByDesignerId(id)
     if (branding) {
       res.status(STATUS_CODE.SUCCESS).json({
         message: '디자이너의 Main 포트폴리오 정보 조회 성공',
@@ -95,47 +117,6 @@ exports.getMainBrandingByDesignerId = async (req, res, next) => {
   } catch (err) {
     console.error(ERROR_MESSAGE.ROUTES_ERROR)
     console.error(err)
-    res
-      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
-  }
-}
-exports.getBranding = async (req, res, next) => {
-  try {
-    const { brandingId } = req.params
-    let branding = await brandingServices.findOneBranding(brandingId)
-    if (branding) {
-      let keyword_array = []
-      if (branding.keyword_array) {
-        keyword_array = branding.keyword_array.split(',')
-      }
-      branding = {
-        ...branding.dataValues,
-        keyword_array,
-        brandingStyles: branding.brandingStyles.map((style) => {
-          let style_keyword_array = []
-          if (style.keyword_array) {
-            style_keyword_array = style.keyword_array.split(',')
-          }
-          return {
-            ...style.dataValues,
-            keyword_array: style_keyword_array,
-            img_src_array: style.img_src_array.split(','),
-          }
-        }),
-      }
-      res.status(STATUS_CODE.SUCCESS).json({
-        message: 'Brainding 정보 조회 성공',
-        data: branding,
-      })
-    } else {
-      res.status(STATUS_CODE.NOT_FOUND).json({
-        message: '포트폴리오 정보 조회 실패',
-        data: null,
-      })
-    }
-  } catch (error) {
-    console.log(error)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })

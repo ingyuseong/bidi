@@ -8,8 +8,8 @@ const controller = require('./controller')
     [ 2. GET Methods ]
     GET /api/branding/list              : 전체 포트폴리오 목록 조회 (메인으로 설정된 포트폴리오 only)
     GET /api/branding/designer/:id      : 유저의 전체 포트폴리오 목록 조회
-    GET /api/branding/designer/main/:id : 유저의 메인 포트폴리오 정보 조회
     GET /api/branding/:id               : 특정 포트폴리오 정보 조회
+    GET /api/branding/main/:id          : 유저의 메인 포트폴리오 정보 조회
 
     [ 3. PATCH Methods ]
     PATCH /api/branding/main         : 메인 포트폴리오 수정
@@ -22,8 +22,8 @@ const controller = require('./controller')
 router.post('/register', controller.registerBranding)
 
 router.get('/list', controller.getBrandingList)
-router.get('/designer/:id', controller.getBrandingListByDesignerId)
 router.get('/:id', controller.getBranding)
+router.get('/designer/:id', controller.getBrandingListByDesignerId)
 router.get('/main/:id', controller.getMainBrandingByDesignerId)
 
 router.patch('/main', controller.patchMainBranding)
