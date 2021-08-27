@@ -53,11 +53,13 @@ export const handleAsyncActions = (type) => {
   return (state, action) => {
     switch (action.type) {
       case type:
+        console.log('here', action.type, action.payload);
         return {
           ...state,
           ...reducerUtils.loading(),
         };
       case SUCCESS:
+        console.log('her2e', action.type, action.payload);
         return {
           ...state,
           ...reducerUtils.success(action.payload),

@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   styleArea: {
-    width: 160,
+    width: '47%',
     height: 160,
     backgroundColor: '#F5F5F5',
     borderRadius: 3,
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#DDDDDD',
   },
   styleImg: {
-    width: 160,
+    width: '100%',
     height: 160,
     resizeMode: 'cover',
     borderRadius: 3,

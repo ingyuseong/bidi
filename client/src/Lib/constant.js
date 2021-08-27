@@ -2,27 +2,28 @@ export const SERVER_URL = 'http://127.0.0.1:3000/api';
 
 export const STORAGE_KEY = 'user';
 
-export const LARGE_CATEGORY = [
-  { label: '커트', value: '커트', key: 1 },
-  { label: '파마', value: '파마', key: 2 },
-  { label: '염색', value: '염색', key: 3 },
+export const LENGTH_TYPE = [
+  { label: '롱', value: '롱', key: 1 },
+  { label: '미디엄', value: '미디엄', key: 2 },
+  { label: '단발', value: '단발', key: 3 },
 ];
 
-export const SMALL_CATEGORY = {
-  미선택: ['대분류를 선택해주세요!'],
-  커트: [
-    { label: '남성 커트', value: '남성 커트', key: 4 },
-    { label: '댄디 커트', value: '댄디 커트', key: 5 },
-    { label: '다듬기', value: '다듬기', key: 6 },
+export const STYLE_TYPE = {
+  미선택: ['길이 종류를 선택해주세요!'],
+  롱: [
+    { label: '커트', value: '커트', key: 4 },
+    { label: '파마', value: '파마', key: 5 },
+    { label: '스타일링', value: '스타일링', key: 6 },
   ],
-  파마: [
-    { label: '뿌리 파마', value: '뿌리 파마', key: 7 },
-    { label: '볼륨 파마', value: '볼륨 파마', key: 8 },
-    { label: '가르마 파마', value: '가르마 파마', key: 9 },
+  미디엄: [
+    { label: '커트', value: '커트', key: 7 },
+    { label: '파마', value: '파마', key: 8 },
+    { label: '스타일링', value: '스타일링', key: 9 },
   ],
-  염색: [
-    { label: '기본 염색', value: '기본 염색', key: 10 },
-    { label: '프리미엄 염색', value: '프리미엄 염색', key: 11 },
+  단발: [
+    { label: '커트', value: '커트', key: 10 },
+    { label: '파마', value: '파마', key: 11 },
+    { label: '스타일링', value: '스타일링', key: 12 },
   ],
 };
 
