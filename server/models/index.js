@@ -67,25 +67,13 @@ db.Branding.belongsTo(db.User, {
   onDelete: 'CASCADE',
 })
 
-// 관계정의 User : Bid = 1 : N
-// db.User.hasMany(db.Bid, {
-//   foreignKey: { name: 'customer_id', allowNull: false, as: 'customer' },
-//   targetKey: { name: 'id', allowNull: false, as: 'customer' },
-//   onDelete: 'CASCADE',
-// })
-// db.Bid.belongsTo(db.User, {
-//   foreignKey: { name: 'customer_id', allowNull: false, as: 'customer' },
-//   sourceKey: { name: 'id', allowNull: false, as: 'customer' },
-//   onDelete: 'CASCADE',
-// })
-db.User.hasMany(db.Bid, {
-  foreignKey: { name: 'designer_id', allowNull: false, as: 'designer' },
-  targetKey: { name: 'id', allowNull: false, as: 'designer' },
+// 관계정의 User : Style = 1 : N
+db.User.hasMany(db.Style, {
+  foreignKey: { allowNull: false },
   onDelete: 'CASCADE',
 })
-db.Bid.belongsTo(db.User, {
-  foreignKey: { name: 'designer_id', allowNull: false, as: 'designer' },
-  sourceKey: { name: 'id', allowNull: false, as: 'designer' },
+db.Style.belongsTo(db.User, {
+  foreignKey: { allowNull: false },
   onDelete: 'CASCADE',
 })
 
@@ -96,6 +84,18 @@ db.User.hasMany(db.Proposal, {
 })
 db.Proposal.belongsTo(db.User, {
   foreignKey: { allowNull: false },
+  onDelete: 'CASCADE',
+})
+
+// 관계정의 User : Bid = 1 : N
+db.User.hasMany(db.Bid, {
+  foreignKey: { name: 'designer_id', allowNull: false, as: 'designer' },
+  targetKey: { name: 'id', allowNull: false, as: 'designer' },
+  onDelete: 'CASCADE',
+})
+db.Bid.belongsTo(db.User, {
+  foreignKey: { name: 'designer_id', allowNull: false, as: 'designer' },
+  sourceKey: { name: 'id', allowNull: false, as: 'designer' },
   onDelete: 'CASCADE',
 })
 
