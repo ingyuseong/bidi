@@ -130,8 +130,40 @@ exports.findAllBidByCustomerId = async (id) => {
   }
 }
 exports.findOneBid = async (id) => {
-  const bid = await db.findOneBid(id)
-  return bid
+  try {
+    let bid = await db.findOneBid(id)
+    if (bid) {
+      let keyword_array = []
+      if (bid.proposal.keyword_array) {
+        keyword_array = bid.proposal.keyword_array.split(',')
+      }
+      bid = {
+        ...bid.dataValues,
+        proposal: {
+          ...bid.proposal.dataValues,
+          keyword_array,
+        },
+        bidStyles: bid.bidStyles.map((style) => {
+          let style_keyword_array = []
+          if (style.keyword_array) {
+            style_keyword_array = style.keyword_array.split(',')
+          }
+          return {
+            ...style.dataValues,
+            keyword_array: style_keyword_array,
+            img_src_array: style.img_src_array.split(','),
+          }
+        }),
+      }
+      return bid
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
 
 // Update Bid Resource [update]

@@ -31,50 +31,6 @@ exports.registerBid = async (req, res, next) => {
 }
 
 // [ 2. GET Methods ]
-exports.getBid = async (req, res, next) => {
-  try {
-    const { id } = req.params
-    let bid = await bidServices.findOneBid(id)
-    if (bid) {
-      let keyword_array = []
-      if (bid.proposal.keyword_array) {
-        keyword_array = bid.proposal.keyword_array.split(',')
-      }
-      bid = {
-        ...bid.dataValues,
-        proposal: {
-          ...bid.proposal.dataValues,
-          keyword_array,
-        },
-        bidStyles: bid.bidStyles.map((style) => {
-          let style_keyword_array = []
-          if (style.keyword_array) {
-            style_keyword_array = style.keyword_array.split(',')
-          }
-          return {
-            ...style.dataValues,
-            keyword_array: style_keyword_array,
-            img_src_array: style.img_src_array.split(','),
-          }
-        }),
-      }
-      res.status(STATUS_CODE.SUCCESS).json({
-        message: '비드 정보 조회 성공',
-        data: { bid },
-      })
-    } else {
-      res.status(STATUS_CODE.SUCCESS).json({
-        message: '비드 정보 조회 실패',
-        data: null,
-      })
-    }
-  } catch (error) {
-    console.log(error)
-    res
-      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
-  }
-}
 exports.getBidListByDesignerId = async (req, res, next) => {
   try {
     const { id } = req.params
@@ -116,6 +72,28 @@ exports.getBidListByCustomerId = async (req, res, next) => {
   } catch (err) {
     console.error(ERROR_MESSAGE.ROUTES_ERROR)
     console.error(err)
+    res
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+exports.getBid = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const bid = await bidServices.findOneBid(id)
+    if (bid) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '비드 정보 조회 성공',
+        data: bid,
+      })
+    } else {
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        message: '비드 정보 조회 실패',
+        data: null,
+      })
+    }
+  } catch (error) {
+    console.log(error)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
