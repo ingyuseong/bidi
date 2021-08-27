@@ -6,42 +6,23 @@ require('dotenv').config()
 // [ 1. POST Methods ]
 exports.registerUser = async (req, res, next) => {
   try {
-    const {
-      userType,
-      userNaverToken = '',
-      userKakaoToken = '',
-      userAppleToken = '',
-      userName,
-      userNickName,
-      userPhoneNumber = '',
-      userBirth = '',
-      userGenderType,
-    } = req.body
+    const body = req.body
     const { location } = req.file
-    const params = {
-      user_type: userType,
-      naver_token: userNaverToken,
-      kakao_token: userKakaoToken,
-      apple_token: userAppleToken,
-      name: userName,
-      nick_name: userNickName,
-      phone_number: userPhoneNumber,
-      birth: userBirth,
-      gender_type: userGenderType,
-      img_src: location,
-      authentication: false,
-      ai_status: false,
-      ai_process: false,
-      ai_count: 0,
+    const user = await userServices.createUser(body, location)
+    if (user) {
+      res.status(STATUS_CODE.CREATED).json({
+        message: '회원가입 성공',
+        data: user,
+      })
+    } else {
+      res.status(STATUS_CODE.BAD_REQUEST).json({
+        message: '회원가입 실패',
+        data: user,
+      })
     }
-    const user = await userServices.createUser(params)
-
-    res.status(STATUS_CODE.CREATED).json({
-      message: '회원가입 성공',
-      data: user,
-    })
   } catch (error) {
-    console.log(error)
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
@@ -57,11 +38,12 @@ exports.checkToken = async (req, res, next) => {
         message: '이미 회원가입한 유저',
         data: user,
       })
+    } else {
+      return res.status(STATUS_CODE.NOT_FOUND).json({
+        message: '회원가입 하지 않았음',
+        data: null,
+      })
     }
-    return res.status(STATUS_CODE.NOT_FOUND).json({
-      message: '회원가입 하지 않았음',
-      data: null,
-    })
   } catch (error) {
     res.status(STATUS_CODE.INTERNAL_SERVER_ERROR).json({
       message: ERROR_MESSAGE.SERVER_ERROR,

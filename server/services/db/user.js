@@ -3,42 +3,23 @@ const { Sequelize } = require('sequelize')
 const { and, or, like, not } = Sequelize.Op
 
 // Create User Resource [create]
-exports.createUser = async ({
-  user_type,
-  naver_token,
-  kakao_token,
-  apple_token,
-  name,
-  nick_name,
-  phone_number,
-  birth,
-  gender_type,
-  img_src,
-}) =>
-  await User.create({
-    raw: true,
-    user_type,
-    naver_token,
-    kakao_token,
-    apple_token,
-    name,
-    nick_name,
-    phone_number,
-    birth,
-    gender_type,
-    img_src,
-    authentication: false,
-    ai_status: false,
-    ai_process: false,
-    ai_count: 0,
-  })
-    .then((results) => {
-      return results
+exports.createUser = async (attr) => {
+  try {
+    const user = await User.create({
+      raw: true,
+      ...attr,
+      authentication: false,
+      ai_status: false,
+      ai_process: false,
+      ai_count: 0,
     })
-    .catch((err) => {
-      console.error('Sequelize: Failed Create Resource')
-      throw err
-    })
+    return user
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_CREATE_ERROR)
+    console.error(err)
+    return null
+  }
+}
 
 // Read User Resource [selectOne, selectAll]
 exports.findOneUser = async (userId) =>
