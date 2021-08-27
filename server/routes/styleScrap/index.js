@@ -17,8 +17,8 @@ const controller = require('./controller')
 
 router.post('/register', controller.registerStyleScrap)
 
-router.get('/:userId', controller.getStyleScrapList)
+router.get('/:id', controller.getStyleScrapList)
 
-router.delete('/:userId/:styleId', controller.deleteStyleScrap)
+router.delete('/delete', controller.deleteStyleScrap)
 
 module.exports = router
