@@ -53,8 +53,39 @@ exports.createBrandingStyle = async ({ brandingId, styleIdList }) => {
 
 // Read Branding Resource [findOne, findAll]
 exports.findAllBranding = async () => {
-  const brandingList = await db.findAllBranding()
-  return brandingList
+  try {
+    let brandingList = await db.findAllBranding()
+    if (brandingList && brandingList.length > 0) {
+      brandingList = brandingList.map((branding) => {
+        let keyword_array = []
+        if (branding.keyword_array) {
+          keyword_array = branding.keyword_array.split(',')
+        }
+        return {
+          ...branding.dataValues,
+          keyword_array,
+          brandingStyles: branding.brandingStyles.map((style) => {
+            let style_keyword_array = []
+            if (style.keyword_array) {
+              style_keyword_array = style.keyword_array.split(',')
+            }
+            return {
+              ...style.dataValues,
+              keyword_array: style_keyword_array,
+              img_src_array: style.img_src_array.split(','),
+            }
+          }),
+        }
+      })
+      return brandingList
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
 exports.findAllBrandingByUserId = async (userId) => {
   const brandingList = await db.findAllBrandingByUserId(userId)

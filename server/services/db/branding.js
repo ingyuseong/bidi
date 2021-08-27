@@ -31,27 +31,33 @@ exports.createBrandingStyle = async (attr) => {
 
 // Read Branding Resource [findOne, findAll]
 exports.findAllBranding = async () => {
-  const results = await Branding.findAll({
-    where: {
-      main: true,
-    },
-    include: [
-      {
-        model: User,
-        attributes: ['name', 'nick_name', 'img_src'],
+  try {
+    const brandingList = await Branding.findAll({
+      where: {
+        main: true,
       },
-      {
-        model: Style,
-        as: 'brandingStyles',
-        through: {
-          model: BrandingStyle,
+      include: [
+        {
+          model: User,
+          attributes: ['name', 'nick_name', 'img_src'],
         },
-        required: false,
-      },
-    ],
-    order: [['updated_at', 'DESC']],
-  })
-  return results
+        {
+          model: Style,
+          as: 'brandingStyles',
+          through: {
+            model: BrandingStyle,
+          },
+          required: false,
+        },
+      ],
+      order: [['updated_at', 'DESC']],
+    })
+    return brandingList
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+    console.error(err)
+    return null
+  }
 }
 exports.findAllBrandingByUserId = async (userId) => {
   const results = await Branding.findAll({
