@@ -55,6 +55,28 @@ exports.registerWithFile = async (req, res, next) => {
 }
 
 // [ 2. GET Methods ]
+exports.getProposalList = async (req, res, next) => {
+  try {
+    const proposalList = await proposalServices.findAllProposal()
+    if (proposalList && proposalList.length > 0) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '전체 제안서 목록 조회 성공',
+        data: proposalList,
+      })
+    } else {
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        message: '전체 제안서 정보 조회 실패',
+        data: null,
+      })
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
+    res
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
 exports.getProposal = async (req, res, next) => {
   try {
     const { id } = req.params
@@ -67,28 +89,6 @@ exports.getProposal = async (req, res, next) => {
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
         message: '제안서 정보 조회 실패',
-        data: null,
-      })
-    }
-  } catch (err) {
-    console.error(ERROR_MESSAGE.ROUTES_ERROR)
-    console.error(err)
-    res
-      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
-  }
-}
-exports.getProposalList = async (req, res, next) => {
-  try {
-    const proposalList = await proposalServices.findAllProposal()
-    if (proposalList && proposalList.length > 0) {
-      res.status(STATUS_CODE.SUCCESS).json({
-        message: '전체 제안서 목록 조회 성공',
-        data: proposalList,
-      })
-    } else {
-      res.status(STATUS_CODE.NOT_FOUND).json({
-        message: '전체 제안서 정보 조회 실패',
         data: null,
       })
     }

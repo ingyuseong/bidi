@@ -27,6 +27,30 @@ exports.createProposal = async (body) => {
 }
 
 // Read Proposal Resource [findOne, findAll]
+exports.findAllProposal = async () => {
+  try {
+    let proposalList = await db.findAllProposal()
+    if (proposalList && proposalList.length > 0) {
+      proposalList = proposalList.map((proposal) => {
+        let keyword_array = []
+        if (proposal.dataValues.keyword_array) {
+          keyword_array = proposal.dataValues.keyword_array.split(',')
+        }
+        return {
+          ...proposal.dataValues,
+          keyword_array,
+        }
+      })
+      return proposalList
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
+}
 exports.findOneProposal = async (id) => {
   try {
     let proposal = await db.findOneProposal(id)
@@ -71,36 +95,16 @@ exports.findOneProposalByUserId = async (id) => {
     return null
   }
 }
-exports.findAllProposal = async () => {
-  try {
-    let proposalList = await db.findAllProposal()
-    if (proposalList && proposalList.length > 0) {
-      proposalList = proposalList.map((proposal) => {
-        let keyword_array = []
-        if (proposal.dataValues.keyword_array) {
-          keyword_array = proposal.dataValues.keyword_array.split(',')
-        }
-        return {
-          ...proposal.dataValues,
-          keyword_array,
-        }
-      })
-      return proposalList
-    } else {
-      return null
-    }
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SERVICES_ERROR)
-    console.error(err)
-    return null
-  }
-}
 
 // Update Proposal Resource [update]
 exports.updateProposal = async (id, body) => {
   try {
     const proposal = await db.updateProposal(id, body)
-    return proposal
+    if (proposal) {
+      return proposal
+    } else {
+      return null
+    }
   } catch (err) {
     console.error(ERROR_MESSAGE.SERVICES_ERROR)
     console.error(err)
@@ -112,7 +116,11 @@ exports.updateProposal = async (id, body) => {
 exports.destroyProposal = async (id) => {
   try {
     const proposal = await db.destroyProposal(id)
-    return proposal
+    if (proposal) {
+      return proposal
+    } else {
+      return null
+    }
   } catch (err) {
     console.error(ERROR_MESSAGE.SERVICES_ERROR)
     console.error(err)

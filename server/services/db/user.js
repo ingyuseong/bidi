@@ -21,22 +21,33 @@ exports.createUser = async (attr) => {
   }
 }
 
-// Read User Resource [selectOne, selectAll]
-exports.findOneUser = async (userId) =>
-  await User.findOne({
-    raw: true,
-    where: {
-      id: userId,
-    },
-  })
-    .then((results) => {
-      return results
+// Read User Resource [findOne, findAll]
+exports.findAllUser = async () => {
+  try {
+    const userList = await User.findAll({
+      order: [['id', 'ASC']],
     })
-    .catch((err) => {
-      console.error('Sequelize: Failed Selecting User')
-      throw err
+    return userList
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.findOneUser = async (id) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id,
+      },
     })
-
+    return user
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+    console.error(err)
+    return null
+  }
+}
 exports.findOneUserByToken = async (token) => {
   try {
     const user = await User.findOne({
@@ -56,85 +67,61 @@ exports.findOneUserByToken = async (token) => {
   }
 }
 
-exports.findAllUser = async () => {
-  const results = await User.findAll({
-    raw: true,
-  })
-  return results
-}
-
-exports.findLastUser = async () => {
-  const results = await User.findOne({
-    raw: true,
-    limit: 1,
-    order: [['id', 'DESC']],
-  })
-  return results
-}
-
 // Update User Resource [update]
-exports.updateUser = async ({
-  id,
-  user_type,
-  naver_token,
-  kakao_token,
-  apple_token,
-  name,
-  nick_name,
-  phone_number,
-  birth,
-  gender_type,
-  img_src,
-  authentication,
-  ai_status,
-  ai_process,
-  ai_count,
-}) => {
-  const results = await User.update({
-    raw: true,
-    user_type,
-    naver_token,
-    kakao_token,
-    apple_token,
-    name,
-    nick_name,
-    phone_number,
-    birth,
-    gender_type,
-    img_src,
-    authentication,
-    ai_status,
-    ai_process,
-    ai_count,
-    where: {
-      id,
-    },
-  })
-  return results
+exports.updateUser = async (id, body) => {
+  try {
+    const user = await User.update(
+      {
+        raw: true,
+        ...body,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    )
+    return user[0]
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+    console.error(err)
+    return null
+  }
 }
 
-exports.updateUserAiStatus = async ({ id, ai_status }) => {
-  const results = await User.update(
-    {
-      ai_status,
-    },
-    {
-      where: {
-        id,
+exports.updateUserAiStatus = async (id, ai_status) => {
+  try {
+    const user = await User.update(
+      {
+        raw: true,
+        ai_status,
       },
-    }
-  )
-
-  return results
+      {
+        where: {
+          id,
+        },
+      }
+    )
+    return user[0]
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+    console.error(err)
+    return null
+  }
 }
 
 // Delete User Resource [destroy]
-exports.destroyUser = async (userId) => {
-  const results = await User.destroy({
-    where: {
-      id: userId,
-    },
-  })
-
-  return results
+exports.destroyUser = async (id) => {
+  try {
+    const user = await User.destroy({
+      where: {
+        id,
+      },
+    })
+    return user
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_DELETE_ERROR)
+    console.error(err)
+    return null
+  }
 }

@@ -17,6 +17,28 @@ exports.createProposal = async (attr) => {
   }
 }
 // Read Proposal Resource [findOne, findAll]
+exports.findAllProposal = async () => {
+  try {
+    const proposalList = await Proposal.findAll({
+      where: {
+        matching: false,
+      },
+      include: [
+        {
+          model: User,
+          attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+          required: true,
+        },
+      ],
+      order: [['updated_at', 'DESC']],
+    })
+    return proposalList
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+    console.error(err)
+    return null
+  }
+}
 exports.findOneProposal = async (id) => {
   try {
     const proposal = await Proposal.findOne({
@@ -54,29 +76,6 @@ exports.findOneProposalByUserId = async (id) => {
       ],
     })
     return proposal
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
-    console.error(err)
-    return null
-  }
-}
-
-exports.findAllProposal = async () => {
-  try {
-    const proposalList = await Proposal.findAll({
-      where: {
-        matching: false,
-      },
-      include: [
-        {
-          model: User,
-          attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-          required: true,
-        },
-      ],
-      order: [['updated_at', 'DESC']],
-    })
-    return proposalList
   } catch (err) {
     console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
     console.error(err)
