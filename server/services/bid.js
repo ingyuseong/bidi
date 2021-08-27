@@ -205,6 +205,16 @@ exports.updateBidCanceled = async (id, body) => {
 
 // Delete Bid Resoure [destroy]
 exports.destroyBid = async (id) => {
-  const bid = await db.destroyBid(id)
-  return bid
+  try {
+    const bid = await db.destroyBid(id)
+    if (bid) {
+      return bid
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }

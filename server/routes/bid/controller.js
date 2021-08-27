@@ -109,7 +109,7 @@ exports.patchBid = async (req, res, next) => {
     if (patchedBidCount) {
       res.status(STATUS_CODE.SUCCESS).json({
         message: '비드 정보 수정 성공',
-        data: { patchedBidCount },
+        data: patchedBidCount,
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
@@ -134,7 +134,7 @@ exports.patchBidCanceled = async (req, res, next) => {
     if (patchedBidCount) {
       res.status(STATUS_CODE.SUCCESS).json({
         message: '비드 취소 상태 수정 성공',
-        data: { patchedBidCount },
+        data: patchedBidCount,
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
@@ -144,6 +144,8 @@ exports.patchBidCanceled = async (req, res, next) => {
       })
     }
   } catch (error) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
@@ -154,13 +156,22 @@ exports.patchBidCanceled = async (req, res, next) => {
 exports.deleteBid = async (req, res, next) => {
   try {
     const { id } = req.params
-    const bid = await bidServices.destroyBid(id)
-
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '비드 정보 삭제 성공',
-      data: { bid },
-    })
+    const deletedBidCount = await bidServices.destroyBid(id)
+    if (deletedBidCount) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '비드 정보 삭제 성공',
+        data: deletedBidCount,
+      })
+    } else {
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        // 에러는 없으나, 수정된 정보가 없습니다!
+        message: '비드 정보 삭제 실패(No resources)',
+        data: deletedBidCount,
+      })
+    }
   } catch (error) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })

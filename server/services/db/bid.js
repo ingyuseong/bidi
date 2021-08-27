@@ -237,17 +237,17 @@ exports.updateBidCancelElseByCustomerId = async (id) => {
 }
 
 // Delete Bid Resource [destroy]
-exports.destroyBid = async (bidId) =>
-  await Bid.destroy({
-    where: {
-      id: bidId,
-    },
-  })
-    .then((results) => {
-      console.log('Success Destroying Bid')
-      return results
+exports.destroyBid = async (id) => {
+  try {
+    const bid = await Bid.destroy({
+      where: {
+        id,
+      },
     })
-    .catch((err) => {
-      console.log('Failed Destroying Bid')
-      return err
-    })
+    return bid
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_DELETE_ERROR)
+    console.error(err)
+    return null
+  }
+}
