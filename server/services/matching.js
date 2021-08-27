@@ -41,37 +41,39 @@ exports.createMatching = async (body) => {
 }
 
 // Read Matching Resource [findOne, findAll]
-exports.findOneMatching = async (id) => {
+exports.findAllMatching = async () => {
   try {
-    let matching = await db.findOneMatching(id)
-    console.log(matching)
-    if (matching) {
-      let proposal_keyword_array = []
-      if (matching.proposal.keyword_array) {
-        proposal_keyword_array = matching.proposal.keyword_array.split(',')
-      }
-      matching = {
-        ...matching.dataValues,
-        bid: {
-          ...matching.bid.dataValues,
-          bidStyles: matching.bid.bidStyles.map((style) => {
-            let style_keyword_array = []
-            if (style.keyword_array) {
-              style_keyword_array = style.keyword_array.split(',')
-            }
-            return {
-              ...style.dataValues,
-              keyword_array: style_keyword_array,
-              img_src_array: style.img_src_array.split(','),
-            }
-          }),
-        },
-        proposal: {
-          ...matching.proposal.dataValues,
-          keyword_array: proposal_keyword_array,
-        },
-      }
-      return matching
+    let matchingList = await db.findAllMatching()
+    if (matchingList && matchingList.length > 0) {
+      matchingList = matchingList.map((matching) => {
+        let proposal_keyword_array = []
+        if (matching.proposal.keyword_array) {
+          proposal_keyword_array = matching.proposal.keyword_array.split(',')
+        }
+        matching = {
+          ...matching.dataValues,
+          bid: {
+            ...matching.bid.dataValues,
+            bidStyles: matching.bid.bidStyles.map((style) => {
+              let style_keyword_array = []
+              if (style.keyword_array) {
+                style_keyword_array = style.keyword_array.split(',')
+              }
+              return {
+                ...style.dataValues,
+                keyword_array: style_keyword_array,
+                img_src_array: style.img_src_array.split(','),
+              }
+            }),
+          },
+          proposal: {
+            ...matching.proposal.dataValues,
+            keyword_array: proposal_keyword_array,
+          },
+        }
+        return matching
+      })
+      return matchingList
     } else {
       return null
     }
@@ -156,6 +158,46 @@ exports.findAllMatchingByCustomerId = async (id) => {
         return matching
       })
       return matchingList
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.findOneMatching = async (id) => {
+  try {
+    let matching = await db.findOneMatching(id)
+    console.log(matching)
+    if (matching) {
+      let proposal_keyword_array = []
+      if (matching.proposal.keyword_array) {
+        proposal_keyword_array = matching.proposal.keyword_array.split(',')
+      }
+      matching = {
+        ...matching.dataValues,
+        bid: {
+          ...matching.bid.dataValues,
+          bidStyles: matching.bid.bidStyles.map((style) => {
+            let style_keyword_array = []
+            if (style.keyword_array) {
+              style_keyword_array = style.keyword_array.split(',')
+            }
+            return {
+              ...style.dataValues,
+              keyword_array: style_keyword_array,
+              img_src_array: style.img_src_array.split(','),
+            }
+          }),
+        },
+        proposal: {
+          ...matching.proposal.dataValues,
+          keyword_array: proposal_keyword_array,
+        },
+      }
+      return matching
     } else {
       return null
     }

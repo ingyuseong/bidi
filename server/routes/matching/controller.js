@@ -27,18 +27,17 @@ exports.registerMatching = async (req, res, next) => {
 }
 
 // [ 2. GET Methods ]
-exports.getMatching = async (req, res, next) => {
+exports.getMatchingList = async (req, res, next) => {
   try {
-    const { id } = req.params
-    const matching = await matchingServices.findOneMatching(id)
-    if (matching) {
+    const matchingList = await matchingServices.findAllMatching()
+    if (matchingList && matchingList.length > 0) {
       res.status(STATUS_CODE.SUCCESS).json({
-        message: '매칭 정보 조회 성공',
-        data: matching,
+        message: '전체 매칭 목록 조회 성공',
+        data: matchingList,
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
-        message: '매칭 정보 조회 실패',
+        message: '전체 매칭 목록 조회 실패(No resource)',
         data: null,
       })
     }
@@ -85,6 +84,29 @@ exports.getMatchingListByCustomerId = async (req, res, next) => {
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
         message: '유저의 매칭 목록 조회 실패(No resource)',
+        data: null,
+      })
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
+    res
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+exports.getMatching = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const matching = await matchingServices.findOneMatching(id)
+    if (matching) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '매칭 정보 조회 성공',
+        data: matching,
+      })
+    } else {
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        message: '매칭 정보 조회 실패',
         data: null,
       })
     }

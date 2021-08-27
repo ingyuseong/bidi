@@ -28,12 +28,9 @@ exports.createMatching = async (attr) => {
   }
 }
 // Read Matching Resource [findOne, findAll]
-exports.findOneMatching = async (id) => {
+exports.findAllMatching = async () => {
   try {
-    const matching = await Matching.findOne({
-      where: {
-        id,
-      },
+    const matchingList = await Matching.findAll({
       include: [
         {
           model: Proposal,
@@ -65,8 +62,9 @@ exports.findOneMatching = async (id) => {
           ],
         },
       ],
+      order: [['updated_at', 'DESC']],
     })
-    return matching
+    return matchingList
   } catch (err) {
     console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
     console.error(err)
@@ -165,45 +163,45 @@ exports.findAllMatchingByCustomerId = async (id) => {
     return null
   }
 }
-
-exports.findOneProposalByUserId = async (id) => {
+exports.findOneMatching = async (id) => {
   try {
-    const proposal = await Proposal.findOne({
+    const matching = await Matching.findOne({
       where: {
-        user_id: id,
-        matching: false,
+        id,
       },
       include: [
         {
-          model: User,
-          attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+          model: Proposal,
           required: true,
+          include: [
+            {
+              model: User,
+              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+              required: true,
+            },
+          ],
         },
-      ],
-    })
-    return proposal
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
-    console.error(err)
-    return null
-  }
-}
-
-exports.findAllProposal = async () => {
-  try {
-    const proposalList = await Proposal.findAll({
-      where: {
-        matching: false,
-      },
-      include: [
         {
-          model: User,
-          attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+          model: Bid,
           required: true,
+          include: [
+            {
+              model: User,
+              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+              required: true,
+            },
+            {
+              model: Style,
+              as: 'bidStyles',
+              through: {
+                model: BidStyle,
+              },
+            },
+          ],
         },
       ],
     })
-    return proposalList
+    return matching
   } catch (err) {
     console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
     console.error(err)
