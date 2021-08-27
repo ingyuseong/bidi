@@ -110,6 +110,53 @@ exports.findAllMatchingByDesignerId = async (id) => {
           ],
         },
       ],
+      order: [['updated_at', 'DESC']],
+    })
+    return matchingList
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.findAllMatchingByCustomerId = async (id) => {
+  try {
+    const matchingList = await Matching.findAll({
+      where: {
+        customer_id: id,
+      },
+      include: [
+        {
+          model: Proposal,
+          required: true,
+          include: [
+            {
+              model: User,
+              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+              required: true,
+            },
+          ],
+        },
+        {
+          model: Bid,
+          required: true,
+          include: [
+            {
+              model: User,
+              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+              required: true,
+            },
+            {
+              model: Style,
+              as: 'bidStyles',
+              through: {
+                model: BidStyle,
+              },
+            },
+          ],
+        },
+      ],
+      order: [['updated_at', 'DESC']],
     })
     return matchingList
   } catch (err) {

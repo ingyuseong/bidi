@@ -78,7 +78,7 @@ exports.findAllBidByDesignerId = async (userId) =>
         },
       },
     ],
-    order: [['created_at', 'DESC']],
+    order: [['updated_at', 'DESC']],
   })
     .then((results) => {
       console.log('Success find All Bid By Designer ID')
@@ -121,7 +121,7 @@ exports.findAllBidByCustomerId = async (userId) =>
         },
       },
     ],
-    order: [['created_at', 'DESC']],
+    order: [['updated_at', 'DESC']],
   })
     .then((results) => {
       console.log('Success find All Bid By Customer ID')

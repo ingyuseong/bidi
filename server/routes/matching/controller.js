@@ -76,15 +76,15 @@ exports.getMatchingListByDesignerId = async (req, res, next) => {
 exports.getMatchingListByCustomerId = async (req, res, next) => {
   try {
     const { id } = req.params
-    const proposal = await matchingServices.findOneProposalByUserId(id)
-    if (proposal) {
+    const matchingList = await matchingServices.findAllMatchingByCustomerId(id)
+    if (matchingList && matchingList.length > 0) {
       res.status(STATUS_CODE.SUCCESS).json({
-        message: '유저의 매칭 정보 조회 성공',
-        data: proposal,
+        message: '유저의 매칭 목록 조회 성공',
+        data: matchingList,
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
-        message: '유저의 매칭 정보 조회 실패',
+        message: '유저의 매칭 목록 조회 실패(No resource)',
         data: null,
       })
     }

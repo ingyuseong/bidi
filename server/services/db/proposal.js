@@ -74,6 +74,7 @@ exports.findAllProposal = async () => {
           required: true,
         },
       ],
+      order: [['updated_at', 'DESC']],
     })
     return proposalList
   } catch (err) {

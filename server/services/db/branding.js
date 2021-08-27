@@ -65,7 +65,7 @@ exports.findAllBranding = async () => {
         required: false,
       },
     ],
-    order: [['created_at', 'DESC']],
+    order: [['updated_at', 'DESC']],
   })
   return results
 }
@@ -84,7 +84,7 @@ exports.findAllBrandingByUserId = async (userId) => {
         required: false,
       },
     ],
-    order: [['created_at', 'DESC']],
+    order: [['updated_at', 'DESC']],
   })
   return results
 }
