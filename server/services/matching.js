@@ -271,10 +271,10 @@ exports.updateMatchingCanceled = async (id, body) => {
 }
 
 // Delete Matching Resoure [destroy]
-exports.destroyProposal = async (id) => {
+exports.destroyMatching = async (id) => {
   try {
-    const proposal = await db.destroyProposal(id)
-    return proposal
+    const matching = await db.destroyMatching(id)
+    return matching
   } catch (err) {
     console.error(ERROR_MESSAGE.SERVICES_ERROR)
     console.error(err)

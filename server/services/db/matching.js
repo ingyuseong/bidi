@@ -311,15 +311,15 @@ exports.updateMatchingCanceled = async (id, canceled) => {
   }
 }
 
-// Delete Proposal Resource [destroy]
-exports.destroyProposal = async (id) => {
+// Delete Matching Resource [destroy]
+exports.destroyMatching = async (id) => {
   try {
-    const proposal = await Proposal.destroy({
+    const matching = await Matching.destroy({
       where: {
         id,
       },
     })
-    return proposal
+    return matching
   } catch (err) {
     console.error(ERROR_MESSAGE.SEQUELIZE_DELETE_ERROR)
     console.error(err)

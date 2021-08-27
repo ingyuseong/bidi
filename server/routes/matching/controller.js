@@ -261,17 +261,17 @@ exports.patchMatchingCanceled = async (req, res, next) => {
 exports.deleteMatching = async (req, res, next) => {
   try {
     const { id } = req.params
-    const deletedProposalCount = await matchingServices.destroyProposal(id)
-    if (deletedProposalCount) {
+    const deletedMatchingCount = await matchingServices.destroyMatching(id)
+    if (deletedMatchingCount) {
       res.status(STATUS_CODE.SUCCESS).json({
         message: '매칭 정보 삭제 성공',
-        data: deletedProposalCount,
+        data: deletedMatchingCount,
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
         // 에러는 없으나, 수정된 정보가 없습니다!
         message: '매칭 정보 삭제 실패(No resources)',
-        data: deletedProposalCount,
+        data: deletedMatchingCount,
       })
     }
   } catch (err) {
