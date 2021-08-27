@@ -177,14 +177,23 @@ exports.patchMainBranding = async (req, res, next) => {
 // [ 4. DELETE Methods]
 exports.deleteBranding = async (req, res, next) => {
   try {
-    const { brandingId } = req.params
-    const branding = await brandingServices.destroyBranding(brandingId)
-
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: 'branding 삭제 성공',
-      data: { branding },
-    })
-  } catch (error) {
+    const { id } = req.params
+    const deletedBrandingCount = await brandingServices.destroyBranding(id)
+    if (deletedBrandingCount) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '포트폴리오 삭제 성공',
+        data: deletedBrandingCount,
+      })
+    } else {
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        // 에러는 없으나, 수정된 정보가 없습니다!
+        message: '포트폴리오 정보 삭제 실패(No resources)',
+        data: deletedBrandingCount,
+      })
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })

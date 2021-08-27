@@ -196,17 +196,17 @@ exports.updateMainBranding = async (branding_id) => {
 }
 
 // Delete Branding Resource [destroy]
-exports.destroyBranding = async (brandingId) =>
-  await Branding.destroy({
-    where: {
-      id: brandingId,
-    },
-  })
-    .then((results) => {
-      console.log('Success Destroying Branding')
-      return results
+exports.destroyBranding = async (id) => {
+  try {
+    const branding = await Branding.destroy({
+      where: {
+        id,
+      },
     })
-    .catch((err) => {
-      console.log('Failed Destroying Branding')
-      return err
-    })
+    return branding
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_DELETE_ERROR)
+    console.error(err)
+    return null
+  }
+}

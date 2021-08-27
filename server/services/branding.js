@@ -232,7 +232,17 @@ exports.updateMainBranding = async (body) => {
 }
 
 // Delete Branding Resoure [destroy]
-exports.destroyBranding = async (brandingId) => {
-  const branding = await db.destroyBranding(brandingId)
-  return branding
+exports.destroyBranding = async (id) => {
+  try {
+    const branding = await db.destroyBranding(id)
+    if (branding) {
+      return branding
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
