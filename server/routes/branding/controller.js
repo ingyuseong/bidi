@@ -1,23 +1,29 @@
 const brandingServices = require('../../services/branding')
 const { STATUS_CODE, ERROR_MESSAGE } = require('../../lib/constants')
-const style = require('../../models/style')
 
 // [ 1. POST Methods ]
 exports.registerBranding = async (req, res, next) => {
   try {
-    const params = req.body
-    const branding = await brandingServices.createBranding(params)
-    await brandingServices.createBrandingStyle({
+    const body = req.body
+    const branding = await brandingServices.createBranding(body)
+    const brandingStyle = await brandingServices.createBrandingStyle({
       brandingId: branding.id,
-      stylesIdString: params.stylesIdString,
+      styleIdList: body.styleIdList,
     })
-
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: 'Branding 등록 성공',
-      data: { branding },
-    })
-  } catch (error) {
-    console.log(error)
+    if (branding) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '포트폴리오 등록 성공',
+        data: { branding, brandingStyle },
+      })
+    } else {
+      res.status(STATUS_CODE.BAD_REQUEST).json({
+        message: '포트폴리오 등록 실패',
+        data: null,
+      })
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
@@ -139,7 +145,7 @@ exports.getBranding = async (req, res, next) => {
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
-        message: 'Branding 정보 조회 실패',
+        message: '포트폴리오 정보 조회 실패',
         data: null,
       })
     }
@@ -180,7 +186,7 @@ exports.getBrandingByUserId = async (req, res, next) => {
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
-        message: '유저의 Branding 정보 조회 실패',
+        message: '유저의 포트폴리오 정보 조회 실패',
         data: null,
       })
     }
@@ -202,7 +208,7 @@ exports.patchBranding = async (req, res, next) => {
       ...params,
     })
     res.status(STATUS_CODE.SUCCESS).json({
-      message: 'Branding 정보 수정 성공',
+      message: '포트폴리오 정보 수정 성공',
       data: { branding },
     })
   } catch (error) {
@@ -219,7 +225,7 @@ exports.patchMainBranding = async (req, res, next) => {
       userId: user_id,
     })
     res.status(STATUS_CODE.SUCCESS).json({
-      message: 'main Branding 정보 수정 성공',
+      message: 'main 포트폴리오 정보 수정 성공',
       data: { branding },
     })
   } catch (error) {

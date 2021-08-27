@@ -25,11 +25,11 @@ exports.createBid = async (body) => {
     return null
   }
 }
-exports.createBidStyle = async ({ bidId, stylesIdString }) => {
+exports.createBidStyle = async ({ bidId, styleIdList }) => {
   try {
-    if (stylesIdString) {
+    if (styleIdList) {
       const bidStyleList = await Promise.all(
-        stylesIdString.split(',').map((styleId) => {
+        styleIdList.split(',').map((styleId) => {
           const attr = {
             bidId,
             styleId,

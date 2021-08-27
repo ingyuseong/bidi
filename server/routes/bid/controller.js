@@ -8,7 +8,7 @@ exports.registerBid = async (req, res, next) => {
     const bid = await bidServices.createBid(body)
     const bidStyle = await bidServices.createBidStyle({
       bidId: bid.id,
-      stylesIdString: body.stylesIdString,
+      styleIdList: body.styleIdList,
     })
     if (bid) {
       res.status(STATUS_CODE.SUCCESS).json({
@@ -21,7 +21,7 @@ exports.registerBid = async (req, res, next) => {
         data: null,
       })
     }
-  } catch (error) {
+  } catch (err) {
     console.error(ERROR_MESSAGE.ROUTES_ERROR)
     console.error(err)
     res
@@ -92,8 +92,9 @@ exports.getBid = async (req, res, next) => {
         data: null,
       })
     }
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
@@ -118,7 +119,7 @@ exports.patchBid = async (req, res, next) => {
         data: patchedBidCount,
       })
     }
-  } catch (error) {
+  } catch (err) {
     console.error(ERROR_MESSAGE.ROUTES_ERROR)
     console.error(err)
     res
@@ -143,7 +144,7 @@ exports.patchBidCanceled = async (req, res, next) => {
         data: patchedBidCount,
       })
     }
-  } catch (error) {
+  } catch (err) {
     console.error(ERROR_MESSAGE.ROUTES_ERROR)
     console.error(err)
     res
@@ -169,7 +170,7 @@ exports.deleteBid = async (req, res, next) => {
         data: deletedBidCount,
       })
     }
-  } catch (error) {
+  } catch (err) {
     console.error(ERROR_MESSAGE.ROUTES_ERROR)
     console.error(err)
     res

@@ -1,19 +1,54 @@
 const db = require('./db/branding')
 
 // Create Branding Resource [create]
-exports.createBranding = async (params) => {
-  const branding = await db.createBranding({ ...params })
-  return branding
+exports.createBranding = async (body) => {
+  try {
+    const attr = {
+      userId: body.user_id,
+      title: body.title,
+      shop_name: body.shop_name,
+      address: body.address,
+      position: body.position,
+      description: body.description,
+      keyword_array: body.keyword_array,
+    }
+    const branding = await db.createBranding(attr)
+    if (branding) {
+      return branding.dataValues
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
-exports.createBrandingStyle = async ({ brandingId, stylesIdString }) => {
-  if (stylesIdString) {
-    const results = await Promise.all(
-      stylesIdString.split(',').map((styleId) => {
-        return db.createBrandingStyle(brandingId, styleId)
-      })
-    )
-    return results
-  } else return null
+exports.createBrandingStyle = async ({ brandingId, styleIdList }) => {
+  try {
+    if (styleIdList) {
+      const brandingStyleList = await Promise.all(
+        styleIdList.split(',').map((styleId) => {
+          const attr = {
+            brandingId,
+            styleId,
+          }
+          return db.createBrandingStyle(attr)
+        })
+      )
+      if (brandingStyleList) {
+        return brandingStyleList
+      } else {
+        return null
+      }
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
 
 // Read Branding Resource [findOne, findAll]

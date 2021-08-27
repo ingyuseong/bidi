@@ -1,49 +1,33 @@
 const { Branding, Style, User, BrandingStyle } = require('../../models')
 
 // Create Branding Resource [create]
-exports.createBranding = async ({
-  user_id,
-  title,
-  shop_name,
-  address,
-  position,
-  description,
-  keyword_array,
-  main,
-}) =>
-  await Branding.create({
-    raw: true,
-    userId: user_id,
-    title,
-    shop_name,
-    address,
-    position,
-    description,
-    keyword_array,
-    main,
-  })
-    .then((results) => {
-      console.log('Success Creating Branding')
-      return results
+exports.createBranding = async (attr) => {
+  try {
+    const branding = await Branding.create({
+      raw: true,
+      ...attr,
+      main: false,
     })
-    .catch((err) => {
-      console.log('Failed Creating Branding')
-      return err
+    return branding
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_CREATE_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.createBrandingStyle = async (attr) => {
+  try {
+    const brandingStyle = await BrandingStyle.create({
+      raw: true,
+      ...attr,
     })
-exports.createBrandingStyle = async (brandingId, styleId) =>
-  await BrandingStyle.create({
-    raw: true,
-    brandingId,
-    styleId,
-  })
-    .then((results) => {
-      console.log('Success Creating BrandingStyle')
-      return results
-    })
-    .catch((err) => {
-      console.log('Failed Creating BrandingStyle')
-      return err
-    })
+    return brandingStyle
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+    console.error(err)
+    return null
+  }
+}
 
 // Read Branding Resource [findOne, findAll]
 exports.findAllBranding = async () => {
