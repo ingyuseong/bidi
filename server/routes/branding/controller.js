@@ -56,41 +56,22 @@ exports.getBrandingList = async (req, res, next) => {
 exports.getBrandingListByDesignerId = async (req, res, next) => {
   try {
     const { id } = req.params
+    console.log(id)
     let brandingList = await brandingServices.findAllBrandingByDesignerId(id)
     if (brandingList && brandingList.length > 0) {
-      brandingList = brandingList.map((branding) => {
-        let keyword_array = []
-        if (branding.keyword_array) {
-          keyword_array = branding.keyword_array.split(',')
-        }
-        return {
-          ...branding.dataValues,
-          keyword_array,
-          brandingStyles: branding.brandingStyles.map((style) => {
-            let style_keyword_array = []
-            if (style.keyword_array) {
-              style_keyword_array = style.keyword_array.split(',')
-            }
-            return {
-              ...style.dataValues,
-              keyword_array: style_keyword_array,
-              img_src_array: style.img_src_array.split(','),
-            }
-          }),
-        }
-      })
       res.status(STATUS_CODE.SUCCESS).json({
-        message: '전체 Brainding List 정보 조회 성공',
+        message: '디자이너의 포트폴리오 목록 조회 성공',
         data: brandingList,
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
-        message: '전체 Brainding List 정보 조회 실패',
+        message: '디자이너의 포트폴리오 목록 조회 실패',
         data: null,
       })
     }
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })

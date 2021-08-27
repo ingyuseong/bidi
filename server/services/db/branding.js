@@ -1,4 +1,5 @@
 const { Branding, Style, User, BrandingStyle } = require('../../models')
+const { ERROR_MESSAGE } = require('../../lib/constants')
 
 // Create Branding Resource [create]
 exports.createBranding = async (attr) => {
@@ -59,10 +60,36 @@ exports.findAllBranding = async () => {
     return null
   }
 }
-exports.findAllBrandingByUserId = async (userId) => {
-  const results = await Branding.findAll({
+exports.findAllBrandingByDesignerId = async (id) => {
+  try {
+    const brandingList = await Branding.findAll({
+      where: {
+        user_id: id,
+      },
+      include: [
+        {
+          model: Style,
+          as: 'brandingStyles',
+          through: {
+            model: BrandingStyle,
+          },
+          required: false,
+        },
+      ],
+      order: [['updated_at', 'DESC']],
+    })
+    return brandingList
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.findOneBrandingByUserId = async (userId) => {
+  const results = await Branding.findOne({
     where: {
       user_id: userId,
+      main: true,
     },
     include: [
       {
@@ -74,7 +101,6 @@ exports.findAllBrandingByUserId = async (userId) => {
         required: false,
       },
     ],
-    order: [['updated_at', 'DESC']],
   })
   return results
 }
@@ -102,25 +128,6 @@ exports.findOneBranding = async (brandingId) =>
       console.log('Failed Selecting branding')
       return err
     })
-exports.findOneBrandingByUserId = async (userId) => {
-  const results = await Branding.findOne({
-    where: {
-      user_id: userId,
-      main: true,
-    },
-    include: [
-      {
-        model: Style,
-        as: 'brandingStyles',
-        through: {
-          model: BrandingStyle,
-        },
-        required: false,
-      },
-    ],
-  })
-  return results
-}
 
 // Update Branding Resource [update]
 exports.updateBranding = async ({

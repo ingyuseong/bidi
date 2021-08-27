@@ -1,4 +1,5 @@
 const db = require('./db/branding')
+const { ERROR_MESSAGE } = require('../lib/constants')
 
 // Create Branding Resource [create]
 exports.createBranding = async (body) => {
@@ -87,9 +88,41 @@ exports.findAllBranding = async () => {
     return null
   }
 }
-exports.findAllBrandingByUserId = async (userId) => {
-  const brandingList = await db.findAllBrandingByUserId(userId)
-  return brandingList
+exports.findAllBrandingByDesignerId = async (id) => {
+  try {
+    console.log(id)
+    let brandingList = await db.findAllBrandingByDesignerId(id)
+    if (brandingList && brandingList.length > 0) {
+      brandingList = brandingList.map((branding) => {
+        let keyword_array = []
+        if (branding.keyword_array) {
+          keyword_array = branding.keyword_array.split(',')
+        }
+        return {
+          ...branding.dataValues,
+          keyword_array,
+          brandingStyles: branding.brandingStyles.map((style) => {
+            let style_keyword_array = []
+            if (style.keyword_array) {
+              style_keyword_array = style.keyword_array.split(',')
+            }
+            return {
+              ...style.dataValues,
+              keyword_array: style_keyword_array,
+              img_src_array: style.img_src_array.split(','),
+            }
+          }),
+        }
+      })
+      return brandingList
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
 exports.findOneBranding = async (brandingId) => {
   const branding = await db.findOneBranding(brandingId)

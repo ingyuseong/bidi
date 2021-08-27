@@ -22,13 +22,13 @@ const controller = require('./controller')
 router.post('/register', controller.registerBranding)
 
 router.get('/list', controller.getBrandingList)
-router.get('/designer/:id', controller.getBrandingListByDesignerId)
-router.get('/designer/main/:id', controller.getBrandingByUserId)
-router.get('/:brandingId', controller.getBranding)
+router.get('/list/designer/:id', controller.getBrandingListByDesignerId)
+router.get('/designer/:id', controller.getBrandingByUserId)
+router.get('/:id', controller.getBranding)
 
 router.patch('/main', controller.patchMainBranding)
-router.patch('/:brandingId', controller.patchBranding)
+router.patch('/:id', controller.patchBranding)
 
-router.delete('/:brandingId', controller.deleteBranding)
+router.delete('/:id', controller.deleteBranding)
 
 module.exports = router
