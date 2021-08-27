@@ -30,17 +30,16 @@ exports.registerUser = async (req, res, next) => {
 }
 exports.checkToken = async (req, res, next) => {
   try {
-    const { token } = req.body
-    const user = await userServices.findOneUserByToken(token)
-
+    const body = req.body
+    const user = await userServices.findOneUserByToken(body)
     if (user) {
       return res.status(STATUS_CODE.SUCCESS).json({
-        message: '이미 회원가입한 유저',
+        message: '유저 Token Check 성공',
         data: user,
       })
     } else {
       return res.status(STATUS_CODE.NOT_FOUND).json({
-        message: '회원가입 하지 않았음',
+        message: '유저 Token Check 실패(No resource)',
         data: null,
       })
     }

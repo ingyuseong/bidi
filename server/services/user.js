@@ -27,14 +27,25 @@ exports.createUser = async (body, location) => {
     return null
   }
 }
+exports.findOneUserByToken = async (body) => {
+  try {
+    const { token } = body
+    const user = await db.findOneUserByToken(token)
+    if (user) {
+      return user.dataValues
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
+}
 
 // Read User Resource [findOne, findAll]
 exports.findOneUser = async (userId) => {
   const user = await db.findOneUser(userId)
-  return user
-}
-exports.findOneUserByToken = async (token) => {
-  const user = await db.findOneUserByToken(token)
   return user
 }
 exports.findAllUser = async () => {

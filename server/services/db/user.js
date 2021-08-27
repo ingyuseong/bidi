@@ -38,17 +38,22 @@ exports.findOneUser = async (userId) =>
     })
 
 exports.findOneUserByToken = async (token) => {
-  const results = await User.findOne({
-    raw: true,
-    where: {
-      [or]: [
-        { naver_token: token },
-        { kakao_token: token },
-        { apple_token: token },
-      ],
-    },
-  })
-  return results
+  try {
+    const user = await User.findOne({
+      where: {
+        [or]: [
+          { naver_token: token },
+          { kakao_token: token },
+          { apple_token: token },
+        ],
+      },
+    })
+    return user
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+    console.error(err)
+    return null
+  }
 }
 
 exports.findAllUser = async () => {
