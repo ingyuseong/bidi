@@ -36,16 +36,9 @@ exports.updateBid = async (params) => {
   const bid = await db.updateBid({ ...params })
   return bid
 }
-exports.updateBidMatching = async (params) => {
-  const bid = await db.updateBidMatching({ ...params })
-  return bid
-}
-exports.updateBidCanceled = async (params) => {
-  const bid = await db.updateBidCanceled({ ...params })
-  return bid
-}
-exports.updateBidCancelElse = async (params) => {
-  const bid = await db.updateBidCancelElse({ ...params })
+exports.updateBidCanceled = async (id, body) => {
+  const { canceled } = body
+  const bid = await db.updateBidCanceled(id, body)
   return bid
 }
 

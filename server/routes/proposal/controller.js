@@ -150,34 +150,6 @@ exports.patchProposal = async (req, res, next) => {
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
-exports.patchMatchingStatus = async (req, res, next) => {
-  try {
-    const { id } = req.params
-    const body = req.body
-    const patchedProposalCount = await proposalServices.updateMatchingStatus(
-      id,
-      body
-    )
-    if (patchedProposalCount) {
-      res.status(STATUS_CODE.SUCCESS).json({
-        message: '제안서 상태 정보 수정 성공',
-        data: patchedProposalCount,
-      })
-    } else {
-      res.status(STATUS_CODE.NOT_FOUND).json({
-        // 에러는 없으나, 수정된 정보가 없습니다!
-        message: '제안서 상태 정보 수정 실패(No resources or No change)',
-        data: patchedProposalCount,
-      })
-    }
-  } catch (err) {
-    console.error(ERROR_MESSAGE.ROUTES_ERROR)
-    console.error(err)
-    res
-      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
-  }
-}
 
 // [ 4. DELETE Methods]
 exports.deleteProposal = async (req, res, next) => {

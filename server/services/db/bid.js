@@ -135,7 +135,6 @@ exports.findOneBid = async (id) =>
   await Bid.findOne({
     where: {
       id,
-      matching: false,
     },
     include: [
       {
@@ -207,28 +206,27 @@ exports.updateBid = async ({
       console.log('Failed Updating Bid')
       return err
     })
-exports.updateBidMatching = async ({ bidId }) =>
-  await Bid.update(
-    {
-      raw: true,
-      matching: true,
-      canceled: false,
-    },
-    {
-      where: {
-        id: bidId,
+exports.updateBidMatching = async (id) => {
+  try {
+    const bid = await Bid.update(
+      {
+        matching: true,
+        canceled: false,
       },
-    }
-  )
-    .then((results) => {
-      console.log('Success Updating Bid Matching Status')
-      return results
-    })
-    .catch((err) => {
-      console.log('Failed Updating Bid Matching Status')
-      return err
-    })
-exports.updateBidCanceled = async ({ bidId, canceled }) =>
+      {
+        where: {
+          id,
+        },
+      }
+    )
+    return bid[0]
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.updateBidCanceled = async (id, canceled) =>
   await Bid.update(
     {
       raw: true,
@@ -236,7 +234,7 @@ exports.updateBidCanceled = async ({ bidId, canceled }) =>
     },
     {
       where: {
-        id: bidId,
+        id,
       },
     }
   )

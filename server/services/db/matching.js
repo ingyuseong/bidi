@@ -1,22 +1,26 @@
-const { Proposal, User } = require('../../models')
+const { Matching, Bid, Proposal, User } = require('../../models')
 const { ERROR_MESSAGE } = require('../../lib/constants')
 
-// Create Proposal Resource [create]
-exports.createProposal = async (attr) => {
+// Create Matching Resource [create]
+exports.createMatching = async (attr) => {
   try {
-    const proposal = await Proposal.create({
+    const matching = await Matching.create({
       raw: true,
       ...attr,
-      matching: false,
+      styling_at: null,
+      review: null,
+      star: 0,
+      done: false,
+      canceled: false,
     })
-    return proposal
+    return matching
   } catch (err) {
     console.error(ERROR_MESSAGE.SEQUELIZE_CREATE_ERROR)
     console.error(err)
     return null
   }
 }
-// Read Proposal Resource [findOne, findAll]
+// Read Matching Resource [findOne, findAll]
 exports.findOneProposal = async (id) => {
   try {
     const proposal = await Proposal.findOne({
@@ -104,11 +108,11 @@ exports.updateProposal = async (id, body) => {
     return null
   }
 }
-exports.updateProposalMatching = async (id) => {
+exports.updateMatchingStatus = async (id, matching) => {
   try {
     const proposal = await Proposal.update(
       {
-        matching: true,
+        matching,
       },
       {
         where: {

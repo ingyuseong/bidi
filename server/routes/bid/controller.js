@@ -177,27 +177,11 @@ exports.patchBid = async (req, res, next) => {
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
-exports.patchBidMatching = async (req, res, next) => {
-  try {
-    const { bid_id, customer_id } = req.body
-    await bidServices.updateBidCancelElse({
-      customerId: customer_id,
-    })
-    const bid = await bidServices.updateBidMatching({ bidId: bid_id })
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '비드 매칭 상태 수정 성공',
-      data: { bid },
-    })
-  } catch (error) {
-    res
-      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
-  }
-}
 exports.patchBidCanceled = async (req, res, next) => {
   try {
-    const { bid_id } = req.body
-    const bid = await bidServices.updateBidCanceled({ bidId: bid_id })
+    const { id } = req.params
+    const body = req.body
+    const bid = await bidServices.updateBidCanceled(id, body)
     res.status(STATUS_CODE.SUCCESS).json({
       message: '비드 취소 상태 수정 성공',
       data: { bid },

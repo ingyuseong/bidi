@@ -1,23 +1,37 @@
-const db = require('./db/proposal')
+const db = require('./db/matching')
+const proposalDb = require('./db/proposal')
+const bidDb = require('./db/bid')
 const { ERROR_MESSAGE } = require('../lib/constants')
 
 // Create Proposal Resource [create]
-exports.createProposal = async (body) => {
+exports.createMatching = async (body) => {
   try {
-    const attr = {
-      userId: body.user_id,
-      before_src: body.before_src,
-      after_src: body.after_src,
-      price_limit: Number(body.price_limit),
-      address: body.address,
-      description: body.description,
-      keyword_array: body.keyword_array,
-    }
-    const proposal = await db.createProposal(attr)
-    if (proposal) {
-      return proposal.dataValues
-    } else {
+    const proposal = await proposalDb.updateProposalMatching(body.proposal_id)
+    const bid = await bidDb.updateBidMatching(body.bid_id)
+    if (proposal && bid) {
+      const attr = {
+        bidId: body.bid_id,
+        proposalId: body.proposal_id,
+        customer_id: body.customer_id,
+        designer_id: body.designer_id,
+        shop_name: body.shop_name,
+        address: body.address,
+      }
+      const matching = await db.createMatching(attr)
+      if (matching) {
+        return matching.dataValues
+      } else {
+        console.log('matching 생성 실패')
+        return null
+      }
+    } else if (!proposal) {
+      console.log('proposal matching 상태 업데이트 실패')
       return null
+    } else if (!bid) {
+      console.log('bid matching 상태 업데이트 실패')
+      return null
+    } else {
+      throw new error()
     }
   } catch (err) {
     console.error(ERROR_MESSAGE.SERVICES_ERROR)
@@ -106,6 +120,25 @@ exports.updateProposal = async (id, body) => {
     console.error(err)
     return null
   }
+}
+exports.updateMatchingStatus = async (id, body) => {
+  try {
+    const { matching } = body
+    const proposal = await db.updateMatchingStatus(id, matching)
+    return proposal
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.updateBidMatching = async (params) => {
+  const bid = await db.updateBidMatching({ ...params })
+  return bid
+}
+exports.updateBidCancelElse = async (params) => {
+  const bid = await db.updateBidCancelElse({ ...params })
+  return bid
 }
 
 // Delete Proposal Resoure [destroy]

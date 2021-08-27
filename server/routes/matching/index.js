@@ -1,14 +1,34 @@
 const router = require('express').Router()
 const controller = require('./controller')
+const upload = require('../../middleware/uploadAfterImage')
 
-router.post('/register', controller.registerMatchingHistory)
+/*
+    [ 1. POST Methods ]
+    POST /api/proposal/register         : 제안서 등록 API
+    POST /api/proposal/registerWithFile : 제안서 등록 API with Image File
+    
+    [ 2. GET Methods ]
+    GET /api/proposal/list          : 전체 제안서 목록 조회 API
+    GET /api/proposal/:id           : 제안서 정보 조회 API
+    GET /api/proposal/user/:userId  : 유저 ID로 제안서 정보 조회 API
 
-router.get('/designer/:userId', controller.getMatchingHistoryByDesignerId)
-router.get('/customer/:userId', controller.getMatchingHistoryByCustomerId)
+    [ 3. PATCH Methods ]
+    PATCH /api/proposal/:id           : 제안서 정보 수정 API
+    PATCH /api/proposal/matching/:id  : 제안서 매칭여부 수정 API
 
-router.patch('/review/:id', controller.editReview)
-router.patch('/star/:id', controller.editStar)
+    [ 4. DELETE Methods]
+    DELETE /api/proposal/:id : 제안서 정보 삭제 API
+*/
 
-router.delete('/:id', controller.deleteMatchingHistory)
+router.post('/register', controller.registerMatching)
+
+router.get('/list', controller.getProposalList)
+router.get('/:id', controller.getProposal)
+router.get('/user/:id', controller.getProposalByUserId)
+
+router.patch('/:id', controller.patchProposal)
+router.patch('/matching/:id', controller.patchMatchingStatus)
+
+router.delete('/:id', controller.deleteProposal)
 
 module.exports = router
