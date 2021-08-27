@@ -25,44 +25,16 @@ exports.registerMatching = async (req, res, next) => {
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
-exports.registerWithFile = async (req, res, next) => {
-  try {
-    const { location } = req.file
-    const body = {
-      ...req.body,
-      after_src: location,
-    }
-    const proposal = await proposalServices.createProposal(body)
-    if (proposal) {
-      res.status(STATUS_CODE.CREATED).json({
-        message: '매칭 등록 성공',
-        data: proposal,
-      })
-    } else {
-      res.status(STATUS_CODE.BAD_REQUEST).json({
-        // 에러는 없으나, 수정된 정보가 없습니다!
-        message: '매칭 등록 실패',
-        data: proposal,
-      })
-    }
-  } catch (err) {
-    console.error(ERROR_MESSAGE.ROUTES_ERROR)
-    console.error(err)
-    res
-      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
-  }
-}
 
 // [ 2. GET Methods ]
-exports.getProposal = async (req, res, next) => {
+exports.getMatching = async (req, res, next) => {
   try {
     const { id } = req.params
-    const proposal = await proposalServices.findOneProposal(id)
-    if (proposal) {
+    const matching = await matchingServices.findOneMatching(id)
+    if (matching) {
       res.status(STATUS_CODE.SUCCESS).json({
         message: '매칭 정보 조회 성공',
-        data: proposal,
+        data: matching,
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
@@ -78,9 +50,9 @@ exports.getProposal = async (req, res, next) => {
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
-exports.getProposalList = async (req, res, next) => {
+exports.getMatchingListByDesignerId = async (req, res, next) => {
   try {
-    const proposalList = await proposalServices.findAllProposal()
+    const proposalList = await matchingServices.findAllProposal()
     if (proposalList && proposalList.length > 0) {
       res.status(STATUS_CODE.SUCCESS).json({
         message: '전체 매칭 목록 조회 성공',
@@ -100,10 +72,10 @@ exports.getProposalList = async (req, res, next) => {
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
-exports.getProposalByUserId = async (req, res, next) => {
+exports.getMatchingListByCustomerId = async (req, res, next) => {
   try {
     const { id } = req.params
-    const proposal = await proposalServices.findOneProposalByUserId(id)
+    const proposal = await matchingServices.findOneProposalByUserId(id)
     if (proposal) {
       res.status(STATUS_CODE.SUCCESS).json({
         message: '유저의 매칭 정보 조회 성공',
@@ -125,11 +97,11 @@ exports.getProposalByUserId = async (req, res, next) => {
 }
 
 // [ 3. PATCH Methods ]
-exports.patchProposal = async (req, res, next) => {
+exports.patchMatching = async (req, res, next) => {
   try {
     const { id } = req.params
     const body = req.body
-    const patchedProposalCount = await proposalServices.updateProposal(id, body)
+    const patchedProposalCount = await matchingServices.updateProposal(id, body)
     if (patchedProposalCount) {
       res.status(STATUS_CODE.SUCCESS).json({
         message: '매칭 상태 정보 수정 성공',
@@ -154,7 +126,7 @@ exports.patchMatchingStatus = async (req, res, next) => {
   try {
     const { id } = req.params
     const body = req.body
-    const patchedProposalCount = await proposalServices.updateMatchingStatus(
+    const patchedProposalCount = await matchingServices.updateMatchingStatus(
       id,
       body
     )
@@ -197,10 +169,10 @@ exports.patchBidMatching = async (req, res, next) => {
 }
 
 // [ 4. DELETE Methods]
-exports.deleteProposal = async (req, res, next) => {
+exports.deleteMatching = async (req, res, next) => {
   try {
     const { id } = req.params
-    const deletedProposalCount = await proposalServices.destroyProposal(id)
+    const deletedProposalCount = await matchingServices.destroyProposal(id)
     if (deletedProposalCount) {
       res.status(STATUS_CODE.SUCCESS).json({
         message: '매칭 정보 삭제 성공',

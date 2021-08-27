@@ -1,4 +1,11 @@
-const { Matching, Bid, Proposal, User } = require('../../models')
+const {
+  Matching,
+  Bid,
+  Proposal,
+  BidStyle,
+  Style,
+  User,
+} = require('../../models')
 const { ERROR_MESSAGE } = require('../../lib/constants')
 
 // Create Matching Resource [create]
@@ -21,21 +28,45 @@ exports.createMatching = async (attr) => {
   }
 }
 // Read Matching Resource [findOne, findAll]
-exports.findOneProposal = async (id) => {
+exports.findOneMatching = async (id) => {
   try {
-    const proposal = await Proposal.findOne({
+    const matching = await Matching.findOne({
       where: {
         id,
       },
       include: [
         {
-          model: User,
-          attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+          model: Proposal,
           required: true,
+          include: [
+            {
+              model: User,
+              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+              required: true,
+            },
+          ],
+        },
+        {
+          model: Bid,
+          required: true,
+          include: [
+            {
+              model: User,
+              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+              required: true,
+            },
+            {
+              model: Style,
+              as: 'bidStyles',
+              through: {
+                model: BidStyle,
+              },
+            },
+          ],
         },
       ],
     })
-    return proposal
+    return matching
   } catch (err) {
     console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
     console.error(err)

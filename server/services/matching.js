@@ -41,19 +41,37 @@ exports.createMatching = async (body) => {
 }
 
 // Read Proposal Resource [findOne, findAll]
-exports.findOneProposal = async (id) => {
+exports.findOneMatching = async (id) => {
   try {
-    let proposal = await db.findOneProposal(id)
-    if (proposal) {
-      let keyword_array = []
-      if (keyword_array) {
-        keyword_array = proposal.keyword_array.split(',')
+    let matching = await db.findOneMatching(id)
+    console.log(matching)
+    if (matching) {
+      let proposal_keyword_array = []
+      if (matching.proposal.keyword_array) {
+        proposal_keyword_array = matching.proposal.keyword_array.split(',')
       }
-      proposal = {
-        ...proposal.dataValues,
-        keyword_array,
+      matching = {
+        ...matching.dataValues,
+        bid: {
+          ...matching.bid.dataValues,
+          bidStyles: matching.bid.bidStyles.map((style) => {
+            let style_keyword_array = []
+            if (style.keyword_array) {
+              style_keyword_array = style.keyword_array.split(',')
+            }
+            return {
+              ...style.dataValues,
+              keyword_array: style_keyword_array,
+              img_src_array: style.img_src_array.split(','),
+            }
+          }),
+        },
+        proposal: {
+          ...matching.proposal.dataValues,
+          keyword_array: proposal_keyword_array,
+        },
       }
-      return proposal
+      return matching
     } else {
       return null
     }
@@ -63,7 +81,7 @@ exports.findOneProposal = async (id) => {
     return null
   }
 }
-exports.findOneProposalByUserId = async (id) => {
+exports.findAllMatchingByUserId = async (id) => {
   try {
     let proposal = await db.findOneProposalByUserId(id)
     if (proposal) {

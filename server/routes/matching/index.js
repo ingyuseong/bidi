@@ -22,13 +22,13 @@ const upload = require('../../middleware/uploadAfterImage')
 
 router.post('/register', controller.registerMatching)
 
-router.get('/list', controller.getProposalList)
-router.get('/:id', controller.getProposal)
-router.get('/user/:id', controller.getProposalByUserId)
+router.get('/:id', controller.getMatching)
+router.get('/designer/:id', controller.getMatchingListByDesignerId)
+router.get('/customer/:id', controller.getMatchingListByCustomerId)
 
-router.patch('/:id', controller.patchProposal)
+router.patch('/:id', controller.patchMatching)
 router.patch('/matching/:id', controller.patchMatchingStatus)
 
-router.delete('/:id', controller.deleteProposal)
+router.delete('/:id', controller.deleteMatching)
 
 module.exports = router
