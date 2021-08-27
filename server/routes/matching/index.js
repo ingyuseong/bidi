@@ -26,8 +26,8 @@ router.get('/:id', controller.getMatching)
 router.get('/designer/:id', controller.getMatchingListByDesignerId)
 router.get('/customer/:id', controller.getMatchingListByCustomerId)
 
-router.patch('/:id', controller.patchMatching)
-router.patch('/matching/:id', controller.patchMatchingStatus)
+// router.patch('/:id', controller.patchMatching)
+// router.patch('/matching/:id', controller.patchMatchingStatus)
 
 router.delete('/:id', controller.deleteMatching)
 

@@ -3,7 +3,7 @@ const proposalDb = require('./db/proposal')
 const bidDb = require('./db/bid')
 const { ERROR_MESSAGE } = require('../lib/constants')
 
-// Create Proposal Resource [create]
+// Create Matching Resource [create]
 exports.createMatching = async (body) => {
   try {
     const proposal = await proposalDb.updateProposalMatching(body.proposal_id)
@@ -40,7 +40,7 @@ exports.createMatching = async (body) => {
   }
 }
 
-// Read Proposal Resource [findOne, findAll]
+// Read Matching Resource [findOne, findAll]
 exports.findOneMatching = async (id) => {
   try {
     let matching = await db.findOneMatching(id)
@@ -81,19 +81,39 @@ exports.findOneMatching = async (id) => {
     return null
   }
 }
-exports.findAllMatchingByUserId = async (id) => {
+exports.findAllMatchingByDesignerId = async (id) => {
   try {
-    let proposal = await db.findOneProposalByUserId(id)
-    if (proposal) {
-      let keyword_array = []
-      if (keyword_array) {
-        keyword_array = proposal.keyword_array.split(',')
-      }
-      proposal = {
-        ...proposal.dataValues,
-        keyword_array,
-      }
-      return proposal
+    let matchingList = await db.findAllMatchingByDesignerId(id)
+    if (matchingList && matchingList.length > 0) {
+      matchingList = matchingList.map((matching) => {
+        let proposal_keyword_array = []
+        if (matching.proposal.keyword_array) {
+          proposal_keyword_array = matching.proposal.keyword_array.split(',')
+        }
+        matching = {
+          ...matching.dataValues,
+          bid: {
+            ...matching.bid.dataValues,
+            bidStyles: matching.bid.bidStyles.map((style) => {
+              let style_keyword_array = []
+              if (style.keyword_array) {
+                style_keyword_array = style.keyword_array.split(',')
+              }
+              return {
+                ...style.dataValues,
+                keyword_array: style_keyword_array,
+                img_src_array: style.img_src_array.split(','),
+              }
+            }),
+          },
+          proposal: {
+            ...matching.proposal.dataValues,
+            keyword_array: proposal_keyword_array,
+          },
+        }
+        return matching
+      })
+      return matchingList
     } else {
       return null
     }
@@ -128,7 +148,7 @@ exports.findAllProposal = async () => {
   }
 }
 
-// Update Proposal Resource [update]
+// Update Matching Resource [update]
 exports.updateProposal = async (id, body) => {
   try {
     const proposal = await db.updateProposal(id, body)
@@ -159,7 +179,7 @@ exports.updateBidCancelElse = async (params) => {
   return bid
 }
 
-// Delete Proposal Resoure [destroy]
+// Delete Matching Resoure [destroy]
 exports.destroyProposal = async (id) => {
   try {
     const proposal = await db.destroyProposal(id)

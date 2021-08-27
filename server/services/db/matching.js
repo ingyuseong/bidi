@@ -73,6 +73,52 @@ exports.findOneMatching = async (id) => {
     return null
   }
 }
+exports.findAllMatchingByDesignerId = async (id) => {
+  try {
+    const matchingList = await Matching.findAll({
+      where: {
+        designer_id: id,
+      },
+      include: [
+        {
+          model: Proposal,
+          required: true,
+          include: [
+            {
+              model: User,
+              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+              required: true,
+            },
+          ],
+        },
+        {
+          model: Bid,
+          required: true,
+          include: [
+            {
+              model: User,
+              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+              required: true,
+            },
+            {
+              model: Style,
+              as: 'bidStyles',
+              through: {
+                model: BidStyle,
+              },
+            },
+          ],
+        },
+      ],
+    })
+    return matchingList
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+    console.error(err)
+    return null
+  }
+}
+
 exports.findOneProposalByUserId = async (id) => {
   try {
     const proposal = await Proposal.findOne({

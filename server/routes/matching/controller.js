@@ -52,15 +52,16 @@ exports.getMatching = async (req, res, next) => {
 }
 exports.getMatchingListByDesignerId = async (req, res, next) => {
   try {
-    const proposalList = await matchingServices.findAllProposal()
-    if (proposalList && proposalList.length > 0) {
+    const { id } = req.params
+    const matchingList = await matchingServices.findAllMatchingByDesignerId(id)
+    if (matchingList && matchingList.length > 0) {
       res.status(STATUS_CODE.SUCCESS).json({
-        message: '전체 매칭 목록 조회 성공',
-        data: proposalList,
+        message: '디자이너의 매칭 목록 조회 성공',
+        data: matchingList,
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
-        message: '전체 매칭 정보 조회 실패',
+        message: '디자이너의 매칭 목록 조회 실패(No resource)',
         data: null,
       })
     }
@@ -117,51 +118,6 @@ exports.patchMatching = async (req, res, next) => {
   } catch (err) {
     console.error(ERROR_MESSAGE.ROUTES_ERROR)
     console.error(err)
-    res
-      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
-  }
-}
-exports.patchMatchingStatus = async (req, res, next) => {
-  try {
-    const { id } = req.params
-    const body = req.body
-    const patchedProposalCount = await matchingServices.updateMatchingStatus(
-      id,
-      body
-    )
-    if (patchedProposalCount) {
-      res.status(STATUS_CODE.SUCCESS).json({
-        message: '매칭 상태 정보 수정 성공',
-        data: patchedProposalCount,
-      })
-    } else {
-      res.status(STATUS_CODE.NOT_FOUND).json({
-        // 에러는 없으나, 수정된 정보가 없습니다!
-        message: '매칭 상태 정보 수정 실패(No resources or No change)',
-        data: patchedProposalCount,
-      })
-    }
-  } catch (err) {
-    console.error(ERROR_MESSAGE.ROUTES_ERROR)
-    console.error(err)
-    res
-      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
-  }
-}
-exports.patchBidMatching = async (req, res, next) => {
-  try {
-    const { bid_id, customer_id } = req.body
-    await bidServices.updateBidCancelElse({
-      customerId: customer_id,
-    })
-    const bid = await bidServices.updateBidMatching({ bidId: bid_id })
-    res.status(STATUS_CODE.SUCCESS).json({
-      message: '비드 매칭 상태 수정 성공',
-      data: { bid },
-    })
-  } catch (error) {
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
