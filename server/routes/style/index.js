@@ -25,7 +25,7 @@ router.get('/user/:id', controller.getStyleListByUserId)
 router.get('/:id', controller.getStyle)
 
 router.patch('/:id', controller.patchStyle)
-router.patch('/matching/:id', controller.patchAiEnable)
+router.patch('/enable/:id', controller.patchAiEnable)
 
 router.delete('/:id', controller.deleteStyle)
 
