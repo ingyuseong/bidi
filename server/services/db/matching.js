@@ -210,12 +210,12 @@ exports.findOneMatching = async (id) => {
 }
 
 // Update Proposal Resource [update]
-exports.updateProposal = async (id, body) => {
+exports.updateMatchingTime = async (id, time) => {
   try {
-    const proposal = await Proposal.update(
+    const matching = await Matching.update(
       {
         raw: true,
-        ...body,
+        time,
       },
       {
         where: {
@@ -223,18 +223,19 @@ exports.updateProposal = async (id, body) => {
         },
       }
     )
-    return proposal[0]
+    return matching[0]
   } catch (err) {
     console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
     console.error(err)
     return null
   }
 }
-exports.updateMatchingStatus = async (id, matching) => {
+exports.updateMatchingReview = async (id, review) => {
   try {
-    const proposal = await Proposal.update(
+    const matching = await Matching.update(
       {
-        matching,
+        raw: true,
+        review,
       },
       {
         where: {
@@ -242,7 +243,67 @@ exports.updateMatchingStatus = async (id, matching) => {
         },
       }
     )
-    return proposal[0]
+    return matching[0]
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.updateMatchingStar = async (id, star) => {
+  try {
+    const matching = await Matching.update(
+      {
+        raw: true,
+        star,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    )
+    return matching[0]
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.updateMatchingDone = async (id, done) => {
+  try {
+    const matching = await Matching.update(
+      {
+        raw: true,
+        done,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    )
+    return matching[0]
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.updateMatchingCanceled = async (id, canceled) => {
+  try {
+    const matching = await Matching.update(
+      {
+        raw: true,
+        canceled,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    )
+    return matching[0]
   } catch (err) {
     console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
     console.error(err)

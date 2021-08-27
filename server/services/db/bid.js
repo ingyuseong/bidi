@@ -246,26 +246,26 @@ exports.updateBidCanceled = async (id, canceled) =>
       console.log('Failed Updating Bid Canceled Status')
       return err
     })
-exports.updateBidCancelElse = async ({ customerId }) =>
-  await Bid.update(
-    {
-      raw: true,
-      canceled: true,
-    },
-    {
-      where: {
-        customer_id: customerId,
+exports.updateBidCancelElseByCustomerId = async (id) => {
+  try {
+    const bid = await Bid.update(
+      {
+        raw: true,
+        canceled: true,
       },
-    }
-  )
-    .then((results) => {
-      console.log('Success Updating Bid Canceled Status')
-      return results
-    })
-    .catch((err) => {
-      console.log('Failed Updating Bid Canceled Status')
-      return err
-    })
+      {
+        where: {
+          customer_id: id,
+        },
+      }
+    )
+    return bid[0]
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
+    console.error(err)
+    return null
+  }
+}
 
 // Delete Bid Resource [destroy]
 exports.destroyBid = async (bidId) =>

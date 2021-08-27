@@ -144,12 +144,12 @@ exports.getBidListByCustomerId = async (req, res, next) => {
         }
       })
       res.status(STATUS_CODE.SUCCESS).json({
-        message: '디자이너 비드 목록 조회 성공',
+        message: '유저 비드 목록 조회 성공',
         data: { bidList },
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
-        message: '디자이너 비드 목록 조회 실패',
+        message: '유저 비드 목록 조회 실패',
         data: null,
       })
     }

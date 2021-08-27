@@ -5,7 +5,6 @@ const upload = require('../../middleware/uploadAfterImage')
 /*
     [ 1. POST Methods ]
     POST /api/proposal/register         : 제안서 등록 API
-    POST /api/proposal/registerWithFile : 제안서 등록 API with Image File
     
     [ 2. GET Methods ]
     GET /api/proposal/list          : 전체 제안서 목록 조회 API
@@ -27,8 +26,11 @@ router.get('/designer/:id', controller.getMatchingListByDesignerId)
 router.get('/customer/:id', controller.getMatchingListByCustomerId)
 router.get('/:id', controller.getMatching)
 
-// router.patch('/:id', controller.patchMatching)
-// router.patch('/matching/:id', controller.patchMatchingStatus)
+router.patch('/time/:id', controller.patchMatchingTime)
+router.patch('/review/:id', controller.patchMatchingReview)
+router.patch('/star/:id', controller.patchMatchingStar)
+router.patch('/done/:id', controller.patchMatchingDone)
+router.patch('/cancel/:id', controller.patchMatchingCanceled)
 
 router.delete('/:id', controller.deleteMatching)
 

@@ -7,8 +7,11 @@ const { ERROR_MESSAGE } = require('../lib/constants')
 exports.createMatching = async (body) => {
   try {
     const proposal = await proposalDb.updateProposalMatching(body.proposal_id)
+    const bidCancelElse = await bidDb.updateBidCancelElseByCustomerId(
+      body.customer_id
+    )
     const bid = await bidDb.updateBidMatching(body.bid_id)
-    if (proposal && bid) {
+    if (proposal && bid && bidCancelElse) {
       const attr = {
         bidId: body.bid_id,
         proposalId: body.proposal_id,
@@ -29,6 +32,9 @@ exports.createMatching = async (body) => {
       return null
     } else if (!bid) {
       console.log('bid matching 상태 업데이트 실패')
+      return null
+    } else if (!bidCancelElse) {
+      console.log('other bids matching 상태 업데이트 실패')
       return null
     } else {
       throw new error()
@@ -170,7 +176,6 @@ exports.findAllMatchingByCustomerId = async (id) => {
 exports.findOneMatching = async (id) => {
   try {
     let matching = await db.findOneMatching(id)
-    console.log(matching)
     if (matching) {
       let proposal_keyword_array = []
       if (matching.proposal.keyword_array) {
@@ -209,34 +214,60 @@ exports.findOneMatching = async (id) => {
 }
 
 // Update Matching Resource [update]
-exports.updateProposal = async (id, body) => {
+exports.updateMatchingTime = async (id, body) => {
   try {
-    const proposal = await db.updateProposal(id, body)
-    return proposal
+    const { time } = body
+    const matching = await db.updateMatchingTime(id, time)
+    return matching
   } catch (err) {
     console.error(ERROR_MESSAGE.SERVICES_ERROR)
     console.error(err)
     return null
   }
 }
-exports.updateMatchingStatus = async (id, body) => {
+exports.updateMatchingReview = async (id, body) => {
   try {
-    const { matching } = body
-    const proposal = await db.updateMatchingStatus(id, matching)
-    return proposal
+    const { review } = body
+    const matching = await db.updateMatchingReview(id, review)
+    return matching
   } catch (err) {
     console.error(ERROR_MESSAGE.SERVICES_ERROR)
     console.error(err)
     return null
   }
 }
-exports.updateBidMatching = async (params) => {
-  const bid = await db.updateBidMatching({ ...params })
-  return bid
+exports.updateMatchingStar = async (id, body) => {
+  try {
+    const { star } = body
+    const matching = await db.updateMatchingStar(id, star)
+    return matching
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
-exports.updateBidCancelElse = async (params) => {
-  const bid = await db.updateBidCancelElse({ ...params })
-  return bid
+exports.updateMatchingDone = async (id, body) => {
+  try {
+    const { done } = body
+    const matching = await db.updateMatchingDone(id, done)
+    return matching
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.updateMatchingCanceled = async (id, body) => {
+  try {
+    const { cancel } = body
+    const matching = await db.updateMatchingCanceled(id, cancel)
+    return matching
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
 
 // Delete Matching Resoure [destroy]

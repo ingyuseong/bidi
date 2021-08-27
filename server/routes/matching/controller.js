@@ -120,21 +120,132 @@ exports.getMatching = async (req, res, next) => {
 }
 
 // [ 3. PATCH Methods ]
-exports.patchMatching = async (req, res, next) => {
+exports.patchMatchingTime = async (req, res, next) => {
   try {
     const { id } = req.params
     const body = req.body
-    const patchedProposalCount = await matchingServices.updateProposal(id, body)
-    if (patchedProposalCount) {
+    const patchedMatchingTimeCount = await matchingServices.updateMatchingTime(
+      id,
+      body
+    )
+    if (patchedMatchingTimeCount) {
       res.status(STATUS_CODE.SUCCESS).json({
-        message: '매칭 상태 정보 수정 성공',
-        data: patchedProposalCount,
+        message: '매칭 시간 정보 수정 성공',
+        data: patchedMatchingTimeCount,
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
         // 에러는 없으나, 수정된 정보가 없습니다!
-        message: '매칭 상태 정보 수정 실패(No resources or No change)',
-        data: patchedProposalCount,
+        message: '매칭 시간 정보 수정 실패(No resources or No change)',
+        data: patchedMatchingTimeCount,
+      })
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
+    res
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+exports.patchMatchingReview = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const body = req.body
+    const patchedMatchingReviewCount =
+      await matchingServices.updateMatchingReview(id, body)
+    if (patchedMatchingReviewCount) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '매칭 리뷰 정보 수정 성공',
+        data: patchedMatchingReviewCount,
+      })
+    } else {
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        // 에러는 없으나, 수정된 정보가 없습니다!
+        message: '매칭 리뷰 정보 수정 실패(No resources or No change)',
+        data: patchedMatchingReviewCount,
+      })
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
+    res
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+exports.patchMatchingStar = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const body = req.body
+    const patchedMatchingStarCount = await matchingServices.updateMatchingStar(
+      id,
+      body
+    )
+    if (patchedMatchingStarCount) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '매칭 별점 상태 정보 수정 성공',
+        data: patchedMatchingStarCount,
+      })
+    } else {
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        // 에러는 없으나, 수정된 정보가 없습니다!
+        message: '매칭 별점 상태 정보 수정 실패(No resources or No change)',
+        data: patchedMatchingStarCount,
+      })
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
+    res
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+exports.patchMatchingDone = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const body = req.body
+    const patchedMatchingDoneCount = await matchingServices.updateMatchingDone(
+      id,
+      body
+    )
+    if (patchedMatchingDoneCount) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '매칭 종료 상태 정보 수정 성공',
+        data: patchedMatchingDoneCount,
+      })
+    } else {
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        // 에러는 없으나, 수정된 정보가 없습니다!
+        message: '매칭 종료 상태 정보 수정 실패(No resources or No change)',
+        data: patchedMatchingDoneCount,
+      })
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
+    res
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
+      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+  }
+}
+exports.patchMatchingCanceled = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const body = req.body
+    const patchedMatchingCancelCount =
+      await matchingServices.updateMatchingCanceled(id, body)
+    if (patchedMatchingCancelCount) {
+      res.status(STATUS_CODE.SUCCESS).json({
+        message: '매칭 취소 상태 정보 수정 성공',
+        data: patchedMatchingCancelCount,
+      })
+    } else {
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        // 에러는 없으나, 수정된 정보가 없습니다!
+        message: '매칭 취소 상태 정보 수정 실패(No resources or No change)',
+        data: patchedMatchingCancelCount,
       })
     }
   } catch (err) {

@@ -40,7 +40,7 @@ const modelAttributes = {
   canceled: {
     type: DataTypes.BOOLEAN,
   },
-  styling_at: {
+  time: {
     type: DataTypes.DATE,
   },
   created_at: {
