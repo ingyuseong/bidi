@@ -6,20 +6,21 @@ const { patch } = require('.')
 exports.registerProposal = async (req, res, next) => {
   try {
     const body = req.body
-    const createdProposalCount = await proposalServices.createProposal(body)
-    if (createdProposalCount) {
+    const proposal = await proposalServices.createProposal(body)
+    if (proposal) {
       res.status(STATUS_CODE.CREATED).json({
         message: '제안서 등록 성공',
-        data: createdProposalCount,
+        data: proposal,
       })
     } else {
       res.status(STATUS_CODE.BAD_REQUEST).json({
         message: '제안서 등록 실패',
-        data: createdProposalCount,
+        data: proposal,
       })
     }
-  } catch (error) {
-    console.log(ERROR_MESSAGE.ROUTES_ERROR)
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
@@ -40,12 +41,14 @@ exports.registerWithFile = async (req, res, next) => {
       })
     } else {
       res.status(STATUS_CODE.BAD_REQUEST).json({
+        // 에러는 없으나, 수정된 정보가 없습니다!
         message: '제안서 등록 실패',
         data: proposal,
       })
     }
-  } catch (error) {
-    console.log(ERROR_MESSAGE.ROUTES_ERROR)
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
@@ -68,8 +71,9 @@ exports.getProposal = async (req, res, next) => {
         data: null,
       })
     }
-  } catch (error) {
-    console.log(ERROR_MESSAGE.ROUTES_ERROR)
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
@@ -90,8 +94,9 @@ exports.getProposalByUserId = async (req, res, next) => {
         data: null,
       })
     }
-  } catch (error) {
-    console.log(ERROR_MESSAGE.ROUTES_ERROR)
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
@@ -111,8 +116,9 @@ exports.getProposalList = async (req, res, next) => {
         data: null,
       })
     }
-  } catch (error) {
-    console.log(ERROR_MESSAGE.ROUTES_ERROR)
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
@@ -131,13 +137,15 @@ exports.patchProposal = async (req, res, next) => {
         data: patchedProposalCount,
       })
     } else {
-      res.status(STATUS_CODE.BAD_REQUEST).json({
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        // 에러는 없으나, 수정된 정보가 없습니다!
         message: '제안서 상태 정보 수정 실패(No resources or No change)',
         data: patchedProposalCount,
       })
     }
-  } catch (error) {
-    console.log(ERROR_MESSAGE.ROUTES_ERROR)
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
@@ -157,13 +165,15 @@ exports.patchMatchingStatus = async (req, res, next) => {
         data: patchedProposalCount,
       })
     } else {
-      res.status(STATUS_CODE.BAD_REQUEST).json({
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        // 에러는 없으나, 수정된 정보가 없습니다!
         message: '제안서 상태 정보 수정 실패(No resources or No change)',
         data: patchedProposalCount,
       })
     }
-  } catch (error) {
-    console.log(ERROR_MESSAGE.ROUTES_ERROR)
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
@@ -181,13 +191,15 @@ exports.deleteProposal = async (req, res, next) => {
         data: deletedProposalCount,
       })
     } else {
-      res.status(STATUS_CODE.BAD_REQUEST).json({
+      res.status(STATUS_CODE.NOT_FOUND).json({
+        // 에러는 없으나, 수정된 정보가 없습니다!
         message: '제안서 정보 삭제 실패(No resources)',
         data: deletedProposalCount,
       })
     }
-  } catch (error) {
-    console.log(ERROR_MESSAGE.ROUTES_ERROR)
+  } catch (err) {
+    console.error(ERROR_MESSAGE.ROUTES_ERROR)
+    console.error(err)
     res
       .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })

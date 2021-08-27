@@ -14,10 +14,15 @@ exports.createProposal = async (body) => {
       keyword_array: body.keyword_array,
     }
     const proposal = await db.createProposal(attr)
-    return proposal
+    if (proposal) {
+      return proposal.dataValues
+    } else {
+      return null
+    }
   } catch (err) {
     console.error(ERROR_MESSAGE.SERVICES_ERROR)
-    throw err
+    console.error(err)
+    return null
   }
 }
 
@@ -31,7 +36,7 @@ exports.findOneProposal = async (id) => {
         keyword_array = proposal.keyword_array.split(',')
       }
       proposal = {
-        ...proposal,
+        ...proposal.dataValues,
         keyword_array,
       }
       return proposal
@@ -40,7 +45,8 @@ exports.findOneProposal = async (id) => {
     }
   } catch (err) {
     console.error(ERROR_MESSAGE.SERVICES_ERROR)
-    throw err
+    console.error(err)
+    return null
   }
 }
 exports.findOneProposalByUserId = async (id) => {
@@ -52,7 +58,7 @@ exports.findOneProposalByUserId = async (id) => {
         keyword_array = proposal.keyword_array.split(',')
       }
       proposal = {
-        ...proposal,
+        ...proposal.dataValues,
         keyword_array,
       }
       return proposal
@@ -61,7 +67,8 @@ exports.findOneProposalByUserId = async (id) => {
     }
   } catch (err) {
     console.error(ERROR_MESSAGE.SERVICES_ERROR)
-    throw err
+    console.error(err)
+    return null
   }
 }
 exports.findAllProposal = async () => {
@@ -84,7 +91,8 @@ exports.findAllProposal = async () => {
     }
   } catch (err) {
     console.error(ERROR_MESSAGE.SERVICES_ERROR)
-    throw err
+    console.error(err)
+    return null
   }
 }
 
@@ -94,7 +102,9 @@ exports.updateProposal = async (id, body) => {
     const proposal = await db.updateProposal(id, body)
     return proposal
   } catch (err) {
-    throw err
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
   }
 }
 exports.updateMatchingStatus = async (id, body) => {
@@ -104,7 +114,8 @@ exports.updateMatchingStatus = async (id, body) => {
     return proposal
   } catch (err) {
     console.error(ERROR_MESSAGE.SERVICES_ERROR)
-    throw err
+    console.error(err)
+    return null
   }
 }
 
@@ -115,6 +126,7 @@ exports.destroyProposal = async (id) => {
     return proposal
   } catch (err) {
     console.error(ERROR_MESSAGE.SERVICES_ERROR)
-    throw err
+    console.error(err)
+    return null
   }
 }
