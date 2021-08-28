@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 
+import BidAPI from '../../../Api/bid';
 import BidiStorage from '../../../Lib/storage';
 import { LENGTH_TYPE, STYLE_TYPE, STORAGE_KEY } from '../../../Lib/constant';
 import { checkToken } from '../../../Contexts/User';
@@ -50,26 +51,23 @@ function CreateBidScreen({ navigation, route }) {
   }, []);
 
   const registerBidHandler = async () => {
-    console.log('!!');
-    const response = await dispatch(
-      registerBid({
-        customer_id: userInfo.id,
-        designer_id: userInfo.id,
-        proposal_id: proposal.id,
-        large_category: lengthTypeValue,
-        small_category: styleTypeValue,
-        letter: bidLetter,
-        need_care: needCare,
-        status: 'wait',
-        styles: [1, 2],
-      }),
-    );
-    console.log(bidList, bidLoading, bidError, response);
-    if (bidList) {
+    const response = await BidAPI.registerBid({
+      customer_id: userInfo.id,
+      designer_id: userInfo.id,
+      proposal_id: proposal.id,
+      large_category: lengthTypeValue,
+      small_category: styleTypeValue,
+      letter: bidLetter,
+      need_care: needCare,
+      status: 'wait',
+      styles: [1, 2],
+    });
+    if (response) {
+      dispatch(registerBid(response));
       Alert.alert('Bid 작성이 성공적으로 완료되었습니다!');
       navigation.navigate('Bid', { screen: 'BidMain' });
     } else {
-      console.log('error');
+      Alert.alert('Error');
     }
   };
 

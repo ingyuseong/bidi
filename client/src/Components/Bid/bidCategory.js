@@ -34,7 +34,6 @@ function BidCategory({
         <>
           <DropDownPicker
             zIndex={1000}
-            key={1}
             open={lengthTypeOpen}
             onOpen={onLengthTypeOpen}
             value={lengthTypeValue}
@@ -52,7 +51,6 @@ function BidCategory({
           {lengthTypeValue !== '미선택' && (
             <DropDownPicker
               zIndex={500}
-              key={2}
               open={styleTypeOpen}
               onOpen={onStyleTypeOpen}
               value={styleTypeValue}

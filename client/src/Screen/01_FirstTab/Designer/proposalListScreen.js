@@ -13,7 +13,6 @@ import { getProposalList } from '../../../Contexts/Proposal';
 function ProposalListScreen({ navigation }) {
   const { data: proposalList, loading, error } = useSelector((state) => state.proposal);
   const dispatch = useDispatch();
-  console.log(proposalList);
   useEffect(() => {
     dispatch(getProposalList());
   }, [dispatch]);

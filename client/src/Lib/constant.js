@@ -3,27 +3,27 @@ export const SERVER_URL = 'http://127.0.0.1:3000/api';
 export const STORAGE_KEY = 'user';
 
 export const LENGTH_TYPE = [
-  { label: '롱', value: '롱', key: 1 },
-  { label: '미디엄', value: '미디엄', key: 2 },
-  { label: '단발', value: '단발', key: 3 },
+  { label: '롱', value: '롱', key: '1' },
+  { label: '미디엄', value: '미디엄', key: '2' },
+  { label: '단발', value: '단발', key: '3' },
 ];
 
 export const STYLE_TYPE = {
-  미선택: ['길이 종류를 선택해주세요!'],
+  미선택: [{ label: '미선택', value: '미선택', key: '0' }],
   롱: [
-    { label: '커트', value: '커트', key: 4 },
-    { label: '파마', value: '파마', key: 5 },
-    { label: '스타일링', value: '스타일링', key: 6 },
+    { label: '커트', value: '커트', key: '4' },
+    { label: '파마', value: '파마', key: '5' },
+    { label: '스타일링', value: '스타일링', key: '6' },
   ],
   미디엄: [
-    { label: '커트', value: '커트', key: 7 },
-    { label: '파마', value: '파마', key: 8 },
-    { label: '스타일링', value: '스타일링', key: 9 },
+    { label: '커트', value: '커트', key: '7' },
+    { label: '파마', value: '파마', key: '8' },
+    { label: '스타일링', value: '스타일링', key: '9' },
   ],
   단발: [
-    { label: '커트', value: '커트', key: 10 },
-    { label: '파마', value: '파마', key: 11 },
-    { label: '스타일링', value: '스타일링', key: 12 },
+    { label: '커트', value: '커트', key: '10' },
+    { label: '파마', value: '파마', key: '11' },
+    { label: '스타일링', value: '스타일링', key: '12' },
   ],
 };
 
