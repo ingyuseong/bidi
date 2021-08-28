@@ -1,7 +1,7 @@
 import { GET_PROPOSAL_LIST, GET_PROPOSAL_LIST_SUCCESS, GET_PROPOSAL_LIST_ERROR } from './constant';
 import { reducerUtils, handleAsyncActions } from '../Common/asyncUtils';
 const initialState = {
-  ...reducerUtils.initial(),
+  ...reducerUtils.initial([]),
 };
 const proposalReducer = (state = initialState, action) => {
   switch (action.type) {

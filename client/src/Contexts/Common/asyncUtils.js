@@ -11,7 +11,8 @@ export const createPromiseThunk = (type, promiseCreator) => {
     try {
       // 결과물의 이름을 payload 라는 이름으로 통일시킵니다.
       const payload = await promiseCreator(param);
-      dispatch({ type: SUCCESS, payload }); // 성공
+      if (payload) dispatch({ type: SUCCESS, payload });
+      else throw new Error(payload);
     } catch (e) {
       dispatch({ type: ERROR, payload: e, error: true }); // 실패
     }
@@ -53,13 +54,11 @@ export const handleAsyncActions = (type) => {
   return (state, action) => {
     switch (action.type) {
       case type:
-        console.log('here', action.type, action.payload);
         return {
           ...state,
           ...reducerUtils.loading(),
         };
       case SUCCESS:
-        console.log('her2e', action.type, action.payload);
         return {
           ...state,
           ...reducerUtils.success(action.payload),

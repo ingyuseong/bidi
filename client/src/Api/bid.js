@@ -20,7 +20,6 @@ import { API, formAPI } from './common';
 
 const BidAPI = {
   registerBid: async (body) => {
-    console.log('bidy', body);
     return await API('/bid/register', 'post', JSON.stringify(body));
   },
   getBid: async () => {},
