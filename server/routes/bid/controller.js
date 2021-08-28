@@ -5,12 +5,13 @@ const { STATUS_CODE, ERROR_MESSAGE } = require('../../lib/constants')
 exports.registerBid = async (req, res, next) => {
   try {
     const params = req.body
+    console.log('body', params)
     const bid = await bidServices.createBid(params)
+    console.log('bid', bid.id)
     const bidStyle = await bidServices.createBidStyle({
       bidId: bid.id,
-      stylesIdString: params.stylesIdString,
+      styles: params.styles,
     })
-
     res.status(STATUS_CODE.SUCCESS).json({
       message: '비드 작성 성공',
       data: { bid, bidStyle },
@@ -144,12 +145,12 @@ exports.getBidListByCustomerId = async (req, res, next) => {
         }
       })
       res.status(STATUS_CODE.SUCCESS).json({
-        message: '디자이너 비드 목록 조회 성공',
+        message: '유저 비드 목록 조회 성공',
         data: { bidList },
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
-        message: '디자이너 비드 목록 조회 실패',
+        message: '유저 비드 목록 조회 실패',
         data: null,
       })
     }

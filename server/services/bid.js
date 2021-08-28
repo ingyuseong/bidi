@@ -6,13 +6,14 @@ exports.createBid = async (params) => {
   const bid = await db.createBid({ ...params })
   return bid
 }
-exports.createBidStyle = async ({ bidId, stylesIdString }) => {
-  if (stylesIdString) {
-    const results = await Promise.all(
-      stylesIdString.split(',').map((styleId) => {
+exports.createBidStyle = async ({ bidId, styles }) => {
+  if (styles) {
+    const results = styles.reduce((prevPromise, styleId) => {
+      const currentPromise = prevPromise.then(() => {
         return db.createBidStyle(bidId, styleId)
       })
-    )
+      return currentPromise
+    }, Promise.resolve())
     return results
   } else return null
 }
