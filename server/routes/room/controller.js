@@ -15,7 +15,7 @@ exports.getAllRoomByCustomerId = async (req, res, next) => {
     })
   } catch (error) {
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }
@@ -34,7 +34,7 @@ exports.getAllRoomByDesignerId = async (req, res, next) => {
     })
   } catch (error) {
     res
-      .status(STATUS_CODE.SERVER_ERROR)
+      .status(STATUS_CODE.INTERNAL_SERVER_ERROR)
       .json({ message: ERROR_MESSAGE.SERVER_ERROR })
   }
 }

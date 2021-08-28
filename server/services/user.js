@@ -1,41 +1,128 @@
 const db = require('./db/user')
 
 // Create User Resource [create]
-exports.createUser = async (params) => {
-  const user = await db.createUser({ ...params })
-  return user
+exports.createUser = async (body, location) => {
+  try {
+    const attr = {
+      user_type: body.userType ? body.userType : '',
+      naver_token: body.userNaverToken ? body.userNaverToken : '',
+      kakao_token: body.userKakaoToken ? body.userKakaoToken : '',
+      apple_token: body.userAppleToken ? body.userAppleToken : '',
+      name: body.userName ? body.userName : '',
+      nick_name: body.userNickName ? body.userNickName : '',
+      phone_number: body.userPhoneNumber ? body.userPhoneNumber : '',
+      birth: body.userBirth ? body.userBirth : '',
+      gender_type: body.userGenderType ? body.genderType : '',
+      img_src: location ? location : '',
+    }
+    const user = await db.createUser(attr)
+    if (user) {
+      return user.dataValues
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
 
 // Read User Resource [findOne, findAll]
-exports.findOneUser = async (userId) => {
-  const user = await db.findOneUser(userId)
-  return user
-}
-exports.findOneUserByToken = async (token) => {
-  const user = await db.findOneUserByToken(token)
-  return user
-}
 exports.findAllUser = async () => {
-  const user = await db.findAllUser()
-  return user
+  try {
+    const userList = await db.findAllUser()
+    if (userList && userList.length > 0) {
+      return userList
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
-exports.findLastUser = async () => {
-  const user = await db.findLastUser()
-  return user
+exports.findOneUser = async (id) => {
+  try {
+    const user = await db.findOneUser(id)
+    if (user) {
+      return user.dataValues
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.findOneUserByToken = async (body) => {
+  try {
+    const { token } = body
+    const user = await db.findOneUserByToken(token)
+    if (user) {
+      return user.dataValues
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
 
 // Update User Resource [update]
-exports.updateUser = async (params) => {
-  const user = await db.updateUser({ ...params })
-  return user
+exports.updateUser = async (id, body) => {
+  try {
+    const attr = {
+      name: body.userName ? body.userName : '',
+      nick_name: body.userNickName ? body.userNickName : '',
+      phone_number: body.userPhoneNumber ? body.userPhoneNumber : '',
+      birth: body.userBirth ? body.userBirth : '',
+      gender_type: body.userGenderType ? body.genderType : '',
+    }
+    const user = await db.updateUser(id, attr)
+    if (user) {
+      return user[0]
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
-exports.updateUserAiStatus = async (params) => {
-  const user = await db.updateUserAiStatus({ ...params })
-  return user
+exports.updateUserAiStatus = async (id, body) => {
+  try {
+    const { ai_status } = body
+    const user = await db.updateUserAiStatus(id, ai_status)
+    if (user) {
+      return user
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }
 
 // Delete User Resoure [destroy]
 exports.destroyUser = async (userId) => {
-  const user = await db.destroyUser(userId)
-  return user
+  try {
+    const user = await db.destroyUser(userId)
+    if (user) {
+      return user
+    } else {
+      return null
+    }
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SERVICES_ERROR)
+    console.error(err)
+    return null
+  }
 }

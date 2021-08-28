@@ -14,7 +14,6 @@ const upload = require('../../middleware/uploadAfterImage')
 
     [ 3. PATCH Methods ]
     PATCH /api/proposal/:id           : 제안서 정보 수정 API
-    PATCH /api/proposal/matching/:id  : 제안서 매칭여부 수정 API
 
     [ 4. DELETE Methods]
     DELETE /api/proposal/:id : 제안서 정보 삭제 API
@@ -32,7 +31,6 @@ router.get('/:id', controller.getProposal)
 router.get('/user/:id', controller.getProposalByUserId)
 
 router.patch('/:id', controller.patchProposal)
-router.patch('/matching/:id', controller.patchMatchingStatus)
 
 router.delete('/:id', controller.deleteProposal)
 

@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { STATUS_CODE, ERROR_MESSAGE } = require('../lib/constants')
 
 // Router Lists
 // root
@@ -6,6 +7,7 @@ const user = require('./user')
 
 // Depth 1
 const proposal = require('./proposal')
+const style = require('./style')
 const branding = require('./branding')
 
 // Depth 2
@@ -21,6 +23,7 @@ const message = require('./message')
 
 router.use('/user', user)
 router.use('/proposal', proposal)
+router.use('/style', style)
 router.use('/branding', branding)
 router.use('/bid', bid)
 router.use('/styleScrap', styleScrap)

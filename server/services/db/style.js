@@ -1,15 +1,15 @@
-const { Proposal, User } = require('../../models')
+const { Style, User } = require('../../models')
 const { ERROR_MESSAGE } = require('../../lib/constants')
 
-// Create Proposal Resource [create]
-exports.createProposal = async (attr) => {
+// Create Style Resource [create]
+exports.createStyle = async (attr) => {
   try {
-    const proposal = await Proposal.create({
+    const style = await Style.create({
       raw: true,
       ...attr,
-      matching: false,
+      ai_enable: false,
     })
-    return proposal
+    return style
   } catch (err) {
     console.error(ERROR_MESSAGE.SEQUELIZE_CREATE_ERROR)
     console.error(err)
@@ -17,35 +17,10 @@ exports.createProposal = async (attr) => {
   }
 }
 
-// Read Proposal Resource [findOne, findAll]
-exports.findAllProposal = async () => {
+// Read Style Resource [findOne, findAll]
+exports.findAllStyle = async () => {
   try {
-    const proposalList = await Proposal.findAll({
-      where: {
-        matching: false,
-      },
-      include: [
-        {
-          model: User,
-          attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-          required: true,
-        },
-      ],
-      order: [['updated_at', 'DESC']],
-    })
-    return proposalList
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
-    console.error(err)
-    return null
-  }
-}
-exports.findOneProposal = async (id) => {
-  try {
-    const proposal = await Proposal.findOne({
-      where: {
-        id,
-      },
+    const StyleList = await Style.findAll({
       include: [
         {
           model: User,
@@ -54,19 +29,18 @@ exports.findOneProposal = async (id) => {
         },
       ],
     })
-    return proposal
+    return StyleList
   } catch (err) {
     console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
     console.error(err)
     return null
   }
 }
-exports.findOneProposalByUserId = async (id) => {
+exports.findAllStyleByUserId = async (id) => {
   try {
-    const proposal = await Proposal.findOne({
+    const styleList = await Style.findAll({
       where: {
         user_id: id,
-        matching: false,
       },
       include: [
         {
@@ -76,7 +50,28 @@ exports.findOneProposalByUserId = async (id) => {
         },
       ],
     })
-    return proposal
+    return styleList
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.findOneStyle = async (id) => {
+  try {
+    const style = await Style.findOne({
+      where: {
+        id,
+      },
+      include: [
+        {
+          model: User,
+          attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+          required: true,
+        },
+      ],
+    })
+    return style
   } catch (err) {
     console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
     console.error(err)
@@ -84,13 +79,13 @@ exports.findOneProposalByUserId = async (id) => {
   }
 }
 
-// Update Proposal Resource [update]
-exports.updateProposal = async (id, attr) => {
+// Update Style Resource [update]
+exports.updateStyle = async (id, body) => {
   try {
-    const proposal = await Proposal.update(
+    const style = await Style.update(
       {
         raw: true,
-        ...attr,
+        ...body,
       },
       {
         where: {
@@ -98,18 +93,18 @@ exports.updateProposal = async (id, attr) => {
         },
       }
     )
-    return proposal[0]
+    return style[0]
   } catch (err) {
     console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
     console.error(err)
     return null
   }
 }
-exports.updateProposalMatching = async (id) => {
+exports.updateAiEnable = async (id, enable) => {
   try {
-    const proposal = await Proposal.update(
+    const style = await Style.update(
       {
-        matching: true,
+        enable,
       },
       {
         where: {
@@ -117,7 +112,7 @@ exports.updateProposalMatching = async (id) => {
         },
       }
     )
-    return proposal[0]
+    return style[0]
   } catch (err) {
     console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
     console.error(err)
@@ -125,15 +120,15 @@ exports.updateProposalMatching = async (id) => {
   }
 }
 
-// Delete Proposal Resource [destroy]
-exports.destroyProposal = async (id) => {
+// Delete Style Resource [destroy]
+exports.destroyStyle = async (id) => {
   try {
-    const proposal = await Proposal.destroy({
+    const style = await Style.destroy({
       where: {
         id,
       },
     })
-    return proposal
+    return style
   } catch (err) {
     console.error(ERROR_MESSAGE.SEQUELIZE_DELETE_ERROR)
     console.error(err)

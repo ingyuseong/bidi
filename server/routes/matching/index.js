@@ -1,14 +1,41 @@
 const router = require('express').Router()
 const controller = require('./controller')
+const upload = require('../../middleware/uploadAfterImage')
 
-router.post('/register', controller.registerMatchingHistory)
+/*
+    [ 1. POST Methods ]
+    POST /api/matching/register         : 매칭 등록 API
+    
+    [ 2. GET Methods ]
+    GET /api/matching/list          : 전체 매칭 목록 조회 API
+    GET /api/matching/designer/:id  : 디자이너의 매칭 목록 조회 API
+    GET /api/matching/customer/:id  : 유저의 매칭 목록 조회 API
+    GET /api/matching/:id           : 매칭 정보 조회 API
 
-router.get('/designer/:userId', controller.getMatchingHistoryByDesignerId)
-router.get('/customer/:userId', controller.getMatchingHistoryByCustomerId)
+    [ 3. PATCH Methods ]
+    PATCH /api/matching/time/:id     : 매칭 시간 정보 수정 API
+    PATCH /api/matching/review/:id   : 매칭 리뷰 정보 수정 API
+    PATCH /api/matching/star/:id     : 매칭 별점 정보 수정 API
+    PATCH /api/matching/done/:id     : 매칭 종료 상태 수정 API
+    PATCH /api/matching/cancel/:id   : 매칭 취소 상태 수정 API
 
-router.patch('/review/:id', controller.editReview)
-router.patch('/star/:id', controller.editStar)
+    [ 4. DELETE Methods]
+    DELETE /api/matching/:id : 매칭 정보 삭제 API
+*/
 
-router.delete('/:id', controller.deleteMatchingHistory)
+router.post('/register', controller.registerMatching)
+
+router.get('/list', controller.getMatchingList)
+router.get('/designer/:id', controller.getMatchingListByDesignerId)
+router.get('/customer/:id', controller.getMatchingListByCustomerId)
+router.get('/:id', controller.getMatching)
+
+router.patch('/time/:id', controller.patchMatchingTime)
+router.patch('/review/:id', controller.patchMatchingReview)
+router.patch('/star/:id', controller.patchMatchingStar)
+router.patch('/done/:id', controller.patchMatchingDone)
+router.patch('/cancel/:id', controller.patchMatchingCanceled)
+
+router.delete('/:id', controller.deleteMatching)
 
 module.exports = router
