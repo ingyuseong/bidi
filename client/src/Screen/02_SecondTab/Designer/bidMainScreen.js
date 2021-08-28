@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
 import { getBidListByDesignerId } from '../../../Contexts/Bid';
+import { getMatchingListByDesignerId } from '../../../Contexts/Matching';
 
 import Loading from '../../../Components/Common/loading';
 import NoProcessBidList from './noProcessBidList';
@@ -9,7 +11,6 @@ import WaitBidListScreen from './waitBidListScreen';
 import NoWaitBidListScreen from './noWaitBidListScreen';
 import ProcessBidListScreen from './processBidListScreen';
 const Tab = createMaterialTopTabNavigator();
-import { StyleSheet, View, Text } from 'react-native';
 
 function BidMainScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -27,14 +28,25 @@ function BidMainScreen({ navigation }) {
     loading: false,
     error: null,
   };
+  const {
+    data: matchingList,
+    loading: matchingLoading,
+    error: matchingError,
+  } = useSelector((state) => state.matching) || {
+    data: [],
+    loading: false,
+    error: null,
+  };
 
   useEffect(() => {
     dispatch(getBidListByDesignerId(userInfo.id));
+    dispatch(getMatchingListByDesignerId(userInfo.id));
   }, [dispatch]);
 
-  if (bidLoading || userLoading || bidError || userError) return <Loading loading />;
+  if (bidLoading || userLoading || matchingLoading || bidError || userError || matchingError)
+    return <Loading loading />;
   if (!bidList) return null;
-
+  console.log('>>', matchingList);
   return (
     <Tab.Navigator
       swipeEnabled={false}
@@ -66,7 +78,7 @@ function BidMainScreen({ navigation }) {
           )}
         </Tab.Screen>
       )}
-      {bidList.length === 0 ? (
+      {matchingList.length === 0 ? (
         <Tab.Screen
           name="NoProcessBidList"
           options={{ title: '대기 중' }}
@@ -75,7 +87,11 @@ function BidMainScreen({ navigation }) {
       ) : (
         <Tab.Screen name="ProcessBidList" options={{ title: '매칭 중' }}>
           {() => (
-            <ProcessBidListScreen navigation={navigation} bidList={bidList} userInfo={userInfo} />
+            <ProcessBidListScreen
+              navigation={navigation}
+              matchingList={matchingList}
+              userInfo={userInfo}
+            />
           )}
         </Tab.Screen>
       )}
