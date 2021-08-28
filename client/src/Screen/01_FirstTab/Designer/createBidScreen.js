@@ -51,6 +51,15 @@ function CreateBidScreen({ navigation, route }) {
   }, []);
 
   const registerBidHandler = async () => {
+    if (!lengthTypeValue || !styleTypeValue) {
+      return Alert.alert('카테고리 정보를 선택해주세요!');
+    }
+    if (!bidLetter) {
+      return Alert.alert('비드 레터를 입력해주세요!');
+    }
+    if (needCare === null) {
+      return Alert.alert('케어 여부를 선택해주세요!');
+    }
     const response = await BidAPI.registerBid({
       customer_id: userInfo.id,
       designer_id: userInfo.id,
