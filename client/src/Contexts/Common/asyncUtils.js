@@ -56,7 +56,7 @@ export const handleAsyncActions = (type) => {
       case type:
         return {
           ...state,
-          ...reducerUtils.loading(),
+          ...reducerUtils.loading([]),
         };
       case SUCCESS:
         return {

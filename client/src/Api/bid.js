@@ -23,7 +23,9 @@ const BidAPI = {
     return await API('/bid/register', 'post', JSON.stringify(body));
   },
   getBid: async () => {},
-  getBidListByDesignerId: async () => {},
+  getBidListByDesignerId: async (id) => {
+    return await API(`/bid/designer/${id}`, 'get');
+  },
   getBidListByCustomerId: async () => {},
   patchBidMatching: async () => {},
   patchBidCanceled: async () => {},

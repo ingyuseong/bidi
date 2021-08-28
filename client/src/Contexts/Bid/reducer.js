@@ -1,4 +1,9 @@
-import { REGISTER_BID } from './constant';
+import {
+  REGISTER_BID,
+  GET_BID_LIST_DESIGNER,
+  GET_BID_LIST_DESIGNER_SUCCESS,
+  GET_BID_LIST_DESIGNER_ERROR,
+} from './constant';
 import { reducerUtils, handleAsyncActions } from '../Common/asyncUtils';
 const initialState = {
   ...reducerUtils.initial([]),
@@ -10,6 +15,10 @@ const bidReducer = (state = initialState, action) => {
         ...state,
         data: [...state.data, action.payload],
       };
+    case GET_BID_LIST_DESIGNER:
+    case GET_BID_LIST_DESIGNER_SUCCESS:
+    case GET_BID_LIST_DESIGNER_ERROR:
+      return handleAsyncActions(GET_BID_LIST_DESIGNER)(state, action);
     default:
       return state;
   }
