@@ -106,7 +106,7 @@ exports.getBidListByDesignerId = async (req, res, next) => {
       })
       res.status(STATUS_CODE.SUCCESS).json({
         message: '디자이너 비드 목록 조회 성공',
-        data: { bidList },
+        data: bidList,
       })
     } else {
       res.status(STATUS_CODE.NOT_FOUND).json({
