@@ -1,18 +1,19 @@
 const db = require('./db/user')
+const { ERROR_MESSAGE } = require('../lib/constants')
 
 // Create User Resource [create]
 exports.createUser = async (body, location) => {
   try {
     const attr = {
       user_type: body.userType ? body.userType : '',
-      naver_token: body.userNaverToken ? body.userNaverToken : '',
-      kakao_token: body.userKakaoToken ? body.userKakaoToken : '',
-      apple_token: body.userAppleToken ? body.userAppleToken : '',
-      name: body.userName ? body.userName : '',
-      nick_name: body.userNickName ? body.userNickName : '',
-      phone_number: body.userPhoneNumber ? body.userPhoneNumber : '',
-      birth: body.userBirth ? body.userBirth : '',
-      gender_type: body.userGenderType ? body.genderType : '',
+      naver_token: body.naver_token ? body.naver_token : '',
+      kakao_token: body.kakao_token ? body.kakao_token : '',
+      apple_token: body.apple_token ? body.apple_token : '',
+      name: body.name ? body.name : '',
+      nick_name: body.nick_name ? body.nick_name : '',
+      phone_number: body.phone_number ? body.phone_number : '',
+      birth: body.birth ? body.birth : '',
+      gender_type: body.gender_type ? body.gender_type : '',
       img_src: location ? location : '',
     }
     const user = await db.createUser(attr)
@@ -77,11 +78,11 @@ exports.findOneUserByToken = async (body) => {
 exports.updateUser = async (id, body) => {
   try {
     const attr = {
-      name: body.userName ? body.userName : '',
-      nick_name: body.userNickName ? body.userNickName : '',
-      phone_number: body.userPhoneNumber ? body.userPhoneNumber : '',
-      birth: body.userBirth ? body.userBirth : '',
-      gender_type: body.userGenderType ? body.genderType : '',
+      name: body.name ? body.name : '',
+      nick_name: body.nick_name ? body.nick_name : '',
+      phone_number: body.phone_number ? body.phone_number : '',
+      birth: body.birth ? body.birth : '',
+      gender_type: body.gender_type ? body.gender_type : '',
     }
     const user = await db.updateUser(id, attr)
     if (user) {

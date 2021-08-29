@@ -1,6 +1,7 @@
 const { User } = require('../../models')
 const { Sequelize } = require('sequelize')
 const { and, or, like, not } = Sequelize.Op
+const { ERROR_MESSAGE } = require('../../lib/constants')
 
 // Create User Resource [create]
 exports.createUser = async (attr) => {
@@ -58,6 +59,20 @@ exports.findOneUserByToken = async (token) => {
           { apple_token: token },
         ],
       },
+    })
+    return user
+  } catch (err) {
+    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
+    console.error(err)
+    return null
+  }
+}
+exports.findLastUser = async () => {
+  try {
+    const user = await User.findOne({
+      raw: true,
+      limit: 1,
+      order: [['id', 'DESC']],
     })
     return user
   } catch (err) {
