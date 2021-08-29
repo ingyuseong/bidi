@@ -17,8 +17,8 @@ exports.registerUser = async (req, res) => {
   } else {
     res.status(STATUS_CODE.BAD_REQUEST).json({
       state: 'failed',
-      message: '회원가입 실패',
-      data: null,
+      message: '회원가입에 실패했습니다',
+      data: {},
     })
   }
 }
@@ -73,6 +73,22 @@ exports.inferenceAI = async (req, res) => {
 }
 
 // [ 2. GET Methods ]
+exports.getUserList = async (req, res) => {
+  const userList = await userServices.findAllUser()
+  if (userList) {
+    res.status(STATUS_CODE.SUCCESS).json({
+      state: 'success',
+      message: '전체 사용자 목록 조회 성공',
+      data: userList,
+    })
+  } else {
+    res.status(STATUS_CODE.SUCCESS).json({
+      status: 'empty',
+      message: '조회할 사용자 목록이 없습니다',
+      data: [],
+    })
+  }
+}
 exports.getUser = async (req, res) => {
   const { id } = req.params
   const user = await userServices.findOneUser(id)
@@ -83,26 +99,10 @@ exports.getUser = async (req, res) => {
       data: user,
     })
   } else {
-    res.status(STATUS_CODE.NOT_FOUND).json({
-      state: 'failed',
-      message: '사용자 정보 조회 실패',
-      data: null,
-    })
-  }
-}
-exports.getUserList = async (req, res) => {
-  const userList = await userServices.findAllUser()
-  if (userList) {
     res.status(STATUS_CODE.SUCCESS).json({
-      state: 'success',
-      message: '전체 사용자 목록 조회 성공',
-      data: userList,
-    })
-  } else {
-    res.status(STATUS_CODE.NOT_FOUND).json({
-      status: 'failed',
-      message: '전체 사용자 목록 조회 실패',
-      data: null,
+      state: 'empty',
+      message: '조회할 사용자 정보가 없습니다',
+      data: {},
     })
   }
 }
@@ -121,7 +121,7 @@ exports.patchUser = async (req, res) => {
   } else {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
-      message: '수정된 사용자 정보 없음(No changes)',
+      message: '수정된 사용자 정보가 없습니다',
       data: updatedUserCount,
     })
   }
@@ -140,7 +140,7 @@ exports.deleteUser = async (req, res) => {
   } else {
     res.status(STATUS_CODE.NOT_FOUND).json({
       status: 'failed',
-      message: '사용자 정보 삭제 실패(No resources)',
+      message: '삭제할 사용자 정보가 없습니다',
       data: deletedUserCount,
     })
   }

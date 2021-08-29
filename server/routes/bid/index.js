@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const controller = require('./controller')
+const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
 
 /*
     [ 1. POST Methods ]
@@ -18,15 +19,21 @@ const controller = require('./controller')
     DELETE /api/bid/:id : 비드 삭제 API
 */
 
-router.post('/register', controller.registerBid)
+router.post('/register', routesAsyncWrapper(controller.registerBid))
 
-router.get('/designer/:id', controller.getBidListByDesignerId)
-router.get('/customer/:id', controller.getBidListByCustomerId)
-router.get('/:id', controller.getBid)
+router.get(
+  '/designer/:id',
+  routesAsyncWrapper(controller.getBidListByDesignerId)
+)
+router.get(
+  '/customer/:id',
+  routesAsyncWrapper(controller.getBidListByCustomerId)
+)
+router.get('/:id', routesAsyncWrapper(controller.getBid))
 
-router.patch('/:id', controller.patchBid)
-router.patch('/canceled/:id', controller.patchBidCanceled)
+router.patch('/:id', routesAsyncWrapper(controller.patchBid))
+router.patch('/canceled/:id', routesAsyncWrapper(controller.patchBidCanceled))
 
-router.delete('/:id', controller.deleteBid)
+router.delete('/:id', routesAsyncWrapper(controller.deleteBid))
 
 module.exports = router
