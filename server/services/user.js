@@ -1,5 +1,4 @@
 const db = require('./db/user')
-const { ERROR_MESSAGE } = require('../lib/constants')
 
 // Create User Resource [create]
 exports.createUser = async (body, location) => {
