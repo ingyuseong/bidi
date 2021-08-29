@@ -1,212 +1,151 @@
 const { Branding, Style, User, BrandingStyle } = require('../../models')
-const { ERROR_MESSAGE } = require('../../lib/constants')
 
 // Create Branding Resource [create]
 exports.createBranding = async (attr) => {
-  try {
-    const branding = await Branding.create({
-      raw: true,
-      ...attr,
-      main: false,
-    })
-    return branding
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_CREATE_ERROR)
-    console.error(err)
-    return null
-  }
+  const branding = await Branding.create({
+    raw: true,
+    ...attr,
+    main: false,
+  })
+  return branding
 }
 exports.createBrandingStyle = async (attr) => {
-  try {
-    const brandingStyle = await BrandingStyle.create({
-      raw: true,
-      ...attr,
-    })
-    return brandingStyle
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
-    console.error(err)
-    return null
-  }
+  const brandingStyle = await BrandingStyle.create({
+    raw: true,
+    ...attr,
+  })
+  return brandingStyle
 }
 
 // Read Branding Resource [findOne, findAll]
 exports.findAllBranding = async () => {
-  try {
-    const brandingList = await Branding.findAll({
-      where: {
-        main: true,
+  const brandingList = await Branding.findAll({
+    where: {
+      main: true,
+    },
+    include: [
+      {
+        model: User,
+        attributes: ['name', 'nick_name', 'img_src'],
       },
-      include: [
-        {
-          model: User,
-          attributes: ['name', 'nick_name', 'img_src'],
+      {
+        model: Style,
+        as: 'brandingStyles',
+        through: {
+          model: BrandingStyle,
         },
-        {
-          model: Style,
-          as: 'brandingStyles',
-          through: {
-            model: BrandingStyle,
-          },
-          required: false,
-        },
-      ],
-      order: [['updated_at', 'DESC']],
-    })
-    return brandingList
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
-    console.error(err)
-    return null
-  }
+        required: false,
+      },
+    ],
+    order: [['updated_at', 'DESC']],
+  })
+  return brandingList
 }
 exports.findAllBrandingByDesignerId = async (id) => {
-  try {
-    const brandingList = await Branding.findAll({
-      where: {
-        user_id: id,
-      },
-      include: [
-        {
-          model: Style,
-          as: 'brandingStyles',
-          through: {
-            model: BrandingStyle,
-          },
-          required: false,
+  const brandingList = await Branding.findAll({
+    where: {
+      user_id: id,
+    },
+    include: [
+      {
+        model: Style,
+        as: 'brandingStyles',
+        through: {
+          model: BrandingStyle,
         },
-      ],
-      order: [['updated_at', 'DESC']],
-    })
-    return brandingList
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
-    console.error(err)
-    return null
-  }
+        required: false,
+      },
+    ],
+    order: [['updated_at', 'DESC']],
+  })
+  return brandingList
 }
 exports.findOneBrandingByUserId = async (id) => {
-  try {
-    const branding = await Branding.findOne({
-      where: {
-        user_id: id,
-        main: true,
-      },
-      include: [
-        {
-          model: Style,
-          as: 'brandingStyles',
-          through: {
-            model: BrandingStyle,
-          },
-          required: false,
+  const branding = await Branding.findOne({
+    where: {
+      user_id: id,
+      main: true,
+    },
+    include: [
+      {
+        model: Style,
+        as: 'brandingStyles',
+        through: {
+          model: BrandingStyle,
         },
-      ],
-    })
-    return branding
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
-    console.error(err)
-    return null
-  }
+        required: false,
+      },
+    ],
+  })
+  return branding
 }
 exports.findOneBranding = async (id) => {
-  try {
-    const branding = await Branding.findOne({
-      where: {
-        id,
-      },
-      include: [
-        {
-          model: Style,
-          as: 'brandingStyles',
-          through: {
-            model: BrandingStyle,
-          },
-          required: false,
+  const branding = await Branding.findOne({
+    where: {
+      id,
+    },
+    include: [
+      {
+        model: Style,
+        as: 'brandingStyles',
+        through: {
+          model: BrandingStyle,
         },
-      ],
-    })
-    return branding
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
-    console.error(err)
-    return null
-  }
+        required: false,
+      },
+    ],
+  })
+  return branding
 }
 
 // Update Branding Resource [update]
 exports.updateBranding = async (id, attr) => {
-  try {
-    const branding = await Branding.update(
-      {
-        raw: true,
-        ...attr,
+  const branding = await Branding.update(
+    {
+      raw: true,
+      ...attr,
+    },
+    {
+      where: {
+        id,
       },
-      {
-        where: {
-          id,
-        },
-      }
-    )
-    return branding[0]
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
-    console.error(err)
-    return null
-  }
+    }
+  )
+  return branding[0]
 }
 exports.updateAllOtherBranding = async (user_id) => {
-  try {
-    const brandingList = await Branding.update(
-      {
-        main: false,
+  const brandingList = await Branding.update(
+    {
+      main: false,
+    },
+    {
+      where: {
+        user_id,
       },
-      {
-        where: {
-          user_id,
-        },
-      }
-    )
-    return brandingList[0]
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
-    console.error(err)
-    return null
-  }
+    }
+  )
+  return brandingList[0]
 }
 exports.updateMainBranding = async (branding_id) => {
-  try {
-    const branding = await Branding.update(
-      {
-        main: true,
+  const branding = await Branding.update(
+    {
+      main: true,
+    },
+    {
+      where: {
+        id: branding_id,
       },
-      {
-        where: {
-          id: branding_id,
-        },
-      }
-    )
-    return branding[0]
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
-    console.error(err)
-    return null
-  }
+    }
+  )
+  return branding[0]
 }
 
 // Delete Branding Resource [destroy]
 exports.destroyBranding = async (id) => {
-  try {
-    const branding = await Branding.destroy({
-      where: {
-        id,
-      },
-    })
-    return branding
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_DELETE_ERROR)
-    console.error(err)
-    return null
-  }
+  const branding = await Branding.destroy({
+    where: {
+      id,
+    },
+  })
+  return branding
 }
