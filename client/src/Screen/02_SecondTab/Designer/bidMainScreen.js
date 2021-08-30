@@ -1,53 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import WaitBidListScreen from './waitBidListScreen';
-import ProcessBidListScreen from './processBidListScreen';
-import NoWaitBidListScreen from './noWaitBidListScreen';
-import NoProcessBidList from './noProcessBidList';
-import BidiStorage from '../../../Lib/storage';
-import { STORAGE_KEY } from '../../../Lib/constant';
+import { getBidListByDesignerId } from '../../../Contexts/Bid';
+import { getMatchingListByDesignerId } from '../../../Contexts/Matching';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 
+import Loading from '../../../Components/Common/loading';
+import NoProcessBidList from './noProcessBidList';
+import WaitBidListScreen from './waitBidListScreen';
+import NoWaitBidListScreen from './noWaitBidListScreen';
+import ProcessBidListScreen from './processBidListScreen';
 const Tab = createMaterialTopTabNavigator();
 
 function BidMainScreen({ navigation }) {
-  const [bid, setBid] = useState([]);
-  const [loader, setLoader] = useState(true);
-  const [userInfo, setUserInfo] = useState();
-
-  const getBidInfo = async (user) => {
-    await fetch('http://127.0.0.1:3000' + `/api/bid/user/${user.id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.data) {
-          setBid([...result.data.bidList]);
-          setLoader(false);
-        } else {
-          navigation.replace('MainTab', { screen: 'Proposal' });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const dispatch = useDispatch();
+  const {
+    data: userInfo,
+    loading: userLoading,
+    error: userError,
+  } = useSelector((state) => state.user);
+  const {
+    data: bidList,
+    loading: bidLoading,
+    error: bidError,
+  } = useSelector((state) => state.bid) || {
+    data: [],
+    loading: false,
+    error: null,
   };
-  useEffect(() => {
-    async function fetchMode() {
-      const user = await BidiStorage.getData(STORAGE_KEY);
-      setUserInfo(user);
-      getBidInfo(user);
-    }
-    fetchMode();
-  }, []);
+  const {
+    data: matchingList,
+    loading: matchingLoading,
+    error: matchingError,
+  } = useSelector((state) => state.matching) || {
+    data: [],
+    loading: false,
+    error: null,
+  };
 
-  if (loader) {
-    return <ActivityIndicator animating={loader} color="" size="large" style={{ flex: 1 }} />;
-  }
+  useEffect(() => {
+    dispatch(getBidListByDesignerId(userInfo.id));
+    dispatch(getMatchingListByDesignerId(userInfo.id));
+  }, []);
+  console.log('11', bidList);
+  if (bidLoading || userLoading || matchingLoading || bidError || userError || matchingError)
+    return <Loading loading />;
+  if (!bidList || !matchingList) return null;
+  console.log('22', bidList);
   return (
     <Tab.Navigator
       swipeEnabled={false}
@@ -66,7 +66,7 @@ function BidMainScreen({ navigation }) {
           borderColor: 'black',
         },
       }}>
-      {bid.length === 0 ? (
+      {bidList.length === 0 ? (
         <Tab.Screen
           name="NoWaitBidList"
           options={{ title: '대기 중' }}
@@ -74,10 +74,12 @@ function BidMainScreen({ navigation }) {
         />
       ) : (
         <Tab.Screen name="WaitBidList" options={{ title: '대기 중' }}>
-          {() => <WaitBidListScreen navigation={navigation} bidList={bid} userInfo={userInfo} />}
+          {() => (
+            <WaitBidListScreen navigation={navigation} bidList={bidList} userInfo={userInfo} />
+          )}
         </Tab.Screen>
       )}
-      {bid.length === 0 ? (
+      {matchingList.length === 0 ? (
         <Tab.Screen
           name="NoProcessBidList"
           options={{ title: '대기 중' }}
@@ -85,7 +87,13 @@ function BidMainScreen({ navigation }) {
         />
       ) : (
         <Tab.Screen name="ProcessBidList" options={{ title: '매칭 중' }}>
-          {() => <ProcessBidListScreen navigation={navigation} bidList={bid} userInfo={userInfo} />}
+          {() => (
+            <ProcessBidListScreen
+              navigation={navigation}
+              matchingList={matchingList}
+              userInfo={userInfo}
+            />
+          )}
         </Tab.Screen>
       )}
     </Tab.Navigator>

@@ -18,7 +18,12 @@ const uploadImage = multer(
       acl: 'public-read',
       contentType: multerS3.AUTO_CONTENT_TYPE,
       key: function (req, file, cb) {
-        cb(null, `user/${parseInt(req.lastUserId) + 1}/input/${generateKeys()}`)
+        cb(
+          null,
+          `user/${
+            parseInt(req.lastUserId) + 1
+          }/history0/input/${generateKeys()}`
+        )
       },
     }),
   },

@@ -1,5 +1,6 @@
 import React, { useState, createRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
 import { registerUser } from '../../Contexts/User';
 import { createFormData } from '../../Lib/utils';
 import {
@@ -22,6 +23,8 @@ import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/AntDesign';
+import UserAPI from '../../Api/user';
+import Loading from '../../Components/Common/loading';
 
 const RegisterScreen = ({ navigation, route }) => {
   const { profile } = route.params;
@@ -32,13 +35,13 @@ const RegisterScreen = ({ navigation, route }) => {
   const [userBirth, setUserBirth] = useState('');
   const [userNickName, setUserNickName] = useState('');
   const [photo, setPhoto] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const typeInputRef = createRef();
   const nickNameInputRef = createRef();
   const nameInputRef = createRef();
   const birthInputRef = createRef();
 
-  const { data, loading, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const handleSubmitButton = async () => {
     if (photo) {
@@ -50,9 +53,12 @@ const RegisterScreen = ({ navigation, route }) => {
         userGenderType,
         userKakaoToken,
       });
-      await dispatch(registerUser(bodyData));
-      if (data) {
-        const { naver_token, kakao_token, apple_token } = data;
+      setLoading(true);
+      const response = await UserAPI.registerUser(bodyData);
+      if (response) {
+        setLoading(false);
+        const { naver_token, kakao_token, apple_token } = response;
+        dispatch(registerUser(response));
         await BidiStorage.storeData(STORAGE_KEY, {
           token: naver_token || kakao_token || apple_token,
         });
@@ -73,7 +79,7 @@ const RegisterScreen = ({ navigation, route }) => {
     });
   };
   if (loading) {
-    return <ActivityIndicator animating={loading} color="" size="large" />;
+    return <Loading loading />;
   }
   return (
     <View style={styles.container}>

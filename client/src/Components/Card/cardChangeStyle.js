@@ -1,16 +1,12 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, Image, Text, Dimensions } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 import Swiper from 'react-native-swiper';
 import ImageModal from 'react-native-image-modal';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-function CardChangeStyle({ before_src, after_src, height }) {
+function CardChangeStyle({ before_src, after_src, height, topRadius }) {
   return (
-    <View style={{ ...styles.container }}>
+    <View style={{ ...styles.container, height }}>
       <Swiper
         style={styles.wrapper}
         showsButtons={true}
@@ -21,7 +17,7 @@ function CardChangeStyle({ before_src, after_src, height }) {
         <View style={styles.styleContainer}>
           <ImageModal
             resizeMode={'contain'}
-            style={styles.styleImg}
+            style={[styles.styleImg, topRadius && styles.borderTopStyle]}
             source={{
               uri: before_src,
             }}
@@ -50,7 +46,7 @@ function CardChangeStyle({ before_src, after_src, height }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1.5 },
+  container: { flex: 1 },
   wrapper: {},
   styleContainer: {
     position: 'relative',
@@ -82,6 +78,10 @@ const styles = StyleSheet.create({
     bottom: 20,
     left: 10,
     flexDirection: 'row',
+  },
+  borderTopStyle: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
 });
 
