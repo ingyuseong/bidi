@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
+
+import BrandingAPI from '../../../Api/branding';
+
+import Loading from '../../../Components/Common/loading';
 import Icon from 'react-native-vector-icons/Ionicons';
-import BidiStorage from '../../../Lib/storage';
-import { STORAGE_KEY } from '../../../Lib/constant';
 import BrandingInput from '../../../Components/Branding/brandingInput';
+import { getBrandingListByDesignerId } from '../../../Contexts/Branding';
 
 function CreateBrandingScreen({ navigation }) {
-  const [userInfo, setUserInfo] = useState();
-
+  const {
+    data: userInfo,
+    loading: userLoading,
+    error: userError,
+  } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [shopName, setShopName] = useState('');
   const [shopAddress, setShopAddress] = useState('');
   const [position, setPosition] = useState('');
@@ -30,42 +38,28 @@ function CreateBrandingScreen({ navigation }) {
     setStyleTags(filteredStyleTags);
   };
   const registerHandler = async () => {
-    await fetch('http://127.0.0.1:3000' + '/api/branding/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        user_id: userInfo.id,
-        description: description,
-        shop_name: shopName,
-        address: shopAddress,
-        position: position,
-        title: brandingName,
-        keywords: styleTags.toString(),
-        main: 0,
-        authentication: 0,
-        styles: '1,2,3',
-      }),
-    })
-      .then((response) => response.json())
-      .then(async (response) => {
-        if (response) {
-          Alert.alert('포트폴리오 작성이 성공적으로 완료되었습니다!');
-          navigation.push('BrandingMain');
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-  useEffect(() => {
-    async function fetchMode() {
-      const user = await BidiStorage.getData(STORAGE_KEY);
-      setUserInfo(user);
+    const response = BrandingAPI.registerBranding({
+      user_id: userInfo.id,
+      description: description,
+      shop_name: shopName,
+      address: shopAddress,
+      position: position,
+      title: brandingName,
+      keyword_array: styleTags.toString(),
+      main: 0,
+      authentication: 0,
+      styleIdList: [1, 2],
+    });
+    console.log('res', response);
+    if (response) {
+      await dispatch(getBrandingListByDesignerId(userInfo.id));
+      navigation.push('BrandingMain');
+      Alert.alert('포트폴리오 작성이 성공적으로 완료되었습니다!');
+    } else {
+      Alert.alert('Error');
     }
-    fetchMode();
-  }, []);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <BrandingInput

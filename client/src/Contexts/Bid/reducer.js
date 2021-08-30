@@ -19,7 +19,6 @@ const bidReducer = (state = initialState, action) => {
         }),
       };
     case DELETE_BID:
-      console.log('@@?', action.id);
       return {
         ...state,
         data: state.data.filter((bid) => {

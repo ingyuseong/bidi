@@ -2,13 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 
+import BidAPI from '../../../Api/bid';
 import { getBidListByDesignerId } from '../../../Contexts/Bid';
 import { getMatchingListByDesignerId } from '../../../Contexts/Matching';
-import BidAPI from '../../../Api/bid';
-import BidiStorage from '../../../Lib/storage';
-import { LENGTH_TYPE, STYLE_TYPE, STORAGE_KEY } from '../../../Lib/constant';
-import { checkToken } from '../../../Contexts/User';
-import { registerBid } from '../../../Contexts/Bid';
+import { LENGTH_TYPE, STYLE_TYPE } from '../../../Lib/constant';
 
 import Loading from '../../../Components/Common/loading';
 import CardInfo from '../../../Components/Card/cardInfo';
@@ -41,16 +38,6 @@ function CreateBidScreen({ navigation, route }) {
   useEffect(() => {
     setStyleTypeItems(STYLE_TYPE[lengthTypeValue]);
   }, [lengthTypeValue]);
-
-  useEffect(() => {
-    async function fetchMode() {
-      const { token } = await BidiStorage.getData(STORAGE_KEY);
-      if (!userInfo) {
-        await dispatch(checkToken(token));
-      }
-    }
-    fetchMode();
-  }, []);
 
   const registerBidHandler = async () => {
     if (!lengthTypeValue || !styleTypeValue) {

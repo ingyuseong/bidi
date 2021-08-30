@@ -25,6 +25,15 @@ function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }
         keyword_array: info.proposal.keyword_array,
       };
       break;
+    case 'branding':
+      data = {
+        img_src: info.user.img_src,
+        name: info.user.name,
+        address: info.shop_name,
+        description: info.description,
+        keyword_array: info.keyword_array,
+      };
+      break;
     default:
       break;
   }

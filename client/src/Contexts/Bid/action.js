@@ -1,4 +1,4 @@
-import { REGISTER_BID, GET_BID_LIST_DESIGNER, PATCH_BID, DELETE_BID } from './constant';
+import { GET_BID_LIST_DESIGNER, PATCH_BID, DELETE_BID } from './constant';
 import BidAPI from '../../Api/bid';
 import { createPromiseThunk } from '../Common/asyncUtils';
 
