@@ -1,5 +1,6 @@
 import React, { useState, createRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { registerUser } from '../../Contexts/User';
 import { createFormData } from '../../Lib/utils';
 import {

@@ -1,4 +1,5 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+
 import ReduxThunk from 'redux-thunk';
 import userReducer from '../User';
 import proposalReducer from '../Proposal';

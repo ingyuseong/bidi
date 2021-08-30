@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const controller = require('./controller')
 const upload = require('../../middleware/uploadAfterImage')
+const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
 
 /*
     [ 1. POST Methods ]
@@ -19,19 +20,19 @@ const upload = require('../../middleware/uploadAfterImage')
     DELETE /api/proposal/:id : 제안서 정보 삭제 API
 */
 
-router.post('/register', controller.registerProposal)
+router.post('/register', routesAsyncWrapper(controller.registerProposal))
 router.post(
   '/registerWithFile',
   upload.single('afterImage'),
-  controller.registerWithFile
+  routesAsyncWrapper(controller.registerWithFile)
 )
 
-router.get('/list', controller.getProposalList)
-router.get('/:id', controller.getProposal)
-router.get('/user/:id', controller.getProposalByUserId)
+router.get('/list', routesAsyncWrapper(controller.getProposalList))
+router.get('/:id', routesAsyncWrapper(controller.getProposal))
+router.get('/user/:id', routesAsyncWrapper(controller.getProposalByUserId))
 
-router.patch('/:id', controller.patchProposal)
+router.patch('/:id', routesAsyncWrapper(controller.patchProposal))
 
-router.delete('/:id', controller.deleteProposal)
+router.delete('/:id', routesAsyncWrapper(controller.deleteProposal))
 
 module.exports = router

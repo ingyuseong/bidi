@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const controller = require('./controller')
+const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
 
 /*
     [ 1. POST Methods ]
@@ -19,16 +20,22 @@ const controller = require('./controller')
     DELETE /api/branding/:brandingId : 포트폴리오 삭제 API
 */
 
-router.post('/register', controller.registerBranding)
+router.post('/register', routesAsyncWrapper(controller.registerBranding))
 
-router.get('/list', controller.getBrandingList)
-router.get('/:id', controller.getBranding)
-router.get('/designer/:id', controller.getBrandingListByDesignerId)
-router.get('/main/designer:id', controller.getMainBrandingByDesignerId)
+router.get('/list', routesAsyncWrapper(controller.getBrandingList))
+router.get('/:id', routesAsyncWrapper(controller.getBranding))
+router.get(
+  '/designer/:id',
+  routesAsyncWrapper(controller.getBrandingListByDesignerId)
+)
+router.get(
+  '/main/designer:id',
+  routesAsyncWrapper(controller.getMainBrandingByDesignerId)
+)
 
-router.patch('/main', controller.patchMainBranding)
-router.patch('/:id', controller.patchBranding)
+router.patch('/main', routesAsyncWrapper(controller.patchMainBranding))
+router.patch('/:id', routesAsyncWrapper(controller.patchBranding))
 
-router.delete('/:id', controller.deleteBranding)
+router.delete('/:id', routesAsyncWrapper(controller.deleteBranding))
 
 module.exports = router

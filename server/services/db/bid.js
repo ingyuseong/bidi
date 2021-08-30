@@ -2,120 +2,96 @@ const { Bid, BidStyle, User, Style, Proposal } = require('../../models')
 
 // Create Bid Resource [create]
 exports.createBid = async (attr) => {
-  try {
-    const bid = await Bid.create({
-      raw: true,
-      ...attr,
-      matching: false,
-      canceled: false,
-    })
-    return bid
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
-    console.error(err)
-    return null
-  }
+  const bid = await Bid.create({
+    raw: true,
+    ...attr,
+    matching: false,
+    canceled: false,
+  })
+  return bid
 }
 exports.createBidStyle = async (attr) => {
-  try {
-    const bidStyle = await BidStyle.create({
-      raw: true,
-      ...attr,
-    })
-    return bidStyle
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
-    console.error(err)
-    return null
-  }
+  const bidStyle = await BidStyle.create({
+    raw: true,
+    ...attr,
+  })
+  return bidStyle
 }
 
 // Read Bid Resource [findOne, findAll]
 exports.findAllBidByDesignerId = async (id) => {
-  try {
-    const bidList = await Bid.findAll({
-      where: {
-        designer_id: id,
-        matching: false,
+  const bidList = await Bid.findAll({
+    where: {
+      designer_id: id,
+      matching: false,
+    },
+    include: [
+      {
+        model: User,
+        attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+        required: true,
       },
-      include: [
-        {
-          model: User,
-          attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-          required: true,
-        },
-        {
-          model: Proposal,
-          required: true,
-          include: [
-            {
-              model: User,
-              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-              required: true,
-            },
-          ],
-        },
-        {
-          model: Style,
-          as: 'bidStyles',
-          through: {
-            model: BidStyle,
+      {
+        model: Proposal,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
           },
+        ],
+      },
+      {
+        model: Style,
+        as: 'bidStyles',
+        through: {
+          model: BidStyle,
         },
-      ],
-      order: [['updated_at', 'DESC']],
-    })
-    return bidList
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
-    console.error(err)
-    return null
-  }
+      },
+    ],
+    order: [['updated_at', 'DESC']],
+  })
+  return bidList
 }
 exports.findAllBidByCustomerId = async (id) => {
-  try {
-    const bidList = await Bid.findAll({
-      where: {
-        customer_id: id,
-        matching: false,
-        canceled: false,
+  const bidList = await Bid.findAll({
+    where: {
+      customer_id: id,
+      matching: false,
+      canceled: false,
+    },
+    include: [
+      {
+        model: User,
+        attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+        required: true,
       },
-      include: [
-        {
-          model: User,
-          attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-          required: true,
-        },
-        {
-          model: Proposal,
-          required: true,
-          include: [
-            {
-              model: User,
-              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-              required: true,
-            },
-          ],
-        },
-        {
-          model: Style,
-          as: 'bidStyles',
-          through: {
-            model: BidStyle,
+      {
+        model: Proposal,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
           },
+        ],
+      },
+      {
+        model: Style,
+        as: 'bidStyles',
+        through: {
+          model: BidStyle,
         },
-      ],
-      order: [['updated_at', 'DESC']],
-    })
-    return bidList
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
-    console.error(err)
-    return null
-  }
+      },
+    ],
+    order: [['updated_at', 'DESC']],
+  })
+  return bidList
 }
-exports.findOneBid = async (id) =>
-  await Bid.findOne({
+exports.findOneBid = async (id) => {
+  const bid = await Bid.findOne({
     where: {
       id,
     },
@@ -145,109 +121,73 @@ exports.findOneBid = async (id) =>
       },
     ],
   })
-    .then((results) => {
-      console.log('Success find One Bid')
-      return results
-    })
-    .catch((err) => {
-      console.log('Failed find One Bid')
-      return err
-    })
+  return bid
+}
 
 // Update Bid Resource [update]
 exports.updateBid = async (id, attr) => {
-  try {
-    const bid = await Bid.update(
-      {
-        raw: true,
-        ...attr,
+  const bid = await Bid.update(
+    {
+      raw: true,
+      ...attr,
+    },
+    {
+      where: {
+        id,
       },
-      {
-        where: {
-          id,
-        },
-      }
-    )
-    return bid[0]
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
-    console.error(err)
-    return null
-  }
+    }
+  )
+  return bid[0]
 }
 exports.updateBidMatching = async (id) => {
-  try {
-    const bid = await Bid.update(
-      {
-        matching: true,
-        canceled: false,
+  const bid = await Bid.update(
+    {
+      matching: true,
+      canceled: false,
+    },
+    {
+      where: {
+        id,
       },
-      {
-        where: {
-          id,
-        },
-      }
-    )
-    return bid[0]
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
-    console.error(err)
-    return null
-  }
+    }
+  )
+  return bid[0]
 }
 exports.updateBidCanceled = async (id, canceled) => {
-  try {
-    const bid = await Bid.update(
-      {
-        raw: true,
-        canceled,
+  const bid = await Bid.update(
+    {
+      raw: true,
+      canceled,
+    },
+    {
+      where: {
+        id,
       },
-      {
-        where: {
-          id,
-        },
-      }
-    )
-    return bid[0]
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
-    console.error(err)
-    return null
-  }
+    }
+  )
+  return bid[0]
 }
 exports.updateBidCancelElseByCustomerId = async (id) => {
-  try {
-    const bid = await Bid.update(
-      {
-        raw: true,
-        canceled: true,
+  const bid = await Bid.update(
+    {
+      raw: true,
+      canceled: true,
+    },
+    {
+      where: {
+        customer_id: id,
       },
-      {
-        where: {
-          customer_id: id,
-        },
-      }
-    )
-    return bid[0]
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
-    console.error(err)
-    return null
-  }
+    }
+  )
+  return bid[0]
 }
 
 // Delete Bid Resource [destroy]
 exports.destroyBid = async (id) => {
-  try {
-    const bid = await Bid.destroy({
-      where: {
-        id,
-      },
-    })
-    return bid
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_DELETE_ERROR)
-    console.error(err)
-    return null
-  }
+  const bid = await Bid.destroy({
+    where: {
+      id,
+    },
+  })
+  return bid
 }

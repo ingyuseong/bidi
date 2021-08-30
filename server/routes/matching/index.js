@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const controller = require('./controller')
 const upload = require('../../middleware/uploadAfterImage')
+const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
 
 /*
     [ 1. POST Methods ]
@@ -23,19 +24,29 @@ const upload = require('../../middleware/uploadAfterImage')
     DELETE /api/matching/:id : 매칭 정보 삭제 API
 */
 
-router.post('/register', controller.registerMatching)
 
-router.get('/list', controller.getMatchingList)
-router.get('/designer/:id', controller.getMatchingListByDesignerId)
-router.get('/customer/:id', controller.getMatchingListByCustomerId)
-router.get('/:id', controller.getMatching)
+router.post('/register', routesAsyncWrapper(controller.registerMatching))
 
-router.patch('/time/:id', controller.patchMatchingTime)
-router.patch('/review/:id', controller.patchMatchingReview)
-router.patch('/star/:id', controller.patchMatchingStar)
-router.patch('/done/:id', controller.patchMatchingStar)
-router.patch('/cancel/:id', controller.patchMatchingCanceled)
+router.get('/list', routesAsyncWrapper(controller.getMatchingList))
+router.get(
+  '/designer/:id',
+  routesAsyncWrapper(controller.getMatchingListByDesignerId)
+)
+router.get(
+  '/customer/:id',
+  routesAsyncWrapper(controller.getMatchingListByCustomerId)
+)
+router.get('/:id', routesAsyncWrapper(controller.getMatching))
 
-router.delete('/:id', controller.deleteMatching)
+router.patch('/time/:id', routesAsyncWrapper(controller.patchMatchingTime))
+router.patch('/review/:id', routesAsyncWrapper(controller.patchMatchingReview))
+router.patch('/star/:id', routesAsyncWrapper(controller.patchMatchingStar))
+router.patch('/done/:id', routesAsyncWrapper(controller.patchMatchingDone))
+router.patch(
+  '/cancel/:id',
+  routesAsyncWrapper(controller.patchMatchingCanceled)
+)
+
+router.delete('/:id', routesAsyncWrapper(controller.deleteMatching))
 
 module.exports = router

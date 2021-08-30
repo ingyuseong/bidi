@@ -23,6 +23,22 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.static('public'))
 
 app.use('/api', apiRouter)
+// Not Found Handling
+app.use(function (req, res, next) {
+  res.status(404).json({
+    state: 'failed',
+    message: '404 Not Found',
+    data: null,
+  })
+})
+// Error Handling
+app.use(function (err, req, res, next) {
+  res.status(500).json({
+    state: 'error',
+    message: '500 Internal Server Error',
+    data: null,
+  })
+})
 
 // start express server on port 3000
 app.listen(PORT, () => {

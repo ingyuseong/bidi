@@ -1,4 +1,4 @@
-const { findLastUser } = require('../services/user')
+const { findLastUser } = require('../services/db/user')
 
 const getLastUserId = async (req, res, next) => {
   const user = await findLastUser()

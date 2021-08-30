@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const controller = require('./controller')
+const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
 
 /*
     [ 1. POST Methods ]
@@ -18,15 +19,15 @@ const controller = require('./controller')
     DELETE /api/style/:id : 스타일 정보 삭제 API
 */
 
-router.post('/register', controller.registerStyle)
+router.post('/register', routesAsyncWrapper(controller.registerStyle))
 
-router.get('/list', controller.getStyleList)
-router.get('/user/:id', controller.getStyleListByUserId)
-router.get('/:id', controller.getStyle)
+router.get('/list', routesAsyncWrapper(controller.getStyleList))
+router.get('/user/:id', routesAsyncWrapper(controller.getStyleListByUserId))
+router.get('/:id', routesAsyncWrapper(controller.getStyle))
 
-router.patch('/:id', controller.patchStyle)
-router.patch('/enable/:id', controller.patchAiEnable)
+router.patch('/:id', routesAsyncWrapper(controller.patchStyle))
+router.patch('/enable/:id', routesAsyncWrapper(controller.patchAiEnable))
 
-router.delete('/:id', controller.deleteStyle)
+router.delete('/:id', routesAsyncWrapper(controller.deleteStyle))
 
 module.exports = router

@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const controller = require('./controller')
+const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
 
 /*
     [ 1. POST Methods ]
@@ -15,10 +16,10 @@ const controller = require('./controller')
     DELETE /api/styleScrap/delete : 스타일스크랩 삭제 API
 */
 
-router.post('/register', controller.registerStyleScrap)
+router.post('/register', routesAsyncWrapper(controller.registerStyleScrap))
 
-router.get('/user/:id', controller.getStyleScrapList)
+router.get('/user/:id', routesAsyncWrapper(controller.getStyleScrapList))
 
-router.delete('/delete', controller.deleteStyleScrap)
+router.delete('/delete', routesAsyncWrapper(controller.deleteStyleScrap))
 
 module.exports = router

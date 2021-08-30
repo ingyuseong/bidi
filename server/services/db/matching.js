@@ -6,323 +6,256 @@ const {
   Style,
   User,
 } = require('../../models')
-const { ERROR_MESSAGE } = require('../../lib/constants')
 
 // Create Matching Resource [create]
 exports.createMatching = async (attr) => {
-  try {
-    const matching = await Matching.create({
-      raw: true,
-      ...attr,
-      styling_at: null,
-      review: null,
-      star: 0,
-      done: false,
-      canceled: false,
-    })
-    return matching
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_CREATE_ERROR)
-    console.error(err)
-    return null
-  }
+  const matching = await Matching.create({
+    raw: true,
+    ...attr,
+    styling_at: null,
+    review: null,
+    star: 0,
+    done: false,
+    canceled: false,
+  })
+  return matching
 }
 // Read Matching Resource [findOne, findAll]
 exports.findAllMatching = async () => {
-  try {
-    const matchingList = await Matching.findAll({
-      include: [
-        {
-          model: Proposal,
-          required: true,
-          include: [
-            {
-              model: User,
-              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-              required: true,
+  const matchingList = await Matching.findAll({
+    include: [
+      {
+        model: Proposal,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+        ],
+      },
+      {
+        model: Bid,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+          {
+            model: Style,
+            as: 'bidStyles',
+            through: {
+              model: BidStyle,
             },
-          ],
-        },
-        {
-          model: Bid,
-          required: true,
-          include: [
-            {
-              model: User,
-              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-              required: true,
-            },
-            {
-              model: Style,
-              as: 'bidStyles',
-              through: {
-                model: BidStyle,
-              },
-            },
-          ],
-        },
-      ],
-      order: [['updated_at', 'DESC']],
-    })
-    return matchingList
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
-    console.error(err)
-    return null
-  }
+          },
+        ],
+      },
+    ],
+    order: [['updated_at', 'DESC']],
+  })
+  return matchingList
 }
 exports.findAllMatchingByDesignerId = async (id) => {
-  try {
-    const matchingList = await Matching.findAll({
-      where: {
-        designer_id: id,
+  const matchingList = await Matching.findAll({
+    where: {
+      designer_id: id,
+    },
+    include: [
+      {
+        model: Proposal,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+        ],
       },
-      include: [
-        {
-          model: Proposal,
-          required: true,
-          include: [
-            {
-              model: User,
-              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-              required: true,
+      {
+        model: Bid,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+          {
+            model: Style,
+            as: 'bidStyles',
+            through: {
+              model: BidStyle,
             },
-          ],
-        },
-        {
-          model: Bid,
-          required: true,
-          include: [
-            {
-              model: User,
-              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-              required: true,
-            },
-            {
-              model: Style,
-              as: 'bidStyles',
-              through: {
-                model: BidStyle,
-              },
-            },
-          ],
-        },
-      ],
-      order: [['updated_at', 'DESC']],
-    })
-    return matchingList
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
-    console.error(err)
-    return null
-  }
+          },
+        ],
+      },
+    ],
+    order: [['updated_at', 'DESC']],
+  })
+  return matchingList
 }
 exports.findAllMatchingByCustomerId = async (id) => {
-  try {
-    const matchingList = await Matching.findAll({
-      where: {
-        customer_id: id,
+  const matchingList = await Matching.findAll({
+    where: {
+      customer_id: id,
+    },
+    include: [
+      {
+        model: Proposal,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+        ],
       },
-      include: [
-        {
-          model: Proposal,
-          required: true,
-          include: [
-            {
-              model: User,
-              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-              required: true,
+      {
+        model: Bid,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+          {
+            model: Style,
+            as: 'bidStyles',
+            through: {
+              model: BidStyle,
             },
-          ],
-        },
-        {
-          model: Bid,
-          required: true,
-          include: [
-            {
-              model: User,
-              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-              required: true,
-            },
-            {
-              model: Style,
-              as: 'bidStyles',
-              through: {
-                model: BidStyle,
-              },
-            },
-          ],
-        },
-      ],
-      order: [['updated_at', 'DESC']],
-    })
-    return matchingList
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
-    console.error(err)
-    return null
-  }
+          },
+        ],
+      },
+    ],
+    order: [['updated_at', 'DESC']],
+  })
+  return matchingList
 }
 exports.findOneMatching = async (id) => {
-  try {
-    const matching = await Matching.findOne({
-      where: {
-        id,
+  const matching = await Matching.findOne({
+    where: {
+      id,
+    },
+    include: [
+      {
+        model: Proposal,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+        ],
       },
-      include: [
-        {
-          model: Proposal,
-          required: true,
-          include: [
-            {
-              model: User,
-              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-              required: true,
+      {
+        model: Bid,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+          {
+            model: Style,
+            as: 'bidStyles',
+            through: {
+              model: BidStyle,
             },
-          ],
-        },
-        {
-          model: Bid,
-          required: true,
-          include: [
-            {
-              model: User,
-              attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-              required: true,
-            },
-            {
-              model: Style,
-              as: 'bidStyles',
-              through: {
-                model: BidStyle,
-              },
-            },
-          ],
-        },
-      ],
-    })
-    return matching
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_READ_ERROR)
-    console.error(err)
-    return null
-  }
+          },
+        ],
+      },
+    ],
+  })
+  return matching
 }
 
 // Update Proposal Resource [update]
 exports.updateMatchingTime = async (id, time) => {
-  try {
-    const matching = await Matching.update(
-      {
-        raw: true,
-        time,
+  const matching = await Matching.update(
+    {
+      raw: true,
+      time,
+    },
+    {
+      where: {
+        id,
       },
-      {
-        where: {
-          id,
-        },
-      }
-    )
-    return matching[0]
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
-    console.error(err)
-    return null
-  }
+    }
+  )
+  return matching[0]
 }
 exports.updateMatchingReview = async (id, review) => {
-  try {
-    const matching = await Matching.update(
-      {
-        raw: true,
-        review,
+  const matching = await Matching.update(
+    {
+      raw: true,
+      review,
+    },
+    {
+      where: {
+        id,
       },
-      {
-        where: {
-          id,
-        },
-      }
-    )
-    return matching[0]
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
-    console.error(err)
-    return null
-  }
+    }
+  )
+  return matching[0]
 }
 exports.updateMatchingStar = async (id, star) => {
-  try {
-    const matching = await Matching.update(
-      {
-        raw: true,
-        star,
+  const matching = await Matching.update(
+    {
+      raw: true,
+      star,
+    },
+    {
+      where: {
+        id,
       },
-      {
-        where: {
-          id,
-        },
-      }
-    )
-    return matching[0]
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
-    console.error(err)
-    return null
-  }
+    }
+  )
+  return matching[0]
 }
 exports.updateMatchingDone = async (id, done) => {
-  try {
-    const matching = await Matching.update(
-      {
-        raw: true,
-        done,
+  const matching = await Matching.update(
+    {
+      raw: true,
+      done,
+    },
+    {
+      where: {
+        id,
       },
-      {
-        where: {
-          id,
-        },
-      }
-    )
-    return matching[0]
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
-    console.error(err)
-    return null
-  }
+    }
+  )
+  return matching[0]
 }
 exports.updateMatchingCanceled = async (id, canceled) => {
-  try {
-    const matching = await Matching.update(
-      {
-        raw: true,
-        canceled,
+  const matching = await Matching.update(
+    {
+      raw: true,
+      canceled,
+    },
+    {
+      where: {
+        id,
       },
-      {
-        where: {
-          id,
-        },
-      }
-    )
-    return matching[0]
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_UPDATE_ERROR)
-    console.error(err)
-    return null
-  }
+    }
+  )
+  return matching[0]
 }
 
 // Delete Matching Resource [destroy]
 exports.destroyMatching = async (id) => {
-  try {
-    const matching = await Matching.destroy({
-      where: {
-        id,
-      },
-    })
-    return matching
-  } catch (err) {
-    console.error(ERROR_MESSAGE.SEQUELIZE_DELETE_ERROR)
-    console.error(err)
-    return null
-  }
+  const matching = await Matching.destroy({
+    where: {
+      id,
+    },
+  })
+  return matching
 }
