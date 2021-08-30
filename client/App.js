@@ -38,12 +38,8 @@ function App() {
         <Stack.Screen name="Landing" component={LandingScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Auth" component={AuthStack} options={{ headerShown: false }} />
 
-        {/* 상단 헤더 관련 스크린 */}
-        {/* <Stack.Screen name="Main" component={MainScreen}/> */}
-        <Stack.Screen name="Mypage" component={MypageScreen} />
-
         {/*메인 탭 Navigation*/}
-        <Stack.Screen name="MainTab" component={MainTabStack} />
+        <Stack.Screen name="MainTab" component={MainTabStack} options={{ headerShown: false }} />
 
         {/*DM Stack Navigation*/}
         <Stack.Screen name="DM" component={DMStack} options={{ headerShown: false }} />
