@@ -4,7 +4,6 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import { getBidListByDesignerId } from '../../../Contexts/Bid';
 import { getMatchingListByDesignerId } from '../../../Contexts/Matching';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 
 import Loading from '../../../Components/Common/loading';
 import NoProcessBidList from './noProcessBidList';
