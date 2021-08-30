@@ -6,9 +6,6 @@ import Modal from 'react-native-modal';
 
 function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }) {
   let data;
-  if (screen == 'bid') {
-    console.log('??', info, screen);
-  }
   switch (screen) {
     case 'bid':
       data = {

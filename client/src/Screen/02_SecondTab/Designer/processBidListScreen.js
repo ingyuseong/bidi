@@ -83,7 +83,7 @@ function ProcessBidListScreen({ navigation, matchingList }) {
             info={matching}
             screen="matching"
             clickHandler={() => {
-              navigation.navigate('DetailBid', {
+              navigation.push('DetailBid', {
                 info: {
                   ...matching,
                   length_type: matching.bid.length_type,

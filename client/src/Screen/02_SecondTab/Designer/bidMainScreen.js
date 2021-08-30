@@ -42,12 +42,18 @@ function BidMainScreen({ navigation }) {
   useEffect(() => {
     dispatch(getBidListByDesignerId(userInfo.id));
     dispatch(getMatchingListByDesignerId(userInfo.id));
-  }, []);
-  console.log('11', bidList);
-  if (bidLoading || userLoading || matchingLoading || bidError || userError || matchingError)
+  }, [dispatch]);
+  if (
+    bidList.length === 0 ||
+    matchingList.length === 0 ||
+    bidLoading ||
+    userLoading ||
+    matchingLoading ||
+    bidError ||
+    userError ||
+    matchingError
+  )
     return <Loading loading />;
-  if (!bidList || !matchingList) return null;
-  console.log('22', bidList);
   return (
     <Tab.Navigator
       swipeEnabled={false}

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 
+import { getBidListByDesignerId } from '../../../Contexts/Bid';
+import { getMatchingListByDesignerId } from '../../../Contexts/Matching';
 import BidAPI from '../../../Api/bid';
 import BidiStorage from '../../../Lib/storage';
 import { LENGTH_TYPE, STYLE_TYPE, STORAGE_KEY } from '../../../Lib/constant';
@@ -72,7 +74,8 @@ function CreateBidScreen({ navigation, route }) {
       styles: [1, 2],
     });
     if (response) {
-      dispatch(registerBid(response));
+      dispatch(getBidListByDesignerId(userInfo.id));
+      dispatch(getMatchingListByDesignerId(userInfo.id));
       Alert.alert('Bid 작성이 성공적으로 완료되었습니다!');
       navigation.navigate('Bid', { screen: 'BidMain' });
     } else {
