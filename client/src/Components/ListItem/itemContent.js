@@ -6,11 +6,23 @@ import Modal from 'react-native-modal';
 
 function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }) {
   let data;
+  if (screen == 'bid') {
+    console.log('??', info, screen);
+  }
   switch (screen) {
     case 'bid':
       data = {
         img_src: info.proposal.before_src,
-        name: info.user.name,
+        name: info.proposal.user.name,
+        address: info.proposal.address,
+        description: info.proposal.description,
+        keyword_array: info.proposal.keyword_array,
+      };
+      break;
+    case 'matching':
+      data = {
+        img_src: info.proposal.before_src,
+        name: info.proposal.user.name,
         address: info.proposal.address,
         description: info.proposal.description,
         keyword_array: info.proposal.keyword_array,
@@ -19,20 +31,6 @@ function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }
     default:
       break;
   }
-  // const keyword_array = info.proposal ? info.proposal.keyword_array : info.keyword_array;
-  // const img_src = info.proposal ? info.proposal.after_src : info.user.img_src;
-  // const distance_limit = info.proposal ? info.proposal.distance_limit + 'km 이내' : info.position;
-  // const address = info.address
-  //   ? info.address
-  //   : info.user
-  //   ? info.user.address
-  //   : info.customer.address;
-  // const title = info.proposal ? (info.user ? info.user.name : info.customer.name) : info.title;
-  // const description = info.proposal
-  //   ? info.proposal.description
-  //   : info.letter
-  //   ? info.letter
-  //   : info.description;
 
   const deleteAlert = (id) => {
     Alert.alert('정말 삭제하시겠습니까?', '삭제후에는 변경이 불가능합니다', [

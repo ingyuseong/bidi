@@ -59,9 +59,10 @@ exports.getMatchingListByDesignerId = async (req, res, next) => {
         data: matchingList,
       })
     } else {
-      res.status(STATUS_CODE.NOT_FOUND).json({
+      /* 임시 주석 - 수정 필요 */
+      res.status(STATUS_CODE.SUCCESS).json({
         message: '디자이너의 매칭 목록 조회 실패(No resource)',
-        data: null,
+        data: [],
       })
     }
   } catch (err) {

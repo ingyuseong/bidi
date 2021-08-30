@@ -29,7 +29,11 @@ const BidAPI = {
   getBidListByCustomerId: async () => {},
   patchBidMatching: async () => {},
   patchBidCanceled: async () => {},
-  patchBid: async () => {},
-  deleteBid: async () => {},
+  patchBid: async (id, body) => {
+    return await API(`/bid/${id}`, 'patch', JSON.stringify(body));
+  },
+  deleteBid: async (id) => {
+    return await API(`/bid/${id}`, 'delete');
+  },
 };
 export default BidAPI;

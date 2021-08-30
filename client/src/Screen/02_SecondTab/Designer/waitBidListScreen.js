@@ -14,10 +14,10 @@ function WaitBidListScreen({ navigation, bidList }) {
             info={bid}
             screen="bid"
             clickHandler={() => {
-              navigation.navigate('DetailBid', { info: bid });
+              navigation.navigate('DetailBid', { info: bid, screen: 'bid' });
             }}
           />
-          <ItemContent info={bid} screen="bid" navigation={navigation} screen="bid" />
+          <ItemContent info={bid} screen="bid" navigation={navigation} />
           <Line />
         </View>
       ))}

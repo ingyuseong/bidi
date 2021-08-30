@@ -61,11 +61,11 @@ function CreateBidScreen({ navigation, route }) {
       return Alert.alert('케어 여부를 선택해주세요!');
     }
     const response = await BidAPI.registerBid({
-      customer_id: userInfo.id,
+      customer_id: proposal.user_id,
       designer_id: userInfo.id,
       proposal_id: proposal.id,
-      large_category: lengthTypeValue,
-      small_category: styleTypeValue,
+      length_type: lengthTypeValue,
+      style_type: styleTypeValue,
       letter: bidLetter,
       need_care: needCare,
       status: 'wait',

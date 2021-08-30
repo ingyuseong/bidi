@@ -33,7 +33,7 @@ router.get('/:id', controller.getMatching)
 router.patch('/time/:id', controller.patchMatchingTime)
 router.patch('/review/:id', controller.patchMatchingReview)
 router.patch('/star/:id', controller.patchMatchingStar)
-router.patch('/done/:id', controller.patchMatchingDone)
+router.patch('/done/:id', controller.patchMatchingStar)
 router.patch('/cancel/:id', controller.patchMatchingCanceled)
 
 router.delete('/:id', controller.deleteMatching)

@@ -16,7 +16,7 @@ function BidStackScreen() {
       <bidStack.Screen
         name="DetailBid"
         component={DetailBidScreen}
-        options={{ headerShown: false, title: '' }}
+        options={{ ...DetailHeader, title: '비드 상세 페이지' }}
       />
     </Stack.Navigator>
   );

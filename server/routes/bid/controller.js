@@ -8,11 +8,11 @@ exports.registerBid = async (req, res, next) => {
     const bid = await bidServices.createBid(body)
     const bidStyle = await bidServices.createBidStyle({
       bidId: bid.id,
-      styles: params.styles,
+      styleIdList: body.styles,
     })
     if (bid || bidStyle) {
-      const data = { ...bid.dataValues }
-      data.styles = params.styles
+      const data = { ...bid }
+      data.styles = body.styles
       res.status(STATUS_CODE.SUCCESS).json({
         message: '비드 작성 성공',
         data,
@@ -35,8 +35,6 @@ exports.getBid = async (req, res, next) => {
   try {
     const { id } = req.params
     let bid = await bidServices.findOneBid(id)
-      styleIdList: body.styleIdList,
-    })
     if (bid) {
       res.status(STATUS_CODE.SUCCESS).json({
         message: '비드 등록 성공',
@@ -68,9 +66,9 @@ exports.getBidListByDesignerId = async (req, res, next) => {
         data: bidList,
       })
     } else {
-      res.status(STATUS_CODE.NOT_FOUND).json({
+      res.status(STATUS_CODE.SUCCESS).json({
         message: '디자이너 비드 목록 조회 실패',
-        data: null,
+        data: [],
       })
     }
   } catch (err) {

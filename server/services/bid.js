@@ -1,6 +1,6 @@
 const db = require('./db/bid')
 const userDb = require('./db/user')
-
+const { ERROR_MESSAGE } = require('../lib/constants')
 // Create Bid Resource [create]
 
 exports.createBid = async (body) => {

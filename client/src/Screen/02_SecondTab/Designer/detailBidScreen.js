@@ -1,39 +1,38 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
+
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardDisableStyle from '../../../Components/Card/cardDisableStyle';
 import CardStyle from '../../../Components/Card/cardStyle';
+
 import BidCategory from '../../../Components/Bid/bidCategory';
 import BidLetter from '../../../Components/Bid/bidLetter';
 import BidNeedCare from '../../../Components/Bid/bidNeedCare';
 import BidRefStyle from '../../../Components/Bid/bidRefStyle';
-import BidiStorage from '../../../Lib/storage';
-import { LARGE_CATEGORY, SMALL_CATEGORY, STORAGE_KEY } from '../../../Lib/constant';
+
+import BidAPI from '../../../Api/bid';
+import { patchBid, deleteBid } from '../../../Contexts/Bid/';
+import { STYLE_TYPE, LENGTH_TYPE } from '../../../Lib/constant';
 
 function DetailBidScreen({ navigation, route }) {
-  const { info } = route.params;
+  const { info, screen } = route.params;
+
+  const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
-  const [largeCategoryOpen, setLargeCategoryOpen] = useState(false);
-  const [largeCategoryValue, setLargeCategoryValue] = useState(info.large_category);
-  const [largeCategoryItems, setLargeCategoryItems] = useState(LARGE_CATEGORY);
-  const [smallCategoryOpen, setSmallCategoryOpen] = useState(false);
-  const [smallCategoryValue, setSmallCategoryValue] = useState(info.small_category);
-  const [smallCategoryItems, setSmallCategoryItems] = useState([]);
+  const [lengthTypeOpen, setLengthTypeOpen] = useState(false);
+  const [lengthTypeValue, setLengthTypeValue] = useState(info.length_type);
+  const [lengthTypeItems, setLengthTypeItems] = useState(LENGTH_TYPE);
+  const [styleTypeOpen, setStyleTypeOpen] = useState(false);
+  const [styleTypeValue, setStyleTypeValue] = useState(info.style_type);
+  const [styleTypeItems, setStyleTypeItems] = useState([]);
   const [needCare, setNeedCare] = useState(info.need_care);
   const [bidLetter, setBidLetter] = useState(info.letter);
 
   useEffect(() => {
-    setSmallCategoryItems(SMALL_CATEGORY[largeCategoryValue]);
-  }, [largeCategoryValue]);
+    setStyleTypeItems(STYLE_TYPE[lengthTypeValue]);
+  }, [lengthTypeValue]);
 
-  useEffect(() => {
-    async function fetchMode() {
-      const user = await BidiStorage.getData(STORAGE_KEY);
-      setUserInfo(user);
-    }
-    fetchMode();
-  }, []);
   const editAlert = (id) => {
     Alert.alert('정말 저장하시겠어요?', '', [
       { text: '취소', style: 'cancel' },
@@ -41,28 +40,18 @@ function DetailBidScreen({ navigation, route }) {
     ]);
   };
   const editSubmitHandler = async (id) => {
-    await fetch('http://127.0.0.1:3000' + `/api/bid/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        large_category: largeCategoryValue,
-        small_category: smallCategoryValue,
-        need_care: needCare,
-        letter: bidLetter,
-      }),
-    })
-      .then((response) => response.json())
-      .then(async (response) => {
-        if (response) {
-          Alert.alert('Bid 수정이 성공적으로 완료되었습니다!');
-          setIsEdit(false);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const bodyData = {
+      length_type: lengthTypeValue,
+      style_type: styleTypeValue,
+      need_care: needCare,
+      letter: bidLetter,
+    };
+    const response = BidAPI.patchBid(id, bodyData);
+    if (response) {
+      dispatch(patchBid(id, bodyData));
+      Alert.alert('Bid 수정이 성공적으로 완료되었습니다!');
+      setIsEdit(false);
+    }
   };
   const deleteAlert = (id) => {
     Alert.alert('정말 삭제하시겠어요?', '', [
@@ -71,22 +60,12 @@ function DetailBidScreen({ navigation, route }) {
     ]);
   };
   const deleteSubmitHandler = async (id) => {
-    await fetch('http://127.0.0.1:3000' + `/api/bid/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then(async (response) => {
-        if (response) {
-          Alert.alert('Bid 삭제가 성공적으로 완료되었습니다!');
-          navigation.push('BidMain');
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const response = BidAPI.deleteBid(id);
+    if (response) {
+      dispatch(deleteBid(id));
+      Alert.alert('Bid 삭제가 성공적으로 완료되었습니다!');
+      navigation.push('BidMain');
+    }
   };
   const editToggleHandler = () => {
     setIsEdit(true);
@@ -108,9 +87,9 @@ function DetailBidScreen({ navigation, route }) {
           info={{
             ...info,
             description: info.proposal.description,
-            name: info.user.name,
-            address: info.user.address,
-            img_src: info.user.img_src,
+            name: info.proposal.user.name,
+            address: info.proposal.address,
+            img_src: info.proposal.before_src,
             distance_limit: info.proposal.distance_limit,
           }}
           navigation={navigation}
@@ -125,24 +104,24 @@ function DetailBidScreen({ navigation, route }) {
         </View>
         <View style={styles.line}></View>
         <BidCategory
-          largeCategoryOpen={largeCategoryOpen}
-          setLargeCategoryOpen={setLargeCategoryOpen}
-          largeCategoryValue={largeCategoryValue}
-          setLargeCategoryValue={setLargeCategoryValue}
-          largeCategoryItems={largeCategoryItems}
-          setLargeCategoryItems={setLargeCategoryItems}
-          smallCategoryOpen={smallCategoryOpen}
-          setSmallCategoryOpen={setSmallCategoryOpen}
-          smallCategoryValue={smallCategoryValue}
-          setSmallCategoryValue={setSmallCategoryValue}
-          smallCategoryItems={smallCategoryItems}
-          setSmallCategoryItems={setSmallCategoryItems}
+          lengthTypeOpen={lengthTypeOpen}
+          setLengthTypeOpen={setLengthTypeOpen}
+          lengthTypeValue={lengthTypeValue}
+          setLengthTypeValue={setLengthTypeValue}
+          lengthTypeItems={lengthTypeItems}
+          setLengthTypeItems={setLengthTypeItems}
+          styleTypeOpen={styleTypeOpen}
+          setStyleTypeOpen={setStyleTypeOpen}
+          styleTypeValue={styleTypeValue}
+          setStyleTypeValue={setStyleTypeValue}
+          styleTypeItems={styleTypeItems}
+          setStyleTypeItems={setStyleTypeItems}
           isEdit={isEdit}
         />
         <BidNeedCare needCare={needCare} setNeedCare={setNeedCare} isEdit={isEdit} />
         <BidLetter bidLetter={bidLetter} setBidLetter={setBidLetter} isEdit={isEdit} />
         <BidRefStyle />
-        {info.status === 'wait' && (
+        {screen === 'bid' && (
           <View style={styles.bottomBtnArea}>
             {isEdit ? (
               <TouchableOpacity
