@@ -1,0 +1,261 @@
+const {
+  Matching,
+  Bid,
+  Proposal,
+  BidStyle,
+  Style,
+  User,
+} = require('../../models')
+
+// Create Matching Resource [create]
+exports.createMatching = async (attr) => {
+  const matching = await Matching.create({
+    raw: true,
+    ...attr,
+    styling_at: null,
+    review: null,
+    star: 0,
+    done: false,
+    canceled: false,
+  })
+  return matching
+}
+// Read Matching Resource [findOne, findAll]
+exports.findAllMatching = async () => {
+  const matchingList = await Matching.findAll({
+    include: [
+      {
+        model: Proposal,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+        ],
+      },
+      {
+        model: Bid,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+          {
+            model: Style,
+            as: 'bidStyles',
+            through: {
+              model: BidStyle,
+            },
+          },
+        ],
+      },
+    ],
+    order: [['updated_at', 'DESC']],
+  })
+  return matchingList
+}
+exports.findAllMatchingByDesignerId = async (id) => {
+  const matchingList = await Matching.findAll({
+    where: {
+      designer_id: id,
+    },
+    include: [
+      {
+        model: Proposal,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+        ],
+      },
+      {
+        model: Bid,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+          {
+            model: Style,
+            as: 'bidStyles',
+            through: {
+              model: BidStyle,
+            },
+          },
+        ],
+      },
+    ],
+    order: [['updated_at', 'DESC']],
+  })
+  return matchingList
+}
+exports.findAllMatchingByCustomerId = async (id) => {
+  const matchingList = await Matching.findAll({
+    where: {
+      customer_id: id,
+    },
+    include: [
+      {
+        model: Proposal,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+        ],
+      },
+      {
+        model: Bid,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+          {
+            model: Style,
+            as: 'bidStyles',
+            through: {
+              model: BidStyle,
+            },
+          },
+        ],
+      },
+    ],
+    order: [['updated_at', 'DESC']],
+  })
+  return matchingList
+}
+exports.findOneMatching = async (id) => {
+  const matching = await Matching.findOne({
+    where: {
+      id,
+    },
+    include: [
+      {
+        model: Proposal,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+        ],
+      },
+      {
+        model: Bid,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+          {
+            model: Style,
+            as: 'bidStyles',
+            through: {
+              model: BidStyle,
+            },
+          },
+        ],
+      },
+    ],
+  })
+  return matching
+}
+
+// Update Proposal Resource [update]
+exports.updateMatchingTime = async (id, time) => {
+  const matching = await Matching.update(
+    {
+      raw: true,
+      time,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  )
+  return matching[0]
+}
+exports.updateMatchingReview = async (id, review) => {
+  const matching = await Matching.update(
+    {
+      raw: true,
+      review,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  )
+  return matching[0]
+}
+exports.updateMatchingStar = async (id, star) => {
+  const matching = await Matching.update(
+    {
+      raw: true,
+      star,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  )
+  return matching[0]
+}
+exports.updateMatchingDone = async (id, done) => {
+  const matching = await Matching.update(
+    {
+      raw: true,
+      done,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  )
+  return matching[0]
+}
+exports.updateMatchingCanceled = async (id, canceled) => {
+  const matching = await Matching.update(
+    {
+      raw: true,
+      canceled,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  )
+  return matching[0]
+}
+
+// Delete Matching Resource [destroy]
+exports.destroyMatching = async (id) => {
+  const matching = await Matching.destroy({
+    where: {
+      id,
+    },
+  })
+  return matching
+}

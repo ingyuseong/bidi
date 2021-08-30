@@ -1,56 +1,171 @@
 const db = require('./db/bid')
-const userDb = require('./db/user')
 
 // Create Bid Resource [create]
-exports.createBid = async (params) => {
-  const bid = await db.createBid({ ...params })
-  return bid
+exports.createBid = async (body) => {
+  const attr = {
+    proposalId: body.proposal_id,
+    customer_id: body.customer_id,
+    designer_id: body.designer_id,
+    style_type: body.style_type,
+    length_type: body.length_type,
+    letter: body.letter,
+    need_care: body.need_care,
+  }
+  const bid = await db.createBid(attr)
+  if (bid) {
+    return bid.dataValues
+  } else {
+    return null
+  }
 }
-exports.createBidStyle = async ({ bidId, stylesIdString }) => {
-  if (stylesIdString) {
-    const results = await Promise.all(
-      stylesIdString.split(',').map((styleId) => {
-        return db.createBidStyle(bidId, styleId)
+exports.createBidStyle = async ({ bidId, styleIdList }) => {
+  if (styleIdList) {
+    const bidStyleList = await Promise.all(
+      styleIdList.split(',').map((styleId) => {
+        const attr = {
+          bidId,
+          styleId,
+        }
+        return db.createBidStyle(attr)
       })
     )
-    return results
-  } else return null
+    if (bidStyleList) {
+      return bidStyleList
+    } else {
+      return null
+    }
+  } else {
+    return null
+  }
 }
 
 // Read Bid Resource [findOne, findAll]
-exports.findAllBidByDesignerId = async (userId) => {
-  const bidList = await db.findAllBidByDesignerId(userId)
-  return bidList
+exports.findAllBidByDesignerId = async (id) => {
+  let bidList = await db.findAllBidByDesignerId(id)
+  if (bidList && bidList.length > 0) {
+    bidList = bidList.map((bid) => {
+      let keyword_array = []
+      if (bid.proposal.keyword_array) {
+        keyword_array = bid.proposal.keyword_array.split(',')
+      }
+      return {
+        ...bid.dataValues,
+        proposal: {
+          ...bid.proposal.dataValues,
+          keyword_array,
+        },
+        bidStyles: bid.bidStyles.map((style) => {
+          let style_keyword_array = []
+          if (style.keyword_array) {
+            style_keyword_array = style.keyword_array.split(',')
+          }
+          return {
+            ...style.dataValues,
+            keyword_array: style_keyword_array,
+            img_src_array: style.img_src_array.split(','),
+          }
+        }),
+      }
+    })
+    return bidList
+  } else {
+    return null
+  }
 }
-exports.findAllBidByCustomerId = async (userId) => {
-  const bidList = await db.findAllBidByCustomerId(userId)
-  return bidList
+exports.findAllBidByCustomerId = async (id) => {
+  let bidList = await db.findAllBidByCustomerId(id)
+  if (bidList && bidList.length > 0) {
+    bidList = bidList.map((bid) => {
+      let keyword_array = []
+      if (bid.proposal.keyword_array) {
+        keyword_array = bid.proposal.keyword_array.split(',')
+      }
+      return {
+        ...bid.dataValues,
+        proposal: {
+          ...bid.proposal.dataValues,
+          keyword_array,
+        },
+        bidStyles: bid.bidStyles.map((style) => {
+          let style_keyword_array = []
+          if (style.keyword_array) {
+            style_keyword_array = style.keyword_array.split(',')
+          }
+          return {
+            ...style.dataValues,
+            keyword_array: style_keyword_array,
+            img_src_array: style.img_src_array.split(','),
+          }
+        }),
+      }
+    })
+    return bidList
+  } else {
+    return null
+  }
 }
 exports.findOneBid = async (id) => {
-  const bid = await db.findOneBid(id)
-  return bid
+  let bid = await db.findOneBid(id)
+  if (bid) {
+    let keyword_array = []
+    if (bid.proposal.keyword_array) {
+      keyword_array = bid.proposal.keyword_array.split(',')
+    }
+    bid = {
+      ...bid.dataValues,
+      proposal: {
+        ...bid.proposal.dataValues,
+        keyword_array,
+      },
+      bidStyles: bid.bidStyles.map((style) => {
+        let style_keyword_array = []
+        if (style.keyword_array) {
+          style_keyword_array = style.keyword_array.split(',')
+        }
+        return {
+          ...style.dataValues,
+          keyword_array: style_keyword_array,
+          img_src_array: style.img_src_array.split(','),
+        }
+      }),
+    }
+    return bid
+  } else {
+    return null
+  }
 }
 
 // Update Bid Resource [update]
-exports.updateBid = async (params) => {
-  const bid = await db.updateBid({ ...params })
-  return bid
+exports.updateBid = async (id, body) => {
+  const attr = {
+    style_type: body.style_type,
+    length_type: body.length_type,
+    letter: body.letter,
+    need_care: body.need_care,
+  }
+  const bid = await db.updateBid(id, attr)
+  if (bid) {
+    return bid
+  } else {
+    return null
+  }
 }
-exports.updateBidMatching = async (params) => {
-  const bid = await db.updateBidMatching({ ...params })
-  return bid
-}
-exports.updateBidCanceled = async (params) => {
-  const bid = await db.updateBidCanceled({ ...params })
-  return bid
-}
-exports.updateBidCancelElse = async (params) => {
-  const bid = await db.updateBidCancelElse({ ...params })
-  return bid
+exports.updateBidCanceled = async (id, body) => {
+  const { canceled } = body
+  const bid = await db.updateBidCanceled(id, canceled)
+  if (bid) {
+    return bid
+  } else {
+    return null
+  }
 }
 
 // Delete Bid Resoure [destroy]
 exports.destroyBid = async (id) => {
   const bid = await db.destroyBid(id)
-  return bid
+  if (bid) {
+    return bid
+  } else {
+    return null
+  }
 }

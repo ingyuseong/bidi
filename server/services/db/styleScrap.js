@@ -1,28 +1,19 @@
 const { Style, StyleScrap, User } = require('../../models')
 
 // Create StyleScrap Resource [create]
-exports.createStyleScrap = async ({ userId, styleId }) => {
-  const results = await StyleScrap.create({
+exports.createStyleScrap = async (attr) => {
+  const styleScrap = await StyleScrap.create({
     raw: true,
-    userId: userId,
-    styleId: styleId,
-    include: [
-      {
-        model: Style,
-        as: 'styleScraps',
-        through: {
-          model: StyleScrap,
-        },
-      },
-    ],
-  }).catch((err) => console.error(err))
-  return results
+    ...attr,
+  })
+  return styleScrap
 }
+
 // Read StyleScrap Resource [findOne, findAll]
-exports.findAllStyleScrapByUser = async (userId) => {
-  const results = await User.findOne({
+exports.findAllStyleScrapByUser = async (id) => {
+  const styleScrapList = await User.findOne({
     where: {
-      id: userId,
+      id,
     },
     include: [
       {
@@ -34,16 +25,15 @@ exports.findAllStyleScrapByUser = async (userId) => {
       },
     ],
   })
-  return results
+  return styleScrapList
 }
 
 // Delete StyleScrap Resource [destroy]
-exports.destroyStyleScrap = async ({ userId, styleId }) => {
-  const results = await StyleScrap.destroy({
+exports.destroyStyleScrap = async (attr) => {
+  const styleScrap = await StyleScrap.destroy({
     where: {
-      user_id: userId,
-      style_id: styleId,
+      ...attr,
     },
   })
-  return results
+  return styleScrap
 }

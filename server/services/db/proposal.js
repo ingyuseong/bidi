@@ -1,72 +1,18 @@
 const { Proposal, User } = require('../../models')
 
 // Create Proposal Resource [create]
-exports.createProposal = async ({
-  user_id,
-  before_src,
-  after_src,
-  price_limit,
-  address,
-  description,
-  keyword_array,
-}) => {
-  await Proposal.create({
+exports.createProposal = async (attr) => {
+  const proposal = await Proposal.create({
     raw: true,
-    userId: user_id,
-    before_src,
-    after_src,
-    price_limit,
-    address,
-    description,
-    keyword_array,
+    ...attr,
     matching: false,
   })
-    .then((results) => {
-      console.log('Success Creating Proposal')
-      return results
-    })
-    .catch((err) => {
-      console.log('Failed Creating Proposal')
-      console.log(err)
-      return err
-    })
+  return proposal
 }
+
 // Read Proposal Resource [findOne, findAll]
-exports.findOneProposal = async (proposalId) =>
-  await Proposal.findOne({
-    raw: true,
-    where: {
-      id: proposalId,
-    },
-  })
-    .then((results) => {
-      console.log('Success Selecting Proposal')
-      return results
-    })
-    .catch((err) => {
-      console.log('Failed Selecting Proposal')
-      return err
-    })
-
-exports.findOneProposalByUserId = async (userId) =>
-  await Proposal.findOne({
-    raw: true,
-    where: {
-      user_id: userId,
-      matching: false,
-    },
-  })
-    .then((results) => {
-      console.log('Success Selecting Proposal')
-      return results
-    })
-    .catch((err) => {
-      console.log('Failed Selecting Proposal')
-      return err
-    })
-
-exports.findAllProposal = async () =>
-  await Proposal.findAll({
+exports.findAllProposal = async () => {
+  const proposalList = await Proposal.findAll({
     where: {
       matching: false,
     },
@@ -77,58 +23,48 @@ exports.findAllProposal = async () =>
         required: true,
       },
     ],
+    order: [['updated_at', 'DESC']],
   })
-    .then((results) => {
-      console.log('Success Selecting All Proposal')
-      return results
-    })
-    .catch((err) => {
-      console.log('Failed Selecting All Proposal')
-      return err
-    })
-
-// Update Proposal Resource [update]
-exports.updateProposal = async ({
-  id,
-  before_src,
-  after_src,
-  price_limit,
-  address,
-  description,
-  keyword_array,
-  matching,
-}) => {
-  await Proposal.update(
-    {
-      raw: true,
-      before_src,
-      after_src,
-      price_limit,
-      address,
-      description,
-      keyword_array,
-      matching,
+  return proposalList
+}
+exports.findOneProposal = async (id) => {
+  const proposal = await Proposal.findOne({
+    where: {
+      id,
     },
-    {
-      where: {
-        id,
+    include: [
+      {
+        model: User,
+        attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+        required: true,
       },
-    }
-  )
-    .then((results) => {
-      console.log('Success Updating Proposal')
-      return results
-    })
-    .catch((err) => {
-      console.log('Failed Updating Proposal')
-      return err
-    })
+    ],
+  })
+  return proposal
+}
+exports.findOneProposalByUserId = async (id) => {
+  const proposal = await Proposal.findOne({
+    where: {
+      user_id: id,
+      matching: false,
+    },
+    include: [
+      {
+        model: User,
+        attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+        required: true,
+      },
+    ],
+  })
+  return proposal
 }
 
-exports.updateMatchingStatus = async ({ id, matching }) => {
-  await Proposal.update(
+// Update Proposal Resource [update]
+exports.updateProposal = async (id, attr) => {
+  const proposal = await Proposal.update(
     {
-      matching,
+      raw: true,
+      ...attr,
     },
     {
       where: {
@@ -136,29 +72,28 @@ exports.updateMatchingStatus = async ({ id, matching }) => {
       },
     }
   )
-    .then((results) => {
-      console.log('Success Updating Proposal Status')
-      return results
-    })
-    .catch((err) => {
-      console.log('Failed Updating Proposal Status')
-      return err
-    })
+  return proposal[0]
+}
+exports.updateProposalMatching = async (id) => {
+  const proposal = await Proposal.update(
+    {
+      matching: true,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  )
+  return proposal[0]
 }
 
 // Delete Proposal Resource [destroy]
-exports.destroyProposal = async (proposalId) => {
-  await Proposal.destroy({
+exports.destroyProposal = async (id) => {
+  const proposal = await Proposal.destroy({
     where: {
-      id: proposalId,
+      id,
     },
   })
-    .then((results) => {
-      console.log('Success Destroying Proposal')
-      return results
-    })
-    .catch((err) => {
-      console.log('Failed Destroying Proposal')
-      return err
-    })
+  return proposal
 }

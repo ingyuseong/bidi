@@ -2,6 +2,7 @@ const router = require('express').Router()
 const controller = require('./controller')
 const upload = require('../../middleware/upload')
 const getLastUserId = require('../../middleware/getLastUserId')
+const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
 
 /*
     [ 1. POST Methods ]
@@ -24,16 +25,16 @@ router.post(
   '/register',
   getLastUserId,
   upload.single('userImage'),
-  controller.registerUser
+  routesAsyncWrapper(controller.registerUser)
 )
-router.post('/checkToken', controller.checkToken)
-router.post('/inferenceAI', controller.inferenceAI)
+router.post('/checkToken', routesAsyncWrapper(controller.checkToken))
+router.post('/inferenceAI', routesAsyncWrapper(controller.inferenceAI))
 
-router.get('/list', controller.getUserList)
-router.get('/:id', controller.getUser)
+router.get('/list', routesAsyncWrapper(controller.getUserList))
+router.get('/:id', routesAsyncWrapper(controller.getUser))
 
-router.patch('/:id', controller.patchUser)
+router.patch('/:id', routesAsyncWrapper(controller.patchUser))
 
-router.delete('/:id', controller.deleteUser)
+router.delete('/:id', routesAsyncWrapper(controller.deleteUser))
 
 module.exports = router
