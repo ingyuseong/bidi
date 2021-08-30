@@ -1,6 +1,6 @@
 import React, { useState, createRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { registerUser } from '../../Contexts/User/action';
+import { registerUser } from '../../Contexts/User';
 import { createFormData } from '../../Lib/utils';
 import {
   widthPercentageToDP as wp,

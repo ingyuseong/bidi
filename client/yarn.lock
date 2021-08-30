@@ -1223,12 +1223,12 @@
     "color" "^3.1.3"
     "react-native-iphone-x-helper" "^1.3.0"
 
-"@react-navigation/core@^5.15.3":
-  "integrity" "sha512-3ZdyDInh8qg1kygCNkmh9lFgpDf29lTvPsaMe2mm/qvmxLKSgttWBz07P2fc181aV9jTdgQpzYfWZ5KWT036zw=="
-  "resolved" "https://registry.npmjs.org/@react-navigation/core/-/core-5.15.3.tgz"
-  "version" "5.15.3"
+"@react-navigation/core@^5.16.1":
+  "integrity" "sha512-3AToC7vPNeSNcHFLd1h71L6u34hfXoRAS1CxF9Fc4uC8uOrVqcNvphpeFbE0O9Bw6Zpl0BnMFl7E5gaL3KGzNA=="
+  "resolved" "https://registry.npmjs.org/@react-navigation/core/-/core-5.16.1.tgz"
+  "version" "5.16.1"
   dependencies:
-    "@react-navigation/routers" "^5.7.2"
+    "@react-navigation/routers" "^5.7.4"
     "escape-string-regexp" "^4.0.0"
     "nanoid" "^3.1.15"
     "query-string" "^6.13.6"
@@ -1241,19 +1241,19 @@
   dependencies:
     "color" "^3.1.3"
 
-"@react-navigation/native@^5.0.5", "@react-navigation/native@^5.9.4":
-  "integrity" "sha512-BUCrOXfZDdKWBqM8OhOKQhCX5we4HUo5XG6tCQtVqQAep+7UcApZmMUuemUXDxVe8NPESUpoUlB0RaEpyIdfTQ=="
-  "resolved" "https://registry.npmjs.org/@react-navigation/native/-/native-5.9.4.tgz"
-  "version" "5.9.4"
+"@react-navigation/native@^5.0.5", "@react-navigation/native@^5.9.8":
+  "integrity" "sha512-DNbcDHXQPSFDLn51kkVVJjT3V7jJy2GztNYZe/2bEg29mi5QEcHHcpifjMCtyFKntAOWzKlG88UicIQ17UEghg=="
+  "resolved" "https://registry.npmjs.org/@react-navigation/native/-/native-5.9.8.tgz"
+  "version" "5.9.8"
   dependencies:
-    "@react-navigation/core" "^5.15.3"
+    "@react-navigation/core" "^5.16.1"
     "escape-string-regexp" "^4.0.0"
     "nanoid" "^3.1.15"
 
-"@react-navigation/routers@^5.7.2":
-  "integrity" "sha512-BxNSMLHpU+oS37Xok0ql6rc9U7IC8aUD4+U5ZPbjDJ0pwzZxGGh0YOEBzfV4k/Ig3cbPdvVWbc1C9HHbCVr2oQ=="
-  "resolved" "https://registry.npmjs.org/@react-navigation/routers/-/routers-5.7.2.tgz"
-  "version" "5.7.2"
+"@react-navigation/routers@^5.7.4":
+  "integrity" "sha512-0N202XAqsU/FlE53Nmh6GHyMtGm7g6TeC93mrFAFJOqGRKznT0/ail+cYlU6tNcPA9AHzZu1Modw1eoDINSliQ=="
+  "resolved" "https://registry.npmjs.org/@react-navigation/routers/-/routers-5.7.4.tgz"
+  "version" "5.7.4"
   dependencies:
     "nanoid" "^3.1.15"
 
@@ -5230,9 +5230,9 @@
   "version" "2.1.2"
 
 "nanoid@^3.1.15":
-  "integrity" "sha512-FiB0kzdP0FFVGDKlRLEQ1BgDzU87dy5NnzjeW9YZNt+/c3+q82EQDUwniSAUxp/F0gFNI1ZhKU1FqYsMuqZVnw=="
-  "resolved" "https://registry.npmjs.org/nanoid/-/nanoid-3.1.23.tgz"
-  "version" "3.1.23"
+  "integrity" "sha512-rdwtIXaXCLFAQbnfqDRnI6jaRHp9fTcYBjtFKE8eezcZ7LuLjhUaQGNeMXf1HmRoCH32CLz6XwX0TtxEOS/A3Q=="
+  "resolved" "https://registry.npmjs.org/nanoid/-/nanoid-3.1.25.tgz"
+  "version" "3.1.25"
 
 "nanomatch@^1.2.9":
   "integrity" "sha512-fpoe2T0RbHwBTBUOftAfBPaDEi06ufaUai0mE6Yn1kacc3SnTErfb/h+X94VXzI64rKFHYImXSvdwGGCmwOqCA=="
@@ -5919,15 +5919,15 @@
   "resolved" "https://registry.npmjs.org/react-native-responsive-screen/-/react-native-responsive-screen-1.4.2.tgz"
   "version" "1.4.2"
 
-"react-native-safe-area-context@^3.2.0", "react-native-safe-area-context@>= 0.6.0":
-  "integrity" "sha512-k2Nty4PwSnrg9HwrYeeE+EYqViYJoOFwEy9LxL5RIRfoqxAq/uQXNGwpUg2/u4gnKpBbEPa9eRh15KKMe/VHkA=="
-  "resolved" "https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-3.2.0.tgz"
-  "version" "3.2.0"
+"react-native-safe-area-context@^3.3.0", "react-native-safe-area-context@>= 0.6.0":
+  "integrity" "sha512-IrCNx56LO9RJ75yCf2CSSO1ceLj3mvxTAF+HWnehaeRIfF4pIcIn3WEUlXulFiha641OKS5X0+1XZCbbQ7pITA=="
+  "resolved" "https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-3.3.0.tgz"
+  "version" "3.3.0"
 
-"react-native-screens@^3.4.0", "react-native-screens@>= 2.0.0-alpha.0 || >= 2.0.0-beta.0 || >= 2.0.0":
-  "integrity" "sha512-cg+q9MRnVdeOcJyvJtqffoXLur/C2wHA/7IO2+FAipzTlgHbbM1mTuSM7qG+SeiQjoIs4mHOEf7A0ziPKW04sA=="
-  "resolved" "https://registry.npmjs.org/react-native-screens/-/react-native-screens-3.4.0.tgz"
-  "version" "3.4.0"
+"react-native-screens@^3.6.0", "react-native-screens@>= 2.0.0-alpha.0 || >= 2.0.0-beta.0 || >= 2.0.0":
+  "integrity" "sha512-emQmSu+B6cOIjJH2OIgpuxd9zCD6xz7/oo5GCetyjsM5qR3sMnVgOxqtK99xPu9XJH/8k7MplXbtJgtk/PHXwA=="
+  "resolved" "https://registry.npmjs.org/react-native-screens/-/react-native-screens-3.6.0.tgz"
+  "version" "3.6.0"
   dependencies:
     "warn-once" "^0.1.0"
 

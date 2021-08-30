@@ -40,56 +40,52 @@ function ProposalListScreen({ navigation }) {
   }
 
   return (
-    <View>
-      <Text>임시</Text>
-    </View>
-    // 임시 주석
-    // <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
-    //   {infoLists.map((info, index) => (
-    //     <Swiper
-    //       key={index}
-    //       style={styles.wrapper}
-    //       showsButtons={false}
-    //       showsPagination={false}
-    //       loop={false}
-    //       horizontal={false}>
-    //       <View style={styles.container}>
-    //         <View style={{ height: '60%' }}>
-    //           <CardChangeStyle
-    //             before_src={info.before_src}
-    //             after_src={info.after_src}
-    //             isUser={false}
-    //             height={400}
-    //           />
-    //         </View>
-    //         <CardInfo
-    //           info={info}
-    //           navigation={navigation}
-    //           height={150}
-    //           tagBackgroundColor="#E1ECFF"
-    //           tagColor="#323274"
-    //         />
-    //         <TouchableOpacity
-    //           style={styles.bidiBtn}
-    //           onPress={() =>
-    //             navigation.navigate('ProposalDetail', {
-    //               info: infoLists[index],
-    //               userId: info.user_id,
-    //               proposalId: info.id,
-    //             })
-    //           }>
-    //           <Icon name="pencil" size={25} style={styles.bidiIcon} />
-    //         </TouchableOpacity>
-    //       </View>
-    //       <View>
-    //         <ProposalDetailScreen
-    //           navigation={navigation}
-    //           props={{ info, userId: info.user_id, proposalId: info.id }}
-    //         />
-    //       </View>
-    //     </Swiper>
-    //   ))}
-    // </Swiper>
+    <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
+      {infoLists.map((info, index) => (
+        <Swiper
+          key={index}
+          style={styles.wrapper}
+          showsButtons={false}
+          showsPagination={false}
+          loop={false}
+          horizontal={false}>
+          <View style={styles.container}>
+            <View style={{ height: '60%' }}>
+              <CardChangeStyle
+                before_src={info.before_src}
+                after_src={info.after_src}
+                isUser={false}
+                height={400}
+              />
+            </View>
+            <CardInfo
+              info={info}
+              navigation={navigation}
+              height={150}
+              tagBackgroundColor="#E1ECFF"
+              tagColor="#323274"
+            />
+            <TouchableOpacity
+              style={styles.bidiBtn}
+              onPress={() =>
+                navigation.navigate('ProposalDetail', {
+                  info: infoLists[index],
+                  userId: info.user_id,
+                  proposalId: info.id,
+                })
+              }>
+              <Icon name="pencil" size={25} style={styles.bidiIcon} />
+            </TouchableOpacity>
+          </View>
+          <View>
+            <ProposalDetailScreen
+              navigation={navigation}
+              props={{ info, userId: info.user_id, proposalId: info.id }}
+            />
+          </View>
+        </Swiper>
+      ))}
+    </Swiper>
   );
 }
 const styles = StyleSheet.create({
