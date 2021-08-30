@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const controller = require('./controller')
 const upload = require('../../middleware/upload')
+const getLastUserId = require('../../middleware/getLastUserId')
 
 /*
     [ 1. POST Methods ]
@@ -19,7 +20,12 @@ const upload = require('../../middleware/upload')
     DELETE /api/user/:id : 사용자 정보 삭제 API
 */
 
-router.post('/register', upload.single('userImage'), controller.registerUser)
+router.post(
+  '/register',
+  getLastUserId,
+  upload.single('userImage'),
+  controller.registerUser
+)
 router.post('/checkToken', controller.checkToken)
 router.post('/inferenceAI', controller.inferenceAI)
 

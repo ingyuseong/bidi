@@ -1,4 +1,7 @@
 import React, { useState, createRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { registerUser } from '../../Contexts/User';
+import { createFormData } from '../../Lib/utils';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -13,11 +16,11 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
-import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 const RegisterScreen = ({ navigation, route }) => {
@@ -25,80 +28,37 @@ const RegisterScreen = ({ navigation, route }) => {
   const userKakaoToken = profile.id;
   const [userType, setUserType] = useState('');
   const [userName, setUserName] = useState('');
-  const [userGender, setUserGender] = useState('');
+  const [userGenderType, setUserGenderType] = useState('');
   const [userBirth, setUserBirth] = useState('');
   const [userNickName, setUserNickName] = useState('');
-  const [userPhoneNumber, setUserPhoneNumber] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [userAddress, setUserAddress] = useState('');
   const [photo, setPhoto] = useState(null);
 
   const typeInputRef = createRef();
   const nickNameInputRef = createRef();
   const nameInputRef = createRef();
   const birthInputRef = createRef();
-  const phoneNumberInputRef = createRef();
-  const emailInputRef = createRef();
-  const addressInputRef = createRef();
 
-  const createFormData = (photo, body) => {
-    const data = new FormData();
-
-    data.append('userImage', {
-      name: userNickName,
-      type: photo.type,
-      uri: photo.uri.replace('file://', ''),
-    });
-    Object.keys(body).forEach((key) => {
-      data.append(key, body[key]);
-    });
-    return data;
-  };
-
+  const { data, loading, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const handleSubmitButton = async () => {
     if (photo) {
-      await fetch('http://127.0.0.1:3000' + '/api/user/register', {
-        method: 'POST',
-        headers: {
-          'content-type': 'multipart/form-data',
-        },
-        body: createFormData(photo, {
-          userType,
-          userName,
-          userGender,
-          userBirth,
-          userNickName,
-          userPhoneNumber,
-          userEmail,
-          userAddress,
-          userKakaoToken,
-        }),
-      })
-        .then((response) => response.json())
-        .then(async ({ data }) => {
-          if (data) {
-            const { id, type, kakao_token, nick_name, name, gender, address, img_src, ai_status } =
-              data;
-            BidiStorage.storeData(STORAGE_KEY, {
-              id,
-              type,
-              token: kakao_token,
-              nick_name,
-              name,
-              gender,
-              address,
-              img_src,
-              ai_status,
-            }).then(() => {
-              navigation.replace('MainTab');
-            });
-          } else {
-            Alert.alert('zz');
-          }
-        })
-        .catch((error) => {
-          console.error(error);
+      const bodyData = createFormData(photo, {
+        userType,
+        userName,
+        userNickName,
+        userBirth,
+        userGenderType,
+        userKakaoToken,
+      });
+      await dispatch(registerUser(bodyData));
+      if (data) {
+        const { naver_token, kakao_token, apple_token } = data;
+        await BidiStorage.storeData(STORAGE_KEY, {
+          token: naver_token || kakao_token || apple_token,
         });
+        Alert.alert('회원가입이 정상적으로 완료되었습니다!');
+        navigation.replace('MainTab');
+      }
     } else {
       Alert.alert('사진을 등록해주세요!');
     }
@@ -112,45 +72,66 @@ const RegisterScreen = ({ navigation, route }) => {
       }
     });
   };
+  if (loading) {
+    return <ActivityIndicator animating={loading} color="" size="large" />;
+  }
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.topArea}>
         <Image source={require('../../../public/img/logo.png')} style={styles.logo} />
       </View>
-      <View style={styles.formArea}>
-        <View style={styles.imageArea}>
-          <View style={styles.profile}>
-            {photo ? (
-              <Image source={{ uri: photo.uri }} style={styles.profileImage} />
-            ) : (
-              <Image
-                source={require('../../../public/img/profile.png')}
-                style={styles.profileImage}
-              />
-            )}
-            <View style={styles.cameraIconArea}>
-              <TouchableOpacity onPress={handleChoosePhoto}>
-                <Icon name="camerao" size={25} style={styles.cameraIcon} />
-              </TouchableOpacity>
-            </View>
+      <View style={styles.imageArea}>
+        <View style={styles.profile}>
+          {photo ? (
+            <Image source={{ uri: photo.uri }} style={styles.profileImage} />
+          ) : (
+            <Image
+              source={require('../../../public/img/profile.png')}
+              style={styles.profileImage}
+            />
+          )}
+          <View style={styles.cameraIconArea}>
+            <TouchableOpacity onPress={handleChoosePhoto}>
+              <Icon name="camerao" size={25} style={styles.cameraIcon} />
+            </TouchableOpacity>
           </View>
         </View>
-
+      </View>
+      <View style={styles.formArea}>
         <View style={styles.inputForm}>
           <Text style={styles.inputLabel}>고객 유형</Text>
           <View style={styles.selectArea}>
             <TouchableOpacity
-              style={[styles.selectBox, userType == '디자이너' && styles.active]}
-              onPress={() => setUserType('디자이너')}>
-              <Text style={[styles.selectText, userType == '디자이너' && styles.active]}>
+              style={[styles.selectBox, userType == 'designer' && styles.active]}
+              onPress={() => setUserType('designer')}>
+              <Text style={[styles.selectText, userType == 'designer' && styles.active]}>
                 디자이너
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.selectBox, userType == '일반 사용자' && styles.active]}
-              onPress={() => setUserType('일반 사용자')}>
-              <Text style={[styles.selectText, userType == '일반 사용자' && styles.active]}>
+              style={[styles.selectBox, userType == 'customer' && styles.active]}
+              onPress={() => setUserType('customer')}>
+              <Text style={[styles.selectText, userType == 'customer' && styles.active]}>
                 일반 사용자
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.inputForm}>
+          <Text style={styles.inputLabel}>성별</Text>
+          <View style={styles.selectArea}>
+            <TouchableOpacity
+              style={[styles.selectBox, userGenderType == 'female' && styles.active]}
+              onPress={() => setUserGenderType('female')}>
+              <Text style={[styles.selectText, userGenderType == 'female' && styles.active]}>
+                여성
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.selectBox, userGenderType == 'male' && styles.active]}
+              onPress={() => setUserGenderType('male')}>
+              <Text style={[styles.selectText, userGenderType == 'male' && styles.active]}>
+                남성
               </Text>
             </TouchableOpacity>
           </View>
@@ -177,21 +158,7 @@ const RegisterScreen = ({ navigation, route }) => {
             returnKeyType="next"
           />
         </View>
-        <View style={styles.inputForm}>
-          <Text style={styles.inputLabel}>성별</Text>
-          <View style={styles.selectArea}>
-            <TouchableOpacity
-              style={[styles.selectBox, userGender == 'female' && styles.active]}
-              onPress={() => setUserGender('female')}>
-              <Text style={[styles.selectText, userGender == 'female' && styles.active]}>여성</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.selectBox, userGender == 'male' && styles.active]}
-              onPress={() => setUserGender('male')}>
-              <Text style={[styles.selectText, userGender == 'male' && styles.active]}>남성</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+
         <View style={styles.inputForm}>
           <Text style={styles.inputLabel}>생년월일</Text>
           <TextInput
@@ -203,45 +170,12 @@ const RegisterScreen = ({ navigation, route }) => {
             returnKeyType="next"
           />
         </View>
-        <View style={styles.inputForm}>
-          <Text style={styles.inputLabel}>선호 지역</Text>
-          <TextInput
-            style={styles.inputArea}
-            placeholder={'서울특별시 성북구 안암동'}
-            placeholderTextColor="gray"
-            onChangeText={(input) => setUserAddress(input)}
-            ref={addressInputRef}
-            returnKeyType="next"
-          />
-        </View>
-        <View style={styles.inputForm}>
-          <Text style={styles.inputLabel}>이메일</Text>
-          <TextInput
-            style={styles.inputArea}
-            placeholder={'123456@gmail.com'}
-            placeholderTextColor="gray"
-            onChangeText={(input) => setUserEmail(input)}
-            ref={emailInputRef}
-            returnKeyType="next"
-          />
-        </View>
-        <View style={styles.inputForm}>
-          <Text style={styles.inputLabel}>핸드폰 번호</Text>
-          <TextInput
-            style={styles.inputArea}
-            placeholder={'010-1234-5678'}
-            placeholderTextColor="gray"
-            onChangeText={(input) => setUserPhoneNumber(input)}
-            ref={phoneNumberInputRef}
-            returnKeyType="next"
-          />
-        </View>
       </View>
 
       <TouchableOpacity onPress={handleSubmitButton} style={styles.btnArea}>
         <Text style={{ color: 'white', fontSize: wp('4%'), fontWeight: '700' }}>회원가입</Text>
       </TouchableOpacity>
-    </ScrollView>
+    </View>
   );
 };
 
@@ -262,7 +196,8 @@ const styles = StyleSheet.create({
     fontSize: wp(4),
   },
   formArea: {
-    justifyContent: 'center',
+    flex: 1,
+    marginTop: 30,
     paddingLeft: wp(7),
     paddingRight: wp(7),
   },
@@ -304,7 +239,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
-    bottom: -100,
+    bottom: 0,
     height: 70,
     width: '100%',
     backgroundColor: 'black',
@@ -312,7 +247,7 @@ const styles = StyleSheet.create({
   inputForm: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 24,
   },
   inputLabel: {
     width: '20%',

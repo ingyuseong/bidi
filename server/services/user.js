@@ -19,6 +19,10 @@ exports.findAllUser = async () => {
   const user = await db.findAllUser()
   return user
 }
+exports.findLastUser = async () => {
+  const user = await db.findLastUser()
+  return user
+}
 
 // Update User Resource [update]
 exports.updateUser = async (params) => {

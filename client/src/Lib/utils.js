@@ -1,18 +1,3 @@
-import BidiStorage from './storage';
-import { STORAGE_KEY } from './constant';
-
-const checkType = async () => {
-  const { type } = await BidiStorage.getData(STORAGE_KEY);
-  switch (type) {
-    case '일반 사용자':
-      return 'user';
-    case '디자이너':
-      return 'designer';
-    default:
-      return false;
-  }
-};
-
 const convertDate = (timestamp) => {
   const date = new Date(timestamp);
   const year = date.getFullYear();
@@ -36,4 +21,18 @@ const textLimiting = (description, count) => {
   }
 };
 
-export { checkType, convertDate, textLimiting, dateFormating };
+const createFormData = (photo, body) => {
+  const data = new FormData();
+
+  data.append('userImage', {
+    name: body.userNickName,
+    type: photo.type,
+    uri: photo.uri.replace('file://', ''),
+  });
+  Object.keys(body).forEach((key) => {
+    data.append(key, body[key]);
+  });
+  return data;
+};
+
+export { convertDate, textLimiting, dateFormating, createFormData };

@@ -48,7 +48,6 @@ exports.registerUser = async (req, res, next) => {
   }
 }
 exports.checkToken = async (req, res, next) => {
-  console.log('hi')
   try {
     const { token } = req.body
     const user = await userServices.findOneUserByToken(token)
@@ -57,16 +56,19 @@ exports.checkToken = async (req, res, next) => {
       return res.status(STATUS_CODE.SUCCESS).json({
         message: '이미 회원가입한 유저',
         data: user,
+        status: STATUS_CODE.SUCCESS,
       })
     }
     return res.status(STATUS_CODE.CLIENT_ERROR).json({
       message: '회원가입 하지 않았음',
       data: false,
+      status: STATUS_CODE.CLIENT_ERROR,
     })
   } catch (error) {
-    res
-      .status(STATUS_CODE.SERVER_ERROR)
-      .json({ message: ERROR_MESSAGE.SERVER_ERROR })
+    res.status(STATUS_CODE.SERVER_ERROR).json({
+      message: ERROR_MESSAGE.SERVER_ERROR,
+      status: STATUS_CODE.SERVER_ERROR,
+    })
   }
 }
 exports.inferenceAI = async (req, res, next) => {

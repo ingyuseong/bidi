@@ -9,15 +9,60 @@ import { ImageBackground, StyleSheet, View, Text, Image, TouchableOpacity } from
 import { getProfile as getKakaoProfile, login } from '@react-native-seoul/kakao-login';
 import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import appleAuth, {
+  AppleButton,
+  AppleAuthRequestOperation,
+  AppleAuthRequestScope,
+  AppleAuthCredentialState,
+} from '@invertase/react-native-apple-authentication';
+import UserAPI from '../../Api/user';
 
 const LoginScreen = ({ navigation }) => {
-  const [user, setUser] = useState('');
-
   const kakaoLoginHandler = async () => {
     const token = await login();
     const profile = await getKakaoProfile();
-    await checkUser(profile);
+    const response = await UserAPI.checkToken(profile.id);
+    if (response) {
+      const { naver_token, kakao_token, apple_token } = response;
+      await BidiStorage.storeData(STORAGE_KEY, {
+        token: naver_token || kakao_token || apple_token,
+      });
+      navigation.replace('MainTab');
+    }
+    navigation.replace('Register', {
+      profile,
+    });
+  };
+  const appleLoginHandler = async () => {
+    try {
+      console.log('??');
+      // performs login request
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+
+      console.log('?!?', appleAuthRequestResponse);
+      // get current authentication state for user
+      const credentialState = await appleAuth.getCredentialStateForUser(
+        appleAuthRequestResponse.user,
+      );
+      // use credentialState response to ensure the user is authenticated
+      if (credentialState === appleAuth.State.AUTHORIZED) {
+        // user is authenticated
+        console.log(appleAuthRequestResponse);
+      }
+    } catch (error) {
+      if (error.code === appleAuth.Error.CANCELED) {
+        console.log('error1');
+        // login canceled
+      } else {
+        // login error
+        console.log('error12', error);
+      }
+    }
   };
 
   const naverLoginHandler = async () => {
@@ -48,42 +93,6 @@ const LoginScreen = ({ navigation }) => {
   //   ai_status: 'using',
   // });
 
-  const checkUser = async (profile) => {
-    await fetch('http://127.0.0.1:3000' + '/api/user/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        token: profile.id,
-      }),
-    })
-      .then((response) => response.json())
-      .then(async ({ data }) => {
-        if (data) {
-          const { id, type, kakao_token, nick_name, name, gender, address, img_src, ai_status } =
-            data;
-          await BidiStorage.storeData(STORAGE_KEY, {
-            id,
-            type,
-            token: kakao_token,
-            nick_name,
-            name,
-            gender,
-            address,
-            img_src,
-            ai_status,
-          });
-          navigation.replace('MainTab');
-        }
-        navigation.replace('Register', {
-          profile,
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
   return (
     <ImageBackground
       source={require('../../../public/img/loginSplash.png')}
@@ -101,8 +110,12 @@ const LoginScreen = ({ navigation }) => {
             <Text style={styles.btnNaverText}>네이버 아이디로 로그인</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.kakaoBtn} onPress={kakaoLoginHandler}>
-            <Icon name="md-chatbubble-sharp" size={20} />
+            <Ionicons name="md-chatbubble-sharp" size={20} />
             <Text style={styles.btnKakaoText}>카카오 아이디로 로그인</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.appleBtn} onPress={appleLoginHandler}>
+            <AntDesign name="apple1" size={20} />
+            <Text style={styles.btnAppleText}>애플 아이디로 로그인</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -169,6 +182,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FEE500',
+    marginBottom: 10,
+  },
+  appleBtn: {
+    flexDirection: 'row',
+    width: '100%',
+    height: 50,
+    borderRadius: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+  },
+  btnAppleText: {
+    marginLeft: 10,
+    fontSize: wp('4%'),
+    fontWeight: 'bold',
   },
   btnKakaoText: {
     marginLeft: 10,

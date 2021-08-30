@@ -36,38 +36,42 @@ function DesignerListScreen({ navigation }) {
     );
   }
   return (
-    <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
-      {infoLists.map((info, index) => (
-        <Swiper
-          key={index}
-          style={styles.wrapper}
-          showsButtons={false}
-          showsPagination={false}
-          loop={false}
-          horizontal={false}>
-          <View style={styles.container}>
-            <View style={{ height: '60%' }}>
-              <CardStyle styleLists={info.styles} isUser={true} />
-              <TouchableOpacity
-                style={styles.bidiBtn}
-                onPress={() => Alert.alert('해당 디자이너에게 제안서가 전송되었습니다!')}>
-                <Icon name="flash" size={25} style={styles.bidiIcon} />
-              </TouchableOpacity>
-            </View>
-            <CardInfo
-              info={info}
-              navigation={navigation}
-              height={150}
-              tagBackgroundColor={'#eeeeee'}
-              tagColor="#8D8D8D"
-            />
-          </View>
-          <View>
-            <DesignerDetail info={info} />
-          </View>
-        </Swiper>
-      ))}
-    </Swiper>
+    <View>
+      <Text>Temp</Text>
+    </View>
+    // 임시 주석
+    // <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
+    //   {infoLists.map((info, index) => (
+    //     <Swiper
+    //       key={index}
+    //       style={styles.wrapper}
+    //       showsButtons={false}
+    //       showsPagination={false}
+    //       loop={false}
+    //       horizontal={false}>
+    //       <View style={styles.container}>
+    //         <View style={{ height: '60%' }}>
+    //           <CardStyle styleLists={info.styles} isUser={true} />
+    //           <TouchableOpacity
+    //             style={styles.bidiBtn}
+    //             onPress={() => Alert.alert('해당 디자이너에게 제안서가 전송되었습니다!')}>
+    //             <Icon name="flash" size={25} style={styles.bidiIcon} />
+    //           </TouchableOpacity>
+    //         </View>
+    //         <CardInfo
+    //           info={info}
+    //           navigation={navigation}
+    //           height={150}
+    //           tagBackgroundColor={'#eeeeee'}
+    //           tagColor="#8D8D8D"
+    //         />
+    //       </View>
+    //       <View>
+    //         <DesignerDetail info={info} />
+    //       </View>
+    //     </Swiper>
+    //   ))}
+    // </Swiper>
   );
 }
 const styles = StyleSheet.create({
