@@ -44,6 +44,7 @@ const RegisterScreen = ({ navigation, route }) => {
         name: profile.nickname,
         nick_name: userNickName,
         birth: profile.birthday,
+        phone_number: profile.phoneNumber,
         gender_type: userGenderType,
         kakao_token: userKakaoToken,
       });
