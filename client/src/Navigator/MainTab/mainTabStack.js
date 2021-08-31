@@ -8,21 +8,11 @@ import { STORAGE_KEY } from '../../Lib/constant';
 import { checkToken } from '../../Contexts/User/action';
 
 function mainTabStack({ navigation }) {
-  const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state.user) || {
     loading: false,
     data: null,
     error: null,
   };
-  useEffect(() => {
-    async function fetchMode() {
-      const { token } = await BidiStorage.getData(STORAGE_KEY);
-      if (!data) {
-        await dispatch(checkToken(token));
-      }
-    }
-    fetchMode();
-  }, []);
   if (loading || !data) {
     return <ActivityIndicator animating={loading} color="" size="large" />;
   }

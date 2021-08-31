@@ -1,6 +1,5 @@
 import React, { useState, createRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { registerUser } from '../../Contexts/User/action';
+
 import { createFormData } from '../../Lib/utils';
 import {
   widthPercentageToDP as wp,
@@ -23,39 +22,40 @@ import { STORAGE_KEY } from '../../Lib/constant';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/AntDesign';
 
+// Redux
+import UserAPI from '../../Api/user';
+import { useDispatch } from 'react-redux';
+import { getUser } from '../../Contexts/User/action';
+
 const RegisterScreen = ({ navigation, route }) => {
   const { profile } = route.params;
   const userKakaoToken = profile.id;
   const [userType, setUserType] = useState('');
-  const [userName, setUserName] = useState('');
   const [userGenderType, setUserGenderType] = useState('');
-  const [userBirth, setUserBirth] = useState('');
   const [userNickName, setUserNickName] = useState('');
   const [photo, setPhoto] = useState(null);
-
-  const typeInputRef = createRef();
   const nickNameInputRef = createRef();
-  const nameInputRef = createRef();
-  const birthInputRef = createRef();
 
-  const { data, loading, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const handleSubmitButton = async () => {
     if (photo) {
       const bodyData = createFormData(photo, {
-        userType,
-        userName,
-        userNickName,
-        userBirth,
-        userGenderType,
-        userKakaoToken,
+        user_type: userType,
+        name: profile.nickname,
+        nick_name: userNickName,
+        birth: profile.birthday,
+        gender_type: userGenderType,
+        kakao_token: userKakaoToken,
       });
-      await dispatch(registerUser(bodyData));
-      if (data) {
-        const { naver_token, kakao_token, apple_token } = data;
+      // 1. API 호출
+      const user = await UserAPI.registerUser(bodyData);
+      if (user) {
+        // 2. User 생성 성공시 AsyncStorage에는 토큰, Redux에는 유저 정보를 저장
+        const { naver_token, kakao_token, apple_token } = user;
         await BidiStorage.storeData(STORAGE_KEY, {
           token: naver_token || kakao_token || apple_token,
         });
+        await dispatch(getUser(user));
         Alert.alert('회원가입이 정상적으로 완료되었습니다!');
         navigation.replace('MainTab');
       }
@@ -72,9 +72,6 @@ const RegisterScreen = ({ navigation, route }) => {
       }
     });
   };
-  if (loading) {
-    return <ActivityIndicator animating={loading} color="" size="large" />;
-  }
   return (
     <View style={styles.container}>
       <View style={styles.topArea}>
@@ -147,7 +144,7 @@ const RegisterScreen = ({ navigation, route }) => {
             returnKeyType="next"
           />
         </View>
-        <View style={styles.inputForm}>
+        {/* <View style={styles.inputForm}>
           <Text style={styles.inputLabel}>이름</Text>
           <TextInput
             style={styles.inputArea}
@@ -157,9 +154,9 @@ const RegisterScreen = ({ navigation, route }) => {
             ref={nameInputRef}
             returnKeyType="next"
           />
-        </View>
+        </View> */}
 
-        <View style={styles.inputForm}>
+        {/* <View style={styles.inputForm}>
           <Text style={styles.inputLabel}>생년월일</Text>
           <TextInput
             style={styles.inputArea}
@@ -169,7 +166,7 @@ const RegisterScreen = ({ navigation, route }) => {
             ref={birthInputRef}
             returnKeyType="next"
           />
-        </View>
+        </View> */}
       </View>
 
       <TouchableOpacity onPress={handleSubmitButton} style={styles.btnArea}>

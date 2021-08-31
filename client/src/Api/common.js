@@ -9,8 +9,10 @@ export const API = async (url, method, body) => {
     body,
   })
     .then((response) => {
-      if (response.ok) {
+      if (response.status == 200) {
         return response.json();
+      } else if (response.status == 404) {
+        return null;
       } else {
         throw new Error(false);
       }

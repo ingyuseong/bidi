@@ -9,6 +9,10 @@ const PORT = process.env.PORT
 // socket.io configuration
 const { Socket } = require('./socket/socket')
 const { initSocketIo } = require('./socket/init-socket')
+// const { Client } = require('@elastic/elasticsearch')
+// const client = new Client({
+//   node: process.env.Bidi_ES_URL,
+// })
 
 sequelize
   .sync({ alter: false })
@@ -41,9 +45,15 @@ app.use(function (err, req, res, next) {
 })
 
 // start express server on port 3000
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`server started on port ${PORT}`)
 })
+
+// require('elastic-apm-node').start({
+//   appName: 'bidi-es',
+//   secretToken: '',
+//   serverUrl: '',
+// })
 
 // Start socket.io server on port 4000
 const { io, server } = Socket(app)

@@ -2,9 +2,9 @@ import {
   REGISTER_USER,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_ERROR,
-  CHECK_TOKEN,
-  CHECK_TOKEN_SUCCESS,
-  CHECK_TOKEN_ERROR,
+  GET_USER,
+  GET_USER_SUCCESS,
+  GET_USER_ERROR,
 } from './constant';
 import { reducerUtils, handleAsyncActions } from '../Common/asyncUtils';
 const initialState = {
@@ -16,10 +16,14 @@ const userReducer = (state = initialState, action) => {
     case REGISTER_USER_SUCCESS:
     case REGISTER_USER_ERROR:
       return handleAsyncActions(REGISTER_USER)(state, action);
-    case CHECK_TOKEN:
-    case CHECK_TOKEN_SUCCESS:
-    case CHECK_TOKEN_ERROR:
-      return handleAsyncActions(CHECK_TOKEN)(state, action);
+    case GET_USER:
+      return {
+        ...state,
+        data: action.payload,
+      };
+    case GET_USER_SUCCESS:
+    case GET_USER_ERROR:
+      return handleAsyncActions(GET_USER)(state, action);
     default:
       return state;
   }
