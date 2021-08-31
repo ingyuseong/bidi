@@ -82,9 +82,11 @@ const LoginScreen = ({ navigation }) => {
 
   const naverLoginHandler = async () => {
     const token = '12341234';
+    const user = await UserAPI.checkToken(token);
     await BidiStorage.storeData(STORAGE_KEY, {
       token,
     });
+    await dispatch(getUser(user));
     navigation.replace('MainTab');
   };
   // const token = '1806772812'

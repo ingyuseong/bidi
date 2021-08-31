@@ -20,7 +20,6 @@ import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/AntDesign';
-import UserAPI from '../../Api/user';
 import Loading from '../../Components/Common/loading';
 
 // Redux

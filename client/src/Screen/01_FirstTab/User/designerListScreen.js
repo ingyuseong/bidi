@@ -4,35 +4,23 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
 import DesignerDetail from './designerDetailScreen';
+import Loading from '../../../Components/Common/loading';
 import Swiper from 'react-native-swiper';
-import BrandingAPI from '../../../Api/branding';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { getBrandingList } from '../../../Contexts/Branding/action';
 
 function DesignerListScreen({ navigation }) {
-  const [infoLists, setInfo] = useState([]);
-
-  const getDesignerInfo = async () => {
-    const data = await BrandingAPI.getBrandingList();
-    setInfo(data);
-  };
+  const { data: brandingList, loading, error } = useSelector((state) => state.branding);
+  const dispatch = useDispatch();
   useEffect(() => {
-    getDesignerInfo();
-    console.log(infoLists);
-  }, []);
-
-  if (infoLists == []) {
-    return (
-      <View>
-        <Text>Loading..</Text>
-      </View>
-    );
-  }
+    dispatch(getBrandingList(brandingList));
+  }, [dispatch]);
+  if (loading || !brandingList) return <Loading loading />;
+  if (error) return null;
   return (
-    // <View>
-    //   <Text>Temp</Text>
-    // </View>
-    // 임시 주석
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
-      {infoLists.map((info, index) => (
+      {brandingList.map((info, index) => (
         <Swiper
           key={index}
           style={styles.wrapper}
@@ -42,7 +30,7 @@ function DesignerListScreen({ navigation }) {
           horizontal={false}>
           <View style={styles.container}>
             <View style={{ height: '60%' }}>
-              <CardStyle styleLists={info.styles} isUser={true} />
+              <CardStyle styleLists={info.brandingStyles} isUser={true} />
               <TouchableOpacity
                 style={styles.bidiBtn}
                 onPress={() => Alert.alert('해당 디자이너에게 제안서가 전송되었습니다!')}>
