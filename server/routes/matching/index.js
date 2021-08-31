@@ -24,6 +24,7 @@ const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
     DELETE /api/matching/:id : 매칭 정보 삭제 API
 */
 
+
 router.post('/register', routesAsyncWrapper(controller.registerMatching))
 
 router.get('/list', routesAsyncWrapper(controller.getMatchingList))

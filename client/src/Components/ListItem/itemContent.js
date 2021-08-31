@@ -5,20 +5,32 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Modal from 'react-native-modal';
 
 function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }) {
-  const keywords = info.proposal ? info.proposal.keywords : info.keywords;
-  const img_src = info.proposal ? info.proposal.after_src : info.user.img_src;
-  const distance_limit = info.proposal ? info.proposal.distance_limit + 'km 이내' : info.position;
-  const address = info.address
-    ? info.address
-    : info.user
-    ? info.user.address
-    : info.customer.address;
-  const title = info.proposal ? (info.user ? info.user.name : info.customer.name) : info.title;
-  const description = info.proposal
-    ? info.proposal.description
-    : info.letter
-    ? info.letter
-    : info.description;
+  let data;
+  if (screen == 'bid') {
+    console.log('??', info, screen);
+  }
+  switch (screen) {
+    case 'bid':
+      data = {
+        img_src: info.proposal.before_src,
+        name: info.proposal.user.name,
+        address: info.proposal.address,
+        description: info.proposal.description,
+        keyword_array: info.proposal.keyword_array,
+      };
+      break;
+    case 'matching':
+      data = {
+        img_src: info.proposal.before_src,
+        name: info.proposal.user.name,
+        address: info.proposal.address,
+        description: info.proposal.description,
+        keyword_array: info.proposal.keyword_array,
+      };
+      break;
+    default:
+      break;
+  }
 
   const deleteAlert = (id) => {
     Alert.alert('정말 삭제하시겠습니까?', '삭제후에는 변경이 불가능합니다', [
@@ -58,29 +70,29 @@ function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }
   return (
     <View style={styles.container}>
       <View style={styles.profileBox}>
-        <Image source={{ uri: img_src }} style={styles.profileImg} />
+        <Image source={{ uri: data.img_src }} style={styles.profileImg} />
       </View>
       <View style={styles.bidInfoArea}>
         <View style={styles.nameArea}>
-          <Text style={styles.nameText}>{title}</Text>
+          <Text style={styles.nameText}>{data.name}</Text>
         </View>
         <View style={styles.locationArea}>
           <View style={styles.locationView}>
             <Ionicons name="at" size={15} />
-            <Text style={styles.locationText}>{address}</Text>
+            <Text style={styles.locationText}>{data.address}</Text>
           </View>
           <View style={styles.locationView}>
             <Ionicons
               name={screen === 'branding' ? 'md-cut-outline' : 'location-outline'}
               size={15}
             />
-            <Text style={styles.locationText}>{distance_limit}</Text>
+            <Text style={styles.locationText}>3km</Text>
           </View>
         </View>
         <View style={styles.tagArea}>
-          {keywords &&
-            keywords.length > 0 &&
-            keywords.map((keyword, index) => (
+          {data.keyword_array &&
+            data.keyword_array.length > 0 &&
+            data.keyword_array.map((keyword, index) => (
               <View style={styles.tagView} key={index}>
                 <Text style={styles.tagText}># {keyword}</Text>
               </View>
@@ -88,7 +100,7 @@ function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }
         </View>
         <View style={styles.descriptionArea}>
           <Text style={styles.descriptionText} numberOfLines={2}>
-            {description}
+            {data.description}
           </Text>
         </View>
       </View>

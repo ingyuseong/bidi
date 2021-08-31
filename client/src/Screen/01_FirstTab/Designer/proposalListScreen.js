@@ -1,100 +1,72 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
+
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Loading from '../../../Components/Common/loading';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardChangeStyle from '../../../Components/Card/cardChangeStyle';
 import ProposalDetailScreen from './proposalDetailScreen';
+import { getProposalList } from '../../../Contexts/Proposal';
 
 function ProposalListScreen({ navigation }) {
-  const [infoLists, setInfo] = useState([]);
-
-  const getDesignerInfo = () => {
-    fetch('http://127.0.0.1:3000' + '/api/proposal/list', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        setInfo(result.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  const { data: proposalList, loading, error } = useSelector((state) => state.proposal);
+  const dispatch = useDispatch();
   useEffect(() => {
-    async function fetchMode() {
-      await getDesignerInfo();
-    }
-    fetchMode();
-  }, []);
-
-  if (infoLists == []) {
-    return (
-      <View>
-        <Text>Loading..</Text>
-      </View>
-    );
-  }
+    dispatch(getProposalList());
+  }, [dispatch]);
+  if (loading || error) return <Loading loading />;
+  if (!proposalList) return null;
 
   return (
-    <View>
-      <Text>임시</Text>
-    </View>
-    // 임시 주석
-    // <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
-    //   {infoLists.map((info, index) => (
-    //     <Swiper
-    //       key={index}
-    //       style={styles.wrapper}
-    //       showsButtons={false}
-    //       showsPagination={false}
-    //       loop={false}
-    //       horizontal={false}>
-    //       <View style={styles.container}>
-    //         <View style={{ height: '60%' }}>
-    //           <CardChangeStyle
-    //             before_src={info.before_src}
-    //             after_src={info.after_src}
-    //             isUser={false}
-    //             height={400}
-    //           />
-    //         </View>
-    //         <CardInfo
-    //           info={info}
-    //           navigation={navigation}
-    //           height={150}
-    //           tagBackgroundColor="#E1ECFF"
-    //           tagColor="#323274"
-    //         />
-    //         <TouchableOpacity
-    //           style={styles.bidiBtn}
-    //           onPress={() =>
-    //             navigation.navigate('ProposalDetail', {
-    //               info: infoLists[index],
-    //               userId: info.user_id,
-    //               proposalId: info.id,
-    //             })
-    //           }>
-    //           <Icon name="pencil" size={25} style={styles.bidiIcon} />
-    //         </TouchableOpacity>
-    //       </View>
-    //       <View>
-    //         <ProposalDetailScreen
-    //           navigation={navigation}
-    //           props={{ info, userId: info.user_id, proposalId: info.id }}
-    //         />
-    //       </View>
-    //     </Swiper>
-    //   ))}
-    // </Swiper>
+    <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
+
+      {proposalList.map((proposal, index) => (
+        <Swiper
+          key={index}
+          style={styles.wrapper}
+          showsButtons={false}
+          showsPagination={false}
+          loop={false}
+          horizontal={false}>
+          <View style={styles.listContainer}>
+            <View style={{ height: '60%' }}>
+              <CardChangeStyle
+                before_src={proposal.before_src}
+                after_src={proposal.after_src}
+                height={'60%'}
+                topRadius={true}
+              />
+            </View>
+            <CardInfo
+              info={proposal}
+              navigation={navigation}
+              height={150}
+              tagBackgroundColor="#E1ECFF"
+              tagColor="#323274"
+            />
+            <TouchableOpacity
+              style={styles.bidiBtn}
+              onPress={() =>
+                navigation.navigate('ProposalDetail', {
+                  proposal: proposalList[index],
+                })
+              }>
+              <Icon name="pencil" size={25} style={styles.bidiIcon} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.deatilContainer}>
+            <ProposalDetailScreen navigation={navigation} props={{ proposal }} />
+          </View>
+        </Swiper>
+      ))}
+    </Swiper>
   );
 }
 const styles = StyleSheet.create({
   wrapper: {},
-  container: {
+  listContainer: {
     flex: 1,
     margin: 16,
     backgroundColor: 'white',
@@ -108,6 +80,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 15,
     position: 'relative',
+  },
+  deatilContainer: {
+    flex: 1,
+    backgroundColor: 'white',
   },
   styleContainer: {
     flex: 1.5,

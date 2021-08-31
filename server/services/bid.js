@@ -18,6 +18,7 @@ exports.createBid = async (body) => {
     return null
   }
 }
+
 exports.createBidStyle = async ({ bidId, styleIdList }) => {
   if (styleIdList) {
     const bidStyleList = await Promise.all(

@@ -10,8 +10,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 function CardStyle({ styleLists, isUser, height }) {
   return (
     <View style={{ ...styles.container, height }}>
-      {/* 임시 주석 */}
-      {/* <Swiper
+      <Swiper
         style={styles.wrapper}
         showsButtons={true}
         showsPagination={false}
@@ -28,7 +27,7 @@ function CardStyle({ styleLists, isUser, height }) {
             />
           </View>
         ))}
-      </Swiper> */}
+      </Swiper>
     </View>
   );
 }
@@ -44,8 +43,6 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     width: '100%',
     height: 400,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
   },
 });
 
