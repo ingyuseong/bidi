@@ -11,43 +11,24 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
+import { priceFormating, dateFormating } from '../../Lib/utils';
 
-function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation, deleteIcon }) {
-  const deleteStyleScrap = async (style_id) => {
-    await fetch('http://127.0.0.1:3000' + `/api/styleScrap/${userInfo.id}/${style_id}`, {
-      method: 'DELETE',
-    })
-      .then(() => {
-        Alert.alert('삭제 되었습니다!');
-        navigation.replace('MainTab', { screen: 'History' });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+function StyleModal({ styleScrapList, index, setModalVisible, userInfo, navigation, deleteIcon }) {
   const deleteStyleScrapAlert = (style_id) => {
     Alert.alert('스크랩을 지우시겠어요?', '내 스크랩에서 사라집니다!', [
       { text: '취소', style: 'cancel' },
       {
         text: '삭제하기',
         onPress: () => {
-          deleteStyleScrap(style_id);
           setModalVisible(false);
         },
       },
     ]);
   };
-  const priceFormating = (price) =>
-    new Intl.NumberFormat('ko-KR', { currency: 'KRW' }).format(price);
-  const dateFormating = (date) => {
-    const update = new Date(date);
-    return `${update.getFullYear()}.${
-      update.getMonth('mm') < 10 ? '0' + update.getMonth('mm') : update.getMonth('mm')
-    }.${update.getDate('dd') < 10 ? '0' + update.getDate('dd') : update.getDate('dd')}`;
-  };
+
   return (
     <View style={styles.container}>
-      {styleScraps ? (
+      {styleScrapList ? (
         <View
           style={styles.contentContainer}
           showsVerticalScrollIndicator={false}
@@ -65,7 +46,7 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
                 <Image
                   style={styles.styleImg}
                   source={{
-                    uri: styleScraps[index].img_src,
+                    uri: styleScrapList[index].img_src_array[0],
                   }}
                 />
                 <TouchableOpacity
@@ -75,7 +56,8 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
                 </TouchableOpacity>
                 {deleteIcon ? (
                   <View style={styles.styleScrapIcon}>
-                    <TouchableOpacity onPress={() => deleteStyleScrapAlert(styleScraps[index].id)}>
+                    <TouchableOpacity
+                      onPress={() => deleteStyleScrapAlert(styleScrapList[index].id)}>
                       <Icon name="heart" color="#FF533A" size={25} />
                     </TouchableOpacity>
                   </View>
@@ -87,8 +69,8 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
           </View>
           <View style={styles.contentBox}>
             <View style={styles.infoArea}>
-              <Text style={styles.titleText}>{styleScraps[index].title}</Text>
-              <Text style={styles.update}>{dateFormating(styleScraps[index].updated_at)}</Text>
+              <Text style={styles.titleText}>{styleScrapList[index].title}</Text>
+              <Text style={styles.update}>{dateFormating(styleScrapList[index].updated_at)}</Text>
             </View>
             <View style={styles.tagArea}>
               <View style={styles.tag}>
@@ -99,11 +81,11 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
               </View>
             </View>
             <View style={styles.subtitleArea}>
-              <Text style={styles.subtitleText}>{styleScraps[index].subtitle}</Text>
+              <Text style={styles.subtitleText}>{styleScrapList[index].description}</Text>
             </View>
             <View style={styles.priceArea}>
               <Text style={styles.priceText}>가격</Text>
-              <Text style={styles.priceText}>{priceFormating(styleScraps[index].price)} 원</Text>
+              <Text style={styles.priceText}>{priceFormating(styleScrapList[index].price)} 원</Text>
             </View>
           </View>
           {deleteIcon ? (

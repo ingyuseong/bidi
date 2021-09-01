@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { StyleSheet, View, Text, TouchableOpacity, Alert } from 'react-native';
+
+// Components
 import Icon from 'react-native-vector-icons/FontAwesome';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
@@ -7,20 +10,20 @@ import DesignerDetail from './designerDetailScreen';
 import Loading from '../../../Components/Common/loading';
 import Swiper from 'react-native-swiper';
 
-import { useDispatch, useSelector } from 'react-redux';
+// Redux Action
 import { getBrandingList } from '../../../Contexts/Branding/action';
 
 function DesignerListScreen({ navigation }) {
   const { data: brandingList, loading, error } = useSelector((state) => state.branding);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getBrandingList(brandingList));
+    dispatch(getBrandingList());
   }, [dispatch]);
-  if (loading || !brandingList) return <Loading loading />;
-  if (error) return null;
+  if (loading || error) return <Loading loading />;
+  if (!brandingList) return null;
   return (
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
-      {brandingList.map((info, index) => (
+      {brandingList.map((branding, index) => (
         <Swiper
           key={index}
           style={styles.wrapper}
@@ -30,7 +33,7 @@ function DesignerListScreen({ navigation }) {
           horizontal={false}>
           <View style={styles.container}>
             <View style={{ height: '60%' }}>
-              <CardStyle styleLists={info.brandingStyles} isUser={true} />
+              <CardStyle styleLists={branding.brandingStyles} isUser={true} />
               <TouchableOpacity
                 style={styles.bidiBtn}
                 onPress={() => Alert.alert('해당 디자이너에게 제안서가 전송되었습니다!')}>
@@ -38,14 +41,16 @@ function DesignerListScreen({ navigation }) {
               </TouchableOpacity>
             </View>
             <CardInfo
-              info={info}
+              info={branding}
               navigation={navigation}
               height={150}
               tagBackgroundColor={'#eeeeee'}
               tagColor="#8D8D8D"
             />
           </View>
-          <View>{/* <DesignerDetail info={info} /> */}</View>
+          <View>
+            <DesignerDetail branding={branding} />
+          </View>
         </Swiper>
       ))}
     </Swiper>

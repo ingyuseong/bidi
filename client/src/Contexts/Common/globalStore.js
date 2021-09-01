@@ -6,6 +6,7 @@ import proposalReducer from '../Proposal';
 import bidReducer from '../Bid';
 import matchingReducer from '../Matching';
 import brandingReducer from '../Branding';
+import styleScrapReducer from '../StyleScrap';
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   branding: brandingReducer,
   bid: bidReducer,
   matching: matchingReducer,
+  styleScrap: styleScrapReducer,
 });
 const globalStore = () => {
   return createStore(rootReducer, applyMiddleware(ReduxThunk));

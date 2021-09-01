@@ -27,7 +27,9 @@ const MatchingAPI = {
   getMatchingListByDesignerId: async (id) => {
     return await API(`/matching/designer/${id}`, 'get');
   },
-  getMatchingListByCustomerId: async () => {},
+  getMatchingListByCustomerId: async (id) => {
+    return await API(`/matching/customer/${id}`, 'get');
+  },
   getMatching: async () => {},
   patchMatchingTime: async () => {},
   patchMatchingReview: async () => {},

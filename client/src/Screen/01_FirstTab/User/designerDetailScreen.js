@@ -1,37 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
-import CardStyle from '../../../Components/Card/cardStyle';
-import CardInfo from '../../../Components/Card/cardInfo';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity } from 'react-native';
+
+// Components
 import DesignerHistoryScreen from './designerHistoryScreen';
 import DesignerStyleScreen from './designerStyleScreen';
 
-function DesignerDetailScreen({ info }) {
+function DesignerDetailScreen({ branding }) {
   const [tab, setTab] = useState('tab1');
-  const [matchingHistoryList, setMatchingHistoryList] = useState([]);
-  const getHistoryList = async () => {
-    await fetch('http://127.0.0.1:3000' + `/api/matchingHistory/designer/${info.userId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then(async (result) => {
-        if (result.data) {
-          await setMatchingHistoryList(result.data.matchingHistoryList);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
   const tabHandler = () => {
     const nextTab = tab == 'tab1' ? 'tab2' : 'tab1';
     setTab(nextTab);
   };
-  useEffect(() => {
-    getHistoryList();
-  }, []);
   return (
     <ScrollView>
       <View style={styles.headerContainer}>
@@ -49,9 +28,9 @@ function DesignerDetailScreen({ info }) {
       <View style={styles.tabLine}></View>
       <View style={styles.contentContainer}>
         {tab == 'tab1' ? (
-          <DesignerStyleScreen info={info} />
+          <DesignerStyleScreen branding={branding} />
         ) : (
-          <DesignerHistoryScreen info={info} matchingHistoryList={matchingHistoryList} />
+          <DesignerHistoryScreen branding={branding} />
         )}
       </View>
     </ScrollView>
