@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
 
-import HistoryCard from '../../../Components/MatchingHistory/HistoryCard';
+import HistoryCard from '../../../Components/MatchingHistory/MatchingCard';
 
 function ReviewListScreen({ matchingHistoryList }) {
   return (

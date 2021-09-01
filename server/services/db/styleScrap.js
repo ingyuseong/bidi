@@ -24,6 +24,7 @@ exports.findAllStyleScrapByUser = async (id) => {
         },
       },
     ],
+    order: [['created_at', 'DESC']],
   })
   return styleScrapList
 }

@@ -142,10 +142,9 @@ function DesignerStyleScreen({ navigation, branding }) {
         }}
         backdropOpacity={0.3}>
         <StyleModal
-          styleScrapList={branding.brandingStyles}
+          styleList={branding.brandingStyles}
           index={styleIndex}
           setModalVisible={setModalVisible}
-          userInfo={branding.user}
           navigation={navigation}
           deleteIcon={false}
         />

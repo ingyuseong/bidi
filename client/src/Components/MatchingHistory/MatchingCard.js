@@ -8,7 +8,7 @@ import Modal from 'react-native-modal';
 import ProposalModal from '../Modal/proposalModal';
 import BidModal from '../Modal/bidModal';
 
-function HistoryCard({ history, type }) {
+function MatchingCard({ matching, type }) {
   const [historyItem, setHistoryItem] = useState({});
   const [stars, setStars] = useState(0);
   const [reviewToggle, setReviewToggle] = useState(false);
@@ -21,7 +21,7 @@ function HistoryCard({ history, type }) {
     await updateStar(value);
   };
   const updateStar = async (value) => {
-    await fetch('http://127.0.0.1:3000' + `/api/matchingHistory/star/${history.id}`, {
+    await fetch('http://127.0.0.1:3000' + `/api/matchingHistory/star/${matching.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
@@ -37,7 +37,7 @@ function HistoryCard({ history, type }) {
       });
   };
   const updateReview = async () => {
-    await fetch('http://127.0.0.1:3000' + `/api/matchingHistory/review/${history.id}`, {
+    await fetch('http://127.0.0.1:3000' + `/api/matchingHistory/review/${matching.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
@@ -67,7 +67,7 @@ function HistoryCard({ history, type }) {
     setModalVisible(true);
   };
   useEffect(() => {
-    setHistoryItem(history);
+    setHistoryItem(matching);
   }, []);
   return (
     <View style={styles.historyContainer}>
@@ -76,19 +76,19 @@ function HistoryCard({ history, type }) {
           style={styles.designerImg}
           source={
             type == 'customer'
-              ? { uri: history.customer.img_src }
-              : { uri: history.designer.img_src }
+              ? { uri: matching.proposal.user.img_src }
+              : { uri: matching.bid.user.img_src }
           }
         />
         <View style={styles.designerInfoBox}>
           <View style={styles.designerInfoLine}>
             <Text style={styles.designerName}>
-              {type == 'customer' ? history.customer.nick_name : history.designer.nick_name}
+              {type == 'customer' ? matching.proposal.user.nick_name : matching.bid.user.nick_name}
             </Text>
             <View style={{ alignItems: 'center', height: 20 }}>
               <Stars
                 half={true}
-                default={history.star}
+                default={matching.star}
                 count={5}
                 fullStar={<Icon name="star" style={[styles.myStarStyle]} size={20} />}
                 emptyStar={
@@ -106,20 +106,18 @@ function HistoryCard({ history, type }) {
           <View style={styles.designerInfoLine}>
             <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
               <Icon name="map-marker" size={18} color="grey" />
-              <Text style={styles.designerAddress}>
-                {type == 'customer' ? history.customer.address : history.designer.address}
-              </Text>
+              <Text style={styles.designerAddress}>asdf</Text>
             </View>
-            <Text style={styles.historyDate}>{dateFormating(history.created_at)}</Text>
+            <Text style={styles.historyDate}>{dateFormating(matching.created_at)}</Text>
           </View>
         </View>
       </View>
       <View style={styles.tagBox}>
         <View style={styles.tag}>
-          <Text style={{ fontSize: 14, color: '#8D8D8D' }}># {history.bid.large_category}</Text>
+          <Text style={{ fontSize: 14, color: '#8D8D8D' }}># {matching.bid.style_type}</Text>
         </View>
         <View style={styles.tag}>
-          <Text style={{ fontSize: 14, color: '#8D8D8D' }}># {history.bid.small_category}</Text>
+          <Text style={{ fontSize: 14, color: '#8D8D8D' }}># {matching.bid.length_type}</Text>
         </View>
       </View>
       {historyItem.review && historyItem.review.length > 0 ? (
@@ -189,14 +187,14 @@ function HistoryCard({ history, type }) {
         backdropOpacity={0.3}>
         {isProposal ? (
           <ProposalModal
-            proposal={history.proposal}
+            proposal={matching.proposal}
             setModalVisible={setModalVisible}
-            userInfo={history.customer}
+            userInfo={matching.customer}
           />
         ) : (
           <BidModal
-            userInfo={history.designer}
-            bid={history.bid}
+            userInfo={matching.designer}
+            bid={matching.bid}
             setModalVisible={setModalVisible}
           />
         )}
@@ -328,4 +326,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HistoryCard;
+export default MatchingCard;

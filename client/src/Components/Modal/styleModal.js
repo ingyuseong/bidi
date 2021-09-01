@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   StyleSheet,
   Text,
@@ -13,13 +14,29 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
 import { priceFormating, dateFormating } from '../../Lib/utils';
 
-function StyleModal({ styleScrapList, index, setModalVisible, userInfo, navigation, deleteIcon }) {
+// API
+import StyleScrapAPI from '../../Api/styleScrap';
+import { deleteStyleScrap } from '../../Contexts/StyleScrap/action';
+
+function StyleModal({ styleList, index, setModalVisible, deleteIcon }) {
+  // state
+  const { data: user } = useSelector((state) => state.user);
+  // functions
+  const dispatch = useDispatch();
+  const deleteScrap = async (style_id) => {
+    await StyleScrapAPI.deleteStyleScrap({
+      user_id: user.id,
+      style_id,
+    });
+    dispatch(deleteStyleScrap(style_id));
+  };
   const deleteStyleScrapAlert = (style_id) => {
     Alert.alert('스크랩을 지우시겠어요?', '내 스크랩에서 사라집니다!', [
       { text: '취소', style: 'cancel' },
       {
         text: '삭제하기',
         onPress: () => {
+          deleteScrap(style_id);
           setModalVisible(false);
         },
       },
@@ -28,7 +45,7 @@ function StyleModal({ styleScrapList, index, setModalVisible, userInfo, navigati
 
   return (
     <View style={styles.container}>
-      {styleScrapList ? (
+      {styleList ? (
         <View
           style={styles.contentContainer}
           showsVerticalScrollIndicator={false}
@@ -46,7 +63,7 @@ function StyleModal({ styleScrapList, index, setModalVisible, userInfo, navigati
                 <Image
                   style={styles.styleImg}
                   source={{
-                    uri: styleScrapList[index].img_src_array[0],
+                    uri: styleList[index].img_src_array[0],
                   }}
                 />
                 <TouchableOpacity
@@ -56,8 +73,7 @@ function StyleModal({ styleScrapList, index, setModalVisible, userInfo, navigati
                 </TouchableOpacity>
                 {deleteIcon ? (
                   <View style={styles.styleScrapIcon}>
-                    <TouchableOpacity
-                      onPress={() => deleteStyleScrapAlert(styleScrapList[index].id)}>
+                    <TouchableOpacity onPress={() => deleteStyleScrapAlert(styleList[index].id)}>
                       <Icon name="heart" color="#FF533A" size={25} />
                     </TouchableOpacity>
                   </View>
@@ -69,8 +85,8 @@ function StyleModal({ styleScrapList, index, setModalVisible, userInfo, navigati
           </View>
           <View style={styles.contentBox}>
             <View style={styles.infoArea}>
-              <Text style={styles.titleText}>{styleScrapList[index].title}</Text>
-              <Text style={styles.update}>{dateFormating(styleScrapList[index].updated_at)}</Text>
+              <Text style={styles.titleText}>{styleList[index].title}</Text>
+              <Text style={styles.update}>{dateFormating(styleList[index].updated_at)}</Text>
             </View>
             <View style={styles.tagArea}>
               <View style={styles.tag}>
@@ -81,15 +97,17 @@ function StyleModal({ styleScrapList, index, setModalVisible, userInfo, navigati
               </View>
             </View>
             <View style={styles.subtitleArea}>
-              <Text style={styles.subtitleText}>{styleScrapList[index].description}</Text>
+              <Text style={styles.subtitleText}>{styleList[index].description}</Text>
             </View>
             <View style={styles.priceArea}>
               <Text style={styles.priceText}>가격</Text>
-              <Text style={styles.priceText}>{priceFormating(styleScrapList[index].price)} 원</Text>
+              <Text style={styles.priceText}>{priceFormating(styleList[index].price)} 원</Text>
             </View>
           </View>
           {deleteIcon ? (
-            <TouchableOpacity onPress={() => deleteStyleScrapAlert()} style={styles.deleteArea}>
+            <TouchableOpacity
+              onPress={() => deleteStyleScrapAlert(styleList[index].id)}
+              style={styles.deleteArea}>
               <Ionicons name="md-trash-outline" size={20} color="#8D8D8D" />
               <Text style={styles.deleteText}> 삭제하기</Text>
             </TouchableOpacity>
