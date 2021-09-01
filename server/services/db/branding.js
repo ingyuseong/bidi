@@ -48,6 +48,10 @@ exports.findAllBrandingByDesignerId = async (id) => {
     },
     include: [
       {
+        model: User,
+        attributes: ['name', 'nick_name', 'img_src'],
+      },
+      {
         model: Style,
         as: 'brandingStyles',
         through: {

@@ -21,7 +21,7 @@ exports.createBranding = async (body) => {
 exports.createBrandingStyle = async ({ brandingId, styleIdList }) => {
   if (styleIdList) {
     const brandingStyleList = await Promise.all(
-      styleIdList.split(',').map((styleId) => {
+      styleIdList.map((styleId) => {
         const attr = {
           brandingId,
           styleId,
