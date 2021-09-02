@@ -52,7 +52,7 @@ function UserTabStack() {
       <Tab.Screen
         name="Proposal"
         component={ProposalTabScreen}
-        options={{ headerShown: false, title: '', tabBarVisible: false }}
+        options={{ headerShown: false, title: '' }}
       />
       <Tab.Screen
         name="History"

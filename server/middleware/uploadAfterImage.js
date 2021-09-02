@@ -18,7 +18,7 @@ const uploadAfterImage = multer(
       acl: 'public-read',
       contentType: multerS3.AUTO_CONTENT_TYPE,
       key: function (req, file, cb) {
-        cb(null, `image/after/${generateKeys()}`)
+        cb(null, `image/proposal/after/${generateKeys()}`)
       },
     }),
   },

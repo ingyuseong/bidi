@@ -19,13 +19,21 @@ import { API, formAPI } from './common';
 */
 
 const ProposalAPI = {
-  registerProposal: async () => {},
-  registerWithFile: async (body) => {},
+  registerProposal: async (body) => {
+    return await API('/proposal/register', 'post', JSON.stringify(body));
+  },
+  registerWithFile: async (body) => {
+    return await formAPI('/proposal/registerWithFile', 'post', body);
+  },
   getProposalList: async () => {
     return await API('/proposal/list', 'get');
   },
-  getProposal: async (body) => {},
-  getProposalByUserId: async (body) => {},
+  getProposal: async (id) => {
+    return await API(`/proposal/${id}`, 'get');
+  },
+  getProposalByUserId: async (id) => {
+    return await API(`/proposal/user/${id}`, 'get');
+  },
   patchProposal: async (body) => {},
   patchMatchingStatus: async (body) => {},
   deleteProposal: async (body) => {},

@@ -193,7 +193,6 @@ export const STYLE_INFO = {
       styleName: '볼륨매직',
     },
   ],
-
   female: [
     {
       id: 'style26',

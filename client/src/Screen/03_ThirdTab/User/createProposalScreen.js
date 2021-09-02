@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   ScrollView,
   Text,
@@ -10,17 +11,19 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
-import BidiStorage from '../../../Lib/storage';
-import { STORAGE_KEY, KEYWORDS } from '../../../Lib/constant';
 
+// Components
+import DropDownPicker from 'react-native-dropdown-picker';
+import { KEYWORDS } from '../../../Lib/constant';
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
-
 import BottomButton from '../../../Components/Common/bottomButton';
 
+// Redux Action
+import { registerWithFile, registerProposal } from '../../../Contexts/Proposal/action';
+
 function CreateProposalScreen({ navigation }) {
-  const [userInfo, setUserInfo] = useState('');
+  const { data: user } = useSelector((state) => state.user);
   const [afterImageStyle, setAfterImageStyle] = useState('none');
   const [albumImage, setAlbumImage] = useState('');
   const [isFromAlbum, setIsFromAlbum] = useState(false);
@@ -43,36 +46,12 @@ function CreateProposalScreen({ navigation }) {
     { label: '제한 없음', value: '100000' },
   ]);
 
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState('서울특별시 성북구 장월로');
   const [keyword, setKeyword] = useState(KEYWORDS);
   const [keyCount, setKeyCount] = useState(0);
   const [description, setDescription] = useState('');
 
-  const getUserInfo = async (user) => {
-    await fetch('http://127.0.0.1:3000' + `/api/user/${user.id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        setUserInfo(result.data);
-        setLocation(result.data.address);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  useEffect(() => {
-    async function fetchMode() {
-      const user = await BidiStorage.getData(STORAGE_KEY);
-      getUserInfo(user);
-    }
-    fetchMode();
-  }, []);
-
+  const dispatch = useDispatch();
   const selectKeyword = (id) => {
     if (keyCount < 3 || keyword[id].selected) {
       setKeyword(keyword.map((key) => (key.id == id ? { ...key, selected: !key.selected } : key)));
@@ -100,7 +79,7 @@ function CreateProposalScreen({ navigation }) {
       setAfterImageStyle: setAfterImageStyle,
       setAlbumImage: setAlbumImage,
       setIsFromAlbum: setIsFromAlbum,
-      userInfo: userInfo,
+      user: user,
     });
   };
 
@@ -113,9 +92,8 @@ function CreateProposalScreen({ navigation }) {
   };
   const createFormData = (photo, body) => {
     const data = new FormData();
-
     data.append('afterImage', {
-      name: userInfo.nick_name,
+      name: user.nick_name,
       type: photo.type,
       uri: photo.uri.replace('file://', ''),
     });
@@ -126,64 +104,30 @@ function CreateProposalScreen({ navigation }) {
   };
 
   const submitHandler = async (e) => {
-    if (afterImageStyle != 'none' || isFromAlbum) {
+    // data constrait
+    if (afterImageStyle == 'none' && !isFromAlbum) Alert.alert('사진을 선택해주세요!');
+    else if (priceValue == null) Alert.alert('금액 범위를 선택해주세요!');
+    else if (description == '') Alert.alert('상세 설명을 입력해주세요!');
+    else {
       const keywords = keyword
         .filter((key) => key.selected)
         .map((key) => key.title)
         .toString();
+      const body = {
+        user_id: user.id,
+        before_src: user.img_src,
+        price_limit: priceValue,
+        address: location,
+        keyword_array: keywords,
+        description,
+        ai_count: user.ai_count,
+      };
       if (isFromAlbum) {
-        await fetch('http://127.0.0.1:3000' + '/api/proposal/register/withfile', {
-          method: 'POST',
-          headers: {
-            'content-type': 'multipart/form-data',
-          },
-          body: createFormData(albumImage, {
-            before_src: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
-            user_id: userInfo.id,
-            price_limit: priceValue,
-            distance_limit: distanceValue,
-            keywords: keywords.toString(),
-            description,
-            status: 'wait',
-          }),
-        })
-          .then((response) => response.json())
-          .then((res) => {
-            navigation.replace('ProposalRegistered');
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        dispatch(registerWithFile(createFormData(albumImage, body)));
       } else {
-        await fetch('http://127.0.0.1:3000' + '/api/proposal/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8',
-          },
-          body: JSON.stringify({
-            before_src: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
-            after_src: afterImageStyle,
-            user_id: userInfo.id,
-            price_limit: priceValue,
-            distance_limit: distanceValue,
-            keywords: keywords.toString(),
-            description,
-            status: 'wait',
-          }),
-        })
-          .then(() => {
-            navigation.replace('ProposalRegistered');
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        dispatch(registerProposal({ ...body, after_src: afterImageStyle }));
       }
-    } else if (priceValue == null) {
-      Alert.alert('사진을 선택해주세요!');
-    } else if (distanceValue == null) {
-      Alert.alert('사진을 선택해주세요!');
-    } else {
-      Alert.alert('사진을 선택해주세요!');
+      navigation.replace('ProposalRegistered');
     }
   };
   return (
@@ -197,7 +141,7 @@ function CreateProposalScreen({ navigation }) {
           <Image
             style={styles.image}
             source={{
-              uri: userInfo.img_src,
+              uri: user.img_src,
             }}
           />
           <View before style={styles.imageTypeLabel}>
@@ -280,7 +224,7 @@ function CreateProposalScreen({ navigation }) {
       {/* 3. 원하는 거리 설정 */}
       <View style={{ marginTop: 20 }}></View>
       <View style={styles.textBox}>
-        <Text style={styles.title}>원하는 거리</Text>
+        <Text style={styles.title}>원하는 지역</Text>
       </View>
       <View style={styles.dropdownBox}>
         <TextInput
@@ -291,7 +235,7 @@ function CreateProposalScreen({ navigation }) {
           value={location}
         />
       </View>
-      <DropDownPicker
+      {/* <DropDownPicker
         zIndex={500}
         open={distanceOpen}
         value={distanceValue}
@@ -317,7 +261,7 @@ function CreateProposalScreen({ navigation }) {
         placeholderStyle={{ color: 'grey', fontSize: 15 }}
         listParentLabelStyle={{ color: 'grey', fontSize: 15, backgroundColor: 'white' }}
         listMode="SCROLLVIEW"
-      />
+      /> */}
 
       {/* 4. 무엇이 제일 중요하세요? */}
       <View style={{ marginTop: 20 }}></View>
@@ -518,7 +462,7 @@ const styles = StyleSheet.create({
 
 export default CreateProposalScreen;
 
-// const { userInfo } = route.params;
+// const { user } = route.params;
 
 // const [userType, setUserType] = useState('');
 // const [userName, setUserName] = useState('');

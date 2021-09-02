@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Text, View, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+
+// Components
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { STYLE_INFO } from '../../../../Lib/constant';
 
 function SelectFromBidiScreen({ navigation, route }) {
-  const { setAfterImageStyle, userInfo, type } = route.params;
+  const { setAfterImageStyle, type } = route.params;
+  const { data: user } = useSelector((state) => state.user);
   const [afterStyle, setAfterStyle] = useState('none');
   const [tab, setTab] = useState('tab1');
 
@@ -13,7 +17,7 @@ function SelectFromBidiScreen({ navigation, route }) {
   };
   const submit = async () => {
     setAfterImageStyle(
-      `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/result/${afterStyle}.jpg`,
+      `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${user.id}/result/${afterStyle}.jpg`,
     );
     if (type == 'update') {
       navigation.navigate('MainTab', {
@@ -33,7 +37,7 @@ function SelectFromBidiScreen({ navigation, route }) {
     const nextTab = tab;
     setTab(nextTab);
   };
-  const list = STYLE_INFO[userInfo.gender].map(({ id, styleName }) => (
+  const list = STYLE_INFO[user.gender_type].map(({ id, styleName }) => (
     <TouchableOpacity
       key={id}
       activeOpacity={0.8}
@@ -45,7 +49,7 @@ function SelectFromBidiScreen({ navigation, route }) {
       <Image
         style={afterStyle == id ? { ...styles.styleImage, opacity: 0.9 } : styles.styleImage}
         source={{
-          uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/${userInfo.gender}/${userInfo.gender}_${id}.jpg`,
+          uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/ref/${user.gender_type}/${user.gender_type}_${id}.jpg`,
         }}
       />
     </TouchableOpacity>
@@ -64,14 +68,14 @@ function SelectFromBidiScreen({ navigation, route }) {
           <Image
             style={styles.image}
             source={{
-              uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
+              uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${user.id}/input/align_image.png`,
             }}
           />
         ) : (
           <Image
             style={styles.image}
             source={{
-              uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/result/${afterStyle}.jpg`,
+              uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${user.id}/result/${afterStyle}.jpg`,
             }}
           />
         )}
@@ -92,7 +96,7 @@ function SelectFromBidiScreen({ navigation, route }) {
             <View style={[styles.tab, tab == 'tab3' && styles.active]}>
               <TouchableOpacity onPress={() => tabHandler('tab3')}>
                 <Text style={[styles.headerTitle, tab == 'tab3' && styles.active]}>
-                  {userInfo.gender == 'male' ? '포마드' : '단발'}
+                  {user.gender_type == 'male' ? '포마드' : '단발'}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -114,7 +118,7 @@ function SelectFromBidiScreen({ navigation, route }) {
                 afterStyle == 'none' ? { ...styles.styleImage, opacity: 0.9 } : styles.styleImage
               }
               source={{
-                uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${userInfo.id}/input/align_image.png`,
+                uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${user.id}/input/align_image.png`,
               }}
             />
           </TouchableOpacity>
