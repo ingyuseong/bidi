@@ -6,8 +6,8 @@ require('dotenv').config()
 // [ 1. POST Methods ]
 exports.registerUser = async (req, res) => {
   const body = req.body
-  const { location } = req.file
-  const user = await userServices.createUser(body, location)
+  // const { location } = req.file
+  const user = await userServices.createUser(body, '1234')
   if (user) {
     res.status(STATUS_CODE.CREATED).json({
       state: 'success',
@@ -32,8 +32,8 @@ exports.checkToken = async (req, res) => {
       data: user,
     })
   } else {
-    return res.status(STATUS_CODE.SUCCESS).json({
-      state: 'empty',
+    return res.status(STATUS_CODE.NOT_FOUND).json({
+      state: 'failed',
       message: '해당 Token은 아직 등록되지 않았습니다',
       data: {},
     })

@@ -23,7 +23,6 @@ const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
 
 router.post(
   '/register',
-  getLastUserId,
   upload.single('userImage'),
   routesAsyncWrapper(controller.registerUser)
 )

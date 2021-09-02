@@ -3,7 +3,7 @@ const db = require('./db/user')
 // Create User Resource [create]
 exports.createUser = async (body, location) => {
   const attr = {
-    user_type: body.userType ? body.userType : '',
+    user_type: body.user_type ? body.user_type : '',
     naver_token: body.naver_token ? body.naver_token : '',
     kakao_token: body.kakao_token ? body.kakao_token : '',
     apple_token: body.apple_token ? body.apple_token : '',
