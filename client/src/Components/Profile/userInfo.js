@@ -14,7 +14,7 @@ function UserInfo({ info, keywords }) {
         />
         <View style={styles.userBox}>
           <View style={styles.userNameArea}>
-            <Text style={styles.userName}>{info.name}</Text>
+            <Text style={styles.userName}>{info.nick_name}</Text>
           </View>
           <View style={styles.shopInfo}>
             <Ionicons name="location-outline" size={15} />
@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: '75%',
   },
   userName: {
     fontSize: 25,

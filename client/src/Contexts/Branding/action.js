@@ -1,16 +1,17 @@
+import {
+  GET_BRANDING_LIST,
+  REGISTER_BRANDING,
+  PATCH_BRANDING,
+  DELETE_BRANDING,
+  GET_BRANDING_LIST_DESIGNER,
+} from './constant';
 import BrandingAPI from '../../Api/branding';
-import { GET_BRANDING_LIST_DESIGNER } from './constant';
 import { createPromiseThunk } from '../Common/asyncUtils';
-// export const registerUser = () => async (dispatch) => {
-//   dispatch({ type: REGISTER_USER }); // 요청이 시작됨
-//   try {
-//     const user = await UserAPI.createUserAPI(); // API 호출
-//     dispatch({ type: REGISTER_USER_SUCCESS, user }); // 성공
-//   } catch (e) {
-//     dispatch({ type: REGISTER_USER_ERROR, error: e }); // 실패
-//   }
-// };
 
+export const registerBranding = (payload) => ({ type: REGISTER_BRANDING, payload });
+export const patchBranding = (id, payload) => ({ type: PATCH_BRANDING, id, payload });
+export const deleteBranding = (id) => ({ type: DELETE_BRANDING, id });
+export const getBrandingList = createPromiseThunk(GET_BRANDING_LIST, BrandingAPI.getBrandingList);
 export const getBrandingListByDesignerId = createPromiseThunk(
   GET_BRANDING_LIST_DESIGNER,
   BrandingAPI.getBrandingListByDesignerId,

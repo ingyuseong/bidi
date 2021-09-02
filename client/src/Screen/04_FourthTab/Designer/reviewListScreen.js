@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
 
-import HistoryCard from '../../../Components/MatchingHistory/HistoryCard';
+import MatchingHistoryCard from '../../../Components/MatchingHistory/MatchingHistoryCard';
 
 function ReviewListScreen({ matchingHistoryList }) {
   return (
     <ScrollView style={styles.container}>
       {matchingHistoryList.map((history, index) => (
         <View key={index}>
-          <HistoryCard history={history} />
+          <MatchingHistoryCard history={history} />
           <View style={styles.line}></View>
         </View>
       ))}

@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
+// Components
 import DesignerReview from '../../../Components/MatchingHistory/DesignerReview';
 import NoHistoryScreen from './noHistoryScreen';
+import Loading from '../../../Components/Common/loading';
 
-function DesignerHistoryScreen({ matchingHistoryList }) {
-  useEffect(() => {}, []);
+// Redux Action
+import { getMatchingHistoryListByDesignerId } from '../../../Contexts/Matching/action';
+
+function DesignerHistoryScreen({ branding }) {
+  const { data: matchingHistoryList, loading, error } = useSelector((state) => state.matching);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getMatchingHistoryListByDesignerId(branding.user_id));
+  }, [dispatch]);
+  if (loading || error) return <Loading loading />;
+  if (!matchingHistoryList) return null;
   return (
     <View>
       {matchingHistoryList && matchingHistoryList.length > 0 ? (
@@ -29,9 +41,9 @@ function DesignerHistoryScreen({ matchingHistoryList }) {
             </View>
           </View>
           <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-            {matchingHistoryList.map((history, index) => (
+            {matchingHistoryList.map((matching, index) => (
               <View key={index}>
-                <DesignerReview history={history} type="customer" />
+                <DesignerReview matching={matching} type="customer" />
                 <View style={{ marginBottom: 20 }}></View>
               </View>
             ))}

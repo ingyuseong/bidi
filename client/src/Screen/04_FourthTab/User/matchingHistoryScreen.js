@@ -1,18 +1,41 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
 
-import HistoryCard from '../../../Components/MatchingHistory/HistoryCard';
+// Screen
+import NoHistoryScreen from './noHistoryScreen';
 
-function MatchingHistoryScreen({ matchingHistoryList }) {
+// Components
+import MatchingHistoryCard from '../../../Components/MatchingHistory/MatchingHistoryCard';
+import Loading from '../../../Components/Common/loading';
+
+// Redux Action
+import { getMatchingHistoryListByCustomerId } from '../../../Contexts/Matching/action';
+
+function MatchingHistoryScreen() {
+  const { data: user } = useSelector((state) => state.user);
+  const { data: matchingHistoryList, loading, error } = useSelector((state) => state.matching);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getMatchingHistoryListByCustomerId(user.id));
+  }, [dispatch]);
+  if (loading || error) return <Loading loading />;
+  if (!matchingHistoryList) return null;
   return (
-    <ScrollView style={styles.container}>
-      {matchingHistoryList.map((history, index) => (
-        <View key={index}>
-          <HistoryCard history={history} />
-          <View style={styles.line}></View>
-        </View>
-      ))}
-    </ScrollView>
+    <>
+      {matchingHistoryList && matchingHistoryList.length > 0 ? (
+        <ScrollView style={styles.container}>
+          {matchingHistoryList.map((history, index) => (
+            <View key={index}>
+              <MatchingHistoryCard index={index} />
+              <View style={styles.line}></View>
+            </View>
+          ))}
+        </ScrollView>
+      ) : (
+        <NoHistoryScreen />
+      )}
+    </>
   );
 }
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   StyleSheet,
   Text,
@@ -11,19 +12,23 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
+import { priceFormating, dateFormating } from '../../Lib/utils';
 
-function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation, deleteIcon }) {
-  const deleteStyleScrap = async (style_id) => {
-    await fetch('http://127.0.0.1:3000' + `/api/styleScrap/${userInfo.id}/${style_id}`, {
-      method: 'DELETE',
-    })
-      .then(() => {
-        Alert.alert('삭제 되었습니다!');
-        navigation.replace('MainTab', { screen: 'History' });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+// API
+import StyleScrapAPI from '../../Api/styleScrap';
+import { deleteStyleScrap } from '../../Contexts/StyleScrap/action';
+
+function StyleModal({ styleList, index, setModalVisible, deleteIcon }) {
+  // state
+  const { data: user } = useSelector((state) => state.user);
+  // functions
+  const dispatch = useDispatch();
+  const deleteScrap = async (style_id) => {
+    await StyleScrapAPI.deleteStyleScrap({
+      user_id: user.id,
+      style_id,
+    });
+    dispatch(deleteStyleScrap(style_id));
   };
   const deleteStyleScrapAlert = (style_id) => {
     Alert.alert('스크랩을 지우시겠어요?', '내 스크랩에서 사라집니다!', [
@@ -31,23 +36,15 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
       {
         text: '삭제하기',
         onPress: () => {
-          deleteStyleScrap(style_id);
           setModalVisible(false);
+          deleteScrap(style_id);
         },
       },
     ]);
   };
-  const priceFormating = (price) =>
-    new Intl.NumberFormat('ko-KR', { currency: 'KRW' }).format(price);
-  const dateFormating = (date) => {
-    const update = new Date(date);
-    return `${update.getFullYear()}.${
-      update.getMonth('mm') < 10 ? '0' + update.getMonth('mm') : update.getMonth('mm')
-    }.${update.getDate('dd') < 10 ? '0' + update.getDate('dd') : update.getDate('dd')}`;
-  };
   return (
     <View style={styles.container}>
-      {styleScraps ? (
+      {styleList ? (
         <View
           style={styles.contentContainer}
           showsVerticalScrollIndicator={false}
@@ -55,17 +52,12 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
           vertical={true}
           automaticallyAdjustContentInsets={true}>
           <View style={{ height: '55%' }}>
-            <Swiper
-              showsButtons={true}
-              showsPagination={false}
-              loop={false}
-              nextButton={<Icon name="right" size={30} color="white"></Icon>}
-              prevButton={<Icon name="left" size={30} color="white"></Icon>}>
+            <Swiper showsButtons={true} showsPagination={false} loop={false}>
               <View style={styles.styleBox}>
                 <Image
                   style={styles.styleImg}
                   source={{
-                    uri: styleScraps[index].img_src,
+                    uri: styleList[index].img_src_array[0],
                   }}
                 />
                 <TouchableOpacity
@@ -75,7 +67,7 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
                 </TouchableOpacity>
                 {deleteIcon ? (
                   <View style={styles.styleScrapIcon}>
-                    <TouchableOpacity onPress={() => deleteStyleScrapAlert(styleScraps[index].id)}>
+                    <TouchableOpacity onPress={() => deleteStyleScrapAlert(styleList[index].id)}>
                       <Icon name="heart" color="#FF533A" size={25} />
                     </TouchableOpacity>
                   </View>
@@ -87,8 +79,8 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
           </View>
           <View style={styles.contentBox}>
             <View style={styles.infoArea}>
-              <Text style={styles.titleText}>{styleScraps[index].title}</Text>
-              <Text style={styles.update}>{dateFormating(styleScraps[index].updated_at)}</Text>
+              <Text style={styles.titleText}>{styleList[index].title}</Text>
+              <Text style={styles.update}>{dateFormating(styleList[index].updated_at)}</Text>
             </View>
             <View style={styles.tagArea}>
               <View style={styles.tag}>
@@ -99,17 +91,19 @@ function StyleModal({ styleScraps, index, setModalVisible, userInfo, navigation,
               </View>
             </View>
             <View style={styles.subtitleArea}>
-              <Text style={styles.subtitleText}>{styleScraps[index].subtitle}</Text>
+              <Text style={styles.subtitleText}>{styleList[index].description}</Text>
             </View>
             <View style={styles.priceArea}>
               <Text style={styles.priceText}>가격</Text>
-              <Text style={styles.priceText}>{priceFormating(styleScraps[index].price)} 원</Text>
+              <Text style={styles.priceText}>{priceFormating(styleList[index].price)} 원</Text>
             </View>
           </View>
           {deleteIcon ? (
-            <TouchableOpacity onPress={() => deleteStyleScrapAlert()} style={styles.deleteArea}>
+            <TouchableOpacity
+              onPress={() => deleteStyleScrapAlert(styleList[index].id)}
+              style={styles.deleteArea}>
               <Ionicons name="md-trash-outline" size={20} color="#8D8D8D" />
-              <Text style={styles.deleteText}> 삭제하기</Text>
+              <Text style={styles.deleteText}> 스크랩 해제하기</Text>
             </TouchableOpacity>
           ) : (
             <></>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Stack } from '../../../../App';
 import { createStackNavigator } from '@react-navigation/stack';
+import CommonHeader from '../../../Components/HeaderBar/commonHeader';
 
 import CheckingProposalScreen from '../../../Screen/03_ThirdTab/User/checkingProposalScreen';
 import IntroProposalScreen from '../../../Screen/03_ThirdTab/User/introProposalScreen';
@@ -20,42 +21,38 @@ function ProposalTabScreen({ navigation }) {
       <ProposalStack.Screen
         name="Loading"
         component={CheckingProposalScreen}
-        options={{ headerShown: false, title: '' }}
+        options={CommonHeader}
       />
-      <ProposalStack.Screen
-        name="Intro"
-        component={IntroProposalScreen}
-        options={{ headerShown: false, title: '' }}
-      />
+      <ProposalStack.Screen name="Intro" component={IntroProposalScreen} options={CommonHeader} />
       <ProposalStack.Screen
         name="CreateProposal"
         component={CreateProposalScreen}
-        options={{ headerShown: false, title: '', afterStyle: '' }}
+        options={CommonHeader}
       />
       <ProposalStack.Screen
         name="ProposalRegistered"
         component={RegisteredProposalScreen}
-        options={{ headerShown: false, title: '' }}
+        options={CommonHeader}
       />
       <ProposalStack.Screen
         name="SelectAfterImage"
         component={SelectAfterImageScreen}
-        options={{ headerShown: false, title: '' }}
+        options={CommonHeader}
       />
       <ProposalStack.Screen
         name="SelectFromAlbum"
         component={SelectFromAlbumScreen}
-        options={{ headerShown: false, title: '' }}
+        options={CommonHeader}
       />
       <ProposalStack.Screen
         name="SelectFromScrap"
         component={SelectFromScrapScreen}
-        options={{ headerShown: false, title: '' }}
+        options={CommonHeader}
       />
       <ProposalStack.Screen
         name="SelectFromBidi"
         component={SelectFromBidiScreen}
-        options={{ headerShown: false, title: '' }}
+        options={CommonHeader}
       />
     </Stack.Navigator>
   );

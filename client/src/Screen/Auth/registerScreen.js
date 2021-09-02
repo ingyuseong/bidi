@@ -1,5 +1,4 @@
 import React, { useState, createRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { registerUser } from '../../Contexts/User';
 import { createFormData } from '../../Lib/utils';
 import {
@@ -22,7 +21,6 @@ import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/AntDesign';
-import UserAPI from '../../Api/user';
 import Loading from '../../Components/Common/loading';
 
 // Redux
@@ -60,20 +58,21 @@ const RegisterScreen = ({ navigation, route }) => {
         setLoading(false);
         const { naver_token, kakao_token, apple_token } = response;
         dispatch(registerUser(response));
-      // 1. API 호출
-      const user = await UserAPI.registerUser(bodyData);
-      if (user) {
-        // 2. User 생성 성공시 AsyncStorage에는 토큰, Redux에는 유저 정보를 저장
-        const { naver_token, kakao_token, apple_token } = user;
-        await BidiStorage.storeData(STORAGE_KEY, {
-          token: naver_token || kakao_token || apple_token,
-        });
-        await dispatch(getUser(user));
-        Alert.alert('회원가입이 정상적으로 완료되었습니다!');
-        navigation.replace('MainTab');
+        // 1. API 호출
+        const user = await UserAPI.registerUser(bodyData);
+        if (user) {
+          // 2. User 생성 성공시 AsyncStorage에는 토큰, Redux에는 유저 정보를 저장
+          const { naver_token, kakao_token, apple_token } = user;
+          await BidiStorage.storeData(STORAGE_KEY, {
+            token: naver_token || kakao_token || apple_token,
+          });
+          await dispatch(getUser(user));
+          Alert.alert('회원가입이 정상적으로 완료되었습니다!');
+          navigation.replace('MainTab');
+        }
+      } else {
+        Alert.alert('사진을 등록해주세요!');
       }
-    } else {
-      Alert.alert('사진을 등록해주세요!');
     }
   };
   const handleChoosePhoto = () => {
