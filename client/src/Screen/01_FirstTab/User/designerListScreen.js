@@ -9,6 +9,7 @@ import CardStyle from '../../../Components/Card/cardStyle';
 import DesignerDetail from './designerDetailScreen';
 import Loading from '../../../Components/Common/loading';
 import Swiper from 'react-native-swiper';
+import BrandingAPI from '../../../Api/branding';
 
 // Redux Action
 import { getBrandingList } from '../../../Contexts/Branding/action';
