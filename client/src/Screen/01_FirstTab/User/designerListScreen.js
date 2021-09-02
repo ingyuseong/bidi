@@ -1,38 +1,30 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { StyleSheet, View, Text, TouchableOpacity, Alert } from 'react-native';
+
+// Components
 import Icon from 'react-native-vector-icons/FontAwesome';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
 import DesignerDetail from './designerDetailScreen';
+import Loading from '../../../Components/Common/loading';
 import Swiper from 'react-native-swiper';
 import BrandingAPI from '../../../Api/branding';
 
+// Redux Action
+import { getBrandingList } from '../../../Contexts/Branding/action';
+
 function DesignerListScreen({ navigation }) {
-  const [infoLists, setInfo] = useState([]);
-
-  const getDesignerInfo = async () => {
-    const data = await BrandingAPI.getBrandingList();
-    setInfo(data);
-  };
+  const { data: brandingList, loading, error } = useSelector((state) => state.branding);
+  const dispatch = useDispatch();
   useEffect(() => {
-    getDesignerInfo();
-    console.log(infoLists);
-  }, []);
-
-  if (infoLists == []) {
-    return (
-      <View>
-        <Text>Loading..</Text>
-      </View>
-    );
-  }
+    dispatch(getBrandingList());
+  }, [dispatch]);
+  if (loading || error) return <Loading loading />;
+  if (!brandingList) return null;
   return (
-    // <View>
-    //   <Text>Temp</Text>
-    // </View>
-    // 임시 주석
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
-      {infoLists.map((info, index) => (
+      {brandingList.map((branding, index) => (
         <Swiper
           key={index}
           style={styles.wrapper}
@@ -42,7 +34,7 @@ function DesignerListScreen({ navigation }) {
           horizontal={false}>
           <View style={styles.container}>
             <View style={{ height: '60%' }}>
-              <CardStyle styleLists={info.styles} isUser={true} />
+              <CardStyle styleLists={branding.brandingStyles} isUser={true} />
               <TouchableOpacity
                 style={styles.bidiBtn}
                 onPress={() => Alert.alert('해당 디자이너에게 제안서가 전송되었습니다!')}>
@@ -50,14 +42,16 @@ function DesignerListScreen({ navigation }) {
               </TouchableOpacity>
             </View>
             <CardInfo
-              info={info}
+              info={branding}
               navigation={navigation}
               height={150}
               tagBackgroundColor={'#eeeeee'}
               tagColor="#8D8D8D"
             />
           </View>
-          <View>{/* <DesignerDetail info={info} /> */}</View>
+          <View>
+            <DesignerDetail branding={branding} />
+          </View>
         </Swiper>
       ))}
     </Swiper>

@@ -6,7 +6,7 @@ import Icons from 'react-native-vector-icons/AntDesign';
 
 import { dateFormating, textLimiting } from '../../Lib/utils';
 
-function DesignerReview({ history, type }) {
+function DesignerReview({ matching, type }) {
   const [moreToggle, setMoreToggle] = useState(false);
   return (
     <View style={styles.historyContainer}>
@@ -15,22 +15,22 @@ function DesignerReview({ history, type }) {
           style={styles.designerImg}
           source={
             type == 'customer'
-              ? { uri: history.customer.img_src }
-              : { uri: history.designer.img_src }
+              ? { uri: matching.proposal.user.img_src }
+              : { uri: matching.bid.user.img_src }
           }
         />
         <View style={styles.designerInfoBox}>
           <View style={styles.designerInfoLine}>
             <Text style={styles.designerName}>
-              {type == 'customer' ? history.customer.nick_name : history.designer.nick_name}
+              {type == 'customer' ? matching.proposal.user.nick_name : matching.bid.user.nick_name}
             </Text>
-            <Text style={styles.historyDate}>{dateFormating(history.created_at)}</Text>
+            <Text style={styles.historyDate}>{dateFormating(matching.created_at)}</Text>
           </View>
           <View style={styles.designerInfoLine}>
             <Stars
               disabled={true}
               half={true}
-              default={history.star}
+              default={matching.star}
               count={5}
               fullStar={<Icon name="star" style={[styles.myStarStyle]} size={15} />}
               emptyStar={
@@ -47,17 +47,17 @@ function DesignerReview({ history, type }) {
       </View>
       <View style={styles.tagBox}>
         <View style={styles.tag}>
-          <Text style={{ fontSize: 14, color: '#8D8D8D' }}># {history.bid.large_category}</Text>
+          <Text style={{ fontSize: 14, color: '#8D8D8D' }}># {matching.bid.style_type}</Text>
         </View>
         <View style={styles.tag}>
-          <Text style={{ fontSize: 14, color: '#8D8D8D' }}># {history.bid.small_category}</Text>
+          <Text style={{ fontSize: 14, color: '#8D8D8D' }}># {matching.bid.length_type}</Text>
         </View>
       </View>
       <View>
-        {history.review.length < 60 || moreToggle ? (
+        {matching.review.length < 60 || moreToggle ? (
           <View style={styles.reviewBox}>
-            <Text style={styles.reviewText}>{history.review}</Text>
-            {history.review.length > 60 && (
+            <Text style={styles.reviewText}>{matching.review}</Text>
+            {matching.review.length > 60 && (
               <View style={{ ...styles.moreBtnArea, alignItems: 'center' }}>
                 <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
                   <View style={{ ...styles.moreBtn, borderWidth: 0 }}>
@@ -69,7 +69,7 @@ function DesignerReview({ history, type }) {
           </View>
         ) : (
           <View style={{ ...styles.reviewBox }}>
-            <Text style={styles.reviewText}>{textLimiting(history.review, 60)}</Text>
+            <Text style={styles.reviewText}>{textLimiting(matching.review, 60)}</Text>
             <View style={styles.moreBtnArea}>
               <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
                 <View style={styles.moreBtn}>

@@ -37,7 +37,6 @@ exports.getMatchingList = async (req, res) => {
     })
   }
 }
-
 exports.getMatchingListByDesignerId = async (req, res) => {
   const { id } = req.params
   const matchingList = await matchingServices.findAllMatchingByDesignerId(id)

@@ -21,6 +21,8 @@ const textLimiting = (description, count) => {
   }
 };
 
+const priceFormating = (price) => new Intl.NumberFormat('ko-KR', { currency: 'KRW' }).format(price);
+
 const createFormData = (photo, body) => {
   const data = new FormData();
 
@@ -35,4 +37,4 @@ const createFormData = (photo, body) => {
   return data;
 };
 
-export { convertDate, textLimiting, dateFormating, createFormData };
+export { convertDate, textLimiting, dateFormating, priceFormating, createFormData };

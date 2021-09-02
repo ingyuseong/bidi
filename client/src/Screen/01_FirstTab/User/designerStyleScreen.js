@@ -1,103 +1,62 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { TouchableOpacity, StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { priceFormating, textLimiting } from '../../../Lib/utils';
+// Components
 import Icon from 'react-native-vector-icons/FontAwesome';
-import BidiStorage from '../../../Lib/storage';
-import { STORAGE_KEY } from '../../../Lib/constant';
-
 import Modal from 'react-native-modal';
 import StyleModal from '../../../Components/Modal/styleModal';
+import Loading from '../../../Components/Common/loading';
 
-function DesignerStyleScreen({ navigation, info }) {
-  const [userInfo, setUserInfo] = useState({});
-  const [styleScraps, setStyleScraps] = useState([]);
+// Redux Action
+import {
+  registerStyleScrap,
+  deleteStyleScrap,
+  getStyleScrapList,
+} from '../../../Contexts/StyleScrap/action';
+
+// API
+import StyleScrapAPI from '../../../Api/styleScrap';
+
+function DesignerStyleScreen({ navigation, branding }) {
+  // state
+  const { data: user } = useSelector((state) => state.user);
+  const { data: styleScrapList, loading, error } = useSelector((state) => state.styleScrap);
   const [moreToggle, setMoreToggle] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [styleIndex, setStyleIndex] = useState(0);
 
-  const getStyleScrapList = async (user) => {
-    await fetch('http://127.0.0.1:3000' + `/api/styleScrap/${user.id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then(async (result) => {
-        await setStyleScraps(
-          result.data.map((style) => {
-            return { id: style.id, isScraped: true };
-          }),
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  // functions
+  const dispatch = useDispatch();
+  const registerScrap = async (style) => {
+    await StyleScrapAPI.registerStyleScrap({
+      user_id: user.id,
+      style_id: style.id,
+    });
+    dispatch(registerStyleScrap(style));
   };
-  const registerStyleScrap = async (style_id) => {
-    await fetch('http://127.0.0.1:3000' + `/api/styleScrap/${userInfo.id}/${style_id}`, {
-      method: 'POST',
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        setStyleScraps([
-          ...styleScraps,
-          {
-            id: result.data.styleId,
-            isScraped: true,
-          },
-        ]);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-  const deleteStyleScrap = async (style_id) => {
-    await fetch('http://127.0.0.1:3000' + `/api/styleScrap/${userInfo.id}/${style_id}`, {
-      method: 'DELETE',
-    })
-      .then((response) => {
-        setStyleScraps(
-          styleScraps.map((item) => {
-            if (item.id == style_id) {
-              return {
-                ...item,
-                isScraped: false,
-              };
-            } else return item;
-          }),
-        );
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const deleteScrap = async (style) => {
+    await StyleScrapAPI.deleteStyleScrap({
+      user_id: user.id,
+      style_id: style.id,
+    });
+    dispatch(deleteStyleScrap(style.id));
   };
   const modalOpen = (index) => {
     setModalVisible(true);
     setStyleIndex(index);
   };
-  const priceFormating = (price) =>
-    new Intl.NumberFormat('ko-KR', { currency: 'KRW' }).format(price);
-  const textLimiting = (description) => {
-    if (description.length > 32) {
-      return description.substr(0, 32) + '..';
-    } else {
-      return description;
-    }
-  };
   useEffect(() => {
-    async function fetchMode() {
-      const user = await BidiStorage.getData(STORAGE_KEY);
-      setUserInfo(user);
-      getStyleScrapList(user);
-    }
-    fetchMode();
-  }, []);
+    dispatch(getStyleScrapList(user.id));
+  }, [dispatch]);
+  if (loading || error) return <Loading loading />;
+  if (!styleScrapList) return null;
   return (
     <View style={{ marginLeft: 20, marginRight: 20 }}>
       <View style={styles.titleContainer}>
         <View style={styles.flex}>
           <Text style={styles.hasStyle}>이 디자이너의 스타일</Text>
-          <Text style={[styles.hasStyle, styles.countStyle]}>{info.styles.length}</Text>
+          <Text style={[styles.hasStyle, styles.countStyle]}>{branding.brandingStyles.length}</Text>
         </View>
         <View style={styles.genderContainer}>
           <View style={styles.gender}>
@@ -109,7 +68,7 @@ function DesignerStyleScreen({ navigation, info }) {
         </View>
       </View>
       <View style={styles.styleContainer}>
-        {info.styles.map((item, index) => (
+        {branding.brandingStyles.map((style, index) => (
           <View style={{ width: '48%' }} key={index}>
             {moreToggle || index < 4 ? (
               <View style={{ width: '100%', height: 300 }}>
@@ -118,19 +77,17 @@ function DesignerStyleScreen({ navigation, info }) {
                     <Image
                       style={styles.styleImg}
                       source={{
-                        uri: item.img_src,
+                        uri: style.img_src_array[0],
                       }}
                     />
                   </TouchableOpacity>
                   <View style={styles.styleScrapIcon}>
-                    {styleScraps.some((style) => (style.id == item.id) & style.isScraped) ? (
-                      <TouchableOpacity
-                        activeOpacity={0.8}
-                        onPress={() => deleteStyleScrap(item.id)}>
+                    {styleScrapList.some((scrap) => scrap.id == style.id) ? (
+                      <TouchableOpacity activeOpacity={0.8} onPress={() => deleteScrap(style)}>
                         <Icon name="heart" color="#FF533A" size={20} />
                       </TouchableOpacity>
                     ) : (
-                      <TouchableOpacity onPress={() => registerStyleScrap(item.id)}>
+                      <TouchableOpacity onPress={() => registerScrap(style)}>
                         <Icon name="heart-o" color="white" size={20} />
                       </TouchableOpacity>
                     )}
@@ -145,13 +102,15 @@ function DesignerStyleScreen({ navigation, info }) {
                 </View>
                 <TouchableOpacity activeOpacity={0.8} onPress={() => modalOpen(index)}>
                   <View>
-                    <Text style={styles.styleTitle}>{item.title}</Text>
+                    <Text style={styles.styleTitle}>{style.title}</Text>
                   </View>
                   <View style={styles.styleDescription}>
-                    <Text style={styles.styleDescriptionText}>{textLimiting(item.subtitle)}</Text>
+                    <Text style={styles.styleDescriptionText}>
+                      {textLimiting(style.description, 100)}
+                    </Text>
                   </View>
                   <View>
-                    <Text style={styles.stylePrice}>{priceFormating(item.price)}</Text>
+                    <Text style={styles.stylePrice}>{priceFormating(style.price)}</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -183,11 +142,10 @@ function DesignerStyleScreen({ navigation, info }) {
         }}
         backdropOpacity={0.3}>
         <StyleModal
-          styleScraps={info.styles}
+          styleScrapList={branding.brandingStyles}
           index={styleIndex}
           setModalVisible={setModalVisible}
-          setStyleScrapList={setStyleScraps}
-          userInfo={userInfo}
+          userInfo={branding.user}
           navigation={navigation}
           deleteIcon={false}
         />

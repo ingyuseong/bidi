@@ -10,7 +10,6 @@ import UserTabStack from './userTabStack';
 import DesignerTabStack from './designerTabStack';
 import Loading from '../../Components/Common/loading';
 
-
 function mainTabStack({ navigation }) {
   const { data, loading, error } = useSelector((state) => state.user) || {
     loading: false,
