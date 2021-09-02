@@ -14,7 +14,7 @@ const styleScrapReducer = (state = initialState, action) => {
     case REGISTER_STYLESCRAP:
       return {
         ...state,
-        data: [...state.data, action.payload],
+        data: [action.payload, ...state.data],
       };
     case DELETE_STYLESCRAP:
       return {

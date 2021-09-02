@@ -4,6 +4,8 @@ import {
   DELETE_MATCHING,
   GET_MATCHING_LIST_DESIGNER,
   GET_MATCHING_LIST_CUSTOMER,
+  GET_MATCHINGHISTORY_LIST_DESIGNER,
+  GET_MATCHINGHISTORY_LIST_CUSTOMER,
 } from './constant';
 import MatchingAPI from '../../Api/matching';
 import { createPromiseThunk } from '../Common/asyncUtils';
@@ -18,4 +20,12 @@ export const getMatchingListByDesignerId = createPromiseThunk(
 export const getMatchingListByCustomerId = createPromiseThunk(
   GET_MATCHING_LIST_CUSTOMER,
   MatchingAPI.getMatchingListByCustomerId,
+);
+export const getMatchingHistoryListByDesignerId = createPromiseThunk(
+  GET_MATCHINGHISTORY_LIST_DESIGNER,
+  MatchingAPI.getMatchingHistoryListByDesignerId,
+);
+export const getMatchingHistoryListByCustomerId = createPromiseThunk(
+  GET_MATCHINGHISTORY_LIST_CUSTOMER,
+  MatchingAPI.getMatchingHistoryListByCustomerId,
 );

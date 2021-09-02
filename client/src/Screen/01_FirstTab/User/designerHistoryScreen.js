@@ -8,25 +8,27 @@ import NoHistoryScreen from './noHistoryScreen';
 import Loading from '../../../Components/Common/loading';
 
 // Redux Action
-import { getMatchingListByDesignerId } from '../../../Contexts/Matching/action';
+import { getMatchingHistoryListByDesignerId } from '../../../Contexts/Matching/action';
 
 function DesignerHistoryScreen({ branding }) {
-  const { data: matchingList, loading, error } = useSelector((state) => state.matching);
+  const { data: matchingHistoryList, loading, error } = useSelector((state) => state.matching);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getMatchingListByDesignerId(branding.user_id));
+    dispatch(getMatchingHistoryListByDesignerId(branding.user_id));
   }, [dispatch]);
   if (loading || error) return <Loading loading />;
-  if (!matchingList) return null;
+  if (!matchingHistoryList) return null;
   return (
     <View>
-      {matchingList && matchingList.length > 0 ? (
+      {matchingHistoryList && matchingHistoryList.length > 0 ? (
         <View style={{ marginLeft: 20, marginRight: 20 }}>
           <View style={styles.titleContainer}>
             <View style={styles.flex}>
               <Text style={styles.hasReview}>이 디자이너의 매칭내역</Text>
               <Text style={[styles.hasReview, styles.countReview]}>
-                {matchingList.length > 9 ? matchingList.length : '0' + matchingList.length}
+                {matchingHistoryList.length > 9
+                  ? matchingHistoryList.length
+                  : '0' + matchingHistoryList.length}
               </Text>
             </View>
             <View style={styles.selectContainer}>
@@ -39,7 +41,7 @@ function DesignerHistoryScreen({ branding }) {
             </View>
           </View>
           <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-            {matchingList.map((matching, index) => (
+            {matchingHistoryList.map((matching, index) => (
               <View key={index}>
                 <DesignerReview matching={matching} type="customer" />
                 <View style={{ marginBottom: 20 }}></View>
