@@ -76,6 +76,39 @@ exports.findAllMatching = async () => {
     return null
   }
 }
+exports.findOneMatching = async (id) => {
+  let matching = await db.findOneMatching(id)
+  if (matching) {
+    let proposal_keyword_array = []
+    if (matching.proposal.keyword_array) {
+      proposal_keyword_array = matching.proposal.keyword_array.split(',')
+    }
+    matching = {
+      ...matching.dataValues,
+      bid: {
+        ...matching.bid.dataValues,
+        bidStyles: matching.bid.bidStyles.map((style) => {
+          let style_keyword_array = []
+          if (style.keyword_array) {
+            style_keyword_array = style.keyword_array.split(',')
+          }
+          return {
+            ...style.dataValues,
+            keyword_array: style_keyword_array,
+            img_src_array: style.img_src_array.split(','),
+          }
+        }),
+      },
+      proposal: {
+        ...matching.proposal.dataValues,
+        keyword_array: proposal_keyword_array,
+      },
+    }
+    return matching
+  } else {
+    return null
+  }
+}
 exports.findAllMatchingByDesignerId = async (id) => {
   let matchingList = await db.findAllMatchingByDesignerId(id)
   if (matchingList && matchingList.length > 0) {
@@ -148,35 +181,74 @@ exports.findAllMatchingByCustomerId = async (id) => {
     return null
   }
 }
-exports.findOneMatching = async (id) => {
-  let matching = await db.findOneMatching(id)
-  if (matching) {
-    let proposal_keyword_array = []
-    if (matching.proposal.keyword_array) {
-      proposal_keyword_array = matching.proposal.keyword_array.split(',')
-    }
-    matching = {
-      ...matching.dataValues,
-      bid: {
-        ...matching.bid.dataValues,
-        bidStyles: matching.bid.bidStyles.map((style) => {
-          let style_keyword_array = []
-          if (style.keyword_array) {
-            style_keyword_array = style.keyword_array.split(',')
-          }
-          return {
-            ...style.dataValues,
-            keyword_array: style_keyword_array,
-            img_src_array: style.img_src_array.split(','),
-          }
-        }),
-      },
-      proposal: {
-        ...matching.proposal.dataValues,
-        keyword_array: proposal_keyword_array,
-      },
-    }
-    return matching
+exports.findAllMatchingHistoryByDesignerId = async (id) => {
+  let matchingList = await db.findAllMatchingHistoryByDesignerId(id)
+  if (matchingList && matchingList.length > 0) {
+    matchingList = matchingList.map((matching) => {
+      let proposal_keyword_array = []
+      if (matching.proposal.keyword_array) {
+        proposal_keyword_array = matching.proposal.keyword_array.split(',')
+      }
+      matching = {
+        ...matching.dataValues,
+        bid: {
+          ...matching.bid.dataValues,
+          bidStyles: matching.bid.bidStyles.map((style) => {
+            let style_keyword_array = []
+            if (style.keyword_array) {
+              style_keyword_array = style.keyword_array.split(',')
+            }
+            return {
+              ...style.dataValues,
+              keyword_array: style_keyword_array,
+              img_src_array: style.img_src_array.split(','),
+            }
+          }),
+        },
+        proposal: {
+          ...matching.proposal.dataValues,
+          keyword_array: proposal_keyword_array,
+        },
+      }
+      return matching
+    })
+    return matchingList
+  } else {
+    return null
+  }
+}
+exports.findAllMatchingHistoryByCustomerId = async (id) => {
+  let matchingList = await db.findAllMatchingHistoryByCustomerId(id)
+  if (matchingList && matchingList.length > 0) {
+    matchingList = matchingList.map((matching) => {
+      let proposal_keyword_array = []
+      if (matching.proposal.keyword_array) {
+        proposal_keyword_array = matching.proposal.keyword_array.split(',')
+      }
+      matching = {
+        ...matching.dataValues,
+        bid: {
+          ...matching.bid.dataValues,
+          bidStyles: matching.bid.bidStyles.map((style) => {
+            let style_keyword_array = []
+            if (style.keyword_array) {
+              style_keyword_array = style.keyword_array.split(',')
+            }
+            return {
+              ...style.dataValues,
+              keyword_array: style_keyword_array,
+              img_src_array: style.img_src_array.split(','),
+            }
+          }),
+        },
+        proposal: {
+          ...matching.proposal.dataValues,
+          keyword_array: proposal_keyword_array,
+        },
+      }
+      return matching
+    })
+    return matchingList
   } else {
     return null
   }

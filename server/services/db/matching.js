@@ -6,6 +6,8 @@ const {
   Style,
   User,
 } = require('../../models')
+const { Sequelize } = require('sequelize')
+const { and, or, like, not } = Sequelize.Op
 
 // Create Matching Resource [create]
 exports.createMatching = async (attr) => {
@@ -23,86 +25,6 @@ exports.createMatching = async (attr) => {
 // Read Matching Resource [findOne, findAll]
 exports.findAllMatching = async () => {
   const matchingList = await Matching.findAll({
-    include: [
-      {
-        model: Proposal,
-        required: true,
-        include: [
-          {
-            model: User,
-            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-            required: true,
-          },
-        ],
-      },
-      {
-        model: Bid,
-        required: true,
-        include: [
-          {
-            model: User,
-            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-            required: true,
-          },
-          {
-            model: Style,
-            as: 'bidStyles',
-            through: {
-              model: BidStyle,
-            },
-          },
-        ],
-      },
-    ],
-    order: [['updated_at', 'DESC']],
-  })
-  return matchingList
-}
-exports.findAllMatchingByDesignerId = async (id) => {
-  const matchingList = await Matching.findAll({
-    where: {
-      designer_id: id,
-    },
-    include: [
-      {
-        model: Proposal,
-        required: true,
-        include: [
-          {
-            model: User,
-            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-            required: true,
-          },
-        ],
-      },
-      {
-        model: Bid,
-        required: true,
-        include: [
-          {
-            model: User,
-            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-            required: true,
-          },
-          {
-            model: Style,
-            as: 'bidStyles',
-            through: {
-              model: BidStyle,
-            },
-          },
-        ],
-      },
-    ],
-    order: [['updated_at', 'DESC']],
-  })
-  return matchingList
-}
-exports.findAllMatchingByCustomerId = async (id) => {
-  const matchingList = await Matching.findAll({
-    where: {
-      customer_id: id,
-    },
     include: [
       {
         model: Proposal,
@@ -177,7 +99,176 @@ exports.findOneMatching = async (id) => {
   })
   return matching
 }
-
+exports.findAllMatchingByDesignerId = async (id) => {
+  const matchingList = await Matching.findAll({
+    where: {
+      designer_id: id,
+      done: false,
+      canceled: false,
+    },
+    include: [
+      {
+        model: Proposal,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+        ],
+      },
+      {
+        model: Bid,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+          {
+            model: Style,
+            as: 'bidStyles',
+            through: {
+              model: BidStyle,
+            },
+          },
+        ],
+      },
+    ],
+    order: [['updated_at', 'DESC']],
+  })
+  return matchingList
+}
+exports.findAllMatchingByCustomerId = async (id) => {
+  const matchingList = await Matching.findAll({
+    where: {
+      customer_id: id,
+      done: false,
+      canceled: false,
+    },
+    include: [
+      {
+        model: Proposal,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+        ],
+      },
+      {
+        model: Bid,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+          {
+            model: Style,
+            as: 'bidStyles',
+            through: {
+              model: BidStyle,
+            },
+          },
+        ],
+      },
+    ],
+    order: [['updated_at', 'DESC']],
+  })
+  return matchingList
+}
+exports.findAllMatchingHistoryByDesignerId = async (id) => {
+  const matchingList = await Matching.findAll({
+    where: {
+      designer_id: id,
+      done: true,
+      canceled: false,
+      star: {
+        [not]: 0, // Like: star IS NOT NULL
+      },
+    },
+    include: [
+      {
+        model: Proposal,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+        ],
+      },
+      {
+        model: Bid,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+          {
+            model: Style,
+            as: 'bidStyles',
+            through: {
+              model: BidStyle,
+            },
+          },
+        ],
+      },
+    ],
+    order: [['updated_at', 'DESC']],
+  })
+  return matchingList
+}
+exports.findAllMatchingHistoryByCustomerId = async (id) => {
+  const matchingList = await Matching.findAll({
+    where: {
+      customer_id: id,
+      done: true,
+    },
+    include: [
+      {
+        model: Proposal,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+        ],
+      },
+      {
+        model: Bid,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+          {
+            model: Style,
+            as: 'bidStyles',
+            through: {
+              model: BidStyle,
+            },
+          },
+        ],
+      },
+    ],
+    order: [['updated_at', 'DESC']],
+  })
+  return matchingList
+}
 // Update Proposal Resource [update]
 exports.updateMatchingTime = async (id, time) => {
   const matching = await Matching.update(
@@ -239,6 +330,7 @@ exports.updateMatchingCanceled = async (id, canceled) => {
   const matching = await Matching.update(
     {
       raw: true,
+      done: true,
       canceled,
     },
     {

@@ -12,7 +12,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import UserInfo from '../Profile/userInfo';
 
-function ProposalModal({ setModalVisible, proposal, userInfo, progress }) {
+function ProposalModal({ setModalVisible, proposal }) {
   const [imageToggle, setImageToggle] = useState(false);
   return (
     <View style={styles.container}>
@@ -50,7 +50,7 @@ function ProposalModal({ setModalVisible, proposal, userInfo, progress }) {
             <Icon name="md-close" size={25} color="#8D8D8D" />
           </TouchableOpacity>
         </View>
-        <UserInfo info={userInfo} keywords={proposal.keywords.split(',')} />
+        <UserInfo info={proposal.user} keywords={proposal.keyword_array} />
         <View style={styles.descriptionBox}>
           <Text style={styles.description}>
             {proposal.description != '' ? proposal.description : '요구사항 없음'}

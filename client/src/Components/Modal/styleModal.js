@@ -36,13 +36,12 @@ function StyleModal({ styleList, index, setModalVisible, deleteIcon }) {
       {
         text: '삭제하기',
         onPress: () => {
-          deleteScrap(style_id);
           setModalVisible(false);
+          deleteScrap(style_id);
         },
       },
     ]);
   };
-
   return (
     <View style={styles.container}>
       {styleList ? (
@@ -53,12 +52,7 @@ function StyleModal({ styleList, index, setModalVisible, deleteIcon }) {
           vertical={true}
           automaticallyAdjustContentInsets={true}>
           <View style={{ height: '55%' }}>
-            <Swiper
-              showsButtons={true}
-              showsPagination={false}
-              loop={false}
-              nextButton={<Icon name="right" size={30} color="white"></Icon>}
-              prevButton={<Icon name="left" size={30} color="white"></Icon>}>
+            <Swiper showsButtons={true} showsPagination={false} loop={false}>
               <View style={styles.styleBox}>
                 <Image
                   style={styles.styleImg}
@@ -109,7 +103,7 @@ function StyleModal({ styleList, index, setModalVisible, deleteIcon }) {
               onPress={() => deleteStyleScrapAlert(styleList[index].id)}
               style={styles.deleteArea}>
               <Ionicons name="md-trash-outline" size={20} color="#8D8D8D" />
-              <Text style={styles.deleteText}> 삭제하기</Text>
+              <Text style={styles.deleteText}> 스크랩 해제하기</Text>
             </TouchableOpacity>
           ) : (
             <></>

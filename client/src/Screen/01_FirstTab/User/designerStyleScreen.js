@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TouchableOpacity, StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { priceFormating, textLimiting } from '../../../Lib/utils';
+
 // Components
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Modal from 'react-native-modal';
@@ -126,12 +127,14 @@ function DesignerStyleScreen({ navigation, branding }) {
             <Text style={styles.moreBtnText}>대표 스타일만 보기</Text>
           </View>
         </TouchableOpacity>
-      ) : (
+      ) : branding.brandingStyles.length > 4 ? (
         <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
           <View style={styles.moreBtn}>
             <Text style={styles.moreBtnText}>스타일 더보기</Text>
           </View>
         </TouchableOpacity>
+      ) : (
+        <></>
       )}
       <Modal
         animationType="slide"

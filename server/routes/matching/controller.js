@@ -37,6 +37,23 @@ exports.getMatchingList = async (req, res) => {
     })
   }
 }
+exports.getMatching = async (req, res) => {
+  const { id } = req.params
+  const matching = await matchingServices.findOneMatching(id)
+  if (matching) {
+    res.status(STATUS_CODE.SUCCESS).json({
+      status: 'success',
+      message: '매칭 정보 조회 성공',
+      data: matching,
+    })
+  } else {
+    res.status(STATUS_CODE.SUCCESS).json({
+      status: 'empty',
+      message: '조회할 매칭 정보가 없습니다',
+      data: {},
+    })
+  }
+}
 exports.getMatchingListByDesignerId = async (req, res) => {
   const { id } = req.params
   const matchingList = await matchingServices.findAllMatchingByDesignerId(id)
@@ -71,20 +88,39 @@ exports.getMatchingListByCustomerId = async (req, res) => {
     })
   }
 }
-exports.getMatching = async (req, res) => {
+exports.getMatchingHistoryListByDesignerId = async (req, res) => {
   const { id } = req.params
-  const matching = await matchingServices.findOneMatching(id)
-  if (matching) {
+  const matchingList =
+    await matchingServices.findAllMatchingHistoryByDesignerId(id)
+  if (matchingList && matchingList.length > 0) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
-      message: '매칭 정보 조회 성공',
-      data: matching,
+      message: '디자이너의 매칭히스토리 목록 조회 성공',
+      data: matchingList,
     })
   } else {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
-      message: '조회할 매칭 정보가 없습니다',
-      data: {},
+      message: '조회할 디자이너의 매칭히스토리 목록이 없습니다',
+      data: [],
+    })
+  }
+}
+exports.getMatchingHistoryListByCustomerId = async (req, res) => {
+  const { id } = req.params
+  const matchingList =
+    await matchingServices.findAllMatchingHistoryByCustomerId(id)
+  if (matchingList && matchingList.length > 0) {
+    res.status(STATUS_CODE.SUCCESS).json({
+      status: 'success',
+      message: '유저의 매칭히스토리 목록 조회 성공',
+      data: matchingList,
+    })
+  } else {
+    res.status(STATUS_CODE.SUCCESS).json({
+      status: 'empty',
+      message: '조회할 유저의 매칭히스토리 목록이 없습니다',
+      data: [],
     })
   }
 }
