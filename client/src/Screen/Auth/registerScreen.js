@@ -1,5 +1,4 @@
 import React, { useState, createRef } from 'react';
-import { registerUser } from '../../Contexts/User';
 import { createFormData } from '../../Lib/utils';
 import {
   widthPercentageToDP as wp,
@@ -35,9 +34,6 @@ const RegisterScreen = ({ navigation, route }) => {
   const [userGenderType, setUserGenderType] = useState('');
   const [userNickName, setUserNickName] = useState('');
   const [photo, setPhoto] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const typeInputRef = createRef();
   const nickNameInputRef = createRef();
 
   const dispatch = useDispatch();
@@ -52,27 +48,20 @@ const RegisterScreen = ({ navigation, route }) => {
         gender_type: userGenderType,
         kakao_token: userKakaoToken,
       });
-      setLoading(true);
-      const response = await UserAPI.registerUser(bodyData);
-      if (response) {
-        setLoading(false);
-        const { naver_token, kakao_token, apple_token } = response;
-        dispatch(registerUser(response));
-        // 1. API 호출
-        const user = await UserAPI.registerUser(bodyData);
-        if (user) {
-          // 2. User 생성 성공시 AsyncStorage에는 토큰, Redux에는 유저 정보를 저장
-          const { naver_token, kakao_token, apple_token } = user;
-          await BidiStorage.storeData(STORAGE_KEY, {
-            token: naver_token || kakao_token || apple_token,
-          });
-          await dispatch(getUser(user));
-          Alert.alert('회원가입이 정상적으로 완료되었습니다!');
-          navigation.replace('MainTab');
-        }
-      } else {
-        Alert.alert('사진을 등록해주세요!');
+      // 1. API 호출
+      const user = await UserAPI.registerUser(bodyData);
+      if (user) {
+        // 2. User 생성 성공시 AsyncStorage에는 토큰, Redux에는 유저 정보를 저장
+        const { naver_token, kakao_token, apple_token } = user;
+        await BidiStorage.storeData(STORAGE_KEY, {
+          token: naver_token || kakao_token || apple_token,
+        });
+        await dispatch(getUser(user));
+        Alert.alert('회원가입이 정상적으로 완료되었습니다!');
+        navigation.replace('MainTab');
       }
+    } else {
+      Alert.alert('사진을 등록해주세요!');
     }
   };
   const handleChoosePhoto = () => {
@@ -84,9 +73,6 @@ const RegisterScreen = ({ navigation, route }) => {
       }
     });
   };
-  if (loading) {
-    return <Loading loading />;
-  }
   return (
     <View style={styles.container}>
       <View style={styles.topArea}>

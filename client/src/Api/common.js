@@ -19,7 +19,6 @@ export const API = async (url, method, body) => {
     })
     .then(({ data }) => data)
     .catch((error) => {
-      console.log(error);
       return false;
     });
 };
@@ -39,7 +38,9 @@ export const formAPI = async (url, method, body) => {
         throw new Error(response.json());
       }
     })
-    .then(({ data }) => data)
+    .then(({ data }) => {
+      return data;
+    })
     .catch((error) => {
       console.log(error);
       return false;

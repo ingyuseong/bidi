@@ -42,16 +42,7 @@ function BidMainScreen({ navigation }) {
     dispatch(getBidListByDesignerId(userInfo.id));
     dispatch(getMatchingListByDesignerId(userInfo.id));
   }, [dispatch]);
-  if (
-    bidList.length === 0 ||
-    matchingList.length === 0 ||
-    bidLoading ||
-    userLoading ||
-    matchingLoading ||
-    bidError ||
-    userError ||
-    matchingError
-  )
+  if (bidLoading || userLoading || matchingLoading || bidError || userError || matchingError)
     return <Loading loading />;
   return (
     <Tab.Navigator
