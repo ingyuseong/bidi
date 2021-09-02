@@ -5,13 +5,7 @@ import ItemContent from '../../../Components/ListItem/itemContent';
 import ItemBottomBtn from '../../../Components/ListItem/itemBottomBtn';
 import Line from '../../../Components/Common/line';
 
-function ProcessBidListScreen({ navigation, bidList }) {
-  const [waitBidList, setWaitBidList] = useState([]);
-  useEffect(() => {
-    const newBidList = bidList.filter((bid) => bid.status === 'process' || bid.status === 'cancel');
-    setWaitBidList([...newBidList]);
-  }, []);
-
+function ProcessBidListScreen({ navigation, matchingList }) {
   const cancelAlert = (id) => {
     Alert.alert('정말 취소하시겠습니까?', '취소후에는 변경이 불가능합니다', [
       { text: '취소', style: 'cancel' },
@@ -83,22 +77,31 @@ function ProcessBidListScreen({ navigation, bidList }) {
 
   return (
     <ScrollView style={styles.container}>
-      {waitBidList.map((bid, index) => (
+      {matchingList.map((matching, index) => (
         <View style={styles.bidContainer} key={index}>
           <ItemHeader
-            info={bid}
-            screen="bid"
+            info={matching}
+            screen="matching"
             clickHandler={() => {
-              navigation.navigate('DetailBid', { info: bid });
+              navigation.navigate('DetailBid', {
+                info: {
+                  ...matching,
+                  length_type: matching.bid.length_type,
+                  style_type: matching.bid.style_type,
+                  need_care: matching.bid.need_care,
+                  letter: matching.bid.letter,
+                },
+                screen: 'matching',
+              });
             }}
           />
-          <ItemContent navigation={navigation} info={bid} screen="bid" />
+          <ItemContent navigation={navigation} info={matching} screen="matching" />
           <ItemBottomBtn
-            info={bid}
+            info={matching}
             leftBtnText="취소됨"
-            leftBtnHandler={() => cancelAlert(bid.id)}
+            leftBtnHandler={() => cancelAlert(matching.id)}
             rightBtnText="시술 완료"
-            rightBtnHandler={() => doneAlert(bid)}
+            rightBtnHandler={() => doneAlert(matching)}
           />
           <Line />
         </View>

@@ -1,73 +1,99 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
+
+import BidAPI from '../../../Api/bid';
+import BidiStorage from '../../../Lib/storage';
+import { LENGTH_TYPE, STYLE_TYPE, STORAGE_KEY } from '../../../Lib/constant';
+import { checkToken } from '../../../Contexts/User';
+import { registerBid } from '../../../Contexts/Bid';
+
+import Loading from '../../../Components/Common/loading';
 import CardInfo from '../../../Components/Card/cardInfo';
-import CardStyle from '../../../Components/Card/cardStyle';
+import CardChangeStyle from '../../../Components/Card/cardChangeStyle';
+
 import BidCategory from '../../../Components/Bid/bidCategory';
 import BidLetter from '../../../Components/Bid/bidLetter';
 import BidNeedCare from '../../../Components/Bid/bidNeedCare';
 import BidRefStyle from '../../../Components/Bid/bidRefStyle';
-import BidiStorage from '../../../Lib/storage';
-import { LARGE_CATEGORY, SMALL_CATEGORY, STORAGE_KEY } from '../../../Lib/constant';
 
 function CreateBidScreen({ navigation, route }) {
-  const { info, userId, proposalId } = route.params;
-  const [userInfo, setUserInfo] = useState(null);
-  const [largeCategoryOpen, setLargeCategoryOpen] = useState(false);
-  const [largeCategoryValue, setLargeCategoryValue] = useState('미선택');
-  const [largeCategoryItems, setLargeCategoryItems] = useState(LARGE_CATEGORY);
-  const [smallCategoryOpen, setSmallCategoryOpen] = useState(false);
-  const [smallCategoryValue, setSmallCategoryValue] = useState(null);
-  const [smallCategoryItems, setSmallCategoryItems] = useState([]);
+  const dispatch = useDispatch();
+  const { proposal } = route.params;
+  const {
+    data: userInfo,
+    loading: userLoading,
+    error: userError,
+  } = useSelector((state) => state.user);
+  const { data: bidList, loading: bidLoading, error: bidError } = useSelector((state) => state.bid);
+
+  const [lengthTypeOpen, setLengthTypeOpen] = useState(false);
+  const [lengthTypeValue, setLengthTypeValue] = useState('미선택');
+  const [lengthTypeItems, setLengthTypeItems] = useState(LENGTH_TYPE);
+  const [styleTypeOpen, setStyleTypeOpen] = useState(false);
+  const [styleTypeValue, setStyleTypeValue] = useState(null);
+  const [styleTypeItems, setStyleTypeItems] = useState([]);
   const [needCare, setNeedCare] = useState(null);
   const [bidLetter, setBidLetter] = useState('');
 
   useEffect(() => {
-    setSmallCategoryItems(SMALL_CATEGORY[largeCategoryValue]);
-  }, [largeCategoryValue]);
+    setStyleTypeItems(STYLE_TYPE[lengthTypeValue]);
+  }, [lengthTypeValue]);
 
   useEffect(() => {
     async function fetchMode() {
-      const user = await BidiStorage.getData(STORAGE_KEY);
-      setUserInfo(user);
+      const { token } = await BidiStorage.getData(STORAGE_KEY);
+      if (!userInfo) {
+        await dispatch(checkToken(token));
+      }
     }
     fetchMode();
   }, []);
 
   const registerBidHandler = async () => {
-    await fetch('http://127.0.0.1:3000' + '/api/bid/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        customer_id: userId,
-        designer_id: userInfo.id,
-        proposal_id: proposalId,
-        large_category: largeCategoryValue,
-        small_category: smallCategoryValue,
-        letter: bidLetter,
-        need_care: needCare,
-        status: 'wait',
-        styles: [1, 2, 3],
-      }),
-    })
-      .then((response) => response.json())
-      .then(async (response) => {
-        if (response) {
-          Alert.alert('Bid 작성이 성공적으로 완료되었습니다!');
-          navigation.navigate('Bid', { screen: 'BidMain' });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    if (!lengthTypeValue || !styleTypeValue) {
+      return Alert.alert('카테고리 정보를 선택해주세요!');
+    }
+    if (!bidLetter) {
+      return Alert.alert('비드 레터를 입력해주세요!');
+    }
+    if (needCare === null) {
+      return Alert.alert('케어 여부를 선택해주세요!');
+    }
+    const response = await BidAPI.registerBid({
+      customer_id: proposal.user_id,
+      designer_id: userInfo.id,
+      proposal_id: proposal.id,
+      length_type: lengthTypeValue,
+      style_type: styleTypeValue,
+      letter: bidLetter,
+      need_care: needCare,
+      status: 'wait',
+      styles: [1, 2],
+    });
+    if (response) {
+      dispatch(registerBid(response));
+      Alert.alert('Bid 작성이 성공적으로 완료되었습니다!');
+      navigation.navigate('Bid', { screen: 'BidMain' });
+    } else {
+      Alert.alert('Error');
+    }
   };
+
+  if (userLoading || userError || bidLoading || bidError) return <Loading loading />;
+  if (!userInfo) return null;
+
   return (
     <View style={styles.container}>
       <ScrollView>
-        <CardStyle styleLists={info.images} height={400} isUser={false} />
+        <CardChangeStyle
+          before_src={proposal.before_src}
+          after_src={proposal.after_src}
+          height={400}
+          topRadius={false}
+        />
         <CardInfo
-          info={info}
+          info={proposal}
           navigation={navigation}
           tagBackgroundColor="#E1ECFF"
           tagColor="#323274"
@@ -77,23 +103,23 @@ function CreateBidScreen({ navigation, route }) {
             <Text style={styles.titleText}>희망 예산</Text>
           </View>
           <View style={styles.priceArea}>
-            <Text style={styles.text}>{info.price_limit}원 이하</Text>
+            <Text style={styles.text}>{proposal.price_limit}원 이하</Text>
           </View>
         </View>
         <View style={styles.line}></View>
         <BidCategory
-          largeCategoryOpen={largeCategoryOpen}
-          setLargeCategoryOpen={setLargeCategoryOpen}
-          largeCategoryValue={largeCategoryValue}
-          setLargeCategoryValue={setLargeCategoryValue}
-          largeCategoryItems={largeCategoryItems}
-          setLargeCategoryItems={setLargeCategoryItems}
-          smallCategoryOpen={smallCategoryOpen}
-          setSmallCategoryOpen={setSmallCategoryOpen}
-          smallCategoryValue={smallCategoryValue}
-          setSmallCategoryValue={setSmallCategoryValue}
-          smallCategoryItems={smallCategoryItems}
-          setSmallCategoryItems={setSmallCategoryItems}
+          lengthTypeOpen={lengthTypeOpen}
+          setLengthTypeOpen={setLengthTypeOpen}
+          lengthTypeValue={lengthTypeValue}
+          setLengthTypeValue={setLengthTypeValue}
+          lengthTypeItems={lengthTypeItems}
+          setLengthTypeItems={setLengthTypeItems}
+          styleTypeOpen={styleTypeOpen}
+          setStyleTypeOpen={setStyleTypeOpen}
+          styleTypeValue={styleTypeValue}
+          setStyleTypeValue={setStyleTypeValue}
+          styleTypeItems={styleTypeItems}
+          setStyleTypeItems={setStyleTypeItems}
           isEdit={true}
         />
         <BidNeedCare needCare={needCare} setNeedCare={setNeedCare} isEdit={true} />

@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
+
+import Line from '../../../Components/Common/line';
 import ItemHeader from '../../../Components/ListItem/itemHeader';
 import ItemContent from '../../../Components/ListItem/itemContent';
-import Line from '../../../Components/Common/line';
 
 function WaitBidListScreen({ navigation, bidList }) {
-  const [waitBidList, setWaitBidList] = useState([]);
-  useEffect(() => {
-    const newBidList = bidList.filter((bid) => bid.status === 'wait');
-    setWaitBidList([...newBidList]);
-  }, []);
   return (
     <ScrollView style={styles.container}>
-      {waitBidList.map((bid, index) => (
+      {bidList.map((bid, index) => (
         <View style={styles.bidContainer} key={index}>
           <ItemHeader
             info={bid}
             screen="bid"
             clickHandler={() => {
-              navigation.navigate('DetailBid', { info: bid });
+              navigation.navigate('DetailBid', { info: bid, screen: 'bid' });
             }}
           />
-          <ItemContent info={bid} navigation={navigation} screen="bid" />
+          <ItemContent info={bid} screen="bid" navigation={navigation} />
           <Line />
         </View>
       ))}

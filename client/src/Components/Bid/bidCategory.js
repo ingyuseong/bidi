@@ -3,26 +3,26 @@ import { StyleSheet, Text, View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 function BidCategory({
-  largeCategoryOpen,
-  setLargeCategoryOpen,
-  largeCategoryValue,
-  setLargeCategoryValue,
-  largeCategoryItems,
-  setLargeCategoryItems,
-  smallCategoryOpen,
-  setSmallCategoryOpen,
-  smallCategoryValue,
-  setSmallCategoryValue,
-  smallCategoryItems,
-  setSmallCategoryItems,
+  lengthTypeOpen,
+  setLengthTypeOpen,
+  lengthTypeValue,
+  setLengthTypeValue,
+  lengthTypeItems,
+  setLengthTypeItems,
+  styleTypeOpen,
+  setStyleTypeOpen,
+  styleTypeValue,
+  setStyleTypeValue,
+  styleTypeItems,
+  setStyleTypeItems,
   isEdit,
 }) {
-  const onLargeCategoryOpen = useCallback(() => {
-    setSmallCategoryOpen(false);
+  const onLengthTypeOpen = useCallback(() => {
+    setStyleTypeOpen(false);
   }, []);
 
-  const onSmallCategoryOpen = useCallback(() => {
-    setLargeCategoryOpen(false);
+  const onStyleTypeOpen = useCallback(() => {
+    setLengthTypeOpen(false);
   }, []);
 
   return (
@@ -34,14 +34,13 @@ function BidCategory({
         <>
           <DropDownPicker
             zIndex={1000}
-            key={1}
-            open={largeCategoryOpen}
-            onOpen={onLargeCategoryOpen}
-            value={largeCategoryValue}
-            items={largeCategoryItems}
-            setOpen={setLargeCategoryOpen}
-            setValue={setLargeCategoryValue}
-            setItems={setLargeCategoryItems}
+            open={lengthTypeOpen}
+            onOpen={onLengthTypeOpen}
+            value={lengthTypeValue}
+            items={lengthTypeItems}
+            setOpen={setLengthTypeOpen}
+            setValue={setLengthTypeValue}
+            setItems={setLengthTypeItems}
             placeholder="대분류"
             style={{ ...styles.dropDownArea, height: 42, marginBottom: 16 }}
             dropDownContainerStyle={styles.dropDownArea}
@@ -49,17 +48,16 @@ function BidCategory({
             listParentLabelStyle={{ color: 'grey', fontSize: 15 }}
             listMode="SCROLLVIEW"
           />
-          {largeCategoryValue !== '미선택' && (
+          {lengthTypeValue !== '미선택' && (
             <DropDownPicker
               zIndex={500}
-              key={2}
-              open={smallCategoryOpen}
-              onOpen={onSmallCategoryOpen}
-              value={smallCategoryValue}
-              items={smallCategoryItems}
-              setOpen={setSmallCategoryOpen}
-              setValue={setSmallCategoryValue}
-              setItems={setSmallCategoryItems}
+              open={styleTypeOpen}
+              onOpen={onStyleTypeOpen}
+              value={styleTypeValue}
+              items={styleTypeItems}
+              setOpen={setStyleTypeOpen}
+              setValue={setStyleTypeValue}
+              setItems={setStyleTypeItems}
               placeholder="소분류"
               style={{ ...styles.dropDownArea, height: 42 }}
               dropDownContainerStyle={styles.dropDownArea}
@@ -72,10 +70,10 @@ function BidCategory({
       ) : (
         <View>
           <View style={styles.categoryArea}>
-            <Text>{largeCategoryValue}</Text>
+            <Text>{lengthTypeValue}</Text>
           </View>
           <View style={styles.categoryArea}>
-            <Text>{smallCategoryValue}</Text>
+            <Text>{styleTypeValue}</Text>
           </View>
         </View>
       )}

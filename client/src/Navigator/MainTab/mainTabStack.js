@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ActivityIndicator, View, Text } from 'react-native';
-import UserTabStack from './userTabStack';
-import DesignerTabStack from './designerTabStack';
+
+import UserAPI from '../../Api/user';
 import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
-import { checkToken } from '../../Contexts/User/action';
+import { registerUser } from '../../Contexts/User';
+
+import UserTabStack from './userTabStack';
+import DesignerTabStack from './designerTabStack';
+import Loading from '../../Components/Common/loading';
+
 
 function mainTabStack({ navigation }) {
   const { data, loading, error } = useSelector((state) => state.user) || {
@@ -14,7 +18,7 @@ function mainTabStack({ navigation }) {
     error: null,
   };
   if (loading || !data) {
-    return <ActivityIndicator animating={loading} color="" size="large" />;
+    return <Loading loading />;
   }
   if (data) {
     const { user_type } = data;

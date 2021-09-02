@@ -2,18 +2,24 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
+import CardChangeStyle from '../../../Components/Card/cardChangeStyle';
 
 function ProposalDetailScreen({ navigation, route, props }) {
-  const { info, userId, proposalId } = route ? route.params : props;
+  const { proposal } = route ? route.params : props;
   const acceptHandler = () => {
-    navigation.navigate('CreateBid', { info, userId, proposalId });
+    navigation.navigate('CreateBid', { proposal });
   };
   return (
     <View style={styles.container}>
       <ScrollView>
-        <CardStyle styleLists={info.images} height={400} isUser={false} />
+        <CardChangeStyle
+          before_src={proposal.before_src}
+          after_src={proposal.after_src}
+          height={400}
+          topRadius={false}
+        />
         <CardInfo
-          info={info}
+          info={proposal}
           navigation={navigation}
           tagBackgroundColor="#E1ECFF"
           tagColor="#323274"
@@ -21,7 +27,7 @@ function ProposalDetailScreen({ navigation, route, props }) {
         <View style={styles.priceContainer}>
           <Text style={styles.priceTitleText}>희망 예산</Text>
           <View style={styles.priceArea}>
-            <Text style={styles.priceText}>{info.price_limit}원 이하</Text>
+            <Text style={styles.priceText}>{proposal.price_limit}원 이하</Text>
           </View>
         </View>
       </ScrollView>
@@ -38,7 +44,10 @@ function ProposalDetailScreen({ navigation, route, props }) {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    position: 'relative',
+    flex: 1,
+  },
   priceContainer: {
     marginTop: 26,
     marginBottom: 80,
