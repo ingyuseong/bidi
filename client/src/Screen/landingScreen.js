@@ -7,17 +7,31 @@ import {
 } from 'react-native-responsive-screen';
 import BidiStorage from '../Lib/storage';
 import { STORAGE_KEY } from '../Lib/constant';
+import UserAPI from '../Api/user';
+import { useDispatch } from 'react-redux';
+import { getUser } from '../Contexts/User/action';
 
 const LandingScreen = ({ navigation }) => {
   const [animating, setAnimating] = useState(true);
-
+  const dispatch = useDispatch();
   useEffect(() => {
-    setTimeout(() => {
-      setAnimating(false);
-      BidiStorage.getData(STORAGE_KEY).then((value) => {
-        navigation.replace(value == '' ? 'Auth' : 'MainTab');
-      });
-    }, 2000);
+    async function fetchMode() {
+      const { token } = await BidiStorage.getData(STORAGE_KEY);
+      const user = token ? await UserAPI.checkToken(token) : '';
+      if (user) {
+        await dispatch(getUser(user));
+        setTimeout(() => {
+          setAnimating(false);
+          navigation.replace('MainTab');
+        }, 2000);
+      } else {
+        setTimeout(() => {
+          setAnimating(false);
+          navigation.replace('Auth');
+        }, 2000);
+      }
+    }
+    fetchMode();
   }, []);
 
   return (

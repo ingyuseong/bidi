@@ -6,6 +6,7 @@ import proposalReducer from '../Proposal';
 import bidReducer from '../Bid';
 import matchingReducer from '../Matching';
 import brandingReducer from '../Branding';
+
 const rootReducer = combineReducers({
   user: userReducer,
   proposal: proposalReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   matching: matchingReducer,
   branding: brandingReducer,
 });
+
 const globalStore = () => {
   return createStore(rootReducer, applyMiddleware(ReduxThunk));
 };

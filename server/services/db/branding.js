@@ -72,6 +72,10 @@ exports.findOneBrandingByUserId = async (id) => {
     },
     include: [
       {
+        model: User,
+        attributes: ['name', 'nick_name', 'img_src'],
+      },
+      {
         model: Style,
         as: 'brandingStyles',
         through: {
@@ -139,6 +143,8 @@ exports.updateMainBranding = async (branding_id) => {
       where: {
         id: branding_id,
       },
+      returning: true,
+      plain: true,
     }
   )
   return branding[0]

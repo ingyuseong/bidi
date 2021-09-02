@@ -149,6 +149,7 @@ exports.updateBidMatching = async (id) => {
       where: {
         id,
       },
+      returning: true,
     }
   )
   return bid[0]

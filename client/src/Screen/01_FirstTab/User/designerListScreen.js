@@ -5,27 +5,18 @@ import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
 import DesignerDetail from './designerDetailScreen';
 import Swiper from 'react-native-swiper';
+import BrandingAPI from '../../../Api/branding';
 
 function DesignerListScreen({ navigation }) {
   const [infoLists, setInfo] = useState([]);
 
   const getDesignerInfo = async () => {
-    await fetch('http://127.0.0.1:3000' + '/api/branding/list', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then(async (result) => {
-        setInfo(result.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const data = await BrandingAPI.getBrandingList();
+    setInfo(data);
   };
   useEffect(() => {
     getDesignerInfo();
+    console.log(infoLists);
   }, []);
 
   if (infoLists == []) {
@@ -36,42 +27,40 @@ function DesignerListScreen({ navigation }) {
     );
   }
   return (
-    <View>
-      <Text>Temp</Text>
-    </View>
+    // <View>
+    //   <Text>Temp</Text>
+    // </View>
     // 임시 주석
-    // <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
-    //   {infoLists.map((info, index) => (
-    //     <Swiper
-    //       key={index}
-    //       style={styles.wrapper}
-    //       showsButtons={false}
-    //       showsPagination={false}
-    //       loop={false}
-    //       horizontal={false}>
-    //       <View style={styles.container}>
-    //         <View style={{ height: '60%' }}>
-    //           <CardStyle styleLists={info.styles} isUser={true} />
-    //           <TouchableOpacity
-    //             style={styles.bidiBtn}
-    //             onPress={() => Alert.alert('해당 디자이너에게 제안서가 전송되었습니다!')}>
-    //             <Icon name="flash" size={25} style={styles.bidiIcon} />
-    //           </TouchableOpacity>
-    //         </View>
-    //         <CardInfo
-    //           info={info}
-    //           navigation={navigation}
-    //           height={150}
-    //           tagBackgroundColor={'#eeeeee'}
-    //           tagColor="#8D8D8D"
-    //         />
-    //       </View>
-    //       <View>
-    //         <DesignerDetail info={info} />
-    //       </View>
-    //     </Swiper>
-    //   ))}
-    // </Swiper>
+    <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
+      {infoLists.map((info, index) => (
+        <Swiper
+          key={index}
+          style={styles.wrapper}
+          showsButtons={false}
+          showsPagination={false}
+          loop={false}
+          horizontal={false}>
+          <View style={styles.container}>
+            <View style={{ height: '60%' }}>
+              <CardStyle styleLists={info.styles} isUser={true} />
+              <TouchableOpacity
+                style={styles.bidiBtn}
+                onPress={() => Alert.alert('해당 디자이너에게 제안서가 전송되었습니다!')}>
+                <Icon name="flash" size={25} style={styles.bidiIcon} />
+              </TouchableOpacity>
+            </View>
+            <CardInfo
+              info={info}
+              navigation={navigation}
+              height={150}
+              tagBackgroundColor={'#eeeeee'}
+              tagColor="#8D8D8D"
+            />
+          </View>
+          <View>{/* <DesignerDetail info={info} /> */}</View>
+        </Swiper>
+      ))}
+    </Swiper>
   );
 }
 const styles = StyleSheet.create({

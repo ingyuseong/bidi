@@ -174,6 +174,7 @@ exports.updateMainBranding = async (body) => {
   const { user_id, branding_id } = body
   await db.updateAllOtherBranding(user_id)
   const branding = await db.updateMainBranding(branding_id)
+  console.log(branding)
   if (branding) {
     return branding
   } else {

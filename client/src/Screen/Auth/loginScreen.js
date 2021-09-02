@@ -17,23 +17,38 @@ import appleAuth, {
   AppleAuthRequestScope,
   AppleAuthCredentialState,
 } from '@invertase/react-native-apple-authentication';
+
+import { useDispatch } from 'react-redux';
+import { getUser } from '../../Contexts/User/action';
 import UserAPI from '../../Api/user';
 
 const LoginScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const kakaoLoginHandler = async () => {
     const token = await login();
     const profile = await getKakaoProfile();
-    const response = await UserAPI.checkToken(profile.id);
-    if (response) {
-      const { naver_token, kakao_token, apple_token } = response;
-      await BidiStorage.storeData(STORAGE_KEY, {
-        token: naver_token || kakao_token || apple_token,
-      });
-      navigation.replace('MainTab');
+    if (profile) {
+      const user = await UserAPI.checkToken(profile.id);
+      if (user) {
+        // token이 이미 server에 저장되어 있는 경우(회원가입 완료)
+        // 1. token 만을 asyncStorage에 저장하여 추후 자동로그인
+        const { naver_token, kakao_token, apple_token } = user;
+        await BidiStorage.storeData(STORAGE_KEY, {
+          token: naver_token || kakao_token || apple_token,
+        });
+
+        // 2. user 정보를 redux에 저장하여 관리
+        await dispatch(getUser(user));
+
+        // 3. MainTab으로 이동
+        navigation.replace('MainTab');
+      } else {
+        // token이 없는 경우(회원가입 필요)
+        navigation.replace('Register', {
+          profile,
+        });
+      }
     }
-    navigation.replace('Register', {
-      profile,
-    });
   };
   const appleLoginHandler = async () => {
     try {
@@ -66,17 +81,9 @@ const LoginScreen = ({ navigation }) => {
   };
 
   const naverLoginHandler = async () => {
-    const token = '1234';
+    const token = '12341234';
     await BidiStorage.storeData(STORAGE_KEY, {
-      id: 2,
-      type: '일반 사용자',
       token,
-      nick_name: '수현',
-      name: '김수현',
-      gender: 'male',
-      address: '서울특별시 강북구 미아동',
-      img_src: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_designer.png',
-      ai_status: 'wait',
     });
     navigation.replace('MainTab');
   };

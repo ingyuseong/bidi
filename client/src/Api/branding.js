@@ -20,9 +20,11 @@ import { API, formAPI } from './common';
 
 const BrandingAPI = {
   registerBranding: async (body) => {
-    return await API(`/branding/register`, 'post', JSON.stringify(body));
+    return await formAPI('/branding/register', 'post', body);
   },
-  getBrandingList: async () => {},
+  getBrandingList: async () => {
+    return await API('/branding/list', 'get');
+  },
   getBranding: async () => {},
   getBrandingListByDesignerId: async (id) => {
     return await API(`/branding/designer/${id}`, 'get');
