@@ -14,6 +14,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {
   getBrandingListByDesignerId,
   getMainBrandingByDesignerId,
+  patchMainBranding,
 } from '../../../Contexts/Branding';
 
 import Line from '../../../Components/Common/line';
@@ -22,6 +23,7 @@ import ItemHeader from '../../../Components/ListItem/itemHeader';
 import ItemContent from '../../../Components/ListItem/itemContent';
 import ItemBottomBtn from '../../../Components/ListItem/itemBottomBtn';
 import MainItemCard from '../../../Components/ListItem/mainItemCard';
+import BrandingAPI from '../../../Api/branding';
 
 function BrandingListScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -58,32 +60,18 @@ function BrandingListScreen({ navigation }) {
       },
     ]);
   };
-  const registerSubmitHandler = async (id, userId) => {
-    await fetch('http://127.0.0.1:3000' + `/api/branding/main`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        id: id,
-        user_id: userId,
-      }),
-    })
-      .then((response) => response.json())
-      .then(async (response) => {
-        if (response) {
-          Alert.alert('대표 포트폴리오 설정되었습니다!');
-          navigation.push('BrandingMain');
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const registerSubmitHandler = async (id) => {
+    const response = BrandingAPI.patchMainBranding(id, userInfo.id);
+    if (response) {
+      dispatch(patchMainBranding);
+      navigation.push('BrandingMain');
+      Alert.alert('대표 포트폴리오 설정되었습니다!');
+    }
   };
   if (loading || error) {
     return <Loading loading />;
   }
-  console.log(brandingList);
+
   if (brandingList.length === 0) {
     return (
       <View style={styles.noBrandingContainer}>
@@ -143,7 +131,7 @@ function BrandingListScreen({ navigation }) {
       <TouchableOpacity
         style={styles.addBrandingBtn}
         onPress={() => {
-          navigation.navigate('CreateBranding');
+          navigation.push('CreateBranding');
         }}>
         <Ionicons name="add" size={50} style={styles.addBrandingIcon} />
       </TouchableOpacity>

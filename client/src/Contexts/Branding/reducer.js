@@ -4,6 +4,7 @@ import {
   GET_BRANDING_LIST_DESIGNER_ERROR,
   REGISTER_BRANDING,
   PATCH_BRANDING,
+  PATCH_MAIN_BRANDING,
   DELETE_BRANDING,
   GET_BRANDING_LIST,
   GET_BRANDING_LIST_ERROR,
@@ -36,6 +37,17 @@ const brandingReducer = (state = initialState, action) => {
         ...state,
         data: state.data.map((branding) => {
           return branding.id === state.id ? { ...branding, ...action.payload } : branding;
+        }),
+      };
+    case PATCH_MAIN_BRANDING:
+      return {
+        ...state,
+        data: state.data.map((branding) => {
+          return branding.id === state.id
+            ? { ...branding, main: 1 }
+            : branding.main
+            ? { ...branding, main: 0 }
+            : branding;
         }),
       };
     case DELETE_BRANDING:

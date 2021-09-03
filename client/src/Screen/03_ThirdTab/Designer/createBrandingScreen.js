@@ -35,6 +35,25 @@ function CreateBrandingScreen({ navigation }) {
     setStyleTags(filteredStyleTags);
   };
   const registerHandler = async () => {
+    console.log(shopName);
+    if (!shopName) {
+      return Alert.alert('헤어샵명을 입력해주세요!');
+    }
+    if (!shopAddress) {
+      return Alert.alert('헤어샵 위치를 입력해주세요!');
+    }
+    if (!position) {
+      return Alert.alert('헤어샵명을 입력해주세요!');
+    }
+    if (!brandingName) {
+      return Alert.alert('포트폴리오 이름을 입력해주세요!');
+    }
+    if (!styleTags) {
+      return Alert.alert('스타일 태그를 입력해주세요!');
+    }
+    if (!description) {
+      return Alert.alert('상세 설명을 입력해주세요!');
+    }
     const response = BrandingAPI.registerBranding({
       user_id: userInfo.id,
       description: description,

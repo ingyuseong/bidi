@@ -32,7 +32,9 @@ const BrandingAPI = {
   getMainBrandingByDesignerId: async (id) => {
     return await API(`/branding/main/designer/${id}`, 'get');
   },
-  patchMainBranding: async () => {},
+  patchMainBranding: async (branding_id, user_id) => {
+    return await API(`/branding/main`, 'patch', JSON.stringify({ branding_id, user_id }));
+  },
   patchBranding: async (id, params) => {
     return await API(`/branding/${id}`, 'patch', JSON.stringify(params));
   },
