@@ -63,20 +63,15 @@ function WaitMainScreen({ navigation }) {
           {() => <IntroProposalScreen navigation={navigation} />}
         </Tab.Screen>
       )}
-      {/* {bidList && bidList.length > 0 ? (
-        <Tab.Screen
-          name="ReceiveBid"
-          options={progress ? { title: '진행중인 매칭' } : { title: '받은 비드' }}>
-          {progress
-            ? () => <BidProgressScreen userInfo={user} bidList={bidList} navigation={navigation} />
-            : () => <BidListScreen userInfo={user} bidList={bidList} navigation={navigation} />}
-          <Text>asdf</Text>
+      {listNullChecking(bidList) ? (
+        <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>
+          {() => <BidListScreen navigation={navigation} />}
         </Tab.Screen>
       ) : (
         <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>
           {() => <NoBidScreen navigation={navigation}></NoBidScreen>}
         </Tab.Screen>
-      )} */}
+      )}
     </Tab.Navigator>
   );
 }

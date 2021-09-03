@@ -24,7 +24,9 @@ import { API, formAPI } from './common';
 */
 
 const MatchingAPI = {
-  registerMatching: async () => {},
+  registerMatching: async (body) => {
+    return await API('/matching/register', 'post', JSON.stringify(body));
+  },
   getMatchingList: async () => {},
   getMatching: async () => {},
   getMatchingByCustomerId: async (id) => {

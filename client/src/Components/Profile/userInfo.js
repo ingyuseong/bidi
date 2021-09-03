@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-function UserInfo({ info, keywords }) {
+function UserInfo({ info, keyword_array }) {
   return (
     <View style={styles.userContainer}>
       <View style={styles.userInfo}>
@@ -23,11 +23,9 @@ function UserInfo({ info, keywords }) {
         </View>
       </View>
       <View style={styles.userTag}>
-        {
-          <View style={styles.tag}>
-            <Text style={{ color: '#8D8D8D' }}>키워드 없음</Text>
-          </View>
-        }
+        <View style={styles.tag}>
+          <Text style={{ color: '#8D8D8D' }}>키워드 없음</Text>
+        </View>
       </View>
     </View>
   );

@@ -28,8 +28,8 @@ const BidAPI = {
   getBidListByDesignerId: async (id) => {
     return await API(`/bid/designer/${id}`, 'get');
   },
-  patchBidCanceled: async (id, body) => {
-    return await API(`/bid/canceled/${id}`, 'patch', JSON.stringify(body));
+  patchBidCanceled: async (id) => {
+    return await API(`/bid/canceled/${id}`, 'patch');
   },
   patchBid: async (id, body) => {
     return await API(`/bid/${id}`, 'patch', JSON.stringify(body));

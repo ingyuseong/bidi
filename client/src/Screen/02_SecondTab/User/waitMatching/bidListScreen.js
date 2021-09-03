@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { CommonActions } from '@react-navigation/native';
+import { textLimiting } from '../../../../Lib/utils';
 
+// Components
 import UserInfo from '../../../../Components/Profile/userInfo';
 import Icon from 'react-native-vector-icons/AntDesign';
 import BottomButton from '../../../../Components/Common/bottomButton';
@@ -13,75 +16,56 @@ import Swiper from 'react-native-swiper';
 import Modal from 'react-native-modal';
 import StyleModal from '../../../../Components/Modal/styleModal';
 
-function BidListScreen({ navigation, userInfo, bidList, progress }) {
+// API
+import BidAPI from '../../../../Api/bid';
+import matchingAPI from '../../../../Api/matching';
+
+// Redux Action
+import { deleteBid, patchBid } from '../../../../Contexts/Bid/action';
+import { registerMatching } from '../../../../Contexts/Matching/action';
+
+function BidListScreen({ navigation }) {
+  const { data: user } = useSelector((state) => state.user);
+  const { data: bidList } = useSelector((state) => state.bid);
   const [moreToggle, setMoreToggle] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [showStyles, setShowStyles] = useState([]);
   const [styleIndex, setStyleIndex] = useState(0);
-
-  const refuseBidAlert = async (bidId) => {
+  const dispatch = useDispatch();
+  const cancelBidAlert = async (id) => {
     Alert.alert('정말 거절하시겠어요?', '거절한 비드는 다시 표시되지 않습니다!', [
       { text: '취소', style: 'cancel' },
-      { text: '거절하기', onPress: () => refuseBid(bidId) },
+      { text: '거절하기', onPress: () => cancelBid(id) },
     ]);
   };
-  const refuseBid = async (bidId) => {
-    await fetch('http://127.0.0.1:3000' + `/api/bid/status/${bidId}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        status: 'cancel',
-      }),
-    })
-      .then(() => {
-        navigation.replace('bid');
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const cancelBid = async (id) => {
+    const bid = await BidAPI.patchBidCanceled(id);
+    if (bid) {
+      Alert.alert('삭제 되었습니다');
+      dispatch(deleteBid(id));
+      navigation.replace('wait');
+    } else {
+      Alert.alert('삭제에 실패했습니다');
+      navigation.replace('wait');
+    }
   };
-  const progressBidAlert = async (bidId, proposalId) => {
+  const matchingAlert = async (bid) => {
     Alert.alert('정말 수락하시겠어요?', '수락하지 않은 나머지 비드는 다시 표시되지 않습니다!', [
       { text: '취소', style: 'cancel' },
-      { text: '수락하기', onPress: () => progressBid(bidId, proposalId) },
+      { text: '수락하기', onPress: () => matching(bid) },
     ]);
   };
-  const progressBid = async (bidId, proposalId) => {
-    await fetch('http://127.0.0.1:3000' + `/api/bid/status/withProposal/${proposalId}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        status: 'cancel',
-      }),
-    })
-      .then(async () => {
-        await fetch('http://127.0.0.1:3000' + `/api/bid/status/${bidId}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8',
-          },
-          body: JSON.stringify({
-            status: 'process',
-          }),
-        });
-      })
-      .then(() => {
-        navigation.replace('bid');
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-  const textLimiting = (description, count) => {
-    if (description.length > count) {
-      return description.substr(0, count) + '..';
-    } else {
-      return description;
-    }
+  const matching = async (bid) => {
+    const matching = await matchingAPI.registerMatching({
+      bid_id: bid.id,
+      proposal_id: bid.proposal_id,
+      customer_id: bid.customer_id,
+      designer_id: bid.designer_id,
+      shop_name: '이너프헤어',
+      address: '서울특별시 성북구 안암동',
+    });
+    dispatch(registerMatching(matching));
+    navigation.replace('check');
   };
   const modalOpen = async (index, bidStyles) => {
     await setStyleIndex(index);
@@ -90,91 +74,88 @@ function BidListScreen({ navigation, userInfo, bidList, progress }) {
   };
   return (
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
-      {bidList &&
-        bidList.map((bid, index) => (
-          <View style={styles.container} key={index}>
-            <View style={styles.bidBox}>
-              <ScrollView
-                showsVerticalScrollIndicator={false}
-                showsHorizontalScrollIndicator={false}>
-                <UserInfo
-                  info={bid.user}
-                  keywords={[bid.large_category, bid.small_category]}
-                  height={150}
-                />
-                <View>
-                  {moreToggle ? (
-                    <View style={styles.letterArea}>
-                      <Text style={styles.letterText}>{bid.letter}</Text>
-                      <View style={{ ...styles.moreBtnArea, alignItems: 'center' }}>
-                        <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
-                          <View style={{ ...styles.moreBtn, borderWidth: 0 }}>
-                            <Icon name="up" size={17} color="#8D8D8D"></Icon>
-                          </View>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  ) : (
-                    <View style={{ ...styles.letterArea, height: 160 }}>
-                      <Text style={styles.letterText}>{textLimiting(bid.letter, 150)}</Text>
-                      <View style={styles.moreBtnArea}>
-                        <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
-                          <View style={styles.moreBtn}>
-                            <Text style={styles.moreBtnText}>더보기</Text>
-                          </View>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  )}
-                </View>
-                <View style={styles.styleListContainer}>
-                  <Text style={styles.titleText}>추천 스타일</Text>
-                  <ScrollView
-                    horizontal={true}
-                    style={styles.styleArea}
-                    showsVerticalScrollIndicator={false}
-                    showsHorizontalScrollIndicator={false}>
-                    {bid.bidStyles.map((item, index) => (
-                      <TouchableOpacity
-                        key={index}
-                        activeOpacity={0.8}
-                        style={styles.imageAfter}
-                        onPress={() => modalOpen(index, bid.bidStyles)}>
-                        <Image style={styles.styleImg} source={{ uri: item.img_src }} />
+      {bidList.map((bid, index) => (
+        <View style={styles.container} key={index}>
+          <View style={styles.bidBox}>
+            <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+              <UserInfo
+                info={bid.user}
+                keyword_array={[bid.style_type, bid.length_type]}
+                height={150}
+              />
+              <View>
+                {moreToggle ? (
+                  <View style={styles.letterArea}>
+                    <Text style={styles.letterText}>{bid.letter}</Text>
+                    <View style={{ ...styles.moreBtnArea, alignItems: 'center' }}>
+                      <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
+                        <View style={{ ...styles.moreBtn, borderWidth: 0 }}>
+                          <Icon name="up" size={17} color="#8D8D8D"></Icon>
+                        </View>
                       </TouchableOpacity>
-                    ))}
-                  </ScrollView>
-                </View>
-              </ScrollView>
-              <BottomButton
-                leftName="거절하기"
-                rightName="수락하기"
-                leftRatio={50}
-                leftHandler={() => refuseBidAlert(bid.id)}
-                rightHandler={() => progressBidAlert(bid.id, bid.proposal_id)}
-              />
-              <View style={{ marginBottom: 70 }}></View>
-            </View>
-            <Modal
-              animationType="fade"
-              transparent={true}
-              isVisible={modalVisible}
-              style={{
-                alignItems: 'center',
-              }}
-              backdropOpacity={0.3}>
-              <StyleModal
-                styleScraps={showStyles}
-                index={styleIndex}
-                setModalVisible={setModalVisible}
-                setStyleScrapList={bid.bidStyles}
-                userInfo={userInfo}
-                navigation={navigation}
-                deleteIcon={false}
-              />
-            </Modal>
+                    </View>
+                  </View>
+                ) : (
+                  <View style={{ ...styles.letterArea, height: 160 }}>
+                    <Text style={styles.letterText}>{textLimiting(bid.letter, 150)}</Text>
+                    <View style={styles.moreBtnArea}>
+                      <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
+                        <View style={styles.moreBtn}>
+                          <Text style={styles.moreBtnText}>더보기</Text>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                )}
+              </View>
+              <View style={styles.styleListContainer}>
+                <Text style={styles.titleText}>추천 스타일</Text>
+                <ScrollView
+                  horizontal={true}
+                  style={styles.styleArea}
+                  showsVerticalScrollIndicator={false}
+                  showsHorizontalScrollIndicator={false}>
+                  {bid.bidStyles.map((item, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      activeOpacity={0.8}
+                      style={styles.imageAfter}
+                      onPress={() => modalOpen(index, bid.bidStyles)}>
+                      <Image style={styles.styleImg} source={{ uri: item.img_src_array[0] }} />
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+            </ScrollView>
+            <BottomButton
+              leftName="거절하기"
+              rightName="수락하기"
+              leftRatio={50}
+              leftHandler={() => cancelBidAlert(bid.id)}
+              rightHandler={() => matchingAlert(bid)}
+            />
+            <View style={{ marginBottom: 70 }}></View>
           </View>
-        ))}
+          <Modal
+            animationType="fade"
+            transparent={true}
+            isVisible={modalVisible}
+            style={{
+              alignItems: 'center',
+            }}
+            backdropOpacity={0.3}>
+            <StyleModal
+              styleScraps={showStyles}
+              index={styleIndex}
+              setModalVisible={setModalVisible}
+              setStyleScrapList={bid.bidStyles}
+              userInfo={bid.user}
+              navigation={navigation}
+              deleteIcon={false}
+            />
+          </Modal>
+        </View>
+      ))}
     </Swiper>
   );
 }
