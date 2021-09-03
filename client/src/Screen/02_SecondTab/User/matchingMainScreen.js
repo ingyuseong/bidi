@@ -8,30 +8,22 @@ import BidListScreen from './bidListScreen';
 import BidProgressScreen from './bidProgressScreen';
 import MyProposalScreen from './myProposalScreen';
 import NoBidScreen from './noBidScreen';
-import IntroProposalScreen from './introProposalScreen';
 
-// Components & utils
-import { objectNullChecking, listNullChecking } from '../../../Lib/utils';
+// Components
 import Loading from '../../../Components/Common/loading';
 
 // API
 import ProposalAPI from '../../../Api/proposal';
 
 // Redux Action
-import { getMatchingByCustomerId } from '../../../Contexts/Matching';
-import { getProposalAsync } from '../../../Contexts/Proposal/action';
+import { getProposal } from '../../../Contexts/Proposal/action';
 import { getBidListByCustomerId } from '../../../Contexts/Bid/action';
 
 const Tab = createMaterialTopTabNavigator();
 
-function BidMainScreen({ navigation }) {
+function MatchingMainScreen({ navigation }) {
   const [progress, setProgress] = useState(false);
   const { data: user } = useSelector((state) => state.user);
-  const {
-    data: matching,
-    loading: matchingLoading,
-    error: matchingError,
-  } = useSelector((state) => state.matching);
   const {
     data: proposal,
     loading: proposalLoading,
@@ -41,23 +33,15 @@ function BidMainScreen({ navigation }) {
   const dispatch = useDispatch();
   useEffect(() => {
     async function fetchMode() {
-      await dispatch(getMatchingByCustomerId(user.id));
-      if (objectNullChecking(matching)) {
-        navigation.replace('matching');
+      const proposal = await ProposalAPI.getProposalByUserId(user.id);
+      if (proposal && Object.keys(proposal).length !== 0) {
+        await dispatch(getProposal(proposal));
       }
-      await dispatch(getProposalAsync(user.id));
       await dispatch(getBidListByCustomerId(user.id));
     }
     fetchMode();
   }, [dispatch]);
-  if (
-    matchingLoading ||
-    proposalLoading ||
-    bidLoading ||
-    proposalError ||
-    bidError ||
-    matchingError
-  ) {
+  if (proposalLoading || bidLoading || proposalError || bidError) {
     return <Loading loading />;
   }
   return (
@@ -79,7 +63,7 @@ function BidMainScreen({ navigation }) {
           borderColor: 'black',
         },
       }}>
-      {objectNullChecking(proposal) ? (
+      {proposal ? (
         <Tab.Screen name="MyBid" options={{ title: '내 제안서' }}>
           {() => (
             <MyProposalScreen
@@ -92,7 +76,7 @@ function BidMainScreen({ navigation }) {
         </Tab.Screen>
       ) : (
         <Tab.Screen name="MyBid" options={{ title: '내 제안서' }}>
-          {() => <IntroProposalScreen navigation={navigation} />}
+          {() => <Text>아직 제안서 x</Text>}
         </Tab.Screen>
       )}
       {bidList && bidList.length > 0 ? (
@@ -112,4 +96,4 @@ function BidMainScreen({ navigation }) {
   );
 }
 
-export default BidMainScreen;
+export default MatchingMainScreen;

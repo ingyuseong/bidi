@@ -19,7 +19,7 @@ function CheckingProposalScreen({ navigation }) {
         navigation.replace('ProposalRegistered');
       } else {
         setAnimating(false);
-        navigation.replace('Intro');
+        navigation.replace('CreateProposal');
       }
     }
     fetchMode();

@@ -4,7 +4,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import CommonHeader from '../../../Components/HeaderBar/commonHeader';
 
 import CheckingProposalScreen from '../../../Screen/03_ThirdTab/User/checkingProposalScreen';
-import IntroProposalScreen from '../../../Screen/03_ThirdTab/User/introProposalScreen';
 import CreateProposalScreen from '../../../Screen/03_ThirdTab/User/createProposalScreen';
 import RegisteredProposalScreen from '../../../Screen/03_ThirdTab/User/registeredProposalScreen';
 import SelectAfterImageScreen from '../../../Screen/03_ThirdTab/User/selectAfterImageScreen';
@@ -23,7 +22,6 @@ function ProposalTabScreen({ navigation }) {
         component={CheckingProposalScreen}
         options={CommonHeader}
       />
-      <ProposalStack.Screen name="Intro" component={IntroProposalScreen} options={CommonHeader} />
       <ProposalStack.Screen
         name="CreateProposal"
         component={CreateProposalScreen}

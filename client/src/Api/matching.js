@@ -27,17 +27,17 @@ const MatchingAPI = {
   registerMatching: async () => {},
   getMatchingList: async () => {},
   getMatching: async () => {},
+  getMatchingByCustomerId: async (id) => {
+    return await API(`/matching/customer/${id}`, 'get');
+  },
   getMatchingListByDesignerId: async (id) => {
     return await API(`/matching/designer/${id}`, 'get');
   },
-  getMatchingListByCustomerId: async (id) => {
-    return await API(`/matching/customer/${id}`, 'get');
+  getMatchingHistoryListByCustomerId: async (id) => {
+    return await API(`/matching/history/customer/${id}`, 'get');
   },
   getMatchingHistoryListByDesignerId: async (id) => {
     return await API(`/matching/history/designer/${id}`, 'get');
-  },
-  getMatchingHistoryListByCustomerId: async (id) => {
-    return await API(`/matching/history/customer/${id}`, 'get');
   },
   patchMatchingTime: async () => {},
   patchMatchingReview: async (id, body) => {

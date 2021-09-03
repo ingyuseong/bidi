@@ -10,7 +10,6 @@ import { API, formAPI } from './common';
     GET /api/bid/customer/:userId  : 유저 비드 목록 조회 API
 
     [ 3. PATCH Methods ]
-    PATCH /api/bid/matching : 비드 매칭 상태 수정 API (해당 비드를 제외하고 모두 거절)
     PATCH /api/bid/canceled : 비드 취소 상태 수정 API
     PATCH /api/bid/:id      : 비드 수정 API
 
@@ -23,12 +22,15 @@ const BidAPI = {
     return await API('/bid/register', 'post', JSON.stringify(body));
   },
   getBid: async () => {},
+  getBidListByCustomerId: async (id) => {
+    return await API(`/bid/customer/${id}`, 'get');
+  },
   getBidListByDesignerId: async (id) => {
     return await API(`/bid/designer/${id}`, 'get');
   },
-  getBidListByCustomerId: async () => {},
-  patchBidMatching: async () => {},
-  patchBidCanceled: async () => {},
+  patchBidCanceled: async (id, body) => {
+    return await API(`/bid/canceled/${id}`, 'patch', JSON.stringify(body));
+  },
   patchBid: async (id, body) => {
     return await API(`/bid/${id}`, 'patch', JSON.stringify(body));
   },

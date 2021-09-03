@@ -10,11 +10,11 @@ const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
     [ 2. GET Methods ]
     GET /api/matching/list                  : 전체 매칭 목록 조회 API
     GET /api/matching/:id                   : 매칭 정보 조회 API
-    GET /api/matching/designer/:id          : 디자이너의 매칭 목록 조회 API
     GET /api/matching/customer/:id          : 유저의 매칭 목록 조회 API
-    GET /api/matching/history/designer/:id  : 디자이너의 완료된 매칭 목록 조회 API
+    GET /api/matching/designer/:id          : 디자이너의 매칭 목록 조회 API
     GET /api/matching/history/customer/:id  : 유저의 완료된 매칭 목록 조회 API
-
+    GET /api/matching/history/designer/:id  : 디자이너의 완료된 매칭 목록 조회 API
+    
     [ 3. PATCH Methods ]
     PATCH /api/matching/time/:id     : 매칭 시간 정보 수정 API
     PATCH /api/matching/review/:id   : 매칭 리뷰 정보 수정 API
@@ -31,20 +31,20 @@ router.post('/register', routesAsyncWrapper(controller.registerMatching))
 router.get('/list', routesAsyncWrapper(controller.getMatchingList))
 router.get('/:id', routesAsyncWrapper(controller.getMatching))
 router.get(
+  '/customer/:id',
+  routesAsyncWrapper(controller.getMatchingByCustomerId)
+)
+router.get(
   '/designer/:id',
   routesAsyncWrapper(controller.getMatchingListByDesignerId)
 )
 router.get(
-  '/customer/:id',
-  routesAsyncWrapper(controller.getMatchingListByCustomerId)
+  '/history/customer/:id',
+  routesAsyncWrapper(controller.getMatchingHistoryListByCustomerId)
 )
 router.get(
   '/history/designer/:id',
   routesAsyncWrapper(controller.getMatchingHistoryListByDesignerId)
-)
-router.get(
-  '/history/customer/:id',
-  routesAsyncWrapper(controller.getMatchingHistoryListByCustomerId)
 )
 
 router.patch('/time/:id', routesAsyncWrapper(controller.patchMatchingTime))

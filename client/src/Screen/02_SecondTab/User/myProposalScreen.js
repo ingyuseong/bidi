@@ -9,34 +9,43 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
+// Components
 import UserInfo from '../../../Components/Profile/userInfo';
 import BottomButton from '../../../Components/Common/bottomButton';
 
-function MyProposalScreen({ navigation, proposal, userInfo, progress }) {
+// API
+import ProposalAPI from '../../../Api/proposal';
+
+// Redux Action
+import { deleteProposal } from '../../../Contexts/Proposal/action';
+
+function MyProposalScreen({ navigation, progress }) {
+  const { data: user } = useSelector((state) => state.user);
+  const { data: proposal } = useSelector((state) => state.proposal);
   const [imageToggle, setImageToggle] = useState(false);
-  const deleteProposal = async () => {
-    await fetch('http://127.0.0.1:3000' + `/api/proposal/${proposal.id}`, {
-      method: 'DELETE',
-    })
-      .then(() => {
-        Alert.alert('삭제 되었습니다!');
-        navigation.replace('MainTab', { screen: 'Search' });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const dispatch = useDispatch();
+  const removeProposal = async () => {
+    const response = await ProposalAPI.deleteProposal(proposal.id);
+    if (response) {
+      dispatch(deleteProposal(proposal.id));
+      Alert.alert('삭제 되었습니다!');
+      navigation.navigate('MainTab', { screen: 'Search' });
+    } else {
+      Alert.alert('삭제에 실패했습니다');
+    }
   };
   const deleteAlert = () => {
     Alert.alert('정말 삭제하시겠습니까?', '제안서 등록에는 제한이 있습니다', [
       { text: '취소', style: 'cancel' },
-      { text: '삭제하기', onPress: deleteProposal },
+      { text: '삭제하기', onPress: removeProposal },
     ]);
   };
   const updateProposal = () => {
     navigation.navigate('updateProposal', {
       proposal: proposal,
-      userInfo: userInfo,
+      userInfo: user,
     });
   };
   return (
@@ -74,7 +83,7 @@ function MyProposalScreen({ navigation, proposal, userInfo, progress }) {
             <Text style={styles.imageToggleText}>{imageToggle ? 'After' : 'Before'}</Text>
           </TouchableOpacity>
         </View>
-        <UserInfo info={userInfo} keywords={proposal.keywords} />
+        <UserInfo info={user} keywords={proposal.keyword_array} />
         <View style={styles.descriptionBox}>
           <Text style={styles.description}>
             {proposal.description != '' ? proposal.description : '요구사항 없음'}

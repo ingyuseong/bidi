@@ -36,6 +36,8 @@ const ProposalAPI = {
   },
   patchProposal: async (body) => {},
   patchMatchingStatus: async (body) => {},
-  deleteProposal: async (body) => {},
+  deleteProposal: async (id) => {
+    return await API(`/proposal/${id}`, 'delete');
+  },
 };
 export default ProposalAPI;

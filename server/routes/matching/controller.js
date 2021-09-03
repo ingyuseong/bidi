@@ -54,7 +54,26 @@ exports.getMatching = async (req, res) => {
     })
   }
 }
+exports.getMatchingByCustomerId = async (req, res) => {
+  // 유저는 한개의 매칭만 가질 수 있음!
+  const { id } = req.params
+  const matching = await matchingServices.findOneMatchingByCustomerId(id)
+  if (matching) {
+    res.status(STATUS_CODE.SUCCESS).json({
+      status: 'success',
+      message: '유저의 매칭 조회 성공',
+      data: matching,
+    })
+  } else {
+    res.status(STATUS_CODE.SUCCESS).json({
+      status: 'empty',
+      message: '조회할 유저의 매칭이 없습니다',
+      data: {},
+    })
+  }
+}
 exports.getMatchingListByDesignerId = async (req, res) => {
+  // 디자이너는 여러 개의 매칭 가능!
   const { id } = req.params
   const matchingList = await matchingServices.findAllMatchingByDesignerId(id)
   if (matchingList && matchingList.length > 0) {
@@ -67,41 +86,6 @@ exports.getMatchingListByDesignerId = async (req, res) => {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
       message: '조회할 디자이너의 매칭 목록이 없습니다',
-      data: [],
-    })
-  }
-}
-exports.getMatchingListByCustomerId = async (req, res) => {
-  const { id } = req.params
-  const matchingList = await matchingServices.findAllMatchingByCustomerId(id)
-  if (matchingList && matchingList.length > 0) {
-    res.status(STATUS_CODE.SUCCESS).json({
-      status: 'success',
-      message: '유저의 매칭 목록 조회 성공',
-      data: matchingList,
-    })
-  } else {
-    res.status(STATUS_CODE.SUCCESS).json({
-      status: 'empty',
-      message: '조회할 유저의 매칭 목록이 없습니다',
-      data: [],
-    })
-  }
-}
-exports.getMatchingHistoryListByDesignerId = async (req, res) => {
-  const { id } = req.params
-  const matchingList =
-    await matchingServices.findAllMatchingHistoryByDesignerId(id)
-  if (matchingList && matchingList.length > 0) {
-    res.status(STATUS_CODE.SUCCESS).json({
-      status: 'success',
-      message: '디자이너의 매칭히스토리 목록 조회 성공',
-      data: matchingList,
-    })
-  } else {
-    res.status(STATUS_CODE.SUCCESS).json({
-      status: 'empty',
-      message: '조회할 디자이너의 매칭히스토리 목록이 없습니다',
       data: [],
     })
   }
@@ -120,6 +104,24 @@ exports.getMatchingHistoryListByCustomerId = async (req, res) => {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
       message: '조회할 유저의 매칭히스토리 목록이 없습니다',
+      data: [],
+    })
+  }
+}
+exports.getMatchingHistoryListByDesignerId = async (req, res) => {
+  const { id } = req.params
+  const matchingList =
+    await matchingServices.findAllMatchingHistoryByDesignerId(id)
+  if (matchingList && matchingList.length > 0) {
+    res.status(STATUS_CODE.SUCCESS).json({
+      status: 'success',
+      message: '디자이너의 매칭히스토리 목록 조회 성공',
+      data: matchingList,
+    })
+  } else {
+    res.status(STATUS_CODE.SUCCESS).json({
+      status: 'empty',
+      message: '조회할 디자이너의 매칭히스토리 목록이 없습니다',
       data: [],
     })
   }
