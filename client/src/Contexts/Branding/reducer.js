@@ -8,6 +8,9 @@ import {
   GET_BRANDING_LIST,
   GET_BRANDING_LIST_ERROR,
   GET_BRANDING_LIST_SUCCESS,
+  GET_MAIN_BRANDING_DESIGNER,
+  GET_MAIN_BRANDING_DESIGNER_SUCCESS,
+  GET_MAIN_BRANDING_DESIGNER_ERROR,
 } from './constant';
 import { reducerUtils, handleAsyncActions } from '../Common/asyncUtils';
 const initialState = {
@@ -19,6 +22,10 @@ const brandingReducer = (state = initialState, action) => {
     case GET_BRANDING_LIST_DESIGNER_SUCCESS:
     case GET_BRANDING_LIST_DESIGNER_ERROR:
       return handleAsyncActions(GET_BRANDING_LIST_DESIGNER)(state, action);
+    case GET_MAIN_BRANDING_DESIGNER:
+    case GET_MAIN_BRANDING_DESIGNER_SUCCESS:
+    case GET_MAIN_BRANDING_DESIGNER_ERROR:
+      return handleAsyncActions(GET_MAIN_BRANDING_DESIGNER)(state, action);
     case REGISTER_BRANDING:
       return {
         ...state,

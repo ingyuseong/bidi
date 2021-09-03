@@ -11,7 +11,10 @@ import {
 } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { getBrandingListByDesignerId } from '../../../Contexts/Branding';
+import {
+  getBrandingListByDesignerId,
+  getMainBrandingByDesignerId,
+} from '../../../Contexts/Branding';
 
 import Line from '../../../Components/Common/line';
 import Loading from '../../../Components/Common/loading';
@@ -22,11 +25,7 @@ import MainItemCard from '../../../Components/ListItem/mainItemCard';
 
 function BrandingListScreen({ navigation }) {
   const dispatch = useDispatch();
-  const {
-    data: userInfo,
-    loading: userLoading,
-    error: userError,
-  } = useSelector((state) => state.user);
+  const { data: userInfo } = useSelector((state) => state.user);
   const [modalVisible, setModalVisible] = useState(false);
 
   const {
@@ -41,10 +40,11 @@ function BrandingListScreen({ navigation }) {
 
   useEffect(() => {
     dispatch(getBrandingListByDesignerId(userInfo.id));
+    // dispatch(getMainBrandingByDesignerId(userInfo.id));
   }, [dispatch]);
 
   const moveToDetailBranding = (info) => {
-    navigation.navigate('DetailBranding', { info });
+    navigation.push('DetailBranding', { info });
   };
 
   const registerAlert = (id) => {
@@ -115,7 +115,7 @@ function BrandingListScreen({ navigation }) {
                 <ItemHeader
                   info={branding}
                   screen="branding"
-                  clickHandler={() => () => {
+                  clickHandler={() => {
                     setModalVisible(true);
                   }}
                 />
@@ -128,6 +128,7 @@ function BrandingListScreen({ navigation }) {
                 />
                 <ItemBottomBtn
                   info={branding}
+                  screen="branding"
                   leftBtnText="더보기"
                   leftBtnHandler={() => moveToDetailBranding(branding)}
                   rightBtnText="대표 등록"

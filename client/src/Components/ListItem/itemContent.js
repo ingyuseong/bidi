@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Modal from 'react-native-modal';
+import BrandingAPI from '../../Api/branding';
+import { deleteBranding } from '../../Contexts/Branding';
 
 function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }) {
+  const dispatch = useDispatch();
+
   let data;
   switch (screen) {
     case 'bid':
@@ -51,26 +57,13 @@ function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }
   };
 
   const deleteSubmitHandler = async (id) => {
-    await fetch('http://127.0.0.1:3000' + `/api/branding/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        main: 1,
-      }),
-    })
-      .then((response) => response.json())
-      .then(async (response) => {
-        if (response) {
-          Alert.alert('삭제되었습니다!');
-          setModalVisible(false);
-          navigation.push('BrandingMain');
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const response = await BrandingAPI.deleteBranding(id);
+    if (response) {
+      dispatch(deleteBranding);
+      Alert.alert('삭제되었습니다!');
+      setModalVisible(false);
+      navigation.push('BrandingMain');
+    }
   };
 
   return (

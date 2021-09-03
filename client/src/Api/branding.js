@@ -20,7 +20,7 @@ import { API, formAPI } from './common';
 
 const BrandingAPI = {
   registerBranding: async (body) => {
-    return await formAPI('/branding/register', 'post', body);
+    return await API('/branding/register', 'post', JSON.stringify(body));
   },
   getBrandingList: async () => {
     return await API('/branding/list', 'get');
@@ -29,9 +29,15 @@ const BrandingAPI = {
   getBrandingListByDesignerId: async (id) => {
     return await API(`/branding/designer/${id}`, 'get');
   },
-  getMainBrandingByDesignerId: async () => {},
+  getMainBrandingByDesignerId: async (id) => {
+    return await API(`/branding/main/designer/${id}`, 'get');
+  },
   patchMainBranding: async () => {},
-  patchBranding: async () => {},
-  deleteBranding: async () => {},
+  patchBranding: async (id, params) => {
+    return await API(`/branding/${id}`, 'patch', JSON.stringify(params));
+  },
+  deleteBranding: async (id) => {
+    return await API(`/branding/${id}`, 'delete');
+  },
 };
 export default BrandingAPI;

@@ -10,12 +10,9 @@ import BrandingInput from '../../../Components/Branding/brandingInput';
 import { getBrandingListByDesignerId } from '../../../Contexts/Branding';
 
 function CreateBrandingScreen({ navigation }) {
-  const {
-    data: userInfo,
-    loading: userLoading,
-    error: userError,
-  } = useSelector((state) => state.user);
+  const { data: userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
   const [shopName, setShopName] = useState('');
   const [shopAddress, setShopAddress] = useState('');
   const [position, setPosition] = useState('');
@@ -50,7 +47,6 @@ function CreateBrandingScreen({ navigation }) {
       authentication: 0,
       styleIdList: [1, 2],
     });
-    console.log('res', response);
     if (response) {
       await dispatch(getBrandingListByDesignerId(userInfo.id));
       navigation.push('BrandingMain');
@@ -113,6 +109,11 @@ function CreateBrandingScreen({ navigation }) {
         height={167}
         multiline={true}
       />
+      <View style={styles.lengthArea}>
+        <Text style={[styles.lengthText, description.length === 400 && styles.maxLengthText]}>
+          ( {description.length} / 400 )
+        </Text>
+      </View>
       <View style={styles.inputBox}>
         <View style={styles.titleTextArea}>
           <Text style={styles.titleText}>추천 스타일</Text>
@@ -208,6 +209,18 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     letterSpacing: -0.5,
     textAlign: 'center',
+  },
+  lengthArea: {
+    marginTop: -8,
+    marginRight: 16,
+  },
+  lengthText: {
+    textAlign: 'right',
+    color: 'gray',
+    fontSize: 15,
+  },
+  maxLengthText: {
+    color: 'red',
   },
 });
 

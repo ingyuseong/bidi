@@ -4,6 +4,7 @@ import {
   PATCH_BRANDING,
   DELETE_BRANDING,
   GET_BRANDING_LIST_DESIGNER,
+  GET_MAIN_BRANDING_DESIGNER,
 } from './constant';
 import BrandingAPI from '../../Api/branding';
 import { createPromiseThunk } from '../Common/asyncUtils';
@@ -15,4 +16,8 @@ export const getBrandingList = createPromiseThunk(GET_BRANDING_LIST, BrandingAPI
 export const getBrandingListByDesignerId = createPromiseThunk(
   GET_BRANDING_LIST_DESIGNER,
   BrandingAPI.getBrandingListByDesignerId,
+);
+export const getMainBrandingByDesignerId = createPromiseThunk(
+  GET_MAIN_BRANDING_DESIGNER,
+  BrandingAPI.getMainBrandingByDesignerId,
 );

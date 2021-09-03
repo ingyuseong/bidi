@@ -1,6 +1,6 @@
 import { SERVER_URL } from '../Lib/constant';
 
-export const API = async (url, method, body) => {
+export const API = async (url, method, body = null) => {
   return await fetch(SERVER_URL + url, {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
