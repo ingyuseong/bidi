@@ -14,7 +14,8 @@ const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
     GET /api/proposal/user/:userId  : 유저 ID로 제안서 정보 조회 API
 
     [ 3. PATCH Methods ]
-    PATCH /api/proposal/:id           : 제안서 정보 수정 API
+    PATCH /api/proposal/:id            : 제안서 정보 수정 API
+    PATCH /api/proposal/withFile/:id   : 제안서 정보 수정 API with Image File
 
     [ 4. DELETE Methods]
     DELETE /api/proposal/:id : 제안서 정보 삭제 API
@@ -32,6 +33,11 @@ router.get('/:id', routesAsyncWrapper(controller.getProposal))
 router.get('/user/:id', routesAsyncWrapper(controller.getProposalByUserId))
 
 router.patch('/:id', routesAsyncWrapper(controller.patchProposal))
+router.patch(
+  '/withFile/:id',
+  upload.single('afterImage'),
+  routesAsyncWrapper(controller.patchWithFile)
+)
 
 router.delete('/:id', routesAsyncWrapper(controller.deleteProposal))
 

@@ -9,7 +9,10 @@ function NoBidScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={{ marginBottom: 10 }}>
-          <Image style={styles.bidIcon} source={require('../../../../public/img/bidIcon.png')} />
+          <Image
+            style={styles.bidIcon}
+            source={require('../../../../../../public/img/bidIcon.png')}
+          />
         </View>
         <Text style={styles.title}>
           <Text style={styles.boldTitle}>아직 비드가 도착하지</Text>
@@ -25,7 +28,7 @@ function NoBidScreen({ navigation }) {
         </View>
       </View>
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={require('../../../../public/img/noBid.png')} />
+        <Image style={styles.image} source={require('../../../../../../public/img/noBid.png')} />
       </View>
       <TouchableOpacity activeOpacity={0.8} style={styles.button} onPress={designerHandler}>
         <Text style={styles.buttonText}>디자이너 직접 찾아보기 {'>>'}</Text>

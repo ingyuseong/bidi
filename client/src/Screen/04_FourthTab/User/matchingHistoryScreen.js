@@ -10,11 +10,15 @@ import MatchingHistoryCard from '../../../Components/MatchingHistory/MatchingHis
 import Loading from '../../../Components/Common/loading';
 
 // Redux Action
-import { getMatchingHistoryListByCustomerId } from '../../../Contexts/Matching/action';
+import { getMatchingHistoryListByCustomerId } from '../../../Contexts/MatchingHistory/action';
 
 function MatchingHistoryScreen() {
   const { data: user } = useSelector((state) => state.user);
-  const { data: matchingHistoryList, loading, error } = useSelector((state) => state.matching);
+  const {
+    data: matchingHistoryList,
+    loading,
+    error,
+  } = useSelector((state) => state.matchingHistory);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getMatchingHistoryListByCustomerId(user.id));

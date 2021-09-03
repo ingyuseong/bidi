@@ -14,10 +14,14 @@ import BidModal from '../Modal/bidModal';
 import MatchingAPI from '../../Api/matching';
 
 // Redux Action
-import { getMatchingHistoryListByCustomerId, patchMatching } from '../../Contexts/Matching/action';
+import { patchMatchingHistory } from '../../Contexts/MatchingHistory/action';
 
 function MatchingHistoryCard({ index, type }) {
-  const { data: matchingHistoryList, loading, error } = useSelector((state) => state.matching);
+  const {
+    data: matchingHistoryList,
+    loading,
+    error,
+  } = useSelector((state) => state.matchingHistory);
   const [stars, setStars] = useState(0);
   const [reviewToggle, setReviewToggle] = useState(false);
   const [reviewText, setReviewText] = useState(matchingHistoryList[index].review);
@@ -29,11 +33,11 @@ function MatchingHistoryCard({ index, type }) {
   const updateStar = async (value) => {
     await setStars(value);
     await MatchingAPI.patchMatchingStar(matchingHistoryList[index].id, { star: value });
-    dispatch(patchMatching(matchingHistoryList[index].id, { star: value }));
+    dispatch(patchMatchingHistory(matchingHistoryList[index].id, { star: value }));
   };
   const updateReview = async () => {
     await MatchingAPI.patchMatchingReview(matchingHistoryList[index].id, { review: reviewText });
-    dispatch(patchMatching(matchingHistoryList[index].id, { review: reviewText }));
+    dispatch(patchMatchingHistory(matchingHistoryList[index].id, { review: reviewText }));
     setReviewToggle(false);
   };
   const proposalModalOpen = () => {

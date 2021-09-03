@@ -112,6 +112,29 @@ exports.patchProposal = async (req, res) => {
     })
   }
 }
+exports.patchWithFile = async (req, res) => {
+  const { id } = req.params
+  const { location } = req.file
+  console.log(location)
+  const body = {
+    ...req.body,
+    after_src: location,
+  }
+  const patchedProposalCount = await proposalServices.updateProposal(id, body)
+  if (patchedProposalCount) {
+    res.status(STATUS_CODE.SUCCESS).json({
+      status: 'success',
+      message: '제안서 상태 정보 수정 성공',
+      data: patchedProposalCount,
+    })
+  } else {
+    res.status(STATUS_CODE.SUCCESS).json({
+      status: 'empty',
+      message: '수정된 제안서 상태 정보가 없습니다',
+      data: patchedProposalCount,
+    })
+  }
+}
 
 // [ 4. DELETE Methods]
 exports.deleteProposal = async (req, res) => {

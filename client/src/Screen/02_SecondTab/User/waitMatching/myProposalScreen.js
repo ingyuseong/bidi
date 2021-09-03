@@ -12,14 +12,14 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
-import UserInfo from '../../../Components/Profile/userInfo';
-import BottomButton from '../../../Components/Common/bottomButton';
+import UserInfo from '../../../../Components/Profile/userInfo';
+import BottomButton from '../../../../Components/Common/bottomButton';
 
 // API
-import ProposalAPI from '../../../Api/proposal';
+import ProposalAPI from '../../../../Api/proposal';
 
 // Redux Action
-import { deleteProposal } from '../../../Contexts/Proposal/action';
+import { deleteProposal } from '../../../../Contexts/Proposal/action';
 
 function MyProposalScreen({ navigation, progress }) {
   const { data: user } = useSelector((state) => state.user);
@@ -43,10 +43,7 @@ function MyProposalScreen({ navigation, progress }) {
     ]);
   };
   const updateProposal = () => {
-    navigation.navigate('updateProposal', {
-      proposal: proposal,
-      userInfo: user,
-    });
+    navigation.navigate('UpdateProposal');
   };
   return (
     <View style={styles.container}>

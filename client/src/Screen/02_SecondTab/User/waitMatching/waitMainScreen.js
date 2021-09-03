@@ -4,34 +4,23 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 // Screens
-import BidListScreen from './bidListScreen';
-import BidProgressScreen from './bidProgressScreen';
 import MyProposalScreen from './myProposalScreen';
-import NoBidScreen from './noBidScreen';
-import IntroProposalScreen from './introProposalScreen';
+import BidListScreen from './bidListScreen';
+import IntroProposalScreen from './staticScreen/introProposalScreen';
+import NoBidScreen from './staticScreen/noBidScreen';
 
 // Components & utils
-import { objectNullChecking, listNullChecking } from '../../../Lib/utils';
-import Loading from '../../../Components/Common/loading';
-
-// API
-import ProposalAPI from '../../../Api/proposal';
+import { objectNullChecking, listNullChecking } from '../../../../Lib/utils';
+import Loading from '../../../../Components/Common/loading';
 
 // Redux Action
-import { getMatchingByCustomerId } from '../../../Contexts/Matching';
-import { getProposalAsync } from '../../../Contexts/Proposal/action';
-import { getBidListByCustomerId } from '../../../Contexts/Bid/action';
+import { getProposalAsync } from '../../../../Contexts/Proposal/action';
+import { getBidListByCustomerId } from '../../../../Contexts/Bid/action';
 
 const Tab = createMaterialTopTabNavigator();
-
-function BidMainScreen({ navigation }) {
+function WaitMainScreen({ navigation }) {
   const [progress, setProgress] = useState(false);
   const { data: user } = useSelector((state) => state.user);
-  const {
-    data: matching,
-    loading: matchingLoading,
-    error: matchingError,
-  } = useSelector((state) => state.matching);
   const {
     data: proposal,
     loading: proposalLoading,
@@ -40,24 +29,10 @@ function BidMainScreen({ navigation }) {
   const { data: bidList, loading: bidLoading, error: bidError } = useSelector((state) => state.bid);
   const dispatch = useDispatch();
   useEffect(() => {
-    async function fetchMode() {
-      await dispatch(getMatchingByCustomerId(user.id));
-      if (objectNullChecking(matching)) {
-        navigation.replace('matching');
-      }
-      await dispatch(getProposalAsync(user.id));
-      await dispatch(getBidListByCustomerId(user.id));
-    }
-    fetchMode();
+    dispatch(getProposalAsync(user.id));
+    dispatch(getBidListByCustomerId(user.id));
   }, [dispatch]);
-  if (
-    matchingLoading ||
-    proposalLoading ||
-    bidLoading ||
-    proposalError ||
-    bidError ||
-    matchingError
-  ) {
+  if (proposalLoading || bidLoading || proposalError || bidError) {
     return <Loading loading />;
   }
   return (
@@ -81,35 +56,29 @@ function BidMainScreen({ navigation }) {
       }}>
       {objectNullChecking(proposal) ? (
         <Tab.Screen name="MyBid" options={{ title: '내 제안서' }}>
-          {() => (
-            <MyProposalScreen
-              navigation={navigation}
-              proposal={proposal}
-              userInfo={user}
-              progress={progress}
-            />
-          )}
+          {() => <MyProposalScreen navigation={navigation} progress={progress} />}
         </Tab.Screen>
       ) : (
         <Tab.Screen name="MyBid" options={{ title: '내 제안서' }}>
           {() => <IntroProposalScreen navigation={navigation} />}
         </Tab.Screen>
       )}
-      {bidList && bidList.length > 0 ? (
+      {/* {bidList && bidList.length > 0 ? (
         <Tab.Screen
           name="ReceiveBid"
           options={progress ? { title: '진행중인 매칭' } : { title: '받은 비드' }}>
           {progress
             ? () => <BidProgressScreen userInfo={user} bidList={bidList} navigation={navigation} />
             : () => <BidListScreen userInfo={user} bidList={bidList} navigation={navigation} />}
+          <Text>asdf</Text>
         </Tab.Screen>
       ) : (
         <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>
           {() => <NoBidScreen navigation={navigation}></NoBidScreen>}
         </Tab.Screen>
-      )}
+      )} */}
     </Tab.Navigator>
   );
 }
 
-export default BidMainScreen;
+export default WaitMainScreen;

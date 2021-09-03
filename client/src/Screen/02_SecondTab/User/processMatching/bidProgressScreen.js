@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import UserInfo from '../../../Components/Profile/userInfo';
+import UserInfo from '../../../../Components/Profile/userInfo';
 import Icon from 'react-native-vector-icons/AntDesign';
-import BottomButton from '../../../Components/Common/bottomButton';
+import BottomButton from '../../../../Components/Common/bottomButton';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Swiper from 'react-native-swiper';
 import Modal from 'react-native-modal';
-import StyleModal from '../../../Components/Modal/styleModal';
+import StyleModal from '../../../../Components/Modal/styleModal';
 
 function BidProgressScreen({ navigation, userInfo, bidList }) {
   const [moreToggle, setMoreToggle] = useState(false);

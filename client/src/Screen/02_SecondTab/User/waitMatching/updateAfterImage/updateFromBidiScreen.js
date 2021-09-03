@@ -4,9 +4,9 @@ import { Text, View, Image, ScrollView, StyleSheet, TouchableOpacity } from 'rea
 
 // Components
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { STYLE_INFO } from '../../../../Lib/constant';
+import { STYLE_INFO } from '../../../../../Lib/constant';
 
-function SelectFromBidiScreen({ navigation, route }) {
+function UpdateFromBidiScreen({ navigation, route }) {
   const { setAfterImageStyle } = route.params;
   const { data: user } = useSelector((state) => state.user);
   const [afterStyle, setAfterStyle] = useState('none');
@@ -19,7 +19,7 @@ function SelectFromBidiScreen({ navigation, route }) {
     setAfterImageStyle(
       `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${user.id}/result/${afterStyle}.jpg`,
     );
-    navigation.navigate('CreateProposal');
+    navigation.navigate('UpdateProposal');
   };
   const selectStyle = (style) => {
     setAfterStyle(style);
@@ -217,4 +217,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelectFromBidiScreen;
+export default UpdateFromBidiScreen;

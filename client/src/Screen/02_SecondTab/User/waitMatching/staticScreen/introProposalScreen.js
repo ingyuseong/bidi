@@ -20,7 +20,7 @@ function IntroProposalScreen({ navigation }) {
         <View style={styles.imageContainer}>
           <Image
             style={styles.image}
-            source={require('../../../../public/img/proposal_intro.png')}
+            source={require('../../../../../../public/img/proposal_intro.png')}
           />
         </View>
         <View style={styles.description}>

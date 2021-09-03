@@ -39,7 +39,9 @@ const MatchingAPI = {
   getMatchingHistoryListByDesignerId: async (id) => {
     return await API(`/matching/history/designer/${id}`, 'get');
   },
-  patchMatchingTime: async () => {},
+  patchMatchingTime: async (id, body) => {
+    return await API(`/matching/review/${id}`, 'patch', JSON.stringify(body));
+  },
   patchMatchingReview: async (id, body) => {
     return await API(`/matching/review/${id}`, 'patch', JSON.stringify(body));
   },

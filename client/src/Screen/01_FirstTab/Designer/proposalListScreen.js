@@ -21,7 +21,6 @@ function ProposalListScreen({ navigation }) {
 
   return (
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
-
       {proposalList.map((proposal, index) => (
         <Swiper
           key={index}

@@ -8,10 +8,14 @@ import NoHistoryScreen from './noHistoryScreen';
 import Loading from '../../../Components/Common/loading';
 
 // Redux Action
-import { getMatchingHistoryListByDesignerId } from '../../../Contexts/Matching/action';
+import { getMatchingHistoryListByDesignerId } from '../../../Contexts/MatchingHistory/action';
 
 function DesignerHistoryScreen({ branding }) {
-  const { data: matchingHistoryList, loading, error } = useSelector((state) => state.matching);
+  const {
+    data: matchingHistoryList,
+    loading,
+    error,
+  } = useSelector((state) => state.matchingHistory);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getMatchingHistoryListByDesignerId(branding.user_id));
