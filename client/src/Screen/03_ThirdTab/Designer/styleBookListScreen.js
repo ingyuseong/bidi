@@ -1,9 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 
+import Loading from '../../../Components/Common/loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { getStyleListByDesignerId } from '../../../Contexts/Style';
 
 function StyleBookListScreen({ navigation }) {
+  const dispatch = useDispatch();
+  const { data: userInfo } = useSelector((state) => state.user);
+  const {
+    data: styleList,
+    loading,
+    error,
+  } = useSelector((state) => state.style) || {
+    data: [],
+    loading: false,
+    error: null,
+  };
+
+  useEffect(() => {
+    dispatch(getStyleListByDesignerId(userInfo.id));
+  }, [dispatch]);
+
+  const detailStyleHandler = (styleItem) => {
+    navigation.push('DetailStyleBook', { styleItem });
+  };
+
+  if (loading || error) {
+    return <Loading loading />;
+  }
+  if (!styleList) {
+    return (
+      <View>
+        <Text>No Style</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <View style={styles.filterBox}>
@@ -19,70 +52,20 @@ function StyleBookListScreen({ navigation }) {
       </View>
       <ScrollView>
         <View style={styles.styleBox}>
-          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
-            <Image
-              style={styles.styleImg}
-              source={{
-                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
-              }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
-            <Image
-              style={styles.styleImg}
-              source={{
-                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
-              }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
-            <Image
-              style={styles.styleImg}
-              source={{
-                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
-              }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
-            <Image
-              style={styles.styleImg}
-              source={{
-                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
-              }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
-            <Image
-              style={styles.styleImg}
-              source={{
-                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
-              }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
-            <Image
-              style={styles.styleImg}
-              source={{
-                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
-              }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
-            <Image
-              style={styles.styleImg}
-              source={{
-                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
-              }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
-            <Image
-              style={styles.styleImg}
-              source={{
-                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
-              }}
-            />
-          </TouchableOpacity>
+          {styleList.map((styleItem, index) => (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.styleItem}
+              key={index}
+              onPress={() => detailStyleHandler(styleItem)}>
+              <Image
+                style={styles.styleImg}
+                source={{
+                  uri: styleItem.img_src_array[0],
+                }}
+              />
+            </TouchableOpacity>
+          ))}
         </View>
       </ScrollView>
       <TouchableOpacity

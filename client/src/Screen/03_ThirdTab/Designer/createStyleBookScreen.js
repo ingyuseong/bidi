@@ -23,7 +23,6 @@ function CreateStyleBookScreen() {
   const [styleTitle, setStyleTitle] = useState('');
   const [styleDescription, setStyleDescription] = useState('');
   const [stylePrice, setStylePrice] = useState('');
-  const [styleMain, setStyleMain] = useState(null);
   const [tagText, setTagText] = useState('');
   const [styleTags, setStyleTags] = useState([]);
 
@@ -56,7 +55,6 @@ function CreateStyleBookScreen() {
   };
 
   const registerHandler = async () => {
-    console.log(styleMain);
     if (!styleArray) {
       return Alert.alert('스타일 사진을 등록해주세요!');
     }
@@ -77,9 +75,6 @@ function CreateStyleBookScreen() {
     }
     if (!stylePrice) {
       return Alert.alert('스타일의 가격을 입력해주세요!');
-    }
-    if (styleMain === null) {
-      return Alert.alert('대표 시술 여부를 선택해주세요!');
     }
     const bodyData = createImageArrayForm(styleArray, {
       user_id: userInfo.id,
@@ -152,7 +147,6 @@ function CreateStyleBookScreen() {
           placeholderMessage="0"
           placeholderColor="#878787"
         />
-        <StyleMain styleMain={styleMain} setStyleMain={setStyleMain} isEdit={true} />
         <TouchableOpacity onPress={registerHandler}>
           <View style={styles.bottomBtnArea}>
             <Text style={styles.registerBtnText}>등록하기</Text>
