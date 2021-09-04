@@ -25,9 +25,9 @@ export const API = async (url, method, body = null) => {
 
 export const formAPI = async (url, method, body) => {
   return await fetch(SERVER_URL + url, {
-    headers: {
-      'content-type': 'multipart/form-data',
-    },
+    // headers: {
+    //   'Content-Type': 'Multipart/Form-Data',
+    // },
     method,
     body,
   })

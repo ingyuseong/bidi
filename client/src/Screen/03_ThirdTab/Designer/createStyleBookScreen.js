@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
 
+import StyleAPI from '../../../Api/style';
+import { createImageArrayForm } from '../../../Lib/utils';
+import { LENGTH_TYPE, STYLE_TYPE, GENDER_TYPE } from '../../../Lib/constant';
+
 import Line from '../../../Components/Common/line';
 import StyleTags from '../../../Components/StyleBook/styleTags';
 import StyleMain from '../../../Components/StyleBook/styleMain';
@@ -10,7 +14,6 @@ import StyleTitle from '../../../Components/StyleBook/styleTitle';
 import StylePrice from '../../../Components/StyleBook/stylePrice';
 import StyleCategory from '../../../Components/StyleBook/styleCategory';
 import StyleDescription from '../../../Components/StyleBook/styleDescription';
-import { LENGTH_TYPE, STYLE_TYPE, GENDER_TYPE } from '../../../Lib/constant';
 
 function CreateStyleBookScreen() {
   const { data: userInfo } = useSelector((state) => state.user);
@@ -19,7 +22,7 @@ function CreateStyleBookScreen() {
   const [styleArray, setStyleArray] = useState([]);
   const [styleTitle, setStyleTitle] = useState('');
   const [styleDescription, setStyleDescription] = useState('');
-  const [stylePrice, setStylePrice] = useState(0);
+  const [stylePrice, setStylePrice] = useState('');
   const [styleMain, setStyleMain] = useState(null);
   const [tagText, setTagText] = useState('');
   const [styleTags, setStyleTags] = useState([]);
@@ -53,6 +56,7 @@ function CreateStyleBookScreen() {
   };
 
   const registerHandler = async () => {
+    console.log(styleMain);
     if (!styleArray) {
       return Alert.alert('스타일 사진을 등록해주세요!');
     }
@@ -74,9 +78,20 @@ function CreateStyleBookScreen() {
     if (!stylePrice) {
       return Alert.alert('스타일의 가격을 입력해주세요!');
     }
-    if (!styleMain) {
+    if (styleMain === null) {
       return Alert.alert('대표 시술 여부를 선택해주세요!');
     }
+    const bodyData = createImageArrayForm(styleArray, {
+      user_id: userInfo.id,
+      title: styleTitle,
+      description: styleDescription,
+      price: stylePrice,
+      gender_type: genderTypeValue,
+      style_type: styleTypeValue,
+      length_type: lengthTypeValue,
+      keyword_array: styleTags.toString(),
+    });
+    const response = await StyleAPI.registerStyle(bodyData);
   };
 
   return (
