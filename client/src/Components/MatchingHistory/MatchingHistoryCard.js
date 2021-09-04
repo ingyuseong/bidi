@@ -16,7 +16,7 @@ import MatchingAPI from '../../Api/matching';
 // Redux Action
 import { getMatchingHistoryListByCustomerId, patchMatching } from '../../Contexts/Matching/action';
 
-function MatchingHistoryCard({ index, type }) {
+function MatchingHistoryCard({ index, type, isUser }) {
   const { data: matchingHistoryList, loading, error } = useSelector((state) => state.matching);
   const [stars, setStars] = useState(0);
   const [reviewToggle, setReviewToggle] = useState(false);
@@ -119,59 +119,62 @@ function MatchingHistoryCard({ index, type }) {
       ) : (
         <></>
       )}
-      <View style={{ width: '100%' }}>
-        {reviewToggle ? (
-          <View style={styles.reviewWriteBox}>
-            <TextInput
-              value={reviewText}
-              style={styles.reviewWriteArea}
-              onChangeText={setReviewText}
-              placeholder={'스타일링 서비스에 대한 리뷰를 남겨주세요! \n (최대 400자)'}
-              multiline={true}
-            />
-            <View style={styles.reviewWriteBtnGroup}>
-              <TouchableOpacity style={{ width: '31%' }} onPress={() => setReviewToggle(false)}>
-                <View style={styles.btnItem}>
-                  <Text style={{ ...styles.btnText }}>취소</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity style={{ width: '31%' }} onPress={() => updateReview()}>
-                <View style={styles.reviewWriteBtn}>
-                  <Text style={{ ...styles.btnText, color: '#FF533A' }}>
-                    {matchingHistoryList[index].review ? '수정하기' : '작성하기'}
+      {isUser && (
+        <View style={{ width: '100%' }}>
+          {reviewToggle ? (
+            <View style={styles.reviewWriteBox}>
+              <TextInput
+                value={reviewText}
+                style={styles.reviewWriteArea}
+                onChangeText={setReviewText}
+                placeholder={'스타일링 서비스에 대한 리뷰를 남겨주세요! \n (최대 400자)'}
+                multiline={true}
+              />
+              <View style={styles.reviewWriteBtnGroup}>
+                <TouchableOpacity style={{ width: '31%' }} onPress={() => setReviewToggle(false)}>
+                  <View style={styles.btnItem}>
+                    <Text style={{ ...styles.btnText }}>취소</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={{ width: '31%' }} onPress={() => updateReview()}>
+                  <View style={styles.reviewWriteBtn}>
+                    <Text style={{ ...styles.btnText, color: '#FF533A' }}>
+                      {matchingHistoryList[index].review ? '수정하기' : '작성하기'}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          ) : (
+            <View style={styles.btnGroupBox}>
+              <TouchableOpacity style={{ width: '31%' }} onPress={() => setReviewToggle(true)}>
+                <View
+                  style={{
+                    ...styles.btnItem,
+                    borderColor: '#FF533A',
+                    flexDirection: 'row',
+                  }}>
+                  <Icon name="pencil" size={20} color="#FF533A" />
+                  <Text style={{ ...styles.btnText, color: '#FF533A', marginLeft: 5 }}>
+                    {reviewText ? '리뷰수정' : '리뷰작성'}
                   </Text>
                 </View>
               </TouchableOpacity>
+              <TouchableOpacity style={{ width: '31%' }} onPress={() => proposalModalOpen()}>
+                <View style={styles.btnItem}>
+                  <Text style={styles.btnText}>제안서 보기</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity style={{ width: '31%' }} onPress={() => bidModalOpen()}>
+                <View style={styles.btnItem}>
+                  <Text style={styles.btnText}>비드 보기</Text>
+                </View>
+              </TouchableOpacity>
             </View>
-          </View>
-        ) : (
-          <View style={styles.btnGroupBox}>
-            <TouchableOpacity style={{ width: '31%' }} onPress={() => setReviewToggle(true)}>
-              <View
-                style={{
-                  ...styles.btnItem,
-                  borderColor: '#FF533A',
-                  flexDirection: 'row',
-                }}>
-                <Icon name="pencil" size={20} color="#FF533A" />
-                <Text style={{ ...styles.btnText, color: '#FF533A', marginLeft: 5 }}>
-                  {reviewText ? '리뷰수정' : '리뷰작성'}
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={{ width: '31%' }} onPress={() => proposalModalOpen()}>
-              <View style={styles.btnItem}>
-                <Text style={styles.btnText}>제안서 보기</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={{ width: '31%' }} onPress={() => bidModalOpen()}>
-              <View style={styles.btnItem}>
-                <Text style={styles.btnText}>비드 보기</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
+          )}
+        </View>
+      )}
+
       <Modal
         animationType="slide"
         transparent={true}
