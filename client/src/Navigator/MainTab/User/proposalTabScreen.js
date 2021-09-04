@@ -17,21 +17,7 @@ const ProposalStack = createStackNavigator();
 function ProposalTabScreen({ navigation }) {
   return (
     <Stack.Navigator>
-      <ProposalStack.Screen
-        name="Loading"
-        component={CheckingProposalScreen}
-        options={CommonHeader}
-      />
-      <ProposalStack.Screen
-        name="CreateProposal"
-        component={CreateProposalScreen}
-        options={CommonHeader}
-      />
-      <ProposalStack.Screen
-        name="ProposalRegistered"
-        component={RegisteredProposalScreen}
-        options={CommonHeader}
-      />
+      <ProposalStack.Screen name="Main" component={CheckingProposalScreen} options={CommonHeader} />
       <ProposalStack.Screen
         name="SelectAfterImage"
         component={SelectAfterImageScreen}

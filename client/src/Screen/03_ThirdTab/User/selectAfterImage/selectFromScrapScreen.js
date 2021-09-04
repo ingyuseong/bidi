@@ -24,7 +24,7 @@ function SelectFromScrapScreen({ navigation, route }) {
   };
   const submit = async (img_src) => {
     setAfterImageStyle(img_src);
-    navigation.navigate('CreateProposal');
+    navigation.navigate('Main');
   };
 
   const dispatch = useDispatch();

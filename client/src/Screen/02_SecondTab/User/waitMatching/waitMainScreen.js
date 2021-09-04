@@ -19,7 +19,6 @@ import { getBidListByCustomerId } from '../../../../Contexts/Bid/action';
 
 const Tab = createMaterialTopTabNavigator();
 function WaitMainScreen({ navigation }) {
-  const [progress, setProgress] = useState(false);
   const { data: user } = useSelector((state) => state.user);
   const {
     data: proposal,
@@ -32,9 +31,7 @@ function WaitMainScreen({ navigation }) {
     dispatch(getProposalAsync(user.id));
     dispatch(getBidListByCustomerId(user.id));
   }, [dispatch]);
-  if (proposalLoading || bidLoading || proposalError || bidError) {
-    return <Loading loading />;
-  }
+  if (proposalLoading || bidLoading || proposalError || bidError) return <Loading loading />;
   return (
     <Tab.Navigator
       swipeEnabled={false}
@@ -54,9 +51,9 @@ function WaitMainScreen({ navigation }) {
           borderColor: 'black',
         },
       }}>
-      {objectNullChecking(proposal) ? (
+      {proposal && proposal.length > 0 ? (
         <Tab.Screen name="MyBid" options={{ title: '내 제안서' }}>
-          {() => <MyProposalScreen navigation={navigation} progress={progress} />}
+          {() => <MyProposalScreen navigation={navigation} />}
         </Tab.Screen>
       ) : (
         <Tab.Screen name="MyBid" options={{ title: '내 제안서' }}>

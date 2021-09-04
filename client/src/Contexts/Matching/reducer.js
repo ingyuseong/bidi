@@ -5,6 +5,7 @@ import {
   PATCH_MATCHING,
   PATCH_MATCHING_LIST,
   DELETE_MATCHING,
+  DELETE_MATCHING_LIST,
   GET_MATCHING_CUSTOMER,
   GET_MATCHING_CUSTOMER_SUCCESS,
   GET_MATCHING_CUSTOMER_ERROR,
@@ -40,6 +41,13 @@ const matchingReducer = (state = initialState, action) => {
       return {
         ...state,
         data: [],
+      };
+    case DELETE_MATCHING_LIST:
+      return {
+        ...state,
+        data: state.data.filter((matching) => {
+          return matching.id !== state.id;
+        }),
       };
     case GET_MATCHING_CUSTOMER:
     case GET_MATCHING_CUSTOMER_SUCCESS:

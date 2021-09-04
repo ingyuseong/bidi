@@ -14,6 +14,7 @@ import {
   GET_PROPOSAL_LIST_ERROR,
   PATCH_PROPOSAL,
   DELETE_PROPOSAL,
+  DELETE_PROPOSAL_LIST,
 } from './constant';
 import { reducerUtils, handleAsyncActions } from '../Common/asyncUtils';
 const initialState = {
@@ -41,7 +42,13 @@ const proposalReducer = (state = initialState, action) => {
         ...state,
         data: [],
       };
-
+    case DELETE_PROPOSAL_LIST:
+      return {
+        ...state,
+        data: state.data.filter((proposal) => {
+          return proposal.id !== state.id;
+        }),
+      };
     case GET_PROPOSAL:
       return {
         ...state,

@@ -19,10 +19,6 @@ import MyProposalScreen from './myProposalScreen';
 
 const Tab = createMaterialTopTabNavigator();
 function MatchingMainScreen({ navigation }) {
-  const { data: user } = useSelector((state) => state.user);
-  const { data: matching } = useSelector((state) => state.matching);
-  const dispatch = useDispatch();
-  useEffect(() => {}, [dispatch]);
   return (
     <Tab.Navigator
       swipeEnabled={false}
@@ -44,9 +40,6 @@ function MatchingMainScreen({ navigation }) {
       }}>
       <Tab.Screen name="MyProposal" options={{ title: '내 제안서' }}>
         {() => <MyProposalScreen navigation={navigation} />}
-      </Tab.Screen>
-      <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>
-        {() => <Text>asdf</Text>}
       </Tab.Screen>
     </Tab.Navigator>
   );

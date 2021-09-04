@@ -48,15 +48,15 @@ function UpdateProposalScreen({ navigation }) {
   const [description, setDescription] = useState('');
 
   useEffect(() => {
-    setPriceValue(proposal.price_limit);
+    setPriceValue(proposal[0].price_limit);
     setKeyword(
       keyword.map((key) =>
-        proposal.keyword_array.includes(key.title) ? { ...key, selected: true } : key,
+        proposal[0].keyword_array.includes(key.title) ? { ...key, selected: true } : key,
       ),
     );
-    setKeyCount(proposal.keyword_array.length);
-    setDescription(proposal.description);
-    setAfterImageStyle(proposal.after_src);
+    setKeyCount(proposal[0].keyword_array.length);
+    setDescription(proposal[0].description);
+    setAfterImageStyle(proposal[0].after_src);
   }, []);
 
   const selectKeyword = (id) => {
@@ -129,12 +129,12 @@ function UpdateProposalScreen({ navigation }) {
         ai_count: user.ai_count,
       };
       if (isFromAlbum) {
-        await ProposalAPI.patchWithFile(proposal.id, createFormData(albumImage, body));
-        navigation.replace('wait');
+        await ProposalAPI.patchWithFile(proposal[0].id, createFormData(albumImage, body));
+        navigation.replace('check');
       } else {
-        await ProposalAPI.patchProposal(proposal.id, { ...body, after_src: afterImageStyle });
-        patchProposal(proposal.id, { ...body, after_src: afterImageStyle });
-        navigation.replace('wait');
+        await ProposalAPI.patchProposal(proposal[0].id, { ...body, after_src: afterImageStyle });
+        patchProposal(proposal[0].id, { ...body, after_src: afterImageStyle });
+        navigation.replace('check');
       }
     }
   };

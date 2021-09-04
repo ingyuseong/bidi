@@ -14,8 +14,6 @@ import Loading from '../../../Components/Common/loading';
 // Redux Action
 import { getMatchingByCustomerId } from '../../../Contexts/Matching/action';
 
-const Tab = createMaterialTopTabNavigator();
-
 function CheckingMatchingScreen({ navigation }) {
   const { data: user } = useSelector((state) => state.user);
   const { data: matching, loading, error } = useSelector((state) => state.matching);
@@ -27,7 +25,7 @@ function CheckingMatchingScreen({ navigation }) {
   if (loading || error) return <Loading loading />;
   return (
     <>
-      {objectNullChecking(matching) ? (
+      {matching && matching.length > 0 ? (
         <MatchingMainScreen navigation={navigation} />
       ) : (
         <WaitMainScreen navigation={navigation} />
@@ -35,17 +33,4 @@ function CheckingMatchingScreen({ navigation }) {
     </>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-  },
-  activityIndicator: {
-    alignItems: 'center',
-    height: 60,
-  },
-});
-
 export default CheckingMatchingScreen;

@@ -79,7 +79,6 @@ function CreateProposalScreen({ navigation }) {
       setAfterImageStyle: setAfterImageStyle,
       setAlbumImage: setAlbumImage,
       setIsFromAlbum: setIsFromAlbum,
-      user: user,
     });
   };
 
@@ -127,7 +126,7 @@ function CreateProposalScreen({ navigation }) {
       } else {
         dispatch(registerProposal({ ...body, after_src: afterImageStyle }));
       }
-      navigation.replace('ProposalRegistered');
+      navigation.replace('Main');
     }
   };
   return (

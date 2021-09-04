@@ -27,9 +27,9 @@ function MyProposalScreen({ navigation, progress }) {
   const [imageToggle, setImageToggle] = useState(false);
   const dispatch = useDispatch();
   const removeProposal = async () => {
-    const response = await ProposalAPI.deleteProposal(proposal.id);
+    const response = await ProposalAPI.deleteProposal(proposal[0].id);
     if (response) {
-      dispatch(deleteProposal(proposal.id));
+      dispatch(deleteProposal(proposal[0].id));
       Alert.alert('삭제 되었습니다!');
       navigation.replace('MainTab', { screen: 'Search' });
     } else {
@@ -53,14 +53,14 @@ function MyProposalScreen({ navigation, progress }) {
             <Image
               style={styles.image}
               source={{
-                uri: proposal.after_src,
+                uri: proposal[0].after_src,
               }}
             />
           ) : (
             <Image
               style={styles.image}
               source={{
-                uri: proposal.before_src,
+                uri: proposal[0].before_src,
               }}
             />
           )}
@@ -80,10 +80,10 @@ function MyProposalScreen({ navigation, progress }) {
             <Text style={styles.imageToggleText}>{imageToggle ? 'After' : 'Before'}</Text>
           </TouchableOpacity>
         </View>
-        <UserInfo info={user} keywords={proposal.keyword_array} />
+        <UserInfo info={user} keywords={proposal[0].keyword_array} />
         <View style={styles.descriptionBox}>
           <Text style={styles.description}>
-            {proposal.description != '' ? proposal.description : '요구사항 없음'}
+            {proposal[0].description != '' ? proposal[0].description : '요구사항 없음'}
           </Text>
         </View>
         <View style={styles.textBox}>
@@ -95,22 +95,18 @@ function MyProposalScreen({ navigation, progress }) {
             underlineColorAndroid="transparent"
             editable={false}
             selectTextOnFocus={false}
-            value={String(proposal.price_limit / 10000) + '만원 이내'}
+            value={String(proposal[0].price_limit / 10000) + '만원 이내'}
           />
         </View>
         <View style={progress ? { marginTop: 30 } : { marginTop: 80 }}></View>
       </ScrollView>
-      {progress ? (
-        <></>
-      ) : (
-        <BottomButton
-          leftName="삭제하기"
-          rightName="수정하기"
-          leftRatio={40}
-          leftHandler={deleteAlert}
-          rightHandler={updateProposal}
-        />
-      )}
+      <BottomButton
+        leftName="삭제하기"
+        rightName="수정하기"
+        leftRatio={40}
+        leftHandler={deleteAlert}
+        rightHandler={updateProposal}
+      />
     </View>
   );
 }

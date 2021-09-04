@@ -42,11 +42,11 @@ function BidListScreen({ navigation }) {
   const cancelBid = async (id) => {
     const bid = await BidAPI.patchBidCanceled(id);
     if (bid) {
-      Alert.alert('삭제 되었습니다');
+      Alert.alert('거절되었습니다');
       dispatch(deleteBid(id));
       navigation.replace('check');
     } else {
-      Alert.alert('삭제에 실패했습니다');
+      Alert.alert('거절에 실패했습니다');
       navigation.replace('check');
     }
   };
@@ -69,9 +69,9 @@ function BidListScreen({ navigation }) {
     dispatch(registerMatching(body));
     navigation.replace('check');
   };
-  const modalOpen = async (index, bidStyles) => {
-    await setStyleIndex(index);
-    await setShowStyles(bidStyles);
+  const modalOpen = (index, bidStyles) => {
+    setStyleIndex(index);
+    setShowStyles(bidStyles);
     setModalVisible(true);
   };
   return (

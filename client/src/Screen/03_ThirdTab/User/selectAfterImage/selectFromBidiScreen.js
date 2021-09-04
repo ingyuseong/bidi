@@ -19,7 +19,7 @@ function SelectFromBidiScreen({ navigation, route }) {
     setAfterImageStyle(
       `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${user.id}/result/${afterStyle}.jpg`,
     );
-    navigation.navigate('CreateProposal');
+    navigation.navigate('Main');
   };
   const selectStyle = (style) => {
     setAfterStyle(style);
