@@ -5,7 +5,7 @@ import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 
-function StyleImage({ styleArray, setStyleArray }) {
+function StyleImage({ styleArray, setStyleArray, isEdit }) {
   const addStyleHandler = () => {
     launchImageLibrary({ nodata: true }, (response) => {
       if (response.didCancel) {
@@ -37,7 +37,7 @@ function StyleImage({ styleArray, setStyleArray }) {
         {styleArray.length > 0 &&
           styleArray.map((style, index) => (
             <View style={styles.styleArea} key={index}>
-              <Image source={{ uri: style.uri }} style={styles.styleImg} />
+              <Image source={{ uri: isEdit ? style : style.uri }} style={styles.styleImg} />
               <TouchableOpacity
                 style={styles.removeStyleArea}
                 onPress={() => removeStyleHandler(style)}>

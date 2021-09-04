@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 
 import Modal from 'react-native-modal';
 import Swiper from 'react-native-swiper';
 
 import Icon from 'react-native-vector-icons/AntDesign';
+import StyleAPI from '../../../Api/style';
+import { deleteStyle } from '../../../Contexts/Style/';
 import { convertDate, priceFormating } from '../../../Lib/utils';
 
 function DetailStyleBookScreen({ navigation, route }) {
+  const dispatch = useDispatch();
   const { styleItem } = route.params;
   const [toggle, setToggle] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -18,7 +22,14 @@ function DetailStyleBookScreen({ navigation, route }) {
   const modalHandler = () => {
     setModalVisible(true);
   };
-  const deleteStyleHandler = () => {};
+  const deleteStyleHandler = () => {
+    setModalVisible(false);
+    const response = StyleAPI.deleteStyle(styleItem.id);
+    if (response) {
+      dispatch(deleteStyle(styleItem.id));
+      navigation.push('BrandingMain', { styleItem, screen: 'StyleBook' });
+    }
+  };
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -124,6 +135,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginTop: 16,
   },
   titleArea: {
     flexDirection: 'row',
@@ -142,7 +154,7 @@ const styles = StyleSheet.create({
     lineHeight: 14,
   },
   descriptionArea: {
-    marginTop: 16,
+    marginTop: 32,
   },
   descriptionText: {
     color: '#878787',
@@ -156,7 +168,7 @@ const styles = StyleSheet.create({
   priceArea: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 16,
+    marginTop: 32,
     alignItems: 'center',
   },
   priceText: {

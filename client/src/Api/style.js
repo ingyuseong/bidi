@@ -28,6 +28,8 @@ const StyleAPI = {
   getStyle: async (body) => {},
   patchStyle: async (body) => {},
   patchAiEnable: async (body) => {},
-  deleteStyle: async (body) => {},
+  deleteStyle: async (id) => {
+    return await API(`/style/${id}`, 'delete');
+  },
 };
 export default StyleAPI;

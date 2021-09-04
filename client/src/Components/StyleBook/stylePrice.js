@@ -28,6 +28,7 @@ function StylePrice({
           multiline={false}
           blurOnSubmit={true}
           returnKeyType={returnKeyType}
+          keyboardType="numeric"
         />
         <View style={styles.wonArea}>
           <Text style={styles.wonText}>원</Text>

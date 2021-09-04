@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'rea
 
 import Loading from '../../../Components/Common/loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import NoStyleBookScreen from './noStyleBookScreen';
 import { getStyleListByDesignerId } from '../../../Contexts/Style';
 
 function StyleBookListScreen({ navigation }) {
@@ -30,13 +31,10 @@ function StyleBookListScreen({ navigation }) {
   if (loading || error) {
     return <Loading loading />;
   }
-  if (!styleList) {
-    return (
-      <View>
-        <Text>No Style</Text>
-      </View>
-    );
+  if (styleList.length === 0) {
+    return <NoStyleBookScreen navigation={navigation} />;
   }
+
   return (
     <View style={styles.container}>
       <View style={styles.filterBox}>

@@ -92,7 +92,7 @@ function CreateStyleBookScreen() {
   return (
     <ScrollView>
       <View style={styles.container}>
-        <StyleImage styleArray={styleArray} setStyleArray={setStyleArray} />
+        <StyleImage styleArray={styleArray} setStyleArray={setStyleArray} isEdit={false} />
         <Line />
         <StyleTitle
           title="스타일 이름"
@@ -163,6 +163,7 @@ const styles = StyleSheet.create({
   },
 
   bottomBtnArea: {
+    marginTop: 16,
     backgroundColor: '#0A0A32',
     height: 65,
     alignItems: 'center',
