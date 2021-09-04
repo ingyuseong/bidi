@@ -1,4 +1,6 @@
 const { Bid, BidStyle, User, Style, Proposal } = require('../../models')
+const { Sequelize } = require('sequelize')
+const { and, or, like, not } = Sequelize.Op
 
 // Create Bid Resource [create]
 exports.createBid = async (attr) => {
@@ -142,6 +144,7 @@ exports.updateBid = async (id, attr) => {
 exports.updateBidMatching = async (id) => {
   const bid = await Bid.update(
     {
+      raw: true,
       matching: true,
       canceled: false,
     },
@@ -149,16 +152,15 @@ exports.updateBidMatching = async (id) => {
       where: {
         id,
       },
-      returning: true,
     }
   )
   return bid[0]
 }
-exports.updateBidCanceled = async (id, canceled) => {
+exports.updateBidCanceled = async (id) => {
   const bid = await Bid.update(
     {
       raw: true,
-      canceled,
+      canceled: true,
     },
     {
       where: {
@@ -177,6 +179,7 @@ exports.updateBidCancelElseByCustomerId = async (id) => {
     {
       where: {
         customer_id: id,
+        [not]: [{ matching: true }],
       },
     }
   )

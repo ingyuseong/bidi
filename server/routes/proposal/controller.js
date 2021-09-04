@@ -9,13 +9,13 @@ exports.registerProposal = async (req, res) => {
     res.status(STATUS_CODE.CREATED).json({
       status: 'success',
       message: '제안서 등록 성공',
-      data: proposal,
+      data: [proposal],
     })
   } else {
     res.status(STATUS_CODE.BAD_REQUEST).json({
       status: 'failed',
       message: '제안서 등록에 실패했습니다',
-      data: {},
+      data: [],
     })
   }
 }
@@ -30,13 +30,13 @@ exports.registerWithFile = async (req, res) => {
     res.status(STATUS_CODE.CREATED).json({
       status: 'success',
       message: '제안서 등록 성공',
-      data: proposal,
+      data: [proposal],
     })
   } else {
     res.status(STATUS_CODE.BAD_REQUEST).json({
       status: 'failed',
       message: '제안서 등록에 실패했습니다',
-      data: proposal,
+      data: [],
     })
   }
 }
@@ -65,13 +65,13 @@ exports.getProposal = async (req, res) => {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
       message: '제안서 정보 조회 성공',
-      data: proposal,
+      data: [proposal],
     })
   } else {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
       message: '조회할 제안서 정보가 없습니다',
-      data: {},
+      data: [],
     })
   }
 }
@@ -82,13 +82,13 @@ exports.getProposalByUserId = async (req, res) => {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
       message: '유저의 제안서 정보 조회 성공',
-      data: proposal,
+      data: [proposal],
     })
   } else {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
       message: '조회할 유저의 제안서 정보가 없습니다',
-      data: {},
+      data: [],
     })
   }
 }
@@ -115,7 +115,6 @@ exports.patchProposal = async (req, res) => {
 exports.patchWithFile = async (req, res) => {
   const { id } = req.params
   const { location } = req.file
-  console.log(location)
   const body = {
     ...req.body,
     after_src: location,

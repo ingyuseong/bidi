@@ -4,11 +4,13 @@ const bidDb = require('./db/bid')
 
 // Create Matching Resource [create]
 exports.createMatching = async (body) => {
+  console.log(body)
   const proposal = await proposalDb.updateProposalMatching(body.proposal_id)
   const bidCancelElse = await bidDb.updateBidCancelElseByCustomerId(
     body.customer_id
   )
   const bid = await bidDb.updateBidMatching(body.bid_id)
+  console.log(proposal, bidCancelElse, bid)
   if (proposal && bid && bidCancelElse) {
     const attr = {
       bidId: body.bid_id,

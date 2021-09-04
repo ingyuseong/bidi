@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ActivityIndicator, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { objectNullChecking } from '../../../Lib/utils';
+
+// Screens
+import WaitMainScreen from './waitMatching/waitMainScreen';
+import MatchingMainScreen from './processMatching/matchingMainScreen';
+
+// Components
+import Loading from '../../../Components/Common/loading';
 
 // Redux Action
 import { getMatchingByCustomerId } from '../../../Contexts/Matching/action';
@@ -10,31 +18,21 @@ const Tab = createMaterialTopTabNavigator();
 
 function CheckingMatchingScreen({ navigation }) {
   const { data: user } = useSelector((state) => state.user);
-  const { data: matching } = useSelector((state) => state.matching);
-  const [animating, setAnimating] = useState(true);
+  const { data: matching, loading, error } = useSelector((state) => state.matching);
+
   const dispatch = useDispatch();
   useEffect(() => {
-    async function fetchMode() {
-      await dispatch(getMatchingByCustomerId(user.id));
-      if (matching && matching.length > 0) {
-        setAnimating(false);
-        navigation.replace('process');
-      } else {
-        setAnimating(false);
-        navigation.replace('wait');
-      }
-    }
-    fetchMode();
+    dispatch(getMatchingByCustomerId(user.id));
   }, [dispatch]);
+  if (loading || error) return <Loading loading />;
   return (
-    <View style={styles.container}>
-      <ActivityIndicator
-        animating={animating}
-        color=""
-        size="large"
-        style={styles.activityIndicator}
-      />
-    </View>
+    <>
+      {objectNullChecking(matching) ? (
+        <MatchingMainScreen navigation={navigation} />
+      ) : (
+        <WaitMainScreen navigation={navigation} />
+      )}
+    </>
   );
 }
 const styles = StyleSheet.create({

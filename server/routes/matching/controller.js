@@ -9,13 +9,13 @@ exports.registerMatching = async (req, res) => {
     res.status(STATUS_CODE.CREATED).json({
       status: 'success',
       message: '매칭 생성 성공',
-      data: matching,
+      data: [matching],
     })
   } else {
     res.status(STATUS_CODE.BAD_REQUEST).json({
       status: 'failed',
       message: '매칭 등록에 실패했습니다',
-      data: {},
+      data: [],
     })
   }
 }
@@ -44,13 +44,13 @@ exports.getMatching = async (req, res) => {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
       message: '매칭 정보 조회 성공',
-      data: matching,
+      data: [matching],
     })
   } else {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
       message: '조회할 매칭 정보가 없습니다',
-      data: {},
+      data: [],
     })
   }
 }
@@ -62,13 +62,13 @@ exports.getMatchingByCustomerId = async (req, res) => {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
       message: '유저의 매칭 조회 성공',
-      data: matching,
+      data: [matching],
     })
   } else {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
       message: '조회할 유저의 매칭이 없습니다',
-      data: {},
+      data: [],
     })
   }
 }

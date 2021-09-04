@@ -151,9 +151,8 @@ exports.updateBid = async (id, body) => {
     return null
   }
 }
-exports.updateBidCanceled = async (id, body) => {
-  const { canceled } = body
-  const bid = await db.updateBidCanceled(id, canceled)
+exports.updateBidCanceled = async (id) => {
+  const bid = await db.updateBidCanceled(id)
   if (bid) {
     return bid
   } else {

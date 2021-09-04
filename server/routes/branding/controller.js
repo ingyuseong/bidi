@@ -13,13 +13,13 @@ exports.registerBranding = async (req, res) => {
     res.status(STATUS_CODE.CREATED).json({
       status: 'success',
       message: '포트폴리오 등록 성공',
-      data: { branding, brandingStyle },
+      data: [{ branding, brandingStyle }],
     })
   } else {
     res.status(STATUS_CODE.BAD_REQUEST).json({
       status: 'failed',
       message: '포트폴리오 등록에 실패했습니다',
-      data: {},
+      data: [],
     })
   }
 }
@@ -48,13 +48,13 @@ exports.getBranding = async (req, res) => {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
       message: '포트폴리오 정보 조회 성공',
-      data: branding,
+      data: [branding],
     })
   } else {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
       message: '조회할 포트폴리오 정보가 없습니다',
-      data: {},
+      data: [],
     })
   }
 }
@@ -82,13 +82,13 @@ exports.getMainBrandingByDesignerId = async (req, res) => {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
       message: '디자이너의 Main 포트폴리오 정보 조회 성공',
-      data: branding,
+      data: [branding],
     })
   } else {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
       message: '조회할 디자이너의 Main 포트폴리오 정보가 없습니다',
-      data: {},
+      data: [],
     })
   }
 }

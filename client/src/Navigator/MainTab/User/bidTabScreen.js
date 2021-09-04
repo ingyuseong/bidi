@@ -12,15 +12,14 @@ import UpdateFromAlbumScreen from '../../../Screen/02_SecondTab/User/waitMatchin
 import UpdateFromBidiScreen from '../../../Screen/02_SecondTab/User/waitMatching/updateAfterImage/updateFromBidiScreen';
 import UpdateFromScrapScreen from '../../../Screen/02_SecondTab/User/waitMatching/updateAfterImage/updateFromScrapScreen';
 
-// import MatchingMainScreen from '../../../Screen/02_SecondTab/User/processMatching/matchingMainScreen';
+import MatchingMainScreen from '../../../Screen/02_SecondTab/User/processMatching/matchingMainScreen';
 
 const bidStack = createStackNavigator();
 
 function BidStackScreen() {
   return (
     <Stack.Navigator>
-      <bidStack.Screen name="checking" component={CheckingMatchingScreen} options={CommonHeader} />
-      <bidStack.Screen name="wait" component={WaitMainScreen} options={CommonHeader} />
+      <bidStack.Screen name="check" component={CheckingMatchingScreen} options={CommonHeader} />
       <bidStack.Screen
         name="UpdateProposal"
         component={UpdateProposalScreen}
@@ -46,7 +45,6 @@ function BidStackScreen() {
         component={UpdateFromBidiScreen}
         options={CommonHeader}
       />
-      {/* <bidStack.Screen name="process" component={MatchingMainScreen} options={CommonHeader} /> */}
     </Stack.Navigator>
   );
 }

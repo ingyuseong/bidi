@@ -8,7 +8,7 @@ import {
 import MatchingAPI from '../../Api/matching';
 import { createPromiseThunk } from '../Common/asyncUtils';
 
-export const registerMatching = (payload) => ({ type: REGISTER_MATCHING, payload });
+export const registerMatching = createPromiseThunk(REGISTER_MATCHING, MatchingAPI.registerMatching);
 export const patchMatching = (id, payload) => ({ type: PATCH_MATCHING, id, payload });
 export const deleteMatching = (id) => ({ type: DELETE_MATCHING, id });
 export const getMatchingByCustomerId = createPromiseThunk(

@@ -1,5 +1,7 @@
 import {
   REGISTER_MATCHING,
+  REGISTER_MATCHING_SUCCESS,
+  REGISTER_MATCHING_ERROR,
   PATCH_MATCHING,
   PATCH_MATCHING_LIST,
   DELETE_MATCHING,
@@ -17,10 +19,9 @@ const initialState = {
 const matchingReducer = (state = initialState, action) => {
   switch (action.type) {
     case REGISTER_MATCHING:
-      return {
-        ...state,
-        data: [...state.data, action.payload],
-      };
+    case REGISTER_MATCHING_SUCCESS:
+    case REGISTER_MATCHING_ERROR:
+      return handleAsyncActions(REGISTER_MATCHING)(state, action);
     case PATCH_MATCHING:
       return {
         ...state,

@@ -13,38 +13,11 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import UserInfo from '../../../../Components/Profile/userInfo';
-import BottomButton from '../../../../Components/Common/bottomButton';
-
-// API
-import ProposalAPI from '../../../../Api/proposal';
-
-// Redux Action
-import { deleteProposal } from '../../../../Contexts/Proposal/action';
 
 function MyProposalScreen({ navigation, progress }) {
-  const { data: user } = useSelector((state) => state.user);
-  const { data: proposal } = useSelector((state) => state.proposal);
+  const { data: matching } = useSelector((state) => state.matching);
+  console.log(matching);
   const [imageToggle, setImageToggle] = useState(false);
-  const dispatch = useDispatch();
-  const removeProposal = async () => {
-    const response = await ProposalAPI.deleteProposal(proposal.id);
-    if (response) {
-      dispatch(deleteProposal(proposal.id));
-      Alert.alert('삭제 되었습니다!');
-      navigation.replace('MainTab', { screen: 'Search' });
-    } else {
-      Alert.alert('삭제에 실패했습니다');
-    }
-  };
-  const deleteAlert = () => {
-    Alert.alert('정말 삭제하시겠습니까?', '제안서 등록에는 제한이 있습니다', [
-      { text: '취소', style: 'cancel' },
-      { text: '삭제하기', onPress: removeProposal },
-    ]);
-  };
-  const updateProposal = () => {
-    navigation.navigate('UpdateProposal');
-  };
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
@@ -53,22 +26,20 @@ function MyProposalScreen({ navigation, progress }) {
             <Image
               style={styles.image}
               source={{
-                uri: proposal.after_src,
+                uri: matching.proposal.after_src,
               }}
             />
           ) : (
             <Image
               style={styles.image}
               source={{
-                uri: proposal.before_src,
+                uri: matching.proposal.before_src,
               }}
             />
           )}
-          {progress && (
-            <View style={styles.imageCover}>
-              <Text style={styles.imageCoverText}>매칭 중</Text>
-            </View>
-          )}
+          <View style={styles.imageCover}>
+            <Text style={styles.imageCoverText}>매칭 중</Text>
+          </View>
           <TouchableOpacity
             style={
               imageToggle
@@ -80,10 +51,10 @@ function MyProposalScreen({ navigation, progress }) {
             <Text style={styles.imageToggleText}>{imageToggle ? 'After' : 'Before'}</Text>
           </TouchableOpacity>
         </View>
-        <UserInfo info={user} keywords={proposal.keyword_array} />
+        <UserInfo info={matching.proposal.user} keywords={matching.proposal.keyword_array} />
         <View style={styles.descriptionBox}>
           <Text style={styles.description}>
-            {proposal.description != '' ? proposal.description : '요구사항 없음'}
+            {matching.proposal.description != '' ? matching.proposal.description : '요구사항 없음'}
           </Text>
         </View>
         <View style={styles.textBox}>
@@ -95,22 +66,11 @@ function MyProposalScreen({ navigation, progress }) {
             underlineColorAndroid="transparent"
             editable={false}
             selectTextOnFocus={false}
-            value={String(proposal.price_limit / 10000) + '만원 이내'}
+            value={String(matching.proposal.price_limit / 10000) + '만원 이내'}
           />
         </View>
-        <View style={progress ? { marginTop: 30 } : { marginTop: 80 }}></View>
+        <View style={{ marginTop: 30 }}></View>
       </ScrollView>
-      {progress ? (
-        <></>
-      ) : (
-        <BottomButton
-          leftName="삭제하기"
-          rightName="수정하기"
-          leftRatio={40}
-          leftHandler={deleteAlert}
-          rightHandler={updateProposal}
-        />
-      )}
     </View>
   );
 }

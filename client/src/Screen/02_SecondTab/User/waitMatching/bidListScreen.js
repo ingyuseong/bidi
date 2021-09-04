@@ -31,6 +31,7 @@ function BidListScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [showStyles, setShowStyles] = useState([]);
   const [styleIndex, setStyleIndex] = useState(0);
+
   const dispatch = useDispatch();
   const cancelBidAlert = async (id) => {
     Alert.alert('정말 거절하시겠어요?', '거절한 비드는 다시 표시되지 않습니다!', [
@@ -43,12 +44,13 @@ function BidListScreen({ navigation }) {
     if (bid) {
       Alert.alert('삭제 되었습니다');
       dispatch(deleteBid(id));
-      navigation.replace('wait');
+      navigation.replace('check');
     } else {
       Alert.alert('삭제에 실패했습니다');
-      navigation.replace('wait');
+      navigation.replace('check');
     }
   };
+
   const matchingAlert = async (bid) => {
     Alert.alert('정말 수락하시겠어요?', '수락하지 않은 나머지 비드는 다시 표시되지 않습니다!', [
       { text: '취소', style: 'cancel' },
@@ -56,15 +58,15 @@ function BidListScreen({ navigation }) {
     ]);
   };
   const matching = async (bid) => {
-    const matching = await matchingAPI.registerMatching({
+    const body = {
       bid_id: bid.id,
       proposal_id: bid.proposal_id,
       customer_id: bid.customer_id,
       designer_id: bid.designer_id,
       shop_name: '이너프헤어',
       address: '서울특별시 성북구 안암동',
-    });
-    dispatch(registerMatching(matching));
+    };
+    dispatch(registerMatching(body));
     navigation.replace('check');
   };
   const modalOpen = async (index, bidStyles) => {
@@ -110,7 +112,7 @@ function BidListScreen({ navigation }) {
               </View>
               <View style={styles.styleListContainer}>
                 <Text style={styles.titleText}>추천 스타일</Text>
-                <ScrollView
+                {/* <ScrollView
                   horizontal={true}
                   style={styles.styleArea}
                   showsVerticalScrollIndicator={false}
@@ -124,7 +126,7 @@ function BidListScreen({ navigation }) {
                       <Image style={styles.styleImg} source={{ uri: item.img_src_array[0] }} />
                     </TouchableOpacity>
                   ))}
-                </ScrollView>
+                </ScrollView> */}
               </View>
             </ScrollView>
             <BottomButton
@@ -136,7 +138,7 @@ function BidListScreen({ navigation }) {
             />
             <View style={{ marginBottom: 70 }}></View>
           </View>
-          <Modal
+          {/* <Modal
             animationType="fade"
             transparent={true}
             isVisible={modalVisible}
@@ -153,7 +155,7 @@ function BidListScreen({ navigation }) {
               navigation={navigation}
               deleteIcon={false}
             />
-          </Modal>
+          </Modal> */}
         </View>
       ))}
     </Swiper>
