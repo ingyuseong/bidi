@@ -41,8 +41,8 @@ exports.findAllStyle = async () => {
     return null
   }
 }
-exports.findAllStyleByUserId = async (id) => {
-  let styleList = await db.findAllStyleByUserId(id)
+exports.findAllStyleByDesignerId = async (id) => {
+  let styleList = await db.findAllStyleByDesignerId(id)
   if (styleList && styleList.length > 0) {
     styleList = styleList.map((style) => {
       let keyword_array = []

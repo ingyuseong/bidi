@@ -155,15 +155,7 @@ exports.findOneBrandingByDesignerId = async (userId) => {
 
 // Update Branding Resource [update]
 exports.updateBranding = async (id, body) => {
-  const attr = {
-    title: body.title,
-    shop_name: body.shop_name,
-    address: body.address,
-    position: body.position,
-    description: body.description,
-    keyword_array: body.keyword_array,
-  }
-  const branding = await db.updateBranding(id, attr)
+  const branding = await db.updateBranding(id, body)
   if (branding) {
     return branding
   } else {
@@ -174,7 +166,6 @@ exports.updateMainBranding = async (body) => {
   const { user_id, branding_id } = body
   await db.updateAllOtherBranding(user_id)
   const branding = await db.updateMainBranding(branding_id)
-  console.log(branding)
   if (branding) {
     return branding
   } else {

@@ -29,7 +29,7 @@ router.get(
   routesAsyncWrapper(controller.getBrandingListByDesignerId)
 )
 router.get(
-  '/main/designer:id',
+  '/main/designer/:id',
   routesAsyncWrapper(controller.getMainBrandingByDesignerId)
 )
 

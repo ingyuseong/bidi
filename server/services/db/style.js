@@ -23,7 +23,7 @@ exports.findAllStyle = async () => {
   })
   return StyleList
 }
-exports.findAllStyleByUserId = async (id) => {
+exports.findAllStyleByDesignerId = async (id) => {
   const styleList = await Style.findAll({
     where: {
       user_id: id,

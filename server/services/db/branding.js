@@ -60,7 +60,10 @@ exports.findAllBrandingByDesignerId = async (id) => {
         required: false,
       },
     ],
-    order: [['updated_at', 'DESC']],
+    order: [
+      ['main', 'DESC'],
+      ['updated_at', 'ASC'],
+    ],
   })
   return brandingList
 }
