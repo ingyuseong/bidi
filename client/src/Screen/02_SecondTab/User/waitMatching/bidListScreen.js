@@ -5,13 +5,9 @@ import { CommonActions } from '@react-navigation/native';
 import { textLimiting } from '../../../../Lib/utils';
 
 // Components
-import UserInfo from '../../../../Components/Profile/userInfo';
+import BidUserInfo from '../../../../Components/Bid/bidUserInfo';
 import Icon from 'react-native-vector-icons/AntDesign';
 import BottomButton from '../../../../Components/Common/bottomButton';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 import Swiper from 'react-native-swiper';
 import Modal from 'react-native-modal';
 import StyleModal from '../../../../Components/Modal/styleModal';
@@ -22,7 +18,6 @@ import matchingAPI from '../../../../Api/matching';
 
 // Redux Action
 import { deleteBid, patchBid } from '../../../../Contexts/Bid/action';
-import { registerMatching } from '../../../../Contexts/Matching/action';
 
 function BidListScreen({ navigation }) {
   const { data: user } = useSelector((state) => state.user);
@@ -33,7 +28,7 @@ function BidListScreen({ navigation }) {
   const [styleIndex, setStyleIndex] = useState(0);
 
   const dispatch = useDispatch();
-  const cancelBidAlert = async (id) => {
+  const cancelBidAlert = (id) => {
     Alert.alert('정말 거절하시겠어요?', '거절한 비드는 다시 표시되지 않습니다!', [
       { text: '취소', style: 'cancel' },
       { text: '거절하기', onPress: () => cancelBid(id) },
@@ -51,7 +46,7 @@ function BidListScreen({ navigation }) {
     }
   };
 
-  const matchingAlert = async (bid) => {
+  const matchingAlert = (bid) => {
     Alert.alert('정말 수락하시겠어요?', '수락하지 않은 나머지 비드는 다시 표시되지 않습니다!', [
       { text: '취소', style: 'cancel' },
       { text: '수락하기', onPress: () => matching(bid) },
@@ -66,8 +61,10 @@ function BidListScreen({ navigation }) {
       shop_name: '이너프헤어',
       address: '서울특별시 성북구 안암동',
     };
-    dispatch(registerMatching(body));
-    navigation.replace('check');
+    const matching = await matchingAPI.registerMatching(body);
+    if (matching) {
+      navigation.replace('check');
+    }
   };
   const modalOpen = (index, bidStyles) => {
     setStyleIndex(index);
@@ -80,11 +77,7 @@ function BidListScreen({ navigation }) {
         <View style={styles.container} key={index}>
           <View style={styles.bidBox}>
             <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-              <UserInfo
-                info={bid.user}
-                keyword_array={[bid.style_type, bid.length_type]}
-                height={150}
-              />
+              <BidUserInfo bid={bid} height={150} />
               <View>
                 {moreToggle ? (
                   <View style={styles.letterArea}>
@@ -112,7 +105,7 @@ function BidListScreen({ navigation }) {
               </View>
               <View style={styles.styleListContainer}>
                 <Text style={styles.titleText}>추천 스타일</Text>
-                {/* <ScrollView
+                <ScrollView
                   horizontal={true}
                   style={styles.styleArea}
                   showsVerticalScrollIndicator={false}
@@ -126,7 +119,7 @@ function BidListScreen({ navigation }) {
                       <Image style={styles.styleImg} source={{ uri: item.img_src_array[0] }} />
                     </TouchableOpacity>
                   ))}
-                </ScrollView> */}
+                </ScrollView>
               </View>
             </ScrollView>
             <BottomButton
@@ -138,7 +131,7 @@ function BidListScreen({ navigation }) {
             />
             <View style={{ marginBottom: 70 }}></View>
           </View>
-          {/* <Modal
+          <Modal
             animationType="fade"
             transparent={true}
             isVisible={modalVisible}
@@ -155,7 +148,7 @@ function BidListScreen({ navigation }) {
               navigation={navigation}
               deleteIcon={false}
             />
-          </Modal> */}
+          </Modal>
         </View>
       ))}
     </Swiper>

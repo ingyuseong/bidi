@@ -12,7 +12,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
-import UserInfo from '../../../../Components/Profile/userInfo';
+import ProposalUserInfo from '../../../../Components/Proposal/proposalUserInfo';
 import BottomButton from '../../../../Components/Common/bottomButton';
 
 // API
@@ -80,7 +80,7 @@ function MyProposalScreen({ navigation, progress }) {
             <Text style={styles.imageToggleText}>{imageToggle ? 'After' : 'Before'}</Text>
           </TouchableOpacity>
         </View>
-        <UserInfo info={user} keywords={proposal[0].keyword_array} />
+        <ProposalUserInfo proposal={proposal[0]} />
         <View style={styles.descriptionBox}>
           <Text style={styles.description}>
             {proposal[0].description != '' ? proposal[0].description : '요구사항 없음'}

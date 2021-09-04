@@ -11,28 +11,14 @@ import Swiper from 'react-native-swiper';
 import Modal from 'react-native-modal';
 import StyleModal from '../../../../Components/Modal/styleModal';
 
-function BidProgressScreen({ navigation, userInfo, bidList }) {
+function BidProgressScreen({ navigation, matching }) {
   const [moreToggle, setMoreToggle] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [showStyles, setShowStyles] = useState([]);
   const [styleIndex, setStyleIndex] = useState(0);
-
-  const dateFormating = (date) => {
-    const update = new Date(date);
-    return `${update.getFullYear()}.${
-      update.getMonth('mm') < 10 ? '0' + update.getMonth('mm') : update.getMonth('mm')
-    }.${update.getDate('dd') < 10 ? '0' + update.getDate('dd') : update.getDate('dd')}`;
-  };
-  const textLimiting = (description, count) => {
-    if (description.length > count) {
-      return description.substr(0, count) + '..';
-    } else {
-      return description;
-    }
-  };
-  const modalOpen = async (index, bidStyles) => {
-    await setStyleIndex(index);
-    await setShowStyles(bidStyles);
+  const modalOpen = (index, bidStyles) => {
+    setStyleIndex(index);
+    setShowStyles(bidStyles);
     setModalVisible(true);
   };
   return (

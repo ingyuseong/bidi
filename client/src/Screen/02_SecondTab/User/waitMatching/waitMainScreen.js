@@ -31,10 +31,10 @@ function WaitMainScreen({ navigation }) {
     dispatch(getProposalAsync(user.id));
     dispatch(getBidListByCustomerId(user.id));
   }, [dispatch]);
-  if (proposalLoading || bidLoading || proposalError || bidError) return <Loading loading />;
+  if (proposalLoading || bidLoading || proposalError || bidError) return <Loading loading={true} />;
+  if (!proposal || !bidList) return null;
   return (
     <Tab.Navigator
-      swipeEnabled={false}
       initialRouteName="ReceiveBid"
       tabBarOptions={{
         activeTintColor: 'black',
@@ -51,24 +51,24 @@ function WaitMainScreen({ navigation }) {
           borderColor: 'black',
         },
       }}>
-      {proposal && proposal.length > 0 ? (
-        <Tab.Screen name="MyBid" options={{ title: '내 제안서' }}>
-          {() => <MyProposalScreen navigation={navigation} />}
-        </Tab.Screen>
-      ) : (
-        <Tab.Screen name="MyBid" options={{ title: '내 제안서' }}>
-          {() => <IntroProposalScreen navigation={navigation} />}
-        </Tab.Screen>
-      )}
-      {listNullChecking(bidList) ? (
-        <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>
-          {() => <BidListScreen navigation={navigation} />}
-        </Tab.Screen>
-      ) : (
-        <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>
-          {() => <NoBidScreen navigation={navigation}></NoBidScreen>}
-        </Tab.Screen>
-      )}
+      <Tab.Screen name="MyBid" options={{ title: '내 제안서' }}>
+        {() => {
+          if (proposal && proposal.length > 0) {
+            return <MyProposalScreen navigation={navigation} />;
+          } else {
+            return <IntroProposalScreen navigation={navigation} />;
+          }
+        }}
+      </Tab.Screen>
+      <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>
+        {() => {
+          if (listNullChecking(bidList)) {
+            return <BidListScreen navigation={navigation} />;
+          } else {
+            return <NoBidScreen navigation={navigation} />;
+          }
+        }}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 }

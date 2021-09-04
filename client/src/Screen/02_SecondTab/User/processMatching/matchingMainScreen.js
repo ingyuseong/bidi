@@ -19,6 +19,7 @@ import MyProposalScreen from './myProposalScreen';
 
 const Tab = createMaterialTopTabNavigator();
 function MatchingMainScreen({ navigation }) {
+  const { data: matching } = useSelector((state) => state.matching);
   return (
     <Tab.Navigator
       swipeEnabled={false}
@@ -39,7 +40,15 @@ function MatchingMainScreen({ navigation }) {
         },
       }}>
       <Tab.Screen name="MyProposal" options={{ title: '내 제안서' }}>
-        {() => <MyProposalScreen navigation={navigation} />}
+        {() => {
+          if (matching && matching.length > 0)
+            return <MyProposalScreen navigation={navigation} matching={matching[0]} />;
+        }}
+      </Tab.Screen>
+      <Tab.Screen name="Matching" options={{ title: '진행중인 매칭' }}>
+        {() => {
+          if (matching && matching.length > 0) return <Text>asdf</Text>;
+        }}
       </Tab.Screen>
     </Tab.Navigator>
   );

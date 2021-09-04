@@ -20,9 +20,10 @@ const initialState = {
 const matchingReducer = (state = initialState, action) => {
   switch (action.type) {
     case REGISTER_MATCHING:
-    case REGISTER_MATCHING_SUCCESS:
-    case REGISTER_MATCHING_ERROR:
-      return handleAsyncActions(REGISTER_MATCHING)(state, action);
+      return {
+        ...state,
+        data: action.payload,
+      };
     case PATCH_MATCHING:
       return {
         ...state,

@@ -2,38 +2,33 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-function UserInfo({ info, keyword_array }) {
+function BidUserInfo({ bid }) {
   return (
     <View style={styles.userContainer}>
       <View style={styles.userInfo}>
         <Image
           style={styles.userImg}
           source={{
-            uri: info.img_src,
+            uri: bid.user.img_src,
           }}
         />
         <View style={styles.userBox}>
           <View style={styles.userNameArea}>
-            <Text style={styles.userName}>{info.nick_name}</Text>
+            <Text style={styles.userName}>{bid.user.nick_name}</Text>
           </View>
           <View style={styles.shopInfo}>
             <Ionicons name="location-outline" size={15} />
-            <Text style={styles.shopDistance}>{info.address}</Text>
+            <Text style={styles.shopDistance}>서울특별시 성북구 안암동</Text>
           </View>
         </View>
       </View>
       <View style={styles.userTag}>
-        {keyword_array && keyword_array.length > 0 ? (
-          keyword_array.map((item, index) => (
-            <View style={styles.tag} key={index}>
-              <Text style={{ color: '#8D8D8D' }}>{item}</Text>
-            </View>
-          ))
-        ) : (
-          <View style={styles.tag}>
-            <Text style={{ color: '#8D8D8D' }}>키워드 없음</Text>
-          </View>
-        )}
+        <View style={styles.tag}>
+          <Text style={{ color: '#8D8D8D' }}>{bid.length_type}</Text>
+        </View>
+        <View style={styles.tag}>
+          <Text style={{ color: '#8D8D8D' }}>{bid.style_type}</Text>
+        </View>
       </View>
     </View>
   );
@@ -106,4 +101,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UserInfo;
+export default BidUserInfo;

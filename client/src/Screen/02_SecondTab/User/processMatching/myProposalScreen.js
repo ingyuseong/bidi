@@ -9,13 +9,11 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
 
 // Components
-import UserInfo from '../../../../Components/Profile/userInfo';
+import ProposalUserInfo from '../../../../Components/Proposal/proposalUserInfo';
 
-function MyProposalScreen({ navigation }) {
-  const { data: matching } = useSelector((state) => state.matching);
+function MyProposalScreen({ navigation, matching }) {
   const [imageToggle, setImageToggle] = useState(false);
   return (
     <View style={styles.container}>
@@ -25,14 +23,14 @@ function MyProposalScreen({ navigation }) {
             <Image
               style={styles.image}
               source={{
-                uri: matching[0].proposal.after_src,
+                uri: matching.proposal.after_src,
               }}
             />
           ) : (
             <Image
               style={styles.image}
               source={{
-                uri: matching[0].proposal.before_src,
+                uri: matching.proposal.before_src,
               }}
             />
           )}
@@ -50,12 +48,10 @@ function MyProposalScreen({ navigation }) {
             <Text style={styles.imageToggleText}>{imageToggle ? 'After' : 'Before'}</Text>
           </TouchableOpacity>
         </View>
-        <UserInfo info={matching[0].proposal.user} keywords={matching[0].proposal.keyword_array} />
+        <ProposalUserInfo proposal={matching.proposal} />
         <View style={styles.descriptionBox}>
           <Text style={styles.description}>
-            {matching[0].proposal.description != ''
-              ? matching[0].proposal.description
-              : '요구사항 없음'}
+            {matching.proposal.description != '' ? matching.proposal.description : '요구사항 없음'}
           </Text>
         </View>
         <View style={styles.textBox}>
@@ -67,7 +63,7 @@ function MyProposalScreen({ navigation }) {
             underlineColorAndroid="transparent"
             editable={false}
             selectTextOnFocus={false}
-            value={String(matching[0].proposal.price_limit / 10000) + '만원 이내'}
+            value={String(matching.proposal.price_limit / 10000) + '만원 이내'}
           />
         </View>
         <View style={{ marginTop: 30 }}></View>
