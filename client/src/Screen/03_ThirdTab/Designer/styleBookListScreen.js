@@ -1,0 +1,159 @@
+import React from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+function StyleBookListScreen({ navigation }) {
+  return (
+    <View style={styles.container}>
+      <View style={styles.filterBox}>
+        <View style={styles.filterArea}>
+          <Text style={styles.filterText}>여성</Text>
+        </View>
+        <View style={styles.filterArea}>
+          <Text style={styles.filterText}>커트</Text>
+        </View>
+        <View style={styles.filterArea}>
+          <Text style={styles.filterText}>단발 스타일</Text>
+        </View>
+      </View>
+      <ScrollView>
+        <View style={styles.styleBox}>
+          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
+            <Image
+              style={styles.styleImg}
+              source={{
+                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
+            <Image
+              style={styles.styleImg}
+              source={{
+                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
+            <Image
+              style={styles.styleImg}
+              source={{
+                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
+            <Image
+              style={styles.styleImg}
+              source={{
+                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
+            <Image
+              style={styles.styleImg}
+              source={{
+                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
+            <Image
+              style={styles.styleImg}
+              source={{
+                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
+            <Image
+              style={styles.styleImg}
+              source={{
+                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.8} style={styles.styleItem}>
+            <Image
+              style={styles.styleImg}
+              source={{
+                uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/profile_user.png',
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+      <TouchableOpacity
+        style={styles.addBtn}
+        onPress={() => {
+          navigation.push('CreateStyleBook');
+        }}>
+        <Ionicons name="add" size={50} style={styles.addIcon} />
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  filterBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 8,
+    marginBottom: 8,
+  },
+  filterArea: {
+    borderWidth: 1,
+    borderColor: '#DBDBDB',
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: 32,
+    paddingRight: 32,
+  },
+  filterText: {
+    fontWeight: '500',
+    fontSize: 14,
+    color: '#878787',
+    lineHeight: 18,
+  },
+  styleBox: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: 2,
+  },
+  styleItem: {
+    width: '50%',
+    height: 200,
+    resizeMode: 'center',
+    padding: 2,
+  },
+  styleImg: {
+    width: '100%',
+    height: 196,
+  },
+  addBtn: {
+    position: 'absolute',
+    width: 65,
+    height: 65,
+    backgroundColor: '#0A0A32',
+    borderRadius: 50,
+    bottom: 20,
+    right: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000000', //그림자색
+    shadowOpacity: 0.3, //그림자 투명도
+    shadowOffset: { width: 2, height: 2 }, //그림자 위치
+  },
+  addIcon: {
+    color: 'white',
+  },
+});
+
+export default StyleBookListScreen;

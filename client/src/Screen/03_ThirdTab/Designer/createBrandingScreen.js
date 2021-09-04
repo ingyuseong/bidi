@@ -35,7 +35,6 @@ function CreateBrandingScreen({ navigation }) {
     setStyleTags(filteredStyleTags);
   };
   const registerHandler = async () => {
-    console.log(shopName);
     if (!shopName) {
       return Alert.alert('헤어샵명을 입력해주세요!');
     }
@@ -112,7 +111,7 @@ function CreateBrandingScreen({ navigation }) {
         value={tagText}
         setValue={setTagText}
         setStyleTags={setStyleTags}
-        placeholderMessage="스타일을 검색하세요"
+        placeholderMessage="스타일에 관련된 키워드들을 입력해주세요"
         placeholderColor="#878787"
         returnKeyType="next"
         styleTags={styleTags}

@@ -1,14 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-function StyleBookScreen() {
+function DetailStyleBookScreen() {
   return (
     <View>
-      <Text>StyleBookScreen</Text>
+      <Text></Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({});
 
-export default StyleBookScreen;
+export default DetailStyleBookScreen;
