@@ -128,24 +128,24 @@ exports.getMatchingHistoryListByDesignerId = async (req, res) => {
 }
 
 // [ 3. PATCH Methods ]
-exports.patchMatchingTime = async (req, res) => {
+exports.patchMatchingStyle = async (req, res) => {
   const { id } = req.params
   const body = req.body
-  const patchedMatchingTimeCount = await matchingServices.updateMatchingTime(
+  const patchedMatchingStyleCount = await matchingServices.updateMatchingStyle(
     id,
     body
   )
-  if (patchedMatchingTimeCount) {
+  if (patchedMatchingStyleCount) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
-      message: '매칭 시간 정보 수정 성공',
-      data: patchedMatchingTimeCount,
+      message: '매칭 스타일 정보 수정 성공',
+      data: patchedMatchingStyleCount,
     })
   } else {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
-      message: '수정된 매칭 시간 정보가 없습니다',
-      data: patchedMatchingTimeCount,
+      message: '수정된 매칭 스타일 정보가 없습니다',
+      data: patchedMatchingStyleCount,
     })
   }
 }
@@ -189,13 +189,27 @@ exports.patchMatchingStar = async (req, res) => {
     })
   }
 }
+exports.patchMatchingConfirm = async (req, res) => {
+  const { id } = req.params
+  const patchedMatchingConfirmCount =
+    await matchingServices.updateMatchingConfirm(id)
+  if (patchedMatchingConfirmCount) {
+    res.status(STATUS_CODE.SUCCESS).json({
+      status: 'success',
+      message: '매칭 승인 상태 정보 수정 성공',
+      data: patchedMatchingConfirmCount,
+    })
+  } else {
+    res.status(STATUS_CODE.SUCCESS).json({
+      status: 'empty',
+      message: '수정된 매칭 승인 정보가 없습니다',
+      data: patchedMatchingConfirmCount,
+    })
+  }
+}
 exports.patchMatchingDone = async (req, res) => {
   const { id } = req.params
-  const body = req.body
-  const patchedMatchingDoneCount = await matchingServices.updateMatchingDone(
-    id,
-    body
-  )
+  const patchedMatchingDoneCount = await matchingServices.updateMatchingDone(id)
   if (patchedMatchingDoneCount) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
@@ -212,9 +226,8 @@ exports.patchMatchingDone = async (req, res) => {
 }
 exports.patchMatchingCanceled = async (req, res) => {
   const { id } = req.params
-  const body = req.body
   const patchedMatchingCancelCount =
-    await matchingServices.updateMatchingCanceled(id, body)
+    await matchingServices.updateMatchingCanceled(id)
   if (patchedMatchingCancelCount) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',

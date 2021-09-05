@@ -46,10 +46,13 @@ router.get(
   '/history/designer/:id',
   routesAsyncWrapper(controller.getMatchingHistoryListByDesignerId)
 )
-
-router.patch('/time/:id', routesAsyncWrapper(controller.patchMatchingTime))
+router.patch('/style/:id', routesAsyncWrapper(controller.patchMatchingStyle))
 router.patch('/review/:id', routesAsyncWrapper(controller.patchMatchingReview))
 router.patch('/star/:id', routesAsyncWrapper(controller.patchMatchingStar))
+router.patch(
+  '/confirm/:id',
+  routesAsyncWrapper(controller.patchMatchingConfirm)
+)
 router.patch('/done/:id', routesAsyncWrapper(controller.patchMatchingDone))
 router.patch(
   '/cancel/:id',

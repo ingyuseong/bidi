@@ -14,9 +14,10 @@ exports.createMatching = async (attr) => {
   const matching = await Matching.create({
     raw: true,
     ...attr,
-    styling_at: null,
+    style_id: null,
     review: null,
     star: 0,
+    confirm: false,
     done: false,
     canceled: false,
   })
@@ -54,6 +55,10 @@ exports.findAllMatching = async () => {
             },
           },
         ],
+      },
+      {
+        model: Style,
+        required: false,
       },
     ],
     order: [['updated_at', 'DESC']],
@@ -95,6 +100,10 @@ exports.findOneMatching = async (id) => {
           },
         ],
       },
+      {
+        model: Style,
+        required: false,
+      },
     ],
   })
   return matching
@@ -135,6 +144,10 @@ exports.findOneMatchingByCustomerId = async (id) => {
             },
           },
         ],
+      },
+      {
+        model: Style,
+        required: false,
       },
     ],
     order: [['updated_at', 'DESC']],
@@ -178,6 +191,10 @@ exports.findAllMatchingByDesignerId = async (id) => {
           },
         ],
       },
+      {
+        model: Style,
+        required: false,
+      },
     ],
     order: [['updated_at', 'DESC']],
   })
@@ -218,6 +235,10 @@ exports.findAllMatchingHistoryByCustomerId = async (id) => {
             },
           },
         ],
+      },
+      {
+        model: Style,
+        required: false,
       },
     ],
     order: [['updated_at', 'DESC']],
@@ -264,6 +285,10 @@ exports.findAllMatchingHistoryByDesignerId = async (id) => {
           },
         ],
       },
+      {
+        model: Style,
+        required: false,
+      },
     ],
     order: [['updated_at', 'DESC']],
   })
@@ -271,11 +296,11 @@ exports.findAllMatchingHistoryByDesignerId = async (id) => {
 }
 
 // Update Proposal Resource [update]
-exports.updateMatchingTime = async (id, time) => {
+exports.updateMatchingReview = async (id, style_id) => {
   const matching = await Matching.update(
     {
       raw: true,
-      time,
+      style_id,
     },
     {
       where: {
@@ -313,11 +338,11 @@ exports.updateMatchingStar = async (id, star) => {
   )
   return matching[0]
 }
-exports.updateMatchingDone = async (id, done) => {
+exports.updateMatchingConfirm = async (id) => {
   const matching = await Matching.update(
     {
       raw: true,
-      done,
+      confirm: true,
     },
     {
       where: {
@@ -327,12 +352,26 @@ exports.updateMatchingDone = async (id, done) => {
   )
   return matching[0]
 }
-exports.updateMatchingCanceled = async (id, canceled) => {
+exports.updateMatchingDone = async (id) => {
   const matching = await Matching.update(
     {
       raw: true,
       done: true,
-      canceled,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  )
+  return matching[0]
+}
+exports.updateMatchingCanceled = async (id) => {
+  const matching = await Matching.update(
+    {
+      raw: true,
+      done: true,
+      canceled: true,
     },
     {
       where: {

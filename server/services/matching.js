@@ -17,7 +17,6 @@ exports.createMatching = async (body) => {
       proposalId: body.proposal_id,
       customer_id: body.customer_id,
       designer_id: body.designer_id,
-      shop_name: body.shop_name,
       address: body.address,
     }
     const matching = await db.createMatching(attr)
@@ -254,9 +253,9 @@ exports.findAllMatchingHistoryByDesignerId = async (id) => {
 }
 
 // Update Matching Resource [update]
-exports.updateMatchingTime = async (id, body) => {
-  const { time } = body
-  const matching = await db.updateMatchingTime(id, time)
+exports.updateMatchingStyle = async (id, body) => {
+  const { style_id } = body
+  const matching = await db.updateMatchingStyle(id, style_id)
   return matching
 }
 exports.updateMatchingReview = async (id, body) => {
@@ -269,14 +268,18 @@ exports.updateMatchingStar = async (id, body) => {
   const matching = await db.updateMatchingStar(id, star)
   return matching
 }
-exports.updateMatchingDone = async (id, body) => {
-  const { done } = body
-  const matching = await db.updateMatchingDone(id, done)
+exports.updateMatchingConfirm = async (id) => {
+  const matching = await db.updateMatchingConfirm(id)
   return matching
 }
-exports.updateMatchingCanceled = async (id, body) => {
-  const { cancel } = body
-  const matching = await db.updateMatchingCanceled(id, cancel)
+exports.updateMatchingDone = async (id) => {
+  // 이 지점에서 matchingSchedule 생성
+  // 이 지점에서 결제 진행여부 확인
+  const matching = await db.updateMatchingDone(id)
+  return matching
+}
+exports.updateMatchingCanceled = async (id) => {
+  const matching = await db.updateMatchingCanceled(id)
   return matching
 }
 

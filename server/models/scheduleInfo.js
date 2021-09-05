@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const { DataTypes } = Sequelize
-const modelName = 'bid'
+const modelName = 'scheduleInfo'
 
 const modelAttributes = {
   id: {
@@ -8,37 +8,17 @@ const modelAttributes = {
     primaryKey: true,
     autoIncrement: true,
   },
-  proposal_id: {
+  user_id: {
     type: DataTypes.INTEGER,
   },
-  customer_id: {
+  start_time: {
     type: DataTypes.INTEGER,
   },
-  designer_id: {
+  end_time: {
     type: DataTypes.INTEGER,
   },
-  style_type: {
-    type: DataTypes.ENUM('cut', 'perm', 'color'),
-  },
-  length_type: {
-    type: DataTypes.ENUM('long', 'medium', 'short'),
-  },
-  address: {
+  holiday_array: {
     type: DataTypes.STRING,
-  },
-  letter: {
-    type: DataTypes.TEXT,
-  },
-  need_care: {
-    type: DataTypes.BOOLEAN,
-  },
-
-  // Status Attribute
-  matching: {
-    type: DataTypes.BOOLEAN,
-  },
-  canceled: {
-    type: DataTypes.BOOLEAN,
   },
   created_at: {
     type: DataTypes.DATE,
