@@ -21,7 +21,7 @@ function CheckingMatchingScreen({ navigation }) {
   useEffect(() => {
     dispatch(getMatchingByCustomerId(user.id));
   }, [dispatch]);
-  if (loading || error) return <Loading loading />;
+  // if (loading || error) return <Loading loading />;
   return (
     <View style={{ flex: 1 }}>
       {matching && matching.length > 0 ? (

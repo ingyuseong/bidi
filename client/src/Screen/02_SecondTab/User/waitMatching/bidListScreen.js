@@ -26,7 +26,6 @@ function BidListScreen({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [showStyles, setShowStyles] = useState([]);
   const [styleIndex, setStyleIndex] = useState(0);
-
   const dispatch = useDispatch();
   const cancelBidAlert = (id) => {
     Alert.alert('정말 거절하시겠어요?', '거절한 비드는 다시 표시되지 않습니다!', [
@@ -79,27 +78,33 @@ function BidListScreen({ navigation }) {
             <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
               <BidUserInfo bid={bid} height={150} />
               <View>
-                {moreToggle ? (
+                {bid.letter.length > 200 ? (
+                  moreToggle ? (
+                    <View style={styles.letterArea}>
+                      <Text style={styles.letterText}>{bid.letter}</Text>
+                      <View style={{ ...styles.moreBtnArea, alignItems: 'center' }}>
+                        <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
+                          <View style={{ ...styles.moreBtn, borderWidth: 0 }}>
+                            <Icon name="up" size={17} color="#8D8D8D"></Icon>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  ) : (
+                    <View style={{ ...styles.letterArea, height: 200 }}>
+                      <Text style={styles.letterText}>{textLimiting(bid.letter, 200)}</Text>
+                      <View style={styles.moreBtnArea}>
+                        <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
+                          <View style={styles.moreBtn}>
+                            <Text style={styles.moreBtnText}>더보기</Text>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  )
+                ) : (
                   <View style={styles.letterArea}>
                     <Text style={styles.letterText}>{bid.letter}</Text>
-                    <View style={{ ...styles.moreBtnArea, alignItems: 'center' }}>
-                      <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
-                        <View style={{ ...styles.moreBtn, borderWidth: 0 }}>
-                          <Icon name="up" size={17} color="#8D8D8D"></Icon>
-                        </View>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                ) : (
-                  <View style={{ ...styles.letterArea, height: 160 }}>
-                    <Text style={styles.letterText}>{textLimiting(bid.letter, 150)}</Text>
-                    <View style={styles.moreBtnArea}>
-                      <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
-                        <View style={styles.moreBtn}>
-                          <Text style={styles.moreBtnText}>더보기</Text>
-                        </View>
-                      </TouchableOpacity>
-                    </View>
                   </View>
                 )}
               </View>
@@ -132,7 +137,7 @@ function BidListScreen({ navigation }) {
             <View style={{ marginBottom: 70 }}></View>
           </View>
           <Modal
-            animationType="fade"
+            animationType="slide"
             transparent={true}
             isVisible={modalVisible}
             style={{
@@ -140,11 +145,9 @@ function BidListScreen({ navigation }) {
             }}
             backdropOpacity={0.3}>
             <StyleModal
-              styleScraps={showStyles}
+              styleList={showStyles}
               index={styleIndex}
               setModalVisible={setModalVisible}
-              setStyleScrapList={bid.bidStyles}
-              userInfo={bid.user}
               navigation={navigation}
               deleteIcon={false}
             />

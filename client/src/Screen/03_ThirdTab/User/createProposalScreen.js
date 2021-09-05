@@ -19,8 +19,12 @@ import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 import BottomButton from '../../../Components/Common/bottomButton';
 
+// API
+import ProposalAPI from '../../../Api/proposal';
+
 // Redux Action
 import { registerWithFile, registerProposal } from '../../../Contexts/Proposal/action';
+import { registerMatching } from '../../../Contexts/Matching/action';
 
 function CreateProposalScreen({ navigation }) {
   const { data: user } = useSelector((state) => state.user);
@@ -122,12 +126,22 @@ function CreateProposalScreen({ navigation }) {
         ai_count: user.ai_count,
       };
       if (isFromAlbum) {
-        dispatch(registerWithFile(createFormData(albumImage, body)));
+        const proposal = await ProposalAPI.registerWithFile(createFormData(albumImage, body));
+        navigation.replace('Main');
       } else {
-        dispatch(registerProposal({ ...body, after_src: afterImageStyle }));
+        const proposal = await ProposalAPI.registerProposal({
+          ...body,
+          after_src: afterImageStyle,
+        });
+        navigation.replace('Main');
       }
-      navigation.replace('Main');
     }
+  };
+  const submitAlert = () => {
+    Alert.alert('정말 작성하시겠어요?', '작성 후에도 매칭되기 전에는 수정하실 수 있어요!', [
+      { text: '취소', style: 'cancel' },
+      { text: '작성하기', onPress: () => submitHandler() },
+    ]);
   };
   return (
     <ScrollView style={styles.container}>
@@ -294,7 +308,7 @@ function CreateProposalScreen({ navigation }) {
         rightName="등록하기"
         leftRatio={40}
         leftHandler={initializeHandler}
-        rightHandler={submitHandler}
+        rightHandler={submitAlert}
       />
     </ScrollView>
   );

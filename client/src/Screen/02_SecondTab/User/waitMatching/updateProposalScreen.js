@@ -133,7 +133,6 @@ function UpdateProposalScreen({ navigation }) {
         navigation.replace('check');
       } else {
         await ProposalAPI.patchProposal(proposal[0].id, { ...body, after_src: afterImageStyle });
-        patchProposal(proposal[0].id, { ...body, after_src: afterImageStyle });
         navigation.replace('check');
       }
     }

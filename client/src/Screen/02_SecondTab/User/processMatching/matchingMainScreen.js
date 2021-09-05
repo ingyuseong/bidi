@@ -39,7 +39,7 @@ function MatchingMainScreen({ navigation }) {
           borderColor: 'black',
         },
       }}>
-      <Tab.Screen name="MyProposal" options={{ title: '내 제안서' }}>
+      <Tab.Screen name="MyProposal" options={{ title: '진행중인 제안' }}>
         {() => {
           if (matching && matching.length > 0)
             return <MyProposalScreen navigation={navigation} matching={matching[0]} />;
