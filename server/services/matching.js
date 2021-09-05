@@ -268,8 +268,8 @@ exports.updateMatchingStar = async (id, body) => {
   const matching = await db.updateMatchingStar(id, star)
   return matching
 }
-exports.updateMatchingConfirm = async (id) => {
-  const matching = await db.updateMatchingConfirm(id)
+exports.updateMatchingReserved = async (id) => {
+  const matching = await db.updateMatchingReserved(id)
   return matching
 }
 exports.updateMatchingDone = async (id) => {

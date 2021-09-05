@@ -30,6 +30,7 @@ function WaitMainScreen({ navigation }) {
   useEffect(() => {
     dispatch(getProposalAsync(user.id));
     dispatch(getBidListByCustomerId(user.id));
+    return () => {};
   }, [dispatch]);
   if (proposalLoading || bidLoading || proposalError || bidError) return <Loading loading={true} />;
   if (!proposal || !bidList) return null;
@@ -53,8 +54,8 @@ function WaitMainScreen({ navigation }) {
       }}>
       <Tab.Screen name="MyBid" options={{ title: '내 제안서' }}>
         {() => {
-          if (proposal && proposal.length > 0) {
-            return <MyProposalScreen navigation={navigation} />;
+          if (listNullChecking(proposal)) {
+            return <MyProposalScreen navigation={navigation} proposal={proposal[0]} />;
           } else {
             return <IntroProposalScreen navigation={navigation} />;
           }
@@ -63,7 +64,7 @@ function WaitMainScreen({ navigation }) {
       <Tab.Screen name="ReceiveBid" options={{ title: '받은 비드' }}>
         {() => {
           if (listNullChecking(bidList)) {
-            return <BidListScreen navigation={navigation} />;
+            return <BidListScreen navigation={navigation} bidList={bidList} />;
           } else {
             return <NoBidScreen navigation={navigation} />;
           }

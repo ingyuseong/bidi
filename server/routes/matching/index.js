@@ -16,11 +16,12 @@ const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
     GET /api/matching/history/designer/:id  : 디자이너의 완료된 매칭 목록 조회 API
     
     [ 3. PATCH Methods ]
-    PATCH /api/matching/time/:id     : 매칭 시간 정보 수정 API
-    PATCH /api/matching/review/:id   : 매칭 리뷰 정보 수정 API
-    PATCH /api/matching/star/:id     : 매칭 별점 정보 수정 API
-    PATCH /api/matching/done/:id     : 매칭 종료 상태 수정 API
-    PATCH /api/matching/cancel/:id   : 매칭 취소 상태 수정 API
+    PATCH /api/matching/style/:id       : 매칭 스타일 정보 수정 API
+    PATCH /api/matching/reserved/:id     : 매칭 승인 정보 수정 API
+    PATCH /api/matching/review/:id      : 매칭 리뷰 정보 수정 API
+    PATCH /api/matching/star/:id        : 매칭 별점 정보 수정 API
+    PATCH /api/matching/done/:id        : 매칭 종료 상태 수정 API
+    PATCH /api/matching/cancel/:id      : 매칭 취소 상태 수정 API
 
     [ 4. DELETE Methods]
     DELETE /api/matching/:id : 매칭 정보 삭제 API
@@ -50,8 +51,8 @@ router.patch('/style/:id', routesAsyncWrapper(controller.patchMatchingStyle))
 router.patch('/review/:id', routesAsyncWrapper(controller.patchMatchingReview))
 router.patch('/star/:id', routesAsyncWrapper(controller.patchMatchingStar))
 router.patch(
-  '/confirm/:id',
-  routesAsyncWrapper(controller.patchMatchingConfirm)
+  '/reserved/:id',
+  routesAsyncWrapper(controller.patchMatchingReserved)
 )
 router.patch('/done/:id', routesAsyncWrapper(controller.patchMatchingDone))
 router.patch(

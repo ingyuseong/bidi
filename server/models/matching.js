@@ -34,7 +34,7 @@ const modelAttributes = {
   },
 
   // Status Attributes
-  confirm: {
+  reserved: {
     type: DataTypes.BOOLEAN,
   },
   done: {

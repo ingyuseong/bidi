@@ -1,57 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+  Alert,
+} from 'react-native';
 
-// Screens
-import MyProposalScreen from './myProposalScreen';
-// import BidListScreen from './bidListScreen';
-// import IntroProposalScreen from './staticScreen/introProposalScreen';
-// import NoBidScreen from './staticScreen/noBidScreen';
+// Components
+import MatchingWaitScreen from './matchingWaitScreen';
 
-// // Components & utils
-// import { objectNullChecking, listNullChecking } from '../../../../Lib/utils';
-// import Loading from '../../../../Components/Common/loading';
-
-// // Redux Action
-// import { getProposalAsync } from '../../../../Contexts/Proposal/action';
-// import { getBidListByCustomerId } from '../../../../Contexts/Bid/action';
-
-const Tab = createMaterialTopTabNavigator();
-function MatchingMainScreen({ navigation }) {
-  const { data: matching } = useSelector((state) => state.matching);
+function MatchingMainScreen({ navigation, matching }) {
+  const [imageToggle, setImageToggle] = useState(false);
   return (
-    <Tab.Navigator
-      swipeEnabled={false}
-      initialRouteName="ReceiveBid"
-      tabBarOptions={{
-        activeTintColor: 'black',
-        inactiveTintColor: '#DADADA',
-        indicatorStyle: {
-          backgroundColor: 'black',
-        },
-        labelStyle: {
-          fontSize: 17,
-          fontWeight: 'bold',
-        },
-        tabStyle: {
-          height: 50,
-          borderColor: 'black',
-        },
-      }}>
-      <Tab.Screen name="MyProposal" options={{ title: '진행중인 제안' }}>
-        {() => {
-          if (matching && matching.length > 0)
-            return <MyProposalScreen navigation={navigation} matching={matching[0]} />;
-        }}
-      </Tab.Screen>
-      <Tab.Screen name="Matching" options={{ title: '진행중인 매칭' }}>
-        {() => {
-          if (matching && matching.length > 0) return <Text>asdf</Text>;
-        }}
-      </Tab.Screen>
-    </Tab.Navigator>
+    <>
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>매칭 정보</Text>
+      </View>
+      {matching.reserved ? (
+        <Text>asdf</Text>
+      ) : (
+        <MatchingWaitScreen navigation={navigation} matching={matching} />
+      )}
+    </>
   );
 }
+
+const styles = StyleSheet.create({
+  header: {
+    height: 50,
+    width: '100%',
+    borderBottomWidth: 1,
+    borderColor: '#ECEBEB',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerTitle: {
+    fontSize: 17,
+    fontWeight: '600',
+  },
+});
 
 export default MatchingMainScreen;

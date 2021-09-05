@@ -296,7 +296,7 @@ exports.findAllMatchingHistoryByDesignerId = async (id) => {
 }
 
 // Update Proposal Resource [update]
-exports.updateMatchingReview = async (id, style_id) => {
+exports.updateMatchingStyle = async (id, style_id) => {
   const matching = await Matching.update(
     {
       raw: true,
@@ -338,11 +338,11 @@ exports.updateMatchingStar = async (id, star) => {
   )
   return matching[0]
 }
-exports.updateMatchingConfirm = async (id) => {
+exports.updateMatchingReserved = async (id) => {
   const matching = await Matching.update(
     {
       raw: true,
-      confirm: true,
+      reserved: true,
     },
     {
       where: {

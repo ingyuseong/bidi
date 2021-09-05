@@ -189,21 +189,21 @@ exports.patchMatchingStar = async (req, res) => {
     })
   }
 }
-exports.patchMatchingConfirm = async (req, res) => {
+exports.patchMatchingReserved = async (req, res) => {
   const { id } = req.params
-  const patchedMatchingConfirmCount =
-    await matchingServices.updateMatchingConfirm(id)
-  if (patchedMatchingConfirmCount) {
+  const patchedMatchingReservedCount =
+    await matchingServices.updateMatchingReserved(id)
+  if (patchedMatchingReservedCount) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
       message: '매칭 승인 상태 정보 수정 성공',
-      data: patchedMatchingConfirmCount,
+      data: patchedMatchingReservedCount,
     })
   } else {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
       message: '수정된 매칭 승인 정보가 없습니다',
-      data: patchedMatchingConfirmCount,
+      data: patchedMatchingReservedCount,
     })
   }
 }

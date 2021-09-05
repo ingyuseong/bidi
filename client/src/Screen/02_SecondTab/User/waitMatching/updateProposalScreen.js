@@ -80,8 +80,8 @@ function UpdateProposalScreen({ navigation }) {
   ));
 
   const proposalHandler = async (e) => {
-    setIsFromAlbum(false);
-    setAfterImageStyle('none');
+    await setIsFromAlbum(false);
+    await setAfterImageStyle('none');
     navigation.navigate('UpdateAfterImage', {
       setAfterImageStyle: setAfterImageStyle,
       setAlbumImage: setAlbumImage,

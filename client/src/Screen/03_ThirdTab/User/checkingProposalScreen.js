@@ -5,6 +5,7 @@ import { ActivityIndicator, View, StyleSheet } from 'react-native';
 // Screens
 import CreateProposalScreen from './createProposalScreen';
 import RegisteredProposalScreen from './registeredProposalScreen';
+import MatchingExistScreen from './MatchingExistScreen';
 
 // Components
 import Loading from '../../../Components/Common/loading';
@@ -38,7 +39,7 @@ function CheckingProposalScreen({ navigation }) {
       {proposal && proposal.length > 0 ? (
         <RegisteredProposalScreen navigation={navigation} />
       ) : matching && matching.length > 0 ? (
-        <RegisteredProposalScreen navigation={navigation} />
+        <MatchingExistScreen navigation={navigation} />
       ) : (
         <CreateProposalScreen navigation={navigation} />
       )}

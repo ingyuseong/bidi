@@ -19,9 +19,7 @@ import matchingAPI from '../../../../Api/matching';
 // Redux Action
 import { deleteBid, patchBid } from '../../../../Contexts/Bid/action';
 
-function BidListScreen({ navigation }) {
-  const { data: user } = useSelector((state) => state.user);
-  const { data: bidList } = useSelector((state) => state.bid);
+function BidListScreen({ navigation, bidList }) {
   const [moreToggle, setMoreToggle] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [showStyles, setShowStyles] = useState([]);

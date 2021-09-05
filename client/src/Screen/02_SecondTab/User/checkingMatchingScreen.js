@@ -21,11 +21,10 @@ function CheckingMatchingScreen({ navigation }) {
   useEffect(() => {
     dispatch(getMatchingByCustomerId(user.id));
   }, [dispatch]);
-  // if (loading || error) return <Loading loading />;
   return (
     <View style={{ flex: 1 }}>
       {matching && matching.length > 0 ? (
-        <MatchingMainScreen navigation={navigation} />
+        <MatchingMainScreen navigation={navigation} matching={matching[0]} />
       ) : (
         <WaitMainScreen navigation={navigation} />
       )}
