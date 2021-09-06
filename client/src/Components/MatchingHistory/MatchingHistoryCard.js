@@ -17,7 +17,11 @@ import MatchingAPI from '../../Api/matching';
 import { patchMatchingHistory } from '../../Contexts/MatchingHistory/action';
 
 function MatchingHistoryCard({ index, type, isUser }) {
-  const { data: matchingHistoryList, loading, error } = useSelector((state) => state.matching);
+  const {
+    data: matchingHistoryList,
+    loading,
+    error,
+  } = useSelector((state) => state.matchingHistory);
   const [stars, setStars] = useState(0);
   const [reviewToggle, setReviewToggle] = useState(false);
   const [reviewText, setReviewText] = useState(matchingHistoryList[index].review);

@@ -5,7 +5,7 @@ import { ActivityIndicator, View, StyleSheet } from 'react-native';
 // Screens
 import CreateProposalScreen from './createProposalScreen';
 import RegisteredProposalScreen from './registeredProposalScreen';
-import MatchingExistScreen from './MatchingExistScreen';
+import MatchingExistScreen from './matchingExistScreen';
 
 // Components
 import Loading from '../../../Components/Common/loading';

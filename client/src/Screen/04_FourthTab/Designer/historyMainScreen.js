@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import { getMatchingHistoryListByDesignerId } from '../../../Contexts/Matching';
+import { getMatchingHistoryListByDesignerId } from '../../../Contexts/MatchingHistory/action';
 
 import Loading from '../../../Components/Common/loading';
 import HistroyListScreen from './histroyListScreen';
@@ -15,7 +15,11 @@ const Tab = createMaterialTopTabNavigator();
 function HistoryMainScreen({ navigation }) {
   const dispatch = useDispatch();
   const { data: userInfo } = useSelector((state) => state.user);
-  const { data: matchingHistoryList, loading, error } = useSelector((state) => state.matching);
+  const {
+    data: matchingHistoryList,
+    loading,
+    error,
+  } = useSelector((state) => state.matchingHistory);
 
   useEffect(() => {
     dispatch(getMatchingHistoryListByDesignerId(userInfo.id));

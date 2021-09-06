@@ -52,8 +52,9 @@ function ProposalListScreen({ navigation }) {
             <View style={styles.deatilContainer}>
               <ProposalDetailScreen navigation={navigation} props={{ proposal }} />
             </View>
-          </Swiper>
-        ))}
+          </View>
+        </Swiper>
+      ))}
     </Swiper>
   );
 }

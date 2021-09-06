@@ -10,7 +10,7 @@ import {
 } from './constant';
 import { reducerUtils, handleAsyncActions } from '../Common/asyncUtils';
 const initialState = {
-  ...reducerUtils.initial([]),
+  ...reducerUtils.initial(null),
 };
 const bidReducer = (state = initialState, action) => {
   switch (action.type) {
