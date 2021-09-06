@@ -1,6 +1,6 @@
 import { SERVER_URL } from '../Lib/constant';
 
-export const API = async (url, method, body) => {
+export const API = async (url, method, body = null) => {
   return await fetch(SERVER_URL + url, {
     headers: {
       'Content-Type': 'application/json;charset=UTF-8',
@@ -19,16 +19,15 @@ export const API = async (url, method, body) => {
     })
     .then(({ data }) => data)
     .catch((error) => {
-      console.log(error);
       return false;
     });
 };
 
 export const formAPI = async (url, method, body) => {
   return await fetch(SERVER_URL + url, {
-    headers: {
-      'content-type': 'multipart/form-data',
-    },
+    // headers: {
+    //   'Content-Type': 'Multipart/Form-Data',
+    // },
     method,
     body,
   })
@@ -39,7 +38,9 @@ export const formAPI = async (url, method, body) => {
         throw new Error(response.json());
       }
     })
-    .then(({ data }) => data)
+    .then(({ data }) => {
+      return data;
+    })
     .catch((error) => {
       console.log(error);
       return false;

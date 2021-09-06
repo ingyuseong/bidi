@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, TouchableOpacity, Image, Alert } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import ItemBottomBtn from './itemBottomBtn';
+
 import Modal from 'react-native-modal';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import BrandingAPI from '../../Api/branding';
+import ItemBottomBtn from './itemBottomBtn';
+import { deleteBranding, patchBranding } from '../../Contexts/Branding';
 
 function MainItemCard({ info, navigation }) {
+  const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const moveToDetailBranding = (info) => {
     navigation.navigate('DetailBranding', { info });
@@ -24,26 +29,13 @@ function MainItemCard({ info, navigation }) {
     ]);
   };
   const deleteSubmitHandler = async (id) => {
-    await fetch('http://127.0.0.1:3000' + `/api/branding/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        main: 1,
-      }),
-    })
-      .then((response) => response.json())
-      .then(async (response) => {
-        if (response) {
-          Alert.alert('삭제되었습니다!');
-          setModalVisible(false);
-          navigation.push('BrandingMain');
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const response = await BrandingAPI.deleteBranding(id);
+    if (response) {
+      dispatch(deleteBranding);
+      Alert.alert('삭제되었습니다!');
+      setModalVisible(false);
+      navigation.push('BrandingMain');
+    }
   };
   const cancelAlert = (id) => {
     Alert.alert('대표 등록을 취소하시겠습니까?', '', [
@@ -57,25 +49,13 @@ function MainItemCard({ info, navigation }) {
     ]);
   };
   const statusSubmitHandler = async (id) => {
-    await fetch('http://127.0.0.1:3000' + `/api/branding/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        main: 0,
-      }),
-    })
-      .then((response) => response.json())
-      .then(async (response) => {
-        if (response) {
-          Alert.alert('대표 포트폴리오 설정이 취소되었습니다!');
-          navigation.push('BrandingMain');
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const response = await BrandingAPI.patchBranding(id, { main: false });
+    if (response) {
+      dispatch(patchBranding(id, { main: false }));
+      Alert.alert('대표 포트폴리오 설정이 취소되었습니다!');
+      setModalVisible(false);
+      navigation.push('BrandingMain');
+    }
   };
   return (
     <View style={styles.container}>
@@ -99,8 +79,8 @@ function MainItemCard({ info, navigation }) {
               </View>
             </View>
             <View style={styles.tagArea}>
-              {info.keywords.length > 0 &&
-                info.keywords.map((keyword, index) => (
+              {info.keyword_array.length > 0 &&
+                info.keyword_array.map((keyword, index) => (
                   <View style={styles.tagView} key={index}>
                     <Text style={styles.tagText}># {keyword}</Text>
                   </View>

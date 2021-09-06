@@ -4,7 +4,6 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import { getBidListByDesignerId } from '../../../Contexts/Bid';
 import { getMatchingListByDesignerId } from '../../../Contexts/Matching';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 
 import Loading from '../../../Components/Common/loading';
 import NoProcessBidList from './noProcessBidList';
@@ -42,12 +41,9 @@ function BidMainScreen({ navigation }) {
   useEffect(() => {
     dispatch(getBidListByDesignerId(userInfo.id));
     dispatch(getMatchingListByDesignerId(userInfo.id));
-  }, []);
-  console.log('11', bidList);
+  }, [dispatch]);
   if (bidLoading || userLoading || matchingLoading || bidError || userError || matchingError)
     return <Loading loading />;
-  if (!bidList || !matchingList) return null;
-  console.log('22', bidList);
   return (
     <Tab.Navigator
       swipeEnabled={false}

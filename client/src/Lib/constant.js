@@ -2,6 +2,11 @@ export const SERVER_URL = 'http://127.0.0.1:3000/api';
 
 export const STORAGE_KEY = 'user';
 
+export const GENDER_TYPE = [
+  { label: '남성', value: 'male', key: '13' },
+  { label: '여성', value: 'female', key: '14' },
+];
+
 export const LENGTH_TYPE = [
   { label: '롱', value: 'long', key: '1' },
   { label: '미디엄', value: 'medium', key: '2' },
