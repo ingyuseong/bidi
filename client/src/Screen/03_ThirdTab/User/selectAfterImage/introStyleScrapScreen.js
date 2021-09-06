@@ -6,7 +6,7 @@ function StyleScrapIntroScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.contentBox}>
         <View style={styles.imageContainer}>
-          <Image style={styles.image} source={require('../../../../public/img/noScrap.png')} />
+          <Image style={styles.image} source={require('../../../../../public/img/noScrap.png')} />
         </View>
       </View>
       <View style={styles.headerBox}>

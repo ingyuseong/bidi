@@ -11,48 +11,49 @@ import Loading from '../../../Components/Common/loading';
 import Swiper from 'react-native-swiper';
 
 // Redux Action
-import { getBrandingList } from '../../../Contexts/Branding/action';
+import { getBrandingList } from '../../../Contexts/Customer/Branding/action';
+import { listNullChecking } from '../../../Lib/utils';
 
 function DesignerListScreen({ navigation }) {
-  const { data: brandingList, loading, error } = useSelector((state) => state.branding);
+  const { data: brandingList, loading, error } = useSelector((state) => state.customerBranding);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getBrandingList());
   }, [dispatch]);
-  if (loading || error) return <Loading loading />;
-  if (!brandingList) return null;
+  if (loading || error || !brandingList) return <Loading loading />;
   return (
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
-      {brandingList.map((branding, index) => (
-        <Swiper
-          key={index}
-          style={styles.wrapper}
-          showsButtons={false}
-          showsPagination={false}
-          loop={false}
-          horizontal={false}>
-          <View style={styles.container}>
-            <View style={{ height: '60%' }}>
-              <CardStyle styleLists={branding.brandingStyles} isUser={true} />
-              <TouchableOpacity
-                style={styles.bidiBtn}
-                onPress={() => Alert.alert('해당 디자이너에게 제안서가 전송되었습니다!')}>
-                <Icon name="flash" size={25} style={styles.bidiIcon} />
-              </TouchableOpacity>
+      {listNullChecking(brandingList) &&
+        brandingList.map((branding, index) => (
+          <Swiper
+            key={index}
+            style={styles.wrapper}
+            showsButtons={false}
+            showsPagination={false}
+            loop={false}
+            horizontal={false}>
+            <View style={styles.container}>
+              <View style={{ height: '60%' }}>
+                <CardStyle styleLists={branding.brandingStyles} isUser={true} />
+                <TouchableOpacity
+                  style={styles.bidiBtn}
+                  onPress={() => Alert.alert('해당 디자이너에게 제안서가 전송되었습니다!')}>
+                  <Icon name="flash" size={25} style={styles.bidiIcon} />
+                </TouchableOpacity>
+              </View>
+              <CardInfo
+                info={branding}
+                navigation={navigation}
+                height={150}
+                tagBackgroundColor={'#eeeeee'}
+                tagColor="#8D8D8D"
+              />
             </View>
-            <CardInfo
-              info={branding}
-              navigation={navigation}
-              height={150}
-              tagBackgroundColor={'#eeeeee'}
-              tagColor="#8D8D8D"
-            />
-          </View>
-          <View>
-            <DesignerDetail branding={branding} />
-          </View>
-        </Swiper>
-      ))}
+            <View>
+              <DesignerDetail branding={branding} />
+            </View>
+          </Swiper>
+        ))}
     </Swiper>
   );
 }

@@ -7,11 +7,11 @@ import StyleScrapIntroScreen from './introStyleScrapScreen';
 
 // Components
 import Modal from 'react-native-modal';
-import StyleModal from '../../../Components/Modal/styleModal';
-import Loading from '../../../Components/Common/loading';
+import StyleModal from '../../../../Components/Modal/styleModal';
+import Loading from '../../../../Components/Common/loading';
 
 // Redux Action
-import { getStyleScrapList } from '../../../Contexts/StyleScrap/action';
+import { getStyleScrapList } from '../../../../Contexts/StyleScrap/action';
 
 function StyleScrapScreen({ navigation }) {
   const { data: user } = useSelector((state) => state.user);

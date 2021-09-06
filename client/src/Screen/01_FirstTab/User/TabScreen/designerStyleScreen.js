@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TouchableOpacity, StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import { priceFormating, textLimiting } from '../../../Lib/utils';
+import { priceFormating, textLimiting } from '../../../../Lib/utils';
 
 // Components
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Modal from 'react-native-modal';
-import StyleModal from '../../../Components/Modal/styleModal';
-import Loading from '../../../Components/Common/loading';
+import StyleModal from '../../../../Components/Modal/styleModal';
+import Loading from '../../../../Components/Common/loading';
 
 // Redux Action
 import {
   registerStyleScrap,
   deleteStyleScrap,
   getStyleScrapList,
-} from '../../../Contexts/StyleScrap/action';
+} from '../../../../Contexts/StyleScrap/action';
 
 // API
-import StyleScrapAPI from '../../../Api/styleScrap';
+import StyleScrapAPI from '../../../../Api/styleScrap';
 
 function DesignerStyleScreen({ navigation, branding }) {
   // state
@@ -49,8 +49,7 @@ function DesignerStyleScreen({ navigation, branding }) {
   useEffect(() => {
     dispatch(getStyleScrapList(user.id));
   }, [dispatch]);
-  if (loading || error) return <Loading loading />;
-  if (!styleScrapList) return null;
+  if (loading || error || !styleScrapList) return <Loading />;
   return (
     <View style={{ marginLeft: 20, marginRight: 20 }}>
       <View style={styles.titleContainer}>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import StyleScrapScreen from './styleScrapScreen';
-import MatchingHistoryScreen from './matchingHistoryScreen';
+import StyleScrapScreen from './TabScreen/styleScrapScreen';
+import MatchingHistoryScreen from './TabScreen/matchingHistoryScreen';
 
 const Tab = createMaterialTopTabNavigator();
 

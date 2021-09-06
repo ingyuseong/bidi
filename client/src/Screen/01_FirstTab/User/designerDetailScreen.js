@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity } from 'react-native';
 
 // Components
-import DesignerHistoryScreen from './designerHistoryScreen';
-import DesignerStyleScreen from './designerStyleScreen';
+import DesignerHistoryScreen from './TabScreen/designerHistoryScreen';
+import DesignerStyleScreen from './TabScreen/designerStyleScreen';
 
 function DesignerDetailScreen({ branding }) {
   const [tab, setTab] = useState('tab1');

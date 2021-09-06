@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Text, View, StyleSheet, Button, TouchableOpacity, Image, ScrollView } from 'react-native';
 
 // Screens
-import StyleScrapIntroScreen from '../../../../04_FourthTab/User/introStyleScrapScreen';
+import StyleScrapIntroScreen from './introStyleScrapScreen';
 
 // Components
 import Ionicons from 'react-native-vector-icons/Ionicons';

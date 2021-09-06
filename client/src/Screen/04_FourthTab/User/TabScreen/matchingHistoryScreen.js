@@ -6,11 +6,11 @@ import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
 import NoHistoryScreen from './noHistoryScreen';
 
 // Components
-import MatchingHistoryCard from '../../../Components/MatchingHistory/MatchingHistoryCard';
-import Loading from '../../../Components/Common/loading';
+import MatchingHistoryCard from '../../../../Components/MatchingHistory/MatchingHistoryCard';
+import Loading from '../../../../Components/Common/loading';
 
 // Redux Action
-import { getMatchingHistoryListByCustomerId } from '../../../Contexts/MatchingHistory/action';
+import { getMatchingHistoryListByCustomerId } from '../../../../Contexts/Customer/MatchingHistory/action';
 
 function MatchingHistoryScreen() {
   const { data: user } = useSelector((state) => state.user);
@@ -18,13 +18,12 @@ function MatchingHistoryScreen() {
     data: matchingHistoryList,
     loading,
     error,
-  } = useSelector((state) => state.matchingHistory);
+  } = useSelector((state) => state.customerMatchingHistory);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getMatchingHistoryListByCustomerId(user.id));
   }, [dispatch]);
-  if (loading || error) return <Loading loading />;
-  if (!matchingHistoryList) return null;
+  if (loading || error || !matchingHistoryList) return <Loading />;
   return (
     <>
       {matchingHistoryList && matchingHistoryList.length > 0 ? (

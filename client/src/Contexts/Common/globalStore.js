@@ -35,13 +35,15 @@ const rootReducer = combineReducers({
   matching: matchingReducer,
   matchingHistory: matchingHistoryReducer,
   style: styleReducer,
+  customerProposal: customerProposalReducer,
+  customerBranding: customerBrandingReducer,
+  customerMatchingHistory: customerMatchingHistoryReducer,
   customer: {
     proposal: customerProposalReducer,
-    branding: customerBrandingReducer,
     bid: customerBidReducer,
     styleScrap: customerStyleScrapReducer,
     matching: customerMatchingReducer,
-    matchingHistory: customerMatchingHistoryReducer,
+
     style: customerStyleReducer,
   },
   designer: {
