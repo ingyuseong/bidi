@@ -27,7 +27,7 @@ function MatchingHistoryScreen() {
         <ScrollView style={styles.container}>
           {matchingHistoryList.map((history, index) => (
             <View key={index}>
-              <MatchingHistoryCard index={index} />
+              <MatchingHistoryCard index={index} isUser={true} />
               <View style={styles.line}></View>
             </View>
           ))}

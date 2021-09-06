@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
+
+import Line from '../../../Components/Common/line';
 import ItemHeader from '../../../Components/ListItem/itemHeader';
 import ItemContent from '../../../Components/ListItem/itemContent';
-import Line from '../../../Components/Common/line';
 
 function HistroyListScreen({ matchingHistoryList, navigation }) {
   return (

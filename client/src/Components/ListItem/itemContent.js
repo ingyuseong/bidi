@@ -40,6 +40,15 @@ function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }
         keyword_array: info.keyword_array,
       };
       break;
+    case 'history':
+      data = {
+        img_src: info.proposal.user.img_src,
+        name: info.proposal.user.name,
+        address: info.proposal.address,
+        description: info.proposal.description,
+        keyword_array: info.proposal.keyword_array,
+      };
+      break;
     default:
       break;
   }
