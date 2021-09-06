@@ -11,25 +11,22 @@ import StyleModal from '../../../../Components/Modal/styleModal';
 import Loading from '../../../../Components/Common/loading';
 
 // Redux Action
-import { getStyleScrapList } from '../../../../Contexts/StyleScrap/action';
+import { getStyleScrapList } from '../../../../Contexts/Customer/StyleScrap/action';
 
 function StyleScrapScreen({ navigation }) {
   const { data: user } = useSelector((state) => state.user);
-  const { data: styleScrapList, loading, error } = useSelector((state) => state.styleScrap);
+  const { data: styleScrapList, loading, error } = useSelector((state) => state.customerStyleScrap);
   const [modalVisible, setModalVisible] = useState(false);
   const [styleIndex, setStyleIndex] = useState(0);
-
   const dispatch = useDispatch();
   const modalOpen = (index) => {
     setModalVisible(true);
     setStyleIndex(index);
   };
-
   useEffect(() => {
     dispatch(getStyleScrapList(user.id));
   }, [dispatch]);
-  if (loading || error) return <Loading loading />;
-  if (!styleScrapList) return <StyleScrapIntroScreen />;
+  if (loading || error || !styleScrapList) return <Loading />;
   return (
     <>
       {styleScrapList && styleScrapList.length > 0 ? (

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Stack } from '../../../../App';
-import HistoryMainScreen from '../../../Screen/04_FourthTab/User/historyMainScreen';
+import HistoryMainScreen from '../../../Screen/04_FourthTab/Customer/historyMainScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import CommonHeader from '../../../Components/HeaderBar/commonHeader';
 

@@ -38,10 +38,11 @@ const rootReducer = combineReducers({
   customerProposal: customerProposalReducer,
   customerBranding: customerBrandingReducer,
   customerMatchingHistory: customerMatchingHistoryReducer,
+  customerStyleScrap: customerStyleScrapReducer,
   customer: {
     proposal: customerProposalReducer,
     bid: customerBidReducer,
-    styleScrap: customerStyleScrapReducer,
+
     matching: customerMatchingReducer,
 
     style: customerStyleReducer,
