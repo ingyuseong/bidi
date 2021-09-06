@@ -37,19 +37,19 @@ exports.getStyleList = async (req, res) => {
     })
   }
 }
-exports.getStyleListByUserId = async (req, res) => {
+exports.getStyleListByDesignerId = async (req, res) => {
   const { id } = req.params
-  const styleList = await styleServices.findAllStyleByUserId(id)
+  const styleList = await styleServices.findAllStyleByDesignerId(id)
   if (styleList) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
-      message: '유저의 전체 스타일 정보 조회 성공',
+      message: '디자이너의 전체 스타일 정보 조회 성공',
       data: styleList,
     })
   } else {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
-      message: '조회할 유저의 전체 스타일 목록이 없습니다',
+      message: '조회할 디자이너의 전체 스타일 목록이 없습니다',
       data: [],
     })
   }

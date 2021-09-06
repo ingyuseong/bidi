@@ -39,7 +39,7 @@ const RegisterScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const handleSubmitButton = async () => {
     if (photo) {
-      const bodyData = createFormData(photo, {
+      const bodyData = createFormData([photo], {
         user_type: userType,
         name: profile.nickname,
         nick_name: userNickName,

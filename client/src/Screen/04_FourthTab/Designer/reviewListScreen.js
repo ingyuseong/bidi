@@ -8,7 +8,7 @@ function ReviewListScreen({ matchingHistoryList }) {
     <ScrollView style={styles.container}>
       {matchingHistoryList.map((history, index) => (
         <View key={index}>
-          <MatchingHistoryCard history={history} />
+          <MatchingHistoryCard isUser={false} index={index} history={history} />
           <View style={styles.line}></View>
         </View>
       ))}

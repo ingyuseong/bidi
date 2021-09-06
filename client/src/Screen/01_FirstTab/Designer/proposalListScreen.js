@@ -23,31 +23,21 @@ function ProposalListScreen({ navigation }) {
   if (!proposalList) return null;
   return (
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
-      {proposalList &&
-        proposalList.length > 0 &&
-        proposalList.map((proposal, index) => (
-          <Swiper
-            key={index}
-            style={styles.wrapper}
-            showsButtons={false}
-            showsPagination={false}
-            loop={false}
-            horizontal={false}>
-            <View style={styles.listContainer}>
-              <View style={{ height: '60%' }}>
-                <CardChangeStyle
-                  before_src={proposal.before_src}
-                  after_src={proposal.after_src}
-                  height={'60%'}
-                  topRadius={true}
-                />
-              </View>
-              <CardInfo
-                info={proposal}
-                navigation={navigation}
-                height={150}
-                tagBackgroundColor="#E1ECFF"
-                tagColor="#323274"
+      {proposalList.map((proposal, index) => (
+        <Swiper
+          key={index}
+          style={styles.wrapper}
+          showsButtons={false}
+          showsPagination={false}
+          loop={false}
+          horizontal={false}>
+          <View style={styles.listContainer}>
+            <View style={{ height: '60%' }}>
+              <CardChangeStyle
+                before_src={proposal.before_src}
+                after_src={proposal.after_src}
+                height={'60%'}
+                topRadius={true}
               />
               <TouchableOpacity
                 style={styles.bidiBtn}

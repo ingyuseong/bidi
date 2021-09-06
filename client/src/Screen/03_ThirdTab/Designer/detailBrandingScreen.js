@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
-import Swiper from 'react-native-swiper';
-import CardStyle from '../../../Components/Card/cardStyle';
+import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
+
 import Icon from 'react-native-vector-icons/FontAwesome';
+
 import CardInfo from '../../../Components/Card/cardInfo';
+import CardStyle from '../../../Components/Card/cardStyle';
 import DesignerDetail from '../../01_FirstTab/User/designerDetailScreen';
+
 function DetailBrandingScreen({ navigation, route }) {
   const { info } = route.params;
   return (
     <View style={styles.container}>
       <ScrollView>
-        <CardStyle styleLists={info.styles} isUser={true} height={400} />
+        <CardStyle styleLists={info.brandingStyles} isUser={true} height={400} />
         <CardInfo info={info} navigation={navigation} />
         <View style={styles.line}></View>
-        <DesignerDetail info={info} />
+        <DesignerDetail branding={info} />
       </ScrollView>
       <TouchableOpacity
         style={styles.editIconArea}
         onPress={() => {
-          navigation.navigate('EditBranding', { info });
+          navigation.push('EditBranding', { info });
         }}>
         <Icon name="pencil" size={30} style={styles.editIcon} />
       </TouchableOpacity>

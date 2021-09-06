@@ -27,11 +27,14 @@ exports.priceFormating = (price) =>
 exports.createFormData = (photo, body) => {
   const data = new FormData();
 
-  data.append('userImage', {
-    name: body.userNickName,
-    type: photo.type,
-    uri: photo.uri.replace('file://', ''),
+  photo.forEach((item) => {
+    data.append('userImage', {
+      name: body.name,
+      type: item.type,
+      uri: item.uri.replace('file://', ''),
+    });
   });
+
   Object.keys(body).forEach((key) => {
     data.append(key, body[key]);
   });
@@ -46,12 +49,19 @@ exports.listNullChecking = (list) => {
   return list && list.length > 0;
 };
 
-// export {
-//   convertDate,
-//   textLimiting,
-//   dateFormating,
-//   priceFormating,
-//   createFormData,
-//   objectNullChecking,
-//   listNullChecking,
-// };
+exports.createImageArrayForm = (imgArray, body) => {
+  const data = new FormData();
+
+  const imgData = imgArray.map((img) => ({
+    name: body.name,
+    type: img.type,
+    uri: img.uri.replace('file://', ''),
+  }));
+
+  data.append('images', imgData);
+  Object.keys(body).forEach((key) => {
+    data.append(key, body[key]);
+  });
+  return data;
+};
+

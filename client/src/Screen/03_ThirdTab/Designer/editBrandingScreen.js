@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
+
 import Icon from 'react-native-vector-icons/Ionicons';
-import BidiStorage from '../../../Lib/storage';
-import { STORAGE_KEY } from '../../../Lib/constant';
 import BrandingInput from '../../../Components/Branding/brandingInput';
+import { patchBranding } from '../../../Contexts/Branding';
+import BrandingAPI from '../../../Api/branding';
 
 function EditBrandingScreen({ navigation, route }) {
   const { info } = route.params;
-  const [userInfo, setUserInfo] = useState();
+  const dispatch = useDispatch();
+  const { data: userInfo } = useSelector((state) => state.user);
 
   const [shopName, setShopName] = useState(info.shop_name);
   const [shopAddress, setShopAddress] = useState(info.address);
@@ -15,7 +18,7 @@ function EditBrandingScreen({ navigation, route }) {
   const [brandingName, setBrandingName] = useState(info.title);
   const [description, setDesciption] = useState(info.description);
   const [tagText, setTagText] = useState('');
-  const [styleTags, setStyleTags] = useState(info.keywords);
+  const [styleTags, setStyleTags] = useState(info.keyword_array);
   const [styleList, setStyleList] = useState('');
 
   const addStyleTags = () => {
@@ -32,40 +35,24 @@ function EditBrandingScreen({ navigation, route }) {
   };
 
   const editHandler = async () => {
-    await fetch('http://127.0.0.1:3000' + `/api/branding/${info.id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        user_id: userInfo.id,
-        description: description,
-        shop_name: shopName,
-        address: shopAddress,
-        position: position,
-        title: brandingName,
-        keywords: styleTags.toString(),
-        styles: [1, 2, 3],
-      }),
-    })
-      .then((response) => response.json())
-      .then(async (response) => {
-        if (response) {
-          Alert.alert('포트폴리오 수정이 성공적으로 완료되었습니다!');
-          navigation.push('BrandingMain');
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-  useEffect(() => {
-    async function fetchMode() {
-      const user = await BidiStorage.getData(STORAGE_KEY);
-      setUserInfo(user);
+    const params = {
+      user_id: userInfo.id,
+      description: description,
+      shop_name: shopName,
+      address: shopAddress,
+      position: position,
+      title: brandingName,
+      keyword_array: styleTags.toString(),
+      styleIdList: [1, 2],
+    };
+    const response = await BrandingAPI.patchBranding(info.id, params);
+    if (response) {
+      dispatch(patchBranding(info.id, params));
+      Alert.alert('포트폴리오 수정이 성공적으로 완료되었습니다!');
+      navigation.push('BrandingMain');
     }
-    fetchMode();
-  }, []);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <BrandingInput

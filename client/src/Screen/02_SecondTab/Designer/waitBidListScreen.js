@@ -8,21 +8,19 @@ import ItemContent from '../../../Components/ListItem/itemContent';
 function WaitBidListScreen({ navigation, bidList }) {
   return (
     <ScrollView style={styles.container}>
-      {bidList &&
-        bidList.length > 0 &&
-        bidList.map((bid, index) => (
-          <View style={styles.bidContainer} key={index}>
-            <ItemHeader
-              info={bid}
-              screen="bid"
-              clickHandler={() => {
-                navigation.navigate('DetailBid', { info: bid, screen: 'bid' });
-              }}
-            />
-            <ItemContent info={bid} screen="bid" navigation={navigation} />
-            <Line />
-          </View>
-        ))}
+      {bidList.map((bid, index) => (
+        <View style={styles.bidContainer} key={index}>
+          <ItemHeader
+            info={bid}
+            screen="bid"
+            clickHandler={() => {
+              navigation.push('DetailBid', { info: bid, screen: 'bid' });
+            }}
+          />
+          <ItemContent info={bid} screen="bid" navigation={navigation} />
+          <Line />
+        </View>
+      ))}
     </ScrollView>
   );
 }

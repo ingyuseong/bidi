@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Modal from 'react-native-modal';
+import BrandingAPI from '../../Api/branding';
+import { deleteBranding } from '../../Contexts/Branding';
 
 function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }) {
+  const dispatch = useDispatch();
+
   let data;
-  if (screen == 'bid') {
-    console.log('??', info, screen);
-  }
   switch (screen) {
     case 'bid':
       data = {
@@ -22,6 +25,24 @@ function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }
     case 'matching':
       data = {
         img_src: info.proposal.before_src,
+        name: info.proposal.user.name,
+        address: info.proposal.address,
+        description: info.proposal.description,
+        keyword_array: info.proposal.keyword_array,
+      };
+      break;
+    case 'branding':
+      data = {
+        img_src: info.user.img_src,
+        name: info.user.name,
+        address: info.shop_name,
+        description: info.description,
+        keyword_array: info.keyword_array,
+      };
+      break;
+    case 'history':
+      data = {
+        img_src: info.proposal.user.img_src,
         name: info.proposal.user.name,
         address: info.proposal.address,
         description: info.proposal.description,
@@ -45,26 +66,13 @@ function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }
   };
 
   const deleteSubmitHandler = async (id) => {
-    await fetch('http://127.0.0.1:3000' + `/api/branding/${id}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        main: 1,
-      }),
-    })
-      .then((response) => response.json())
-      .then(async (response) => {
-        if (response) {
-          Alert.alert('삭제되었습니다!');
-          setModalVisible(false);
-          navigation.push('BrandingMain');
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const response = await BrandingAPI.deleteBranding(id);
+    if (response) {
+      dispatch(deleteBranding);
+      Alert.alert('삭제되었습니다!');
+      setModalVisible(false);
+      navigation.push('BrandingMain');
+    }
   };
 
   return (

@@ -95,8 +95,9 @@ exports.getMainBrandingByDesignerId = async (req, res) => {
 
 // [ 3. PATCH Methods ]
 exports.patchBranding = async (req, res) => {
+  const { id } = req.params
   const body = req.body
-  const patchedBrandingCount = await brandingServices.updateBranding(body)
+  const patchedBrandingCount = await brandingServices.updateBranding(id, body)
   if (patchedBrandingCount) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',

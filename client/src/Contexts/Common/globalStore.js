@@ -8,6 +8,7 @@ import matchingReducer from '../Matching';
 import matchingHistoryReducer from '../MatchingHistory';
 import brandingReducer from '../Branding';
 import styleScrapReducer from '../StyleScrap';
+import styleReducer from '../Style';
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   styleScrap: styleScrapReducer,
   matching: matchingReducer,
   matchingHistory: matchingHistoryReducer,
+  style: styleReducer,
 });
 const globalStore = () => {
   return createStore(rootReducer, applyMiddleware(ReduxThunk));

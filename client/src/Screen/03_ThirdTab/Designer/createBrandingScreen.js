@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
+
+import BrandingAPI from '../../../Api/branding';
+
+import Loading from '../../../Components/Common/loading';
 import Icon from 'react-native-vector-icons/Ionicons';
-import BidiStorage from '../../../Lib/storage';
-import { STORAGE_KEY } from '../../../Lib/constant';
 import BrandingInput from '../../../Components/Branding/brandingInput';
+import { getBrandingListByDesignerId } from '../../../Contexts/Branding';
 
 function CreateBrandingScreen({ navigation }) {
-  const [userInfo, setUserInfo] = useState();
+  const { data: userInfo } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const [shopName, setShopName] = useState('');
   const [shopAddress, setShopAddress] = useState('');
@@ -30,42 +35,45 @@ function CreateBrandingScreen({ navigation }) {
     setStyleTags(filteredStyleTags);
   };
   const registerHandler = async () => {
-    await fetch('http://127.0.0.1:3000' + '/api/branding/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        user_id: userInfo.id,
-        description: description,
-        shop_name: shopName,
-        address: shopAddress,
-        position: position,
-        title: brandingName,
-        keywords: styleTags.toString(),
-        main: 0,
-        authentication: 0,
-        styles: '1,2,3',
-      }),
-    })
-      .then((response) => response.json())
-      .then(async (response) => {
-        if (response) {
-          Alert.alert('포트폴리오 작성이 성공적으로 완료되었습니다!');
-          navigation.push('BrandingMain');
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-  useEffect(() => {
-    async function fetchMode() {
-      const user = await BidiStorage.getData(STORAGE_KEY);
-      setUserInfo(user);
+    if (!shopName) {
+      return Alert.alert('헤어샵명을 입력해주세요!');
     }
-    fetchMode();
-  }, []);
+    if (!shopAddress) {
+      return Alert.alert('헤어샵 위치를 입력해주세요!');
+    }
+    if (!position) {
+      return Alert.alert('헤어샵명을 입력해주세요!');
+    }
+    if (!brandingName) {
+      return Alert.alert('포트폴리오 이름을 입력해주세요!');
+    }
+    if (!styleTags) {
+      return Alert.alert('스타일 태그를 입력해주세요!');
+    }
+    if (!description) {
+      return Alert.alert('상세 설명을 입력해주세요!');
+    }
+    const response = BrandingAPI.registerBranding({
+      user_id: userInfo.id,
+      description: description,
+      shop_name: shopName,
+      address: shopAddress,
+      position: position,
+      title: brandingName,
+      keyword_array: styleTags.toString(),
+      main: 0,
+      authentication: 0,
+      styleIdList: [1, 2],
+    });
+    if (response) {
+      await dispatch(getBrandingListByDesignerId(userInfo.id));
+      navigation.push('BrandingMain');
+      Alert.alert('포트폴리오 작성이 성공적으로 완료되었습니다!');
+    } else {
+      Alert.alert('Error');
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
       <BrandingInput
@@ -103,7 +111,7 @@ function CreateBrandingScreen({ navigation }) {
         value={tagText}
         setValue={setTagText}
         setStyleTags={setStyleTags}
-        placeholderMessage="스타일을 검색하세요"
+        placeholderMessage="스타일에 관련된 키워드들을 입력해주세요"
         placeholderColor="#878787"
         returnKeyType="next"
         styleTags={styleTags}
@@ -119,6 +127,11 @@ function CreateBrandingScreen({ navigation }) {
         height={167}
         multiline={true}
       />
+      <View style={styles.lengthArea}>
+        <Text style={[styles.lengthText, description.length === 400 && styles.maxLengthText]}>
+          ( {description.length} / 400 )
+        </Text>
+      </View>
       <View style={styles.inputBox}>
         <View style={styles.titleTextArea}>
           <Text style={styles.titleText}>추천 스타일</Text>
@@ -214,6 +227,18 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     letterSpacing: -0.5,
     textAlign: 'center',
+  },
+  lengthArea: {
+    marginTop: -8,
+    marginRight: 16,
+  },
+  lengthText: {
+    textAlign: 'right',
+    color: 'gray',
+    fontSize: 15,
+  },
+  maxLengthText: {
+    color: 'red',
   },
 });
 

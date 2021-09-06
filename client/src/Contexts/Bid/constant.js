@@ -1,4 +1,3 @@
-export const REGISTER_BID = 'REGISTER_BID';
 export const PATCH_BID = 'PATCH_BID';
 export const DELETE_BID = 'DELETE_BID';
 
