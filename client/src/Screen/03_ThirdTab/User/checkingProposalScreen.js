@@ -1,37 +1,29 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
-import BidiStorage from '../../../Lib/storage';
-import { STORAGE_KEY } from '../../../Lib/constant';
+
+// Redux Action
+import ProposalAPI from '../../../Api/proposal';
+import { getProposal } from '../../../Contexts/Proposal/action';
 
 function CheckingProposalScreen({ navigation }) {
-  const [animating] = useState(true);
-  const getProposalInfo = async (user) => {
-    await fetch('http://127.0.0.1:3000' + `/api/proposal/user/${user.id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.data && Object.keys(result.data).length !== 0) {
-          navigation.replace('ProposalRegistered');
-        } else {
-          navigation.replace('Intro');
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  const { data: user } = useSelector((state) => state.user);
+  const [animating, setAnimating] = useState(true);
+  const dispatch = useDispatch();
   useEffect(() => {
     async function fetchMode() {
-      const user = await BidiStorage.getData(STORAGE_KEY);
-      getProposalInfo(user);
+      const proposal = await ProposalAPI.getProposalByUserId(user.id);
+      if (proposal && Object.keys(proposal).length !== 0) {
+        await dispatch(getProposal(proposal));
+        setAnimating(false);
+        navigation.replace('ProposalRegistered');
+      } else {
+        setAnimating(false);
+        navigation.replace('Intro');
+      }
     }
     fetchMode();
-  }, []);
-
+  }, [dispatch]);
   return (
     <View style={styles.container}>
       <ActivityIndicator
