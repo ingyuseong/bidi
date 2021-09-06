@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-function UserInfo({ info, keywords }) {
+function UserInfo({ info, keyword_array }) {
   return (
     <View style={styles.userContainer}>
       <View style={styles.userInfo}>
@@ -23,10 +23,10 @@ function UserInfo({ info, keywords }) {
         </View>
       </View>
       <View style={styles.userTag}>
-        {keywords != '' ? (
-          keywords.map((item, index) => (
+        {keyword_array && keyword_array.length > 0 ? (
+          keyword_array.map((item, index) => (
             <View style={styles.tag} key={index}>
-              <Text style={{ color: '#8D8D8D' }}># {item}</Text>
+              <Text style={{ color: '#8D8D8D' }}>{item}</Text>
             </View>
           ))
         ) : (

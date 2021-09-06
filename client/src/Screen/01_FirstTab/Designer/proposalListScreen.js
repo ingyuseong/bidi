@@ -14,7 +14,10 @@ function ProposalListScreen({ navigation }) {
   const { data: proposalList, loading, error } = useSelector((state) => state.proposal);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getProposalList());
+    async function fetchMode() {
+      await dispatch(getProposalList());
+    }
+    fetchMode();
   }, [dispatch]);
   if (loading || error) return <Loading loading />;
   if (!proposalList) return null;
@@ -36,29 +39,21 @@ function ProposalListScreen({ navigation }) {
                 height={'60%'}
                 topRadius={true}
               />
+              <TouchableOpacity
+                style={styles.bidiBtn}
+                onPress={() =>
+                  navigation.navigate('ProposalDetail', {
+                    proposal: proposalList[index],
+                  })
+                }>
+                <Icon name="pencil" size={25} style={styles.bidiIcon} />
+              </TouchableOpacity>
             </View>
-            <CardInfo
-              info={proposal}
-              navigation={navigation}
-              height={150}
-              tagBackgroundColor="#E1ECFF"
-              tagColor="#323274"
-            />
-            <TouchableOpacity
-              style={styles.bidiBtn}
-              onPress={() =>
-                navigation.navigate('ProposalDetail', {
-                  proposal: proposalList[index],
-                })
-              }>
-              <Icon name="pencil" size={25} style={styles.bidiIcon} />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.deatilContainer}>
-            <ProposalDetailScreen navigation={navigation} props={{ proposal }} />
-          </View>
-        </Swiper>
-      ))}
+            <View style={styles.deatilContainer}>
+              <ProposalDetailScreen navigation={navigation} props={{ proposal }} />
+            </View>
+          </Swiper>
+        ))}
     </Swiper>
   );
 }

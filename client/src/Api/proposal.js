@@ -34,8 +34,14 @@ const ProposalAPI = {
   getProposalByUserId: async (id) => {
     return await API(`/proposal/user/${id}`, 'get');
   },
-  patchProposal: async (body) => {},
-  patchMatchingStatus: async (body) => {},
-  deleteProposal: async (body) => {},
+  patchProposal: async (id, body) => {
+    return await API(`/proposal/${id}`, 'patch', JSON.stringify(body));
+  },
+  patchWithFile: async (id, body) => {
+    return await formAPI(`/proposal/withFile/${id}`, 'patch', body);
+  },
+  deleteProposal: async (id) => {
+    return await API(`/proposal/${id}`, 'delete');
+  },
 };
 export default ProposalAPI;

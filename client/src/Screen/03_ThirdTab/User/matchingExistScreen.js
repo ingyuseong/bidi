@@ -1,34 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-function NoBidScreen({ navigation }) {
+function MatchingExistScreen({ navigation }) {
   const designerHandler = async () => {
-    navigation.navigate('MainTab', { screen: 'Search' });
+    navigation.replace('MainTab', { screen: 'Bid' });
   };
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={{ marginBottom: 10 }}>
-          <Image style={styles.bidIcon} source={require('../../../../public/img/bidIcon.png')} />
-        </View>
-        <Text style={styles.title}>
-          <Text style={styles.boldTitle}>아직 비드가 도착하지</Text>
-        </Text>
-        <Text style={styles.title}>
-          <Text style={styles.boldTitle}>않았어요! </Text>
-        </Text>
-      </View>
       <View style={styles.content}>
-        <View style={styles.description}>
-          <Text style={styles.text}>등록하신 제안서를 검토하거나</Text>
-          <Text style={styles.text}>주변 디자이너를 먼저 확인해보세요</Text>
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.image}
+            source={require('../../../../public/img/proposal_registered.png')}
+          />
         </View>
       </View>
-      <View style={styles.imageContainer}>
-        <Image style={styles.image} source={require('../../../../public/img/noBid.png')} />
+      <View style={styles.header}>
+        <Text style={styles.title}>
+          <Text style={styles.boldTitle}>이미 매칭이 진행 중</Text>입니다
+        </Text>
+        <Text style={styles.title}>
+          <Text style={styles.boldTitle}></Text>매칭을 확인해주세요!
+        </Text>
+        <View style={styles.description}>
+          <Text style={styles.text}>시간정보와 스타일을 결정해서</Text>
+          <Text style={styles.text}>시술을 받아보세요!</Text>
+        </View>
       </View>
       <TouchableOpacity activeOpacity={0.8} style={styles.button} onPress={designerHandler}>
-        <Text style={styles.buttonText}>디자이너 직접 찾아보기 {'>>'}</Text>
+        <Text style={styles.buttonText}>매칭 정보 확인하기</Text>
       </TouchableOpacity>
     </View>
   );
@@ -41,14 +42,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white',
   },
-  header: {
-    width: '90%',
-    padding: 20,
-    marginBottom: 10,
+  content: {
+    width: '100%',
+    height: '50%',
   },
-  bidIcon: {
-    width: 35,
-    height: 45,
+  imageContainer: {
+    flexWrap: 'wrap',
+    alignContent: 'flex-start',
+    width: '100%',
+    height: '100%',
+  },
+  image: {
+    width: '85%',
+    height: '100%',
+  },
+  header: {
+    width: '100%',
+    height: '27%',
+    padding: 30,
+    marginBottom: 10,
   },
   title: {
     fontSize: 27,
@@ -58,27 +70,12 @@ const styles = StyleSheet.create({
     fontSize: 27,
     fontWeight: 'bold',
   },
-  content: {
-    width: '90%',
-    height: '50%',
-  },
-  imageContainer: {
-    width: '85%',
-    height: 300,
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-  },
   description: {
-    marginLeft: 20,
+    marginTop: 10,
+    height: '15%',
   },
   text: {
     fontSize: 15,
-    lineHeight: 25,
     fontWeight: '400',
     marginBottom: 3,
   },
@@ -105,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NoBidScreen;
+export default MatchingExistScreen;

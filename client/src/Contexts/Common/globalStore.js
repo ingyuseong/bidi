@@ -5,6 +5,7 @@ import userReducer from '../User';
 import proposalReducer from '../Proposal';
 import bidReducer from '../Bid';
 import matchingReducer from '../Matching';
+import matchingHistoryReducer from '../MatchingHistory';
 import brandingReducer from '../Branding';
 import styleScrapReducer from '../StyleScrap';
 import styleReducer from '../Style';
@@ -14,8 +15,9 @@ const rootReducer = combineReducers({
   proposal: proposalReducer,
   branding: brandingReducer,
   bid: bidReducer,
-  matching: matchingReducer,
   styleScrap: styleScrapReducer,
+  matching: matchingReducer,
+  matchingHistory: matchingHistoryReducer,
   style: styleReducer,
 });
 const globalStore = () => {

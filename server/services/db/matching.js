@@ -14,9 +14,10 @@ exports.createMatching = async (attr) => {
   const matching = await Matching.create({
     raw: true,
     ...attr,
-    styling_at: null,
+    style_id: null,
     review: null,
     star: 0,
+    confirm: false,
     done: false,
     canceled: false,
   })
@@ -54,6 +55,10 @@ exports.findAllMatching = async () => {
             },
           },
         ],
+      },
+      {
+        model: Style,
+        required: false,
       },
     ],
     order: [['updated_at', 'DESC']],
@@ -95,7 +100,57 @@ exports.findOneMatching = async (id) => {
           },
         ],
       },
+      {
+        model: Style,
+        required: false,
+      },
     ],
+  })
+  return matching
+}
+exports.findOneMatchingByCustomerId = async (id) => {
+  const matching = await Matching.findOne({
+    where: {
+      customer_id: id,
+      done: false,
+      canceled: false,
+    },
+    include: [
+      {
+        model: Proposal,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+        ],
+      },
+      {
+        model: Bid,
+        required: true,
+        include: [
+          {
+            model: User,
+            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
+            required: true,
+          },
+          {
+            model: Style,
+            as: 'bidStyles',
+            through: {
+              model: BidStyle,
+            },
+          },
+        ],
+      },
+      {
+        model: Style,
+        required: false,
+      },
+    ],
+    order: [['updated_at', 'DESC']],
   })
   return matching
 }
@@ -136,17 +191,20 @@ exports.findAllMatchingByDesignerId = async (id) => {
           },
         ],
       },
+      {
+        model: Style,
+        required: false,
+      },
     ],
     order: [['updated_at', 'DESC']],
   })
   return matchingList
 }
-exports.findAllMatchingByCustomerId = async (id) => {
+exports.findAllMatchingHistoryByCustomerId = async (id) => {
   const matchingList = await Matching.findAll({
     where: {
       customer_id: id,
-      done: false,
-      canceled: false,
+      done: true,
     },
     include: [
       {
@@ -177,6 +235,10 @@ exports.findAllMatchingByCustomerId = async (id) => {
             },
           },
         ],
+      },
+      {
+        model: Style,
+        required: false,
       },
     ],
     order: [['updated_at', 'DESC']],
@@ -223,58 +285,22 @@ exports.findAllMatchingHistoryByDesignerId = async (id) => {
           },
         ],
       },
-    ],
-    order: [['updated_at', 'DESC']],
-  })
-  return matchingList
-}
-exports.findAllMatchingHistoryByCustomerId = async (id) => {
-  const matchingList = await Matching.findAll({
-    where: {
-      customer_id: id,
-      done: true,
-    },
-    include: [
       {
-        model: Proposal,
-        required: true,
-        include: [
-          {
-            model: User,
-            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-            required: true,
-          },
-        ],
-      },
-      {
-        model: Bid,
-        required: true,
-        include: [
-          {
-            model: User,
-            attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
-            required: true,
-          },
-          {
-            model: Style,
-            as: 'bidStyles',
-            through: {
-              model: BidStyle,
-            },
-          },
-        ],
+        model: Style,
+        required: false,
       },
     ],
     order: [['updated_at', 'DESC']],
   })
   return matchingList
 }
+
 // Update Proposal Resource [update]
-exports.updateMatchingTime = async (id, time) => {
+exports.updateMatchingStyle = async (id, style_id) => {
   const matching = await Matching.update(
     {
       raw: true,
-      time,
+      style_id,
     },
     {
       where: {
@@ -312,11 +338,11 @@ exports.updateMatchingStar = async (id, star) => {
   )
   return matching[0]
 }
-exports.updateMatchingDone = async (id, done) => {
+exports.updateMatchingReserved = async (id) => {
   const matching = await Matching.update(
     {
       raw: true,
-      done,
+      reserved: true,
     },
     {
       where: {
@@ -326,12 +352,26 @@ exports.updateMatchingDone = async (id, done) => {
   )
   return matching[0]
 }
-exports.updateMatchingCanceled = async (id, canceled) => {
+exports.updateMatchingDone = async (id) => {
   const matching = await Matching.update(
     {
       raw: true,
       done: true,
-      canceled,
+    },
+    {
+      where: {
+        id,
+      },
+    }
+  )
+  return matching[0]
+}
+exports.updateMatchingCanceled = async (id) => {
+  const matching = await Matching.update(
+    {
+      raw: true,
+      done: true,
+      canceled: true,
     },
     {
       where: {

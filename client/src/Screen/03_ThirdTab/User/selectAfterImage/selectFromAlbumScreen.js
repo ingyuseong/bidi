@@ -14,7 +14,7 @@ function SelectAfterImageScreen({ navigation, route }) {
       } else {
         setAlbumImage(response.assets[0]);
         setIsFromAlbum(true);
-        navigation.navigate('CreateProposal');
+        navigation.navigate('Main');
       }
     });
   };

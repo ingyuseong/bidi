@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, ActivityIndicator } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, ActivityIndicator } from 'react-native';
 
 function Loading({ loading }) {
   return <ActivityIndicator animating={loading} color="" size="large" style={styles.loader} />;

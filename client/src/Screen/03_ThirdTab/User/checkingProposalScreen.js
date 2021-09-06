@@ -2,37 +2,48 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 
+// Screens
+import CreateProposalScreen from './createProposalScreen';
+import RegisteredProposalScreen from './registeredProposalScreen';
+import MatchingExistScreen from './MatchingExistScreen';
+
+// Components
+import Loading from '../../../Components/Common/loading';
+
 // Redux Action
-import ProposalAPI from '../../../Api/proposal';
-import { getProposal } from '../../../Contexts/Proposal/action';
+import { getProposalAsync } from '../../../Contexts/Proposal/action';
+import { getMatchingByCustomerId } from '../../../Contexts/Matching/action';
 
 function CheckingProposalScreen({ navigation }) {
   const { data: user } = useSelector((state) => state.user);
+  const {
+    data: proposal,
+    loading: proposalLoading,
+    error: proposalError,
+  } = useSelector((state) => state.proposal);
+  const {
+    data: matching,
+    loading: matchingLoading,
+    error: matchingError,
+  } = useSelector((state) => state.matching);
   const [animating, setAnimating] = useState(true);
   const dispatch = useDispatch();
   useEffect(() => {
-    async function fetchMode() {
-      const proposal = await ProposalAPI.getProposalByUserId(user.id);
-      if (proposal && Object.keys(proposal).length !== 0) {
-        await dispatch(getProposal(proposal));
-        setAnimating(false);
-        navigation.replace('ProposalRegistered');
-      } else {
-        setAnimating(false);
-        navigation.replace('Intro');
-      }
-    }
-    fetchMode();
+    dispatch(getProposalAsync());
+    dispatch(getMatchingByCustomerId(user.id));
   }, [dispatch]);
+  if (proposalLoading || matchingLoading || proposalError || matchingError)
+    return <Loading matchingError />;
   return (
-    <View style={styles.container}>
-      <ActivityIndicator
-        animating={animating}
-        color=""
-        size="large"
-        style={styles.activityIndicator}
-      />
-    </View>
+    <>
+      {proposal && proposal.length > 0 ? (
+        <RegisteredProposalScreen navigation={navigation} />
+      ) : matching && matching.length > 0 ? (
+        <MatchingExistScreen navigation={navigation} />
+      ) : (
+        <CreateProposalScreen navigation={navigation} />
+      )}
+    </>
   );
 }
 

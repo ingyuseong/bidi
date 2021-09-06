@@ -9,13 +9,13 @@ exports.registerStyleScrap = async (req, res) => {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
       message: '스타일 스크랩 생성 성공',
-      data: styleScrap,
+      data: [styleScrap],
     })
   } else {
     res.status(STATUS_CODE.BAD_REQUEST).json({
       status: 'failed',
       message: '스타일 스크랩 생성에 실패했습니다',
-      data: {},
+      data: [],
     })
   }
 }
@@ -23,12 +23,12 @@ exports.registerStyleScrap = async (req, res) => {
 // [ 2. GET Methods ]
 exports.getStyleScrapList = async (req, res) => {
   const { id } = req.params
-  const styleScrap = await styleScrapServices.findAllStyleScrap(id)
-  if (styleScrap) {
+  const styleScrapList = await styleScrapServices.findAllStyleScrap(id)
+  if (styleScrapList) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
       message: '유저의 스타일 스크랩 목록 조회 성공',
-      data: styleScrap,
+      data: styleScrapList,
     })
   } else {
     res.status(STATUS_CODE.SUCCESS).json({

@@ -23,6 +23,9 @@ const modelAttributes = {
   length_type: {
     type: DataTypes.ENUM('long', 'medium', 'short'),
   },
+  address: {
+    type: DataTypes.STRING,
+  },
   letter: {
     type: DataTypes.TEXT,
   },

@@ -13,13 +13,13 @@ exports.registerBid = async (req, res) => {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
       message: '비드 등록 성공',
-      data: { bid, bidStyle },
+      data: [{ bid, bidStyle }],
     })
   } else {
     res.status(STATUS_CODE.BAD_REQUEST).json({
       status: 'failed',
       message: '비드 등록 실패',
-      data: {},
+      data: [],
     })
   }
 }
@@ -66,13 +66,13 @@ exports.getBid = async (req, res) => {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
       message: '비드 정보 조회 성공',
-      data: bid,
+      data: [bid],
     })
   } else {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
       message: '조회할 비드 정보가 없습니다',
-      data: {},
+      data: [],
     })
   }
 }
@@ -98,8 +98,7 @@ exports.patchBid = async (req, res) => {
 }
 exports.patchBidCanceled = async (req, res) => {
   const { id } = req.params
-  const body = req.body
-  const patchedBidCount = await bidServices.updateBidCanceled(id, body)
+  const patchedBidCount = await bidServices.updateBidCanceled(id)
   if (patchedBidCount) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',

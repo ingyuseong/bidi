@@ -9,13 +9,13 @@ exports.registerStyle = async (req, res) => {
     res.status(STATUS_CODE.CREATED).json({
       status: 'success',
       message: '스타일 등록 성공',
-      data: style,
+      data: [style],
     })
   } else {
     res.status(STATUS_CODE.BAD_REQUEST).json({
       status: 'failed',
       message: '스타일 등록에 실패했습니다',
-      data: {},
+      data: [],
     })
   }
 }
@@ -61,13 +61,13 @@ exports.getStyle = async (req, res) => {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
       message: '스타일 정보 조회 성공',
-      data: style,
+      data: [style],
     })
   } else {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
       message: '조회할 스타일 정보가 없습니다',
-      data: {},
+      data: [],
     })
   }
 }

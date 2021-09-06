@@ -24,22 +24,26 @@ import { API, formAPI } from './common';
 */
 
 const MatchingAPI = {
-  registerMatching: async () => {},
+  registerMatching: async (body) => {
+    return await API('/matching/register', 'post', JSON.stringify(body));
+  },
   getMatchingList: async () => {},
   getMatching: async () => {},
-  getMatchingListByDesignerId: async (id) => {
-    return await API(`/matching/designer/${id}`, 'get');
-  },
-  getMatchingListByCustomerId: async (id) => {
+  getMatchingByCustomerId: async (id) => {
     return await API(`/matching/customer/${id}`, 'get');
   },
-  getMatchingHistoryListByDesignerId: async (id) => {
-    return await API(`/matching/history/designer/${id}`, 'get');
+  getMatchingListByDesignerId: async (id) => {
+    return await API(`/matching/designer/${id}`, 'get');
   },
   getMatchingHistoryListByCustomerId: async (id) => {
     return await API(`/matching/history/customer/${id}`, 'get');
   },
-  patchMatchingTime: async () => {},
+  getMatchingHistoryListByDesignerId: async (id) => {
+    return await API(`/matching/history/designer/${id}`, 'get');
+  },
+  patchMatchingTime: async (id, body) => {
+    return await API(`/matching/review/${id}`, 'patch', JSON.stringify(body));
+  },
   patchMatchingReview: async (id, body) => {
     return await API(`/matching/review/${id}`, 'patch', JSON.stringify(body));
   },

@@ -147,6 +147,16 @@ db.Bid.belongsToMany(db.Style, {
   onDelete: 'CASCADE',
 })
 
+// 관계정의 Style : Matching  = 1 : N
+db.Style.hasMany(db.Matching, {
+  foreignKey: { allowNull: true },
+  onDelete: 'CASCADE',
+})
+db.Matching.belongsTo(db.Style, {
+  foreignKey: { allowNull: true },
+  onDelete: 'CASCADE',
+})
+
 // 관계정의 Proposal : Bid  = 1 : N
 db.Proposal.hasMany(db.Bid, {
   foreignKey: { allowNull: false },

@@ -17,7 +17,6 @@ function UserTabStack() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
           let iconName;
-
           if (route.name === 'Search') {
             iconName = 'search-outline';
           } else if (route.name === 'Bid') {
@@ -29,7 +28,6 @@ function UserTabStack() {
           } else if (route.name === 'Mypage') {
             iconName = 'md-person-circle-outline';
           }
-
           return <Ionicons name={iconName} size={30} color={color} />;
         },
       })}

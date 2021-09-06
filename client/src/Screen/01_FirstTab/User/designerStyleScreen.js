@@ -26,7 +26,6 @@ function DesignerStyleScreen({ navigation, branding }) {
   const [moreToggle, setMoreToggle] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [styleIndex, setStyleIndex] = useState(0);
-
   // functions
   const dispatch = useDispatch();
   const registerScrap = async (style) => {

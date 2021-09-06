@@ -20,11 +20,11 @@ const modelAttributes = {
   designer_id: {
     type: DataTypes.INTEGER,
   },
-  shop_name: {
-    type: DataTypes.STRING,
-  },
   address: {
     type: DataTypes.STRING,
+  },
+  style_id: {
+    type: DataTypes.INTEGER,
   },
   review: {
     type: DataTypes.STRING,
@@ -34,14 +34,14 @@ const modelAttributes = {
   },
 
   // Status Attributes
+  reserved: {
+    type: DataTypes.BOOLEAN,
+  },
   done: {
     type: DataTypes.BOOLEAN,
   },
   canceled: {
     type: DataTypes.BOOLEAN,
-  },
-  time: {
-    type: DataTypes.DATE,
   },
   created_at: {
     type: DataTypes.DATE,

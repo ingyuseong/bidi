@@ -2,8 +2,8 @@ import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 function IntroProposalScreen({ navigation }) {
-  const proposalHandler = async () => {
-    navigation.replace('CreateProposal');
+  const proposalHandler = () => {
+    navigation.navigate('MainTab', { screen: 'Proposal' });
   };
   return (
     <View style={styles.container}>
@@ -20,7 +20,7 @@ function IntroProposalScreen({ navigation }) {
         <View style={styles.imageContainer}>
           <Image
             style={styles.image}
-            source={require('../../../../public/img/proposal_intro.png')}
+            source={require('../../../../../../public/img/proposal_intro.png')}
           />
         </View>
         <View style={styles.description}>

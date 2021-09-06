@@ -1,6 +1,9 @@
 import {
   PATCH_BID,
   DELETE_BID,
+  GET_BID_LIST_CUSTOMER,
+  GET_BID_LIST_CUSTOMER_SUCCESS,
+  GET_BID_LIST_CUSTOMER_ERROR,
   GET_BID_LIST_DESIGNER,
   GET_BID_LIST_DESIGNER_SUCCESS,
   GET_BID_LIST_DESIGNER_ERROR,
@@ -25,6 +28,10 @@ const bidReducer = (state = initialState, action) => {
           return bid.id !== action.id;
         }),
       };
+    case GET_BID_LIST_CUSTOMER:
+    case GET_BID_LIST_CUSTOMER_SUCCESS:
+    case GET_BID_LIST_CUSTOMER_ERROR:
+      return handleAsyncActions(GET_BID_LIST_CUSTOMER)(state, action);
     case GET_BID_LIST_DESIGNER:
     case GET_BID_LIST_DESIGNER_SUCCESS:
     case GET_BID_LIST_DESIGNER_ERROR:
