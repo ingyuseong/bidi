@@ -11,7 +11,7 @@ import {
 } from './constant';
 import { reducerUtils, handleAsyncActions } from '../../Common/asyncUtils';
 const initialState = {
-  ...reducerUtils.initial([]),
+  ...reducerUtils.initial(null),
 };
 const matchingHistoryReducer = (state = initialState, action) => {
   switch (action.type) {

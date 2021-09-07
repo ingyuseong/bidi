@@ -1,31 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TouchableOpacity, StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-import { priceFormating, textLimiting } from '../../../Lib/utils';
+import { priceFormating, textLimiting } from '../../Lib/utils';
 
 // Components
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Modal from 'react-native-modal';
-import StyleModal from '../../../Components/Modal/styleModal';
-import Loading from '../../../Components/Common/loading';
+import StyleModal from '../Modal/styleModal';
+import Loading from '../Common/loading';
 
 // Redux Action
 import {
   registerStyleScrap,
   deleteStyleScrap,
   getStyleScrapList,
-} from '../../../Contexts/StyleScrap/action';
+} from '../../Contexts/StyleScrap/action';
 
 // API
-import StyleScrapAPI from '../../../Api/styleScrap';
+import StyleScrapAPI from '../../Api/styleScrap';
 
-function DesignerStyleScreen({ navigation, branding }) {
+function DesignerStyle({ navigation, branding, isUser }) {
   // state
   const { data: user } = useSelector((state) => state.user);
-  const { data: styleScrapList, loading, error } = useSelector((state) => state.styleScrap);
+  const {
+    data: styleScrapList,
+    loading,
+    error,
+  } = useSelector((state) => (isUser ? state.customerStyleScrap : state.designerStyleScrap));
   const [moreToggle, setMoreToggle] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [styleIndex, setStyleIndex] = useState(0);
+
   // functions
   const dispatch = useDispatch();
   const registerScrap = async (style) => {
@@ -49,8 +54,13 @@ function DesignerStyleScreen({ navigation, branding }) {
   useEffect(() => {
     dispatch(getStyleScrapList(user.id));
   }, [dispatch]);
-  if (loading || error) return <Loading loading />;
-  if (!styleScrapList) return null;
+  if (loading || error || !styleScrapList) return <Loading />;
+  if (!styleScrapList.length)
+    return (
+      <View>
+        <Text>No List</Text>
+      </View>
+    );
   return (
     <View style={{ marginLeft: 20, marginRight: 20 }}>
       <View style={styles.titleContainer}>
@@ -250,4 +260,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DesignerStyleScreen;
+export default DesignerStyle;

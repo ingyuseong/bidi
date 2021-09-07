@@ -27,6 +27,7 @@ function HistoryMainScreen({ navigation }) {
   if (loading || error || !matchingHistoryList) {
     return <Loading />;
   }
+
   return (
     <Tab.Navigator
       swipeEnabled={false}
