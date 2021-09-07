@@ -1,26 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Image } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
-function StyleScrapIntroScreen({ navigation }) {
+function MatchingExistScreen({ navigation }) {
+  const designerHandler = async () => {
+    navigation.replace('MainTab', { screen: 'Bid' });
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.contentBox}>
-        <View style={styles.imageContainer}>
-          <Image style={styles.image} source={require('../../../../../public/img/noScrap.png')} />
-        </View>
-      </View>
-      <View style={styles.headerBox}>
-        <Text style={styles.title}>
-          <Text style={styles.boldTitle}>마음에 드는</Text>
-        </Text>
-        <Text style={styles.title}>
-          <Text style={styles.boldTitle}>헤어 스타일을 스크랩하세요!</Text>
-        </Text>
-        <View style={styles.description}>
-          <Text style={styles.text}>제안서를 작성하는데 사용하거나</Text>
-          <Text style={styles.text}>나만의 스타일 북을 만들어볼 수 있습니다</Text>
-        </View>
-      </View>
+      <Text style={styles.title}>
+        <Text style={styles.boldTitle}>BiDi AI 디자이너</Text>
+      </Text>
     </View>
   );
 }
@@ -32,14 +22,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white',
   },
-  contentBox: {
+  content: {
     width: '100%',
     height: '50%',
   },
   imageContainer: {
     flexWrap: 'wrap',
-    alignContent: 'flex-end',
-    opacity: 0.7,
+    alignContent: 'flex-start',
     width: '100%',
     height: '100%',
   },
@@ -47,7 +36,7 @@ const styles = StyleSheet.create({
     width: '85%',
     height: '100%',
   },
-  headerBox: {
+  header: {
     width: '100%',
     height: '27%',
     padding: 30,
@@ -62,12 +51,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   description: {
-    marginTop: 20,
+    marginTop: 10,
+    height: '15%',
   },
   text: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '400',
-    lineHeight: 25,
     marginBottom: 3,
   },
   button: {
@@ -93,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StyleScrapIntroScreen;
+export default MatchingExistScreen;

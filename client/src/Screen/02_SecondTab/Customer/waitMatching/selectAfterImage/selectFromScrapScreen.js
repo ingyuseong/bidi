@@ -7,10 +7,10 @@ import StyleScrapIntroScreen from './introStyleScrapScreen';
 
 // Components
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Loading from '../../../../Components/Common/loading';
+import Loading from '../../../../../Components/Common/loading';
 
 // Redux Action
-import { getStyleScrapList } from '../../../../Contexts/StyleScrap/action';
+import { getStyleScrapList } from '../../../../../Contexts/StyleScrap/action';
 
 function SelectFromScrapScreen({ navigation, route }) {
   // states
@@ -24,7 +24,7 @@ function SelectFromScrapScreen({ navigation, route }) {
   };
   const submit = async (img_src) => {
     setAfterImageStyle(img_src);
-    navigation.navigate('Main');
+    navigation.navigate('CreateProposal');
   };
 
   const dispatch = useDispatch();

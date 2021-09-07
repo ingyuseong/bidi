@@ -2,22 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { CommonActions } from '@react-navigation/native';
-import { textLimiting } from '../../../../Lib/utils';
 
 // Components
-import BidUserInfo from '../../../../Components/Bid/bidUserInfo';
 import Icon from 'react-native-vector-icons/AntDesign';
-import BottomButton from '../../../../Components/Common/bottomButton';
+import { textLimiting } from '../../../../../Lib/utils';
+import BidUserInfo from '../../../../../Components/Bid/bidUserInfo';
+import BottomButton from '../../../../../Components/Common/bottomButton';
 import Swiper from 'react-native-swiper';
 import Modal from 'react-native-modal';
-import StyleModal from '../../../../Components/Modal/styleModal';
+import StyleModal from '../../../../../Components/Modal/styleModal';
 
 // API
-import BidAPI from '../../../../Api/bid';
-import matchingAPI from '../../../../Api/matching';
+import BidAPI from '../../../../../Api/bid';
+import matchingAPI from '../../../../../Api/matching';
 
 // Redux Action
-import { deleteBid, patchBid } from '../../../../Contexts/Bid/action';
+import { deleteBid, patchBid } from '../../../../../Contexts/Bid/action';
 
 function BidListScreen({ navigation, bidList }) {
   const [moreToggle, setMoreToggle] = useState(false);

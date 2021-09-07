@@ -10,27 +10,27 @@ import {
   Alert,
 } from 'react-native';
 
-function SelectAfterImageScreen({ navigation, route }) {
+function UpdateAfterImageScreen({ navigation, route }) {
   const { setAfterImageStyle, setAlbumImage, setIsFromAlbum } = route.params;
   const { data: user } = useSelector((state) => state.user);
 
   const goBack = async (e) => {
     navigation.goBack();
   };
-  const selectAlbum = async (e) => {
-    navigation.navigate('SelectFromAlbum', {
+  const updateWithAlbum = async (e) => {
+    navigation.navigate('UpdateFromAlbum', {
       setAlbumImage: setAlbumImage,
       setIsFromAlbum: setIsFromAlbum,
     });
   };
-  const selectScrap = async (e) => {
-    navigation.navigate('SelectFromScrap', {
+  const updateWithScrap = async (e) => {
+    navigation.navigate('UpdateFromScrap', {
       setAfterImageStyle: setAfterImageStyle,
     });
   };
-  const selectBidi = async (e) => {
+  const updateWithBidi = async (e) => {
     if (user.ai_enable) {
-      navigation.navigate('SelectFromBidi', {
+      navigation.navigate('UpdateFromBidi', {
         setAfterImageStyle: setAfterImageStyle,
       });
     } else {
@@ -46,7 +46,7 @@ function SelectAfterImageScreen({ navigation, route }) {
       <View style={styles.content}>
         <Image
           style={styles.image}
-          source={require('../../../../public/img/proposal_after_image.png')}
+          source={require('../../../../../../public/img/proposal_after_image.png')}
         />
       </View>
       <View style={styles.selectBox}>
@@ -58,19 +58,19 @@ function SelectAfterImageScreen({ navigation, route }) {
           <TouchableHighlight
             underlayColor="white"
             style={styles.keywordNormal}
-            onPress={selectAlbum}>
+            onPress={updateWithAlbum}>
             <Text style={styles.keywordTextNormal}>📸 앨범에서 가져오기</Text>
           </TouchableHighlight>
           <TouchableHighlight
             underlayColor="white"
             style={styles.keywordNormal}
-            onPress={selectScrap}>
+            onPress={updateWithScrap}>
             <Text style={styles.keywordTextNormal}>💖 비디 스크랩북에서 가져오기</Text>
           </TouchableHighlight>
           <TouchableHighlight
             underlayColor="white"
             style={styles.keywordNormal}
-            onPress={selectBidi}>
+            onPress={updateWithBidi}>
             <Text style={styles.keywordTextNormal}>💫 AI로 새로운 스타일 시도해보기 with 비디</Text>
           </TouchableHighlight>
         </View>
@@ -142,4 +142,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelectAfterImageScreen;
+export default UpdateAfterImageScreen;

@@ -4,8 +4,8 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 // Screens
-import MyProposalScreen from './myProposalScreen';
-import BidListScreen from './bidListScreen';
+import MyProposalScreen from './TabScreen/myProposalScreen';
+import BidListScreen from './TabScreen/bidListScreen';
 import IntroProposalScreen from './staticScreen/introProposalScreen';
 import NoBidScreen from './staticScreen/noBidScreen';
 
@@ -32,7 +32,7 @@ function WaitMainScreen({ navigation }) {
     dispatch(getBidListByCustomerId(user.id));
     return () => {};
   }, [dispatch]);
-  if (proposalLoading || bidLoading || proposalError || bidError) return <Loading loading={true} />;
+  if (proposalLoading || bidLoading || proposalError || bidError) return <Loading />;
   if (!proposal || !bidList) return null;
   return (
     <Tab.Navigator

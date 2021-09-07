@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 function IntroProposalScreen({ navigation }) {
   const proposalHandler = () => {
-    navigation.navigate('MainTab', { screen: 'Proposal' });
+    navigation.navigate('CreateProposal');
   };
   return (
     <View style={styles.container}>

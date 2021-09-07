@@ -14,7 +14,7 @@ function SelectAfterImageScreen({ navigation, route }) {
       } else {
         setAlbumImage(response.assets[0]);
         setIsFromAlbum(true);
-        navigation.navigate('Main');
+        navigation.navigate('CreateProposal');
       }
     });
   };
@@ -32,7 +32,10 @@ function SelectAfterImageScreen({ navigation, route }) {
         <Text style={styles.header}>AFTER</Text>
       </View>
       <View style={styles.content}>
-        <Image style={styles.image} source={require('../../../../../public/img/afterImage.png')} />
+        <Image
+          style={styles.image}
+          source={require('../../../../../../public/img/afterImage.png')}
+        />
       </View>
       <View style={styles.selectBox}>
         <View style={{ margin: 20, marginBottom: 0 }}>

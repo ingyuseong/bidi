@@ -11,12 +11,12 @@ import styleScrapReducer from '../StyleScrap';
 import styleReducer from '../Style';
 
 import customerProposalReducer from '../Customer/Proposal';
+import customerStyleReducer from '../Customer/Style';
+import customerBrandingReducer from '../Customer/Branding';
 import customerBidReducer from '../Customer/Bid';
+import customerStyleScrapReducer from '../Customer/StyleScrap';
 import customerMatchingReducer from '../Customer/Matching';
 import customerMatchingHistoryReducer from '../Customer/MatchingHistory';
-import customerBrandingReducer from '../Customer/Branding';
-import customerStyleScrapReducer from '../Customer/StyleScrap';
-import customerStyleReducer from '../Customer/Style';
 
 // import designerProposalReducer from '../Designer/Proposal';
 // import designerBidReducer from '../Designer/Bid';
@@ -36,17 +36,12 @@ const rootReducer = combineReducers({
   matchingHistory: matchingHistoryReducer,
   style: styleReducer,
   customerProposal: customerProposalReducer,
+  customerStyle: customerStyleReducer,
   customerBranding: customerBrandingReducer,
-  customerMatchingHistory: customerMatchingHistoryReducer,
+  customerBid: customerBidReducer,
   customerStyleScrap: customerStyleScrapReducer,
-  customer: {
-    proposal: customerProposalReducer,
-    bid: customerBidReducer,
-
-    matching: customerMatchingReducer,
-
-    style: customerStyleReducer,
-  },
+  customerMatching: customerMatchingReducer,
+  customerMatchingHistory: customerMatchingHistoryReducer,
   designer: {
     user: userReducer,
     proposal: proposalReducer,
