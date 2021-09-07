@@ -10,15 +10,7 @@ import { getStyleListByDesignerId } from '../../../Contexts/Style';
 function StyleBookListScreen({ navigation }) {
   const dispatch = useDispatch();
   const { data: userInfo } = useSelector((state) => state.user);
-  const {
-    data: styleList,
-    loading,
-    error,
-  } = useSelector((state) => state.style) || {
-    data: [],
-    loading: false,
-    error: null,
-  };
+  const { data: styleList, loading, error } = useSelector((state) => state.designerStyle);
 
   useEffect(() => {
     dispatch(getStyleListByDesignerId(userInfo.id));
@@ -28,10 +20,10 @@ function StyleBookListScreen({ navigation }) {
     navigation.push('DetailStyleBook', { styleItem });
   };
 
-  if (loading || error) {
-    return <Loading loading />;
+  if (loading || error || !styleList) {
+    return <Loading />;
   }
-  if (styleList.length === 0) {
+  if (!styleList.length) {
     return <NoStyleBookScreen navigation={navigation} />;
   }
 

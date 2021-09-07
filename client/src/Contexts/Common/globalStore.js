@@ -18,21 +18,16 @@ import styleReducer from '../Style';
 // import customerStyleReducer from '../Customer/Style';
 
 import designerProposalReducer from '../Designer/Proposal';
-// import designerBidReducer from '../Designer/Bid';
-// import designerMatchingReducer from '../Designer/Matching';
-// import designerMatchingHistoryReducer from '../Designer/MatchingHistory';
-// import designerBrandingReducer from '../Designer/Branding';
-// import designerStyleScrapReducer from '../Designer/StyleScrap';
-// import designerStyleReducer from '../Designer/Style';
+import designerBidReducer from '../Designer/Bid';
+import designerMatchingReducer from '../Designer/Matching';
+import designerMatchingHistoryReducer from '../Designer/MatchingHistory';
+import designerBrandingReducer from '../Designer/Branding';
+import designerStyleScrapReducer from '../Designer/StyleScrap';
+import designerStyleReducer from '../Designer/Style';
 
 const rootReducer = combineReducers({
   user: userReducer,
-  branding: brandingReducer,
-  bid: bidReducer,
-  styleScrap: styleScrapReducer,
-  matching: matchingReducer,
-  matchingHistory: matchingHistoryReducer,
-  style: styleReducer,
+
   customer: {
     user: userReducer,
     proposal: designerProposalReducer,
@@ -43,16 +38,13 @@ const rootReducer = combineReducers({
     matchingHistory: matchingHistoryReducer,
     style: styleReducer,
   },
-  designer: {
-    user: userReducer,
-    proposal: designerProposalReducer,
-    branding: brandingReducer,
-    bid: bidReducer,
-    styleScrap: styleScrapReducer,
-    matching: matchingReducer,
-    matchingHistory: matchingHistoryReducer,
-    style: styleReducer,
-  },
+  designerProposal: designerProposalReducer,
+  designerBranding: designerBrandingReducer,
+  designerBid: designerBidReducer,
+  designerStyleScrap: designerStyleScrapReducer,
+  designerMatching: designerMatchingReducer,
+  designerMatchingHistory: designerMatchingHistoryReducer,
+  designerStyle: designerStyleReducer,
 });
 const globalStore = () => {
   return createStore(rootReducer, applyMiddleware(ReduxThunk));

@@ -19,13 +19,13 @@ function HistoryMainScreen({ navigation }) {
     data: matchingHistoryList,
     loading,
     error,
-  } = useSelector((state) => state.matchingHistory);
+  } = useSelector((state) => state.designerMatchingHistory);
 
   useEffect(() => {
     dispatch(getMatchingHistoryListByDesignerId(userInfo.id));
   }, [dispatch]);
-  if (loading || error) {
-    return <Loading loading />;
+  if (loading || error || !matchingHistoryList) {
+    return <Loading />;
   }
   return (
     <Tab.Navigator

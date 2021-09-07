@@ -21,7 +21,10 @@ function MatchingHistoryCard({ index, type, isUser }) {
     data: matchingHistoryList,
     loading,
     error,
-  } = useSelector((state) => state.matchingHistory);
+  } = useSelector((state) =>
+    // 장영 확인 바람
+    isUser ? state.customerMatchingHistory : state.designerMatchingHistory,
+  );
   const [stars, setStars] = useState(0);
   const [reviewToggle, setReviewToggle] = useState(false);
   const [reviewText, setReviewText] = useState(matchingHistoryList[index].review);

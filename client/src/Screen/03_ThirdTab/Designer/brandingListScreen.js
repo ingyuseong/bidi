@@ -34,7 +34,7 @@ function BrandingListScreen({ navigation }) {
     data: brandingList,
     loading,
     error,
-  } = useSelector((state) => state.branding) || {
+  } = useSelector((state) => state.designerBranding) || {
     data: [],
     loading: false,
     error: null,
@@ -68,11 +68,11 @@ function BrandingListScreen({ navigation }) {
       Alert.alert('대표 포트폴리오 설정되었습니다!');
     }
   };
-  if (loading || error) {
-    return <Loading loading />;
+  if (loading || error || !brandingList) {
+    return <Loading />;
   }
 
-  if (brandingList.length === 0) {
+  if (!brandingList.length) {
     return (
       <View style={styles.noBrandingContainer}>
         <Ionicons name="document-text-outline" size={50} style={styles.documentIcon} />

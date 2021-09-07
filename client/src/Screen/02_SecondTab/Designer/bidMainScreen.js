@@ -14,44 +14,25 @@ const Tab = createMaterialTopTabNavigator();
 
 function BidMainScreen({ navigation }) {
   const dispatch = useDispatch();
-  const {
-    data: userInfo,
-    loading: userLoading,
-    error: userError,
-  } = useSelector((state) => state.user);
+  const { data: userInfo } = useSelector((state) => state.user);
   const {
     data: bidList,
     loading: bidLoading,
     error: bidError,
-  } = useSelector((state) => state.bid) || {
-    data: [],
-    loading: false,
-    error: null,
-  };
+  } = useSelector((state) => state.designerBid);
   const {
     data: matchingList,
     loading: matchingLoading,
     error: matchingError,
-  } = useSelector((state) => state.matching) || {
-    data: [],
-    loading: false,
-    error: null,
-  };
+  } = useSelector((state) => state.designerMatching);
 
   useEffect(() => {
     dispatch(getBidListByDesignerId(userInfo.id));
     dispatch(getMatchingListByDesignerId(userInfo.id));
   }, [dispatch]);
-  if (
-    bidLoading ||
-    userLoading ||
-    matchingLoading ||
-    bidError ||
-    userError ||
-    matchingError ||
-    !bidList
-  )
-    return <Loading loading />;
+  if (bidLoading || matchingLoading || bidError || matchingError || !bidList || !matchingList)
+    return <Loading />;
+
   return (
     <Tab.Navigator
       swipeEnabled={false}

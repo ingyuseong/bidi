@@ -5,8 +5,8 @@ import {
   GET_MATCHINGHISTORY_LIST_CUSTOMER,
   GET_MATCHINGHISTORY_LIST_DESIGNER,
 } from './constant';
-import MatchingAPI from '../../Api/matching';
-import { createPromiseThunk } from '../Common/asyncUtils';
+import MatchingAPI from '../../../Api/matching';
+import { createPromiseThunk } from '../../Common/asyncUtils';
 
 export const registerMatchingHistory = (payload) => ({ type: REGISTER_MATCHINGHISTORY, payload });
 export const patchMatchingHistory = (id, payload) => ({ type: PATCH_MATCHINGHISTORY, id, payload });
