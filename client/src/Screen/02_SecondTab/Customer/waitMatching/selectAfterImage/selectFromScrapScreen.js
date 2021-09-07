@@ -14,7 +14,7 @@ import { getStyleScrapList } from '../../../../../Contexts/StyleScrap/action';
 
 function SelectFromScrapScreen({ navigation, route }) {
   // states
-  const { setAfterImageStyle } = route.params;
+  const { setAfterImageStyle, isUpdate } = route.params;
   const { data: user } = useSelector((state) => state.user);
   const { data: styleScrapList, loading, error } = useSelector((state) => state.styleScrap);
 
@@ -24,7 +24,8 @@ function SelectFromScrapScreen({ navigation, route }) {
   };
   const submit = async (img_src) => {
     setAfterImageStyle(img_src);
-    navigation.navigate('CreateProposal');
+    if (isUpdate) navigation.navigate('UpdateProposal');
+    else navigation.navigate('CreateProposal');
   };
 
   const dispatch = useDispatch();

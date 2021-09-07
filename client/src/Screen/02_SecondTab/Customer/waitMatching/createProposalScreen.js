@@ -22,6 +22,9 @@ import BottomButton from '../../../../Components/Common/bottomButton';
 // API
 import ProposalAPI from '../../../../Api/proposal';
 
+// Redux Action
+import { getProposal } from '../../../../Contexts/Customer/Proposal/action';
+
 function CreateProposalScreen({ navigation }) {
   const { data: user } = useSelector((state) => state.user);
   const [afterImageStyle, setAfterImageStyle] = useState('none');
@@ -79,6 +82,7 @@ function CreateProposalScreen({ navigation }) {
       setAfterImageStyle: setAfterImageStyle,
       setAlbumImage: setAlbumImage,
       setIsFromAlbum: setIsFromAlbum,
+      isUpdate: false,
     });
   };
 
@@ -122,14 +126,14 @@ function CreateProposalScreen({ navigation }) {
         ai_count: user.ai_count,
       };
       if (isFromAlbum) {
-        const proposal = await ProposalAPI.registerWithFile(createFormData(albumImage, body));
-        navigation.replace('check');
+        await ProposalAPI.registerWithFile(createFormData(albumImage, body));
+        navigation.replace('Wait');
       } else {
-        const proposal = await ProposalAPI.registerProposal({
+        await ProposalAPI.registerProposal({
           ...body,
           after_src: afterImageStyle,
         });
-        navigation.replace('check');
+        navigation.replace('Wait');
       }
     }
   };

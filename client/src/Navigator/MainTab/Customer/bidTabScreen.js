@@ -5,24 +5,30 @@ import CommonHeader from '../../../Components/HeaderBar/commonHeader';
 
 import CheckingMatchingScreen from '../../../Screen/02_SecondTab/Customer/checkingMatchingScreen';
 
+import WaitMainScreen from '../../../Screen/02_SecondTab/Customer/waitMatching/waitMainScreen';
+import MyProposalScreen from '../../../Screen/02_SecondTab/Customer/waitMatching/TabScreen/myProposalScreen';
+import BidListScreen from '../../../Screen/02_SecondTab/Customer/waitMatching/TabScreen/bidListScreen';
+
 import CreateProposalScreen from '../../../Screen/02_SecondTab/Customer/waitMatching/createProposalScreen';
+import UpdateProposalScreen from '../../../Screen/02_SecondTab/Customer/waitMatching/updateProposalScreen';
+
 import SelectAfterImageScreen from '../../../Screen/02_SecondTab/Customer/waitMatching/selectAfterImage/selectAfterImageScreen';
 import SelectFromAlbumScreen from '../../../Screen/02_SecondTab/Customer/waitMatching/selectAfterImage/selectFromAlbumScreen';
 import SelectFromBidiScreen from '../../../Screen/02_SecondTab/Customer/waitMatching/selectAfterImage/selectFromBidiScreen';
 import SelectFromScrapScreen from '../../../Screen/02_SecondTab/Customer/waitMatching/selectAfterImage/selectFromScrapScreen';
-
-import UpdateProposalScreen from '../../../Screen/02_SecondTab/Customer/waitMatching/updateProposalScreen';
-import UpdateAfterImageScreen from '../../../Screen/02_SecondTab/Customer/waitMatching/updateAfterImage/updateAfterImageScreen';
-import UpdateFromAlbumScreen from '../../../Screen/02_SecondTab/Customer/waitMatching/updateAfterImage/updateFromAlbumScreen';
-import UpdateFromBidiScreen from '../../../Screen/02_SecondTab/Customer/waitMatching/updateAfterImage/updateFromBidiScreen';
-import UpdateFromScrapScreen from '../../../Screen/02_SecondTab/Customer/waitMatching/updateAfterImage/updateFromScrapScreen';
 
 const bidStack = createStackNavigator();
 
 function BidStackScreen() {
   return (
     <Stack.Navigator>
-      <bidStack.Screen name="check" component={CheckingMatchingScreen} options={CommonHeader} />
+      <bidStack.Screen name="Check" component={CheckingMatchingScreen} options={CommonHeader} />
+
+      {/* Wait Screen */}
+
+      <bidStack.Screen name="Wait" component={WaitMainScreen} options={CommonHeader} />
+      <bidStack.Screen name="MyProposal" component={MyProposalScreen} options={CommonHeader} />
+      <bidStack.Screen name="BidList" component={BidListScreen} options={CommonHeader} />
       <bidStack.Screen
         name="CreateProposal"
         component={CreateProposalScreen}
@@ -53,26 +59,8 @@ function BidStackScreen() {
         component={SelectFromBidiScreen}
         options={CommonHeader}
       />
-      <bidStack.Screen
-        name="UpdateAfterImage"
-        component={UpdateAfterImageScreen}
-        options={CommonHeader}
-      />
-      <bidStack.Screen
-        name="UpdateFromAlbum"
-        component={UpdateFromAlbumScreen}
-        options={CommonHeader}
-      />
-      <bidStack.Screen
-        name="UpdateFromScrap"
-        component={UpdateFromScrapScreen}
-        options={CommonHeader}
-      />
-      <bidStack.Screen
-        name="UpdateFromBidi"
-        component={UpdateFromBidiScreen}
-        options={CommonHeader}
-      />
+
+      {/* Process Screen */}
     </Stack.Navigator>
   );
 }

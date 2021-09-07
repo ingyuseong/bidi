@@ -23,11 +23,11 @@ import BottomButton from '../../../../Components/Common/bottomButton';
 import ProposalAPI from '../../../../Api/proposal';
 
 // Redux Action
-import { patchProposal } from '../../../../Contexts/Proposal/action';
+import { patchProposal } from '../../../../Contexts/Customer/Proposal/action';
 
 function UpdateProposalScreen({ navigation }) {
   const { data: user } = useSelector((state) => state.user);
-  const { data: proposal } = useSelector((state) => state.proposal);
+  const { data: proposal } = useSelector((state) => state.customerProposal);
   const [afterImageStyle, setAfterImageStyle] = useState('none');
   const [albumImage, setAlbumImage] = useState('');
   const [isFromAlbum, setIsFromAlbum] = useState(false);
@@ -47,17 +47,7 @@ function UpdateProposalScreen({ navigation }) {
   const [keyCount, setKeyCount] = useState(0);
   const [description, setDescription] = useState('');
 
-  useEffect(() => {
-    setPriceValue(proposal[0].price_limit);
-    setKeyword(
-      keyword.map((key) =>
-        proposal[0].keyword_array.includes(key.title) ? { ...key, selected: true } : key,
-      ),
-    );
-    setKeyCount(proposal[0].keyword_array.length);
-    setDescription(proposal[0].description);
-    setAfterImageStyle(proposal[0].after_src);
-  }, []);
+  const dispatch = useDispatch();
 
   const selectKeyword = (id) => {
     if (keyCount < 3 || keyword[id].selected) {
@@ -79,17 +69,18 @@ function UpdateProposalScreen({ navigation }) {
     </TouchableHighlight>
   ));
 
-  const proposalHandler = async (e) => {
-    await setIsFromAlbum(false);
-    await setAfterImageStyle('none');
-    navigation.navigate('UpdateAfterImage', {
+  const proposalHandler = () => {
+    setIsFromAlbum(false);
+    setAfterImageStyle('none');
+    navigation.navigate('SelectAfterImage', {
       setAfterImageStyle: setAfterImageStyle,
       setAlbumImage: setAlbumImage,
       setIsFromAlbum: setIsFromAlbum,
+      isUpdate: true,
     });
   };
 
-  const initializeHandler = async (e) => {
+  const initializeHandler = () => {
     setPriceValue(null);
     setKeyword(KEYWORDS);
     setKeyCount(0);
@@ -130,10 +121,10 @@ function UpdateProposalScreen({ navigation }) {
       };
       if (isFromAlbum) {
         await ProposalAPI.patchWithFile(proposal[0].id, createFormData(albumImage, body));
-        navigation.replace('check');
+        navigation.replace('Wait');
       } else {
         await ProposalAPI.patchProposal(proposal[0].id, { ...body, after_src: afterImageStyle });
-        navigation.replace('check');
+        navigation.replace('Wait');
       }
     }
   };
@@ -143,6 +134,18 @@ function UpdateProposalScreen({ navigation }) {
       { text: '수정하기', onPress: submitHandler },
     ]);
   };
+
+  useEffect(() => {
+    setPriceValue(proposal[0].price_limit);
+    setKeyword(
+      keyword.map((key) =>
+        proposal[0].keyword_array.includes(key.title) ? { ...key, selected: true } : key,
+      ),
+    );
+    setKeyCount(proposal[0].keyword_array.length);
+    setDescription(proposal[0].description);
+    setAfterImageStyle(proposal[0].after_src);
+  }, []);
 
   return (
     <ScrollView style={styles.container}>

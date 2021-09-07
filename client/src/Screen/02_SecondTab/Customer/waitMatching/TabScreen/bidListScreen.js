@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { CommonActions } from '@react-navigation/native';
 
+// Screen
+import NoBidScreen from '../staticScreen/noBidScreen';
+
 // Components
 import Icon from 'react-native-vector-icons/AntDesign';
 import { textLimiting } from '../../../../../Lib/utils';
@@ -11,15 +14,18 @@ import BottomButton from '../../../../../Components/Common/bottomButton';
 import Swiper from 'react-native-swiper';
 import Modal from 'react-native-modal';
 import StyleModal from '../../../../../Components/Modal/styleModal';
+import Loading from '../../../../../Components/Common/loading';
 
 // API
 import BidAPI from '../../../../../Api/bid';
 import matchingAPI from '../../../../../Api/matching';
 
 // Redux Action
-import { deleteBid, patchBid } from '../../../../../Contexts/Bid/action';
+import { deleteBid, getBidListByCustomerId } from '../../../../../Contexts/Customer/Bid/action';
 
-function BidListScreen({ navigation, bidList }) {
+function BidListScreen({ navigation }) {
+  const { data: user } = useSelector((state) => state.user);
+  const { data: bidList, loading, error } = useSelector((state) => state.customerBid);
   const [moreToggle, setMoreToggle] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [showStyles, setShowStyles] = useState([]);
@@ -36,10 +42,10 @@ function BidListScreen({ navigation, bidList }) {
     if (bid) {
       Alert.alert('거절되었습니다');
       dispatch(deleteBid(id));
-      navigation.replace('check');
+      navigation.replace('Wait');
     } else {
       Alert.alert('거절에 실패했습니다');
-      navigation.replace('check');
+      navigation.replace('Wait');
     }
   };
 
@@ -55,12 +61,10 @@ function BidListScreen({ navigation, bidList }) {
       proposal_id: bid.proposal_id,
       customer_id: bid.customer_id,
       designer_id: bid.designer_id,
-      shop_name: '이너프헤어',
-      address: '서울특별시 성북구 안암동',
     };
     const matching = await matchingAPI.registerMatching(body);
     if (matching) {
-      navigation.replace('check');
+      navigation.replace('Check');
     }
   };
   const modalOpen = (index, bidStyles) => {
@@ -68,91 +72,103 @@ function BidListScreen({ navigation, bidList }) {
     setShowStyles(bidStyles);
     setModalVisible(true);
   };
+  useEffect(() => {
+    dispatch(getBidListByCustomerId(user.id));
+  }, [dispatch]);
+  if (loading || error || !bidList) return <Loading />;
   return (
-    <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
-      {bidList.map((bid, index) => (
-        <View style={styles.container} key={index}>
-          <View style={styles.bidBox}>
-            <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-              <BidUserInfo bid={bid} height={150} />
-              <View>
-                {bid.letter.length > 200 ? (
-                  moreToggle ? (
-                    <View style={styles.letterArea}>
-                      <Text style={styles.letterText}>{bid.letter}</Text>
-                      <View style={{ ...styles.moreBtnArea, alignItems: 'center' }}>
-                        <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
-                          <View style={{ ...styles.moreBtn, borderWidth: 0 }}>
-                            <Icon name="up" size={17} color="#8D8D8D"></Icon>
-                          </View>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  ) : (
-                    <View style={{ ...styles.letterArea, height: 200 }}>
-                      <Text style={styles.letterText}>{textLimiting(bid.letter, 200)}</Text>
-                      <View style={styles.moreBtnArea}>
-                        <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
-                          <View style={styles.moreBtn}>
-                            <Text style={styles.moreBtnText}>더보기</Text>
-                          </View>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  )
-                ) : (
-                  <View style={styles.letterArea}>
-                    <Text style={styles.letterText}>{bid.letter}</Text>
-                  </View>
-                )}
-              </View>
-              <View style={styles.styleListContainer}>
-                <Text style={styles.titleText}>추천 스타일</Text>
+    <View style={{ flex: 1 }}>
+      {bidList.length > 0 ? (
+        <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
+          {bidList.map((bid, index) => (
+            <View style={styles.container} key={index}>
+              <View style={styles.bidBox}>
                 <ScrollView
-                  horizontal={true}
-                  style={styles.styleArea}
                   showsVerticalScrollIndicator={false}
                   showsHorizontalScrollIndicator={false}>
-                  {bid.bidStyles.map((item, index) => (
-                    <TouchableOpacity
-                      key={index}
-                      activeOpacity={0.8}
-                      style={styles.imageAfter}
-                      onPress={() => modalOpen(index, bid.bidStyles)}>
-                      <Image style={styles.styleImg} source={{ uri: item.img_src_array[0] }} />
-                    </TouchableOpacity>
-                  ))}
+                  <BidUserInfo bid={bid} height={150} />
+                  <View>
+                    {bid.letter.length > 200 ? (
+                      moreToggle ? (
+                        <View style={styles.letterArea}>
+                          <Text style={styles.letterText}>{bid.letter}</Text>
+                          <View style={{ ...styles.moreBtnArea, alignItems: 'center' }}>
+                            <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
+                              <View style={{ ...styles.moreBtn, borderWidth: 0 }}>
+                                <Icon name="up" size={17} color="#8D8D8D"></Icon>
+                              </View>
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                      ) : (
+                        <View style={{ ...styles.letterArea, height: 200 }}>
+                          <Text style={styles.letterText}>{textLimiting(bid.letter, 200)}</Text>
+                          <View style={styles.moreBtnArea}>
+                            <TouchableOpacity onPress={() => setMoreToggle(!moreToggle)}>
+                              <View style={styles.moreBtn}>
+                                <Text style={styles.moreBtnText}>더보기</Text>
+                              </View>
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                      )
+                    ) : (
+                      <View style={styles.letterArea}>
+                        <Text style={styles.letterText}>{bid.letter}</Text>
+                      </View>
+                    )}
+                  </View>
+                  <View style={styles.styleListContainer}>
+                    <Text style={styles.titleText}>추천 스타일</Text>
+                    <ScrollView
+                      horizontal={true}
+                      style={styles.styleArea}
+                      showsVerticalScrollIndicator={false}
+                      showsHorizontalScrollIndicator={false}>
+                      {bid.bidStyles.map((item, index) => (
+                        <TouchableOpacity
+                          key={index}
+                          activeOpacity={0.8}
+                          style={styles.imageAfter}
+                          onPress={() => modalOpen(index, bid.bidStyles)}>
+                          <Image style={styles.styleImg} source={{ uri: item.img_src_array[0] }} />
+                        </TouchableOpacity>
+                      ))}
+                    </ScrollView>
+                  </View>
                 </ScrollView>
+                <BottomButton
+                  leftName="거절하기"
+                  rightName="수락하기"
+                  leftRatio={50}
+                  leftHandler={() => cancelBidAlert(bid.id)}
+                  rightHandler={() => matchingAlert(bid)}
+                />
+                <View style={{ marginBottom: 70 }}></View>
               </View>
-            </ScrollView>
-            <BottomButton
-              leftName="거절하기"
-              rightName="수락하기"
-              leftRatio={50}
-              leftHandler={() => cancelBidAlert(bid.id)}
-              rightHandler={() => matchingAlert(bid)}
-            />
-            <View style={{ marginBottom: 70 }}></View>
-          </View>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            isVisible={modalVisible}
-            style={{
-              alignItems: 'center',
-            }}
-            backdropOpacity={0.3}>
-            <StyleModal
-              styleList={showStyles}
-              index={styleIndex}
-              setModalVisible={setModalVisible}
-              navigation={navigation}
-              deleteIcon={false}
-            />
-          </Modal>
-        </View>
-      ))}
-    </Swiper>
+              <Modal
+                animationType="slide"
+                transparent={true}
+                isVisible={modalVisible}
+                style={{
+                  alignItems: 'center',
+                }}
+                backdropOpacity={0.3}>
+                <StyleModal
+                  styleList={showStyles}
+                  index={styleIndex}
+                  setModalVisible={setModalVisible}
+                  navigation={navigation}
+                  deleteIcon={false}
+                />
+              </Modal>
+            </View>
+          ))}
+        </Swiper>
+      ) : (
+        <NoBidScreen navigation={navigation} />
+      )}
+    </View>
   );
 }
 

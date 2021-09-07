@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 
 function SelectAfterImageScreen({ navigation, route }) {
-  const { setAlbumImage, setIsFromAlbum } = route.params;
+  const { setAlbumImage, setIsFromAlbum, isUpdate } = route.params;
 
   const handleChoosePhoto = () => {
     launchImageLibrary({ nodata: true }, (response) => {
@@ -14,7 +14,8 @@ function SelectAfterImageScreen({ navigation, route }) {
       } else {
         setAlbumImage(response.assets[0]);
         setIsFromAlbum(true);
-        navigation.navigate('CreateProposal');
+        if (isUpdate) navigation.navigate('UpdateProposal');
+        else navigation.navigate('CreateProposal');
       }
     });
   };

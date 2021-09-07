@@ -11,25 +11,31 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
+// Screen
+import IntroProposalScreen from '../staticScreen/introProposalScreen';
+
 // Components
 import ProposalUserInfo from '../../../../../Components/Proposal/proposalUserInfo';
 import BottomButton from '../../../../../Components/Common/bottomButton';
+import Loading from '../../../../../Components/Common/loading';
 
 // API
 import ProposalAPI from '../../../../../Api/proposal';
 
 // Redux Action
-import { deleteProposal } from '../../../../../Contexts/Proposal/action';
+import { getProposalAsync, deleteProposal } from '../../../../../Contexts/Customer/Proposal/action';
 
-function MyProposalScreen({ navigation, proposal }) {
+function MyProposalScreen({ navigation }) {
+  const { data: user } = useSelector((state) => state.user);
+  const { data: proposal, loading, error } = useSelector((state) => state.customerProposal);
   const [imageToggle, setImageToggle] = useState(false);
   const dispatch = useDispatch();
   const removeProposal = async () => {
-    const response = await ProposalAPI.deleteProposal(proposal.id);
+    const response = await ProposalAPI.deleteProposal(proposal[0].id);
     if (response) {
-      dispatch(deleteProposal(proposal.id));
+      dispatch(deleteProposal(proposal[0].id));
       Alert.alert('삭제 되었습니다!');
-      navigation.replace('MainTab', { screen: 'Search' });
+      navigation.replace('Wait');
     } else {
       Alert.alert('삭제에 실패했습니다');
     }
@@ -43,64 +49,74 @@ function MyProposalScreen({ navigation, proposal }) {
   const updateProposal = () => {
     navigation.navigate('UpdateProposal');
   };
+  useEffect(() => {
+    dispatch(getProposalAsync(user.id));
+  }, [dispatch]);
+  if (loading || error || !proposal) return <Loading />;
   return (
-    <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-        <View style={styles.content}>
-          {imageToggle ? (
-            <Image
-              style={styles.image}
-              source={{
-                uri: proposal.after_src,
-              }}
-            />
-          ) : (
-            <Image
-              style={styles.image}
-              source={{
-                uri: proposal.before_src,
-              }}
-            />
-          )}
-          <TouchableOpacity
-            style={
-              imageToggle
-                ? { ...styles.imageToggleButton, backgroundColor: '#0A0A32' }
-                : styles.imageToggleButton
-            }
-            activeOpacity={0.8}
-            onPress={() => setImageToggle(!imageToggle)}>
-            <Text style={styles.imageToggleText}>{imageToggle ? 'After' : 'Before'}</Text>
-          </TouchableOpacity>
-        </View>
-        <ProposalUserInfo proposal={proposal} />
-        <View style={styles.descriptionBox}>
-          <Text style={styles.description}>
-            {proposal.description != '' ? proposal.description : '요구사항 없음'}
-          </Text>
-        </View>
-        <View style={styles.textBox}>
-          <Text style={styles.title}>금액 범위 설정</Text>
-        </View>
-        <View style={styles.dropdownBox}>
-          <TextInput
-            style={styles.locationInput}
-            underlineColorAndroid="transparent"
-            editable={false}
-            selectTextOnFocus={false}
-            value={String(proposal.price_limit / 10000) + '만원 이내'}
+    <>
+      {proposal.length > 0 ? (
+        <View style={styles.container}>
+          <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+            <View style={styles.content}>
+              {imageToggle ? (
+                <Image
+                  style={styles.image}
+                  source={{
+                    uri: proposal[0].after_src,
+                  }}
+                />
+              ) : (
+                <Image
+                  style={styles.image}
+                  source={{
+                    uri: proposal[0].before_src,
+                  }}
+                />
+              )}
+              <TouchableOpacity
+                style={
+                  imageToggle
+                    ? { ...styles.imageToggleButton, backgroundColor: '#0A0A32' }
+                    : styles.imageToggleButton
+                }
+                activeOpacity={0.8}
+                onPress={() => setImageToggle(!imageToggle)}>
+                <Text style={styles.imageToggleText}>{imageToggle ? 'After' : 'Before'}</Text>
+              </TouchableOpacity>
+            </View>
+            <ProposalUserInfo proposal={proposal[0]} />
+            <View style={styles.descriptionBox}>
+              <Text style={styles.description}>
+                {proposal[0].description != '' ? proposal[0].description : '요구사항 없음'}
+              </Text>
+            </View>
+            <View style={styles.textBox}>
+              <Text style={styles.title}>금액 범위 설정</Text>
+            </View>
+            <View style={styles.dropdownBox}>
+              <TextInput
+                style={styles.locationInput}
+                underlineColorAndroid="transparent"
+                editable={false}
+                selectTextOnFocus={false}
+                value={String(proposal[0].price_limit / 10000) + '만원 이내'}
+              />
+            </View>
+            <View style={{ marginTop: 80 }}></View>
+          </ScrollView>
+          <BottomButton
+            leftName="삭제하기"
+            rightName="수정하기"
+            leftRatio={40}
+            leftHandler={deleteAlert}
+            rightHandler={updateProposal}
           />
         </View>
-        <View style={{ marginTop: 30 }}></View>
-      </ScrollView>
-      <BottomButton
-        leftName="삭제하기"
-        rightName="수정하기"
-        leftRatio={40}
-        leftHandler={deleteAlert}
-        rightHandler={updateProposal}
-      />
-    </View>
+      ) : (
+        <IntroProposalScreen navigation={navigation} />
+      )}
+    </>
   );
 }
 

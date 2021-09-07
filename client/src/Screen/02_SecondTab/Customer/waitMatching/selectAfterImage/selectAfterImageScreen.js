@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 function SelectAfterImageScreen({ navigation, route }) {
-  const { setAfterImageStyle, setAlbumImage, setIsFromAlbum } = route.params;
+  const { setAfterImageStyle, setAlbumImage, setIsFromAlbum, isUpdate } = route.params;
   const { data: user } = useSelector((state) => state.user);
 
   const goBack = async (e) => {
@@ -19,19 +19,22 @@ function SelectAfterImageScreen({ navigation, route }) {
   };
   const selectAlbum = async (e) => {
     navigation.navigate('SelectFromAlbum', {
-      setAlbumImage: setAlbumImage,
-      setIsFromAlbum: setIsFromAlbum,
+      setAlbumImage,
+      setIsFromAlbum,
+      isUpdate,
     });
   };
   const selectScrap = async (e) => {
     navigation.navigate('SelectFromScrap', {
-      setAfterImageStyle: setAfterImageStyle,
+      setAfterImageStyle,
+      isUpdate,
     });
   };
   const selectBidi = async (e) => {
     if (user.ai_enable) {
       navigation.navigate('SelectFromBidi', {
-        setAfterImageStyle: setAfterImageStyle,
+        setAfterImageStyle,
+        isUpdate,
       });
     } else {
       Alert.alert(

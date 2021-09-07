@@ -12,23 +12,20 @@ import MatchingMainScreen from './processMatching/matchingMainScreen';
 import Loading from '../../../Components/Common/loading';
 
 // Redux Action
-import { getMatchingByCustomerId } from '../../../Contexts/Matching/action';
+import { getMatchingByCustomerId } from '../../../Contexts/Customer/Matching/action';
 
 function CheckingMatchingScreen({ navigation }) {
   const { data: user } = useSelector((state) => state.user);
-  const { data: matching, loading, error } = useSelector((state) => state.matching);
+  const { data: matching, loading, error } = useSelector((state) => state.customerMatching);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getMatchingByCustomerId(user.id));
   }, [dispatch]);
-  if (loading || error || !matching) return <Loading loading />;
+  if (loading || error || !matching) return <Loading />;
+  if (!matching.length) return <WaitMainScreen navigation={navigation} />;
   return (
     <View style={{ flex: 1 }}>
-      {matching && matching.length > 0 ? (
-        <MatchingMainScreen navigation={navigation} matching={matching[0]} />
-      ) : (
-        <WaitMainScreen navigation={navigation} />
-      )}
+      <MatchingMainScreen navigation={navigation} matching={matching[0]} />
     </View>
   );
 }

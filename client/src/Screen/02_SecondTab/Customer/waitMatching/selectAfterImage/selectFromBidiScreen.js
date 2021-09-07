@@ -7,7 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { STYLE_INFO } from '../../../../../Lib/constant';
 
 function SelectFromBidiScreen({ navigation, route }) {
-  const { setAfterImageStyle } = route.params;
+  const { setAfterImageStyle, isUpdate } = route.params;
   const { data: user } = useSelector((state) => state.user);
   const [afterStyle, setAfterStyle] = useState('none');
   const [tab, setTab] = useState('tab1');
@@ -19,7 +19,8 @@ function SelectFromBidiScreen({ navigation, route }) {
     setAfterImageStyle(
       `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${user.id}/result/${afterStyle}.jpg`,
     );
-    navigation.navigate('CreateProposal');
+    if (isUpdate) navigation.navigate('UpdateProposal');
+    else navigation.navigate('CreateProposal');
   };
   const selectStyle = (style) => {
     setAfterStyle(style);
