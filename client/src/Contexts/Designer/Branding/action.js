@@ -7,8 +7,8 @@ import {
   GET_BRANDING_LIST_DESIGNER,
   GET_MAIN_BRANDING_DESIGNER,
 } from './constant';
-import BrandingAPI from '../../Api/branding';
-import { createPromiseThunk } from '../Common/asyncUtils';
+import BrandingAPI from '../../../Api/branding';
+import { createPromiseThunk } from '../../Common/asyncUtils';
 
 export const registerBranding = (payload) => ({ type: REGISTER_BRANDING, payload });
 export const patchBranding = (id, payload) => ({ type: PATCH_BRANDING, id, payload });

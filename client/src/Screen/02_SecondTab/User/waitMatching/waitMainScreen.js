@@ -14,7 +14,7 @@ import { objectNullChecking, listNullChecking } from '../../../../Lib/utils';
 import Loading from '../../../../Components/Common/loading';
 
 // Redux Action
-import { getProposalAsync } from '../../../../Contexts/Proposal/action';
+// import { getProposalAsync } from '../../../../Contexts/Proposal';
 import { getBidListByCustomerId } from '../../../../Contexts/Bid/action';
 
 const Tab = createMaterialTopTabNavigator();
@@ -28,7 +28,7 @@ function WaitMainScreen({ navigation }) {
   const { data: bidList, loading: bidLoading, error: bidError } = useSelector((state) => state.bid);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getProposalAsync(user.id));
+    // dispatch(getProposalAsync(user.id));
     dispatch(getBidListByCustomerId(user.id));
     return () => {};
   }, [dispatch]);

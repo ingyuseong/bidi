@@ -2,7 +2,6 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 
 import ReduxThunk from 'redux-thunk';
 import userReducer from '../User';
-import proposalReducer from '../Proposal';
 import bidReducer from '../Bid';
 import matchingReducer from '../Matching';
 import matchingHistoryReducer from '../MatchingHistory';
@@ -18,7 +17,7 @@ import styleReducer from '../Style';
 // import customerStyleScrapReducer from '../Customer/StyleScrap';
 // import customerStyleReducer from '../Customer/Style';
 
-// import designerProposalReducer from '../Designer/Proposal';
+import designerProposalReducer from '../Designer/Proposal';
 // import designerBidReducer from '../Designer/Bid';
 // import designerMatchingReducer from '../Designer/Matching';
 // import designerMatchingHistoryReducer from '../Designer/MatchingHistory';
@@ -28,7 +27,6 @@ import styleReducer from '../Style';
 
 const rootReducer = combineReducers({
   user: userReducer,
-  proposal: proposalReducer,
   branding: brandingReducer,
   bid: bidReducer,
   styleScrap: styleScrapReducer,
@@ -37,7 +35,7 @@ const rootReducer = combineReducers({
   style: styleReducer,
   customer: {
     user: userReducer,
-    proposal: proposalReducer,
+    proposal: designerProposalReducer,
     branding: brandingReducer,
     bid: bidReducer,
     styleScrap: styleScrapReducer,
@@ -47,7 +45,7 @@ const rootReducer = combineReducers({
   },
   designer: {
     user: userReducer,
-    proposal: proposalReducer,
+    proposal: designerProposalReducer,
     branding: brandingReducer,
     bid: bidReducer,
     styleScrap: styleScrapReducer,

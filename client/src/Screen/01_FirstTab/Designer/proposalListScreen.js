@@ -11,7 +11,7 @@ import ProposalDetailScreen from './proposalDetailScreen';
 import { getProposalList } from '../../../Contexts/Proposal';
 
 function ProposalListScreen({ navigation }) {
-  const { data: proposalList, loading, error } = useSelector((state) => state.proposal);
+  const { data: proposalList, loading, error } = useSelector((state) => state.designer.proposal);
   const dispatch = useDispatch();
   useEffect(() => {
     async function fetchMode() {
