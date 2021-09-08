@@ -14,7 +14,7 @@ import { objectNullChecking, listNullChecking } from '../../../../Lib/utils';
 import Loading from '../../../../Components/Common/loading';
 
 // Redux Action
-import { getProposalAsync } from '../../../../Contexts/Proposal/action';
+// import { getProposalAsync } from '../../../../Contexts/Proposal';
 import { getBidListByCustomerId } from '../../../../Contexts/Bid/action';
 
 const Tab = createMaterialTopTabNavigator();
@@ -24,16 +24,20 @@ function WaitMainScreen({ navigation }) {
     data: proposal,
     loading: proposalLoading,
     error: proposalError,
-  } = useSelector((state) => state.proposal);
-  const { data: bidList, loading: bidLoading, error: bidError } = useSelector((state) => state.bid);
+  } = useSelector((state) => state.designerProposal);
+  const {
+    data: bidList,
+    loading: bidLoading,
+    error: bidError,
+  } = useSelector((state) => state.designerBid);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getProposalAsync(user.id));
+    // dispatch(getProposalAsync(user.id));
     dispatch(getBidListByCustomerId(user.id));
     return () => {};
   }, [dispatch]);
-  if (proposalLoading || bidLoading || proposalError || bidError) return <Loading loading={true} />;
-  if (!proposal || !bidList) return null;
+  if (proposalLoading || bidLoading || proposalError || bidError || !proposal || !bidList)
+    return <Loading />;
   return (
     <Tab.Navigator
       initialRouteName="ReceiveBid"

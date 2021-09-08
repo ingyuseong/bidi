@@ -3,25 +3,32 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
-import DesignerReview from '../../../Components/MatchingHistory/DesignerReview';
-import NoHistoryScreen from './noHistoryScreen';
-import Loading from '../../../Components/Common/loading';
+import DesignerReview from '../MatchingHistory/DesignerReview';
+import NoHistoryScreen from '../../Screen/01_FirstTab/User/noHistoryScreen';
+import Loading from '../Common/loading';
 
 // Redux Action
-import { getMatchingHistoryListByDesignerId } from '../../../Contexts/MatchingHistory/action';
+import { getMatchingHistoryListByDesignerId } from '../../Contexts/MatchingHistory';
 
-function DesignerHistoryScreen({ branding }) {
+function DesignerHistory({ branding, isUser }) {
   const {
     data: matchingHistoryList,
     loading,
     error,
-  } = useSelector((state) => state.matchingHistory);
+  } = useSelector((state) =>
+    isUser ? state.customerMatchingHistory : state.designerMatchingHistory,
+  );
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getMatchingHistoryListByDesignerId(branding.user_id));
   }, [dispatch]);
-  if (loading || error) return <Loading loading />;
-  if (!matchingHistoryList) return null;
+  if (loading || error || !matchingHistoryList) return <Loading />;
+  if (!matchingHistoryList.length)
+    return (
+      <View>
+        <Text>No List</Text>
+      </View>
+    );
   return (
     <View>
       {matchingHistoryList && matchingHistoryList.length > 0 ? (
@@ -145,4 +152,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DesignerHistoryScreen;
+export default DesignerHistory;

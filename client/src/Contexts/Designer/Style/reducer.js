@@ -4,11 +4,11 @@ import {
   GET_STYLE_LIST_SUCCESS,
   DELETE_STYLE,
 } from './constant';
-import { reducerUtils, handleAsyncActions } from '../Common/asyncUtils';
+import { reducerUtils, handleAsyncActions } from '../../Common/asyncUtils';
 const initialState = {
-  ...reducerUtils.initial([]),
+  ...reducerUtils.initial(null),
 };
-const styleReducer = (state = initialState, action) => {
+const designerStyleReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_STYLE_LIST:
     case GET_STYLE_LIST_SUCCESS:
@@ -25,4 +25,4 @@ const styleReducer = (state = initialState, action) => {
       return state;
   }
 };
-export default styleReducer;
+export default designerStyleReducer;

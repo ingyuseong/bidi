@@ -7,8 +7,8 @@ import {
   GET_PROPOSAL_ASYNC,
   GET_PROPOSAL_LIST,
 } from './constant';
-import ProposalAPI from '../../Api/proposal';
-import { createPromiseThunk } from '../Common/asyncUtils';
+import ProposalAPI from '../../../Api/proposal';
+import { createPromiseThunk } from '../../Common/asyncUtils';
 
 // for Proposal only
 export const registerProposal = createPromiseThunk(REGISTER_PROPOSAL, ProposalAPI.registerProposal);
