@@ -121,10 +121,13 @@ function UpdateProposalScreen({ navigation }) {
       };
       if (isFromAlbum) {
         await ProposalAPI.patchWithFile(proposal[0].id, createFormData(albumImage, body));
-        navigation.replace('Wait');
+        navigation.push('Wait');
       } else {
-        await ProposalAPI.patchProposal(proposal[0].id, { ...body, after_src: afterImageStyle });
-        navigation.replace('Wait');
+        await ProposalAPI.patchProposal(proposal[0].id, {
+          ...body,
+          after_src: afterImageStyle,
+        });
+        navigation.push('Wait');
       }
     }
   };

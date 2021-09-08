@@ -18,7 +18,6 @@ import SelectFromBidiScreen from '../../../Screen/02_SecondTab/Customer/waitMatc
 import SelectFromScrapScreen from '../../../Screen/02_SecondTab/Customer/waitMatching/selectAfterImage/selectFromScrapScreen';
 
 const bidStack = createStackNavigator();
-
 function BidStackScreen() {
   return (
     <Stack.Navigator>

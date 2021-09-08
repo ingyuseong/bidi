@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -9,7 +9,6 @@ import MyPageTabScreen from './Customer/myPageTabScreen';
 import ProposalTabScreen from './Customer/proposalTabScreen';
 
 const Tab = createBottomTabNavigator();
-
 function UserTabStack() {
   return (
     <Tab.Navigator

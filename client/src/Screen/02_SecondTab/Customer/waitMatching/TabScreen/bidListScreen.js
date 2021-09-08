@@ -77,8 +77,8 @@ function BidListScreen({ navigation }) {
   }, [dispatch]);
   if (loading || error || !bidList) return <Loading />;
   return (
-    <View style={{ flex: 1 }}>
-      {bidList.length > 0 ? (
+    <>
+      {bidList.length ? (
         <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
           {bidList.map((bid, index) => (
             <View style={styles.container} key={index}>
@@ -168,7 +168,7 @@ function BidListScreen({ navigation }) {
       ) : (
         <NoBidScreen navigation={navigation} />
       )}
-    </View>
+    </>
   );
 }
 

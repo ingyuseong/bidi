@@ -23,10 +23,12 @@ function CheckingMatchingScreen({ navigation }) {
   }, [dispatch]);
   if (loading || error || !matching) return <Loading />;
   if (!matching.length) return <WaitMainScreen navigation={navigation} />;
-  return (
-    <View style={{ flex: 1 }}>
-      <MatchingMainScreen navigation={navigation} matching={matching[0]} />
-    </View>
-  );
+  else {
+    return (
+      <View style={{ flex: 1 }}>
+        <MatchingMainScreen navigation={navigation} matching={matching[0]} />
+      </View>
+    );
+  }
 }
 export default CheckingMatchingScreen;
