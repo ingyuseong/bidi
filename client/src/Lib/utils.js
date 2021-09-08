@@ -27,12 +27,10 @@ exports.priceFormating = (price) =>
 exports.createFormData = (photo, body) => {
   const data = new FormData();
 
-  photo.forEach((item) => {
-    data.append('userImage', {
-      name: body.name,
-      type: item.type,
-      uri: item.uri.replace('file://', ''),
-    });
+  data.append('image', {
+    name: body.name,
+    type: photo.type,
+    uri: photo.uri.replace('file://', ''),
   });
 
   Object.keys(body).forEach((key) => {
@@ -64,4 +62,3 @@ exports.createImageArrayForm = (imgArray, body) => {
   });
   return data;
 };
-
