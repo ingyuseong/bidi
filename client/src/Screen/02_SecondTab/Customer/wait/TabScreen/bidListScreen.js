@@ -64,7 +64,7 @@ function BidListScreen({ navigation }) {
     };
     const matching = await matchingAPI.registerMatching(body);
     if (matching) {
-      navigation.replace('Check');
+      navigation.replace('Main');
     }
   };
   const modalOpen = (index, bidStyles) => {
@@ -79,7 +79,12 @@ function BidListScreen({ navigation }) {
   return (
     <>
       {bidList.length ? (
-        <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
+        <Swiper
+          style={styles.wrapper}
+          loop={false}
+          showsButtons={false}
+          showsPagination={false}
+          removeClippedSubviews={false}>
           {bidList.map((bid, index) => (
             <View style={styles.container} key={index}>
               <View style={styles.bidBox}>

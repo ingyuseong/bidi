@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import BidTabScreen from './Customer/bidTabScreen';
+import MatchingTabScreen from './Customer/matchingTabScreen';
 import SearchTabScreen from './Customer/searchTabScreen';
 import HistoryTabScreen from './Customer/historyTabScreen';
 import MyPageTabScreen from './Customer/myPageTabScreen';
 import ProposalTabScreen from './Customer/proposalTabScreen';
 
 const Tab = createBottomTabNavigator();
-function UserTabStack() {
+function CustomerTabStack() {
   return (
     <Tab.Navigator
       initialRouteName="Search"
@@ -45,7 +45,11 @@ function UserTabStack() {
         component={SearchTabScreen}
         options={{ headerShown: false, title: '' }}
       />
-      <Tab.Screen name="Bid" component={BidTabScreen} options={{ headerShown: false, title: '' }} />
+      <Tab.Screen
+        name="Bid"
+        component={MatchingTabScreen}
+        options={{ headerShown: false, title: '' }}
+      />
       <Tab.Screen
         name="Proposal"
         component={ProposalTabScreen}
@@ -65,4 +69,4 @@ function UserTabStack() {
   );
 }
 
-export default UserTabStack;
+export default CustomerTabStack;

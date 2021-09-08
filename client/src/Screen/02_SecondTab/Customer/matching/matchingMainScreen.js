@@ -9,13 +9,37 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Components
-import ProposalUserInfo from '../../../../Components/Proposal/proposalUserInfo';
 import BottomButton from '../../../../Components/Common/bottomButton';
 
-function MatchingWaitScreen({ navigation, matching }) {
-  const [styleUrl, setStyleUrl] = useState('none');
+// API
+import MatchingAPI from '../../../../Api/matching';
+
+// Redux Action
+import { deleteMatching } from '../../../../Contexts/Matching/action';
+
+function ReservationScreen({ navigation }) {
+  const { data: matching } = useSelector((state) => state.customerMatching);
+  const [styleUri, setStyleUrl] = useState('none');
+  const dispatch = useDispatch();
+  const removeMatching = async () => {
+    const response = await MatchingAPI.deleteMatching(matching[0].id);
+    if (response) {
+      dispatch(deleteMatching(matching[0].id));
+      Alert.alert('삭제 되었습니다!');
+      navigation.push('Wait');
+    } else {
+      Alert.alert('삭제에 실패했습니다');
+    }
+  };
+  const deleteAlert = () => {
+    Alert.alert('정말 취소하시겠습니까?', '매칭을 취소할 경우 다시 제안서를 작성해야 합니다!', [
+      { text: '아니요', style: 'cancel' },
+      { text: '취소하기', onPress: removeMatching },
+    ]);
+  };
   return (
     <View style={styles.container}>
       <View style={{ padding: 20 }}>
@@ -25,7 +49,7 @@ function MatchingWaitScreen({ navigation, matching }) {
           </View>
           <View style={styles.imageContainer}>
             <View style={styles.imageBox}>
-              {styleUrl == 'none' ? (
+              {styleUri == 'none' ? (
                 <View style={styles.image}>
                   <TouchableOpacity activeOpacity={0.8}>
                     <Text style={styles.imageLabel}>스타일 선택하기</Text>
@@ -36,7 +60,7 @@ function MatchingWaitScreen({ navigation, matching }) {
                   <Image
                     style={{ width: '100%', height: '100%' }}
                     source={{
-                      uri: styleUrl,
+                      uri: styleUri,
                     }}
                   />
                 </TouchableOpacity>
@@ -96,7 +120,12 @@ function MatchingWaitScreen({ navigation, matching }) {
           <View style={{ marginTop: 80 }}></View>
         </ScrollView>
       </View>
-      <BottomButton leftName="취소하기" rightName="예약완료" leftRatio={50} />
+      <BottomButton
+        leftName="취소하기"
+        rightName="예약완료"
+        leftRatio={50}
+        leftHandler={deleteAlert}
+      />
     </View>
   );
 }
@@ -205,4 +234,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MatchingWaitScreen;
+export default ReservationScreen;

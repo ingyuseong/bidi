@@ -47,7 +47,7 @@ function MyProposalScreen({ navigation }) {
     ]);
   };
   const updateProposal = () => {
-    navigation.navigate('UpdateProposal');
+    navigation.push('UpdateProposal');
   };
   useEffect(() => {
     dispatch(getProposalAsync(user.id));

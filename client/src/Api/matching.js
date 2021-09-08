@@ -50,7 +50,10 @@ const MatchingAPI = {
   patchMatchingStar: async (id, body) => {
     return await API(`/matching/star/${id}`, 'patch', JSON.stringify(body));
   },
+  patchMatchingDone: async () => {},
   patchMatchingCanceled: async () => {},
-  deleteMatching: async () => {},
+  deleteMatching: async (id) => {
+    return await API(`/matching/${id}`, 'delete');
+  },
 };
 export default MatchingAPI;

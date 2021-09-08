@@ -13,7 +13,7 @@ import {
 // Components
 import ProposalUserInfo from '../../../../Components/Proposal/proposalUserInfo';
 
-function MatchingReservedScreen({ navigation, matching }) {
+function ReservedMatchingScreen({ navigation, matching }) {
   const [imageToggle, setImageToggle] = useState(false);
   return (
     <View style={styles.container}>
@@ -167,4 +167,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MatchingReservedScreen;
+export default ReservedMatchingScreen;

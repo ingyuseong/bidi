@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import {
   ScrollView,
   Text,
@@ -11,22 +10,24 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import DropDownPicker from 'react-native-dropdown-picker';
-import { KEYWORDS } from '../../../../Lib/constant';
 import { LogBox } from 'react-native';
+import { KEYWORDS } from '../../../../../Lib/constant';
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
-import BottomButton from '../../../../Components/Common/bottomButton';
+import BottomButton from '../../../../../Components/Common/bottomButton';
 
 // API
-import ProposalAPI from '../../../../Api/proposal';
+import ProposalAPI from '../../../../../Api/proposal';
 
 // Redux Action
-import { getProposal } from '../../../../Contexts/Customer/Proposal/action';
+import { patchProposal } from '../../../../../Contexts/Customer/Proposal/action';
 
-function CreateProposalScreen({ navigation }) {
+function UpdateProposalScreen({ navigation }) {
   const { data: user } = useSelector((state) => state.user);
+  const { data: proposal } = useSelector((state) => state.customerProposal);
   const [afterImageStyle, setAfterImageStyle] = useState('none');
   const [albumImage, setAlbumImage] = useState('');
   const [isFromAlbum, setIsFromAlbum] = useState(false);
@@ -40,21 +41,14 @@ function CreateProposalScreen({ navigation }) {
     { label: '10만원 이내', value: '100000' },
     { label: '제한 없음', value: '1000000' },
   ]);
-  const [distanceOpen, setDistanceOpen] = useState(false);
-  const [distanceValue, setDistanceValue] = useState(null);
-  const [distanceItems, setDistanceItems] = useState([
-    { label: '1km 이내', value: '1000' },
-    { label: '5km 이내', value: '5000' },
-    { label: '10km 이내', value: '10000' },
-    { label: '제한 없음', value: '100000' },
-  ]);
 
-  const [location, setLocation] = useState('서울특별시 성북구 장월로');
+  const [location, setLocation] = useState('서울특별시 성북구');
   const [keyword, setKeyword] = useState(KEYWORDS);
   const [keyCount, setKeyCount] = useState(0);
   const [description, setDescription] = useState('');
 
   const dispatch = useDispatch();
+
   const selectKeyword = (id) => {
     if (keyCount < 3 || keyword[id].selected) {
       setKeyword(keyword.map((key) => (key.id == id ? { ...key, selected: !key.selected } : key)));
@@ -75,24 +69,24 @@ function CreateProposalScreen({ navigation }) {
     </TouchableHighlight>
   ));
 
-  const proposalHandler = async (e) => {
+  const proposalHandler = () => {
     setIsFromAlbum(false);
     setAfterImageStyle('none');
     navigation.navigate('SelectAfterImage', {
       setAfterImageStyle: setAfterImageStyle,
       setAlbumImage: setAlbumImage,
       setIsFromAlbum: setIsFromAlbum,
-      isUpdate: false,
+      isUpdate: true,
     });
   };
 
-  const initializeHandler = async (e) => {
+  const initializeHandler = () => {
     setPriceValue(null);
-    setDistanceValue(null);
     setKeyword(KEYWORDS);
     setKeyCount(0);
     setDescription('');
   };
+
   const createFormData = (photo, body) => {
     const data = new FormData();
     data.append('afterImage', {
@@ -126,23 +120,36 @@ function CreateProposalScreen({ navigation }) {
         ai_count: user.ai_count,
       };
       if (isFromAlbum) {
-        await ProposalAPI.registerWithFile(createFormData(albumImage, body));
-        navigation.replace('Wait');
+        await ProposalAPI.patchWithFile(proposal[0].id, createFormData(albumImage, body));
+        navigation.push('Wait');
       } else {
-        await ProposalAPI.registerProposal({
+        await ProposalAPI.patchProposal(proposal[0].id, {
           ...body,
           after_src: afterImageStyle,
         });
-        navigation.replace('Wait');
+        navigation.push('Wait');
       }
     }
   };
-  const submitAlert = () => {
-    Alert.alert('정말 작성하시겠어요?', '작성 후에도 매칭되기 전에는 수정하실 수 있어요!', [
+  const editAlert = () => {
+    Alert.alert('정말 수정하시겠어요?', '', [
       { text: '취소', style: 'cancel' },
-      { text: '작성하기', onPress: () => submitHandler() },
+      { text: '수정하기', onPress: submitHandler },
     ]);
   };
+
+  useEffect(() => {
+    setPriceValue(proposal[0].price_limit);
+    setKeyword(
+      keyword.map((key) =>
+        proposal[0].keyword_array.includes(key.title) ? { ...key, selected: true } : key,
+      ),
+    );
+    setKeyCount(proposal[0].keyword_array.length);
+    setDescription(proposal[0].description);
+    setAfterImageStyle(proposal[0].after_src);
+  }, []);
+
   return (
     <ScrollView style={styles.container}>
       {/* 1. 헤어스타일 선택하기 */}
@@ -248,33 +255,6 @@ function CreateProposalScreen({ navigation }) {
           value={location}
         />
       </View>
-      {/* <DropDownPicker
-        zIndex={500}
-        open={distanceOpen}
-        value={distanceValue}
-        items={distanceItems}
-        setOpen={setDistanceOpen}
-        setValue={setDistanceValue}
-        setItems={setDistanceItems}
-        placeholder="반경 선택하기"
-        style={{
-          width: '90%',
-          borderColor: 'rgb(214,214,214)',
-          borderRadius: 3,
-          height: 42,
-          backgroundColor: 'white',
-          marginLeft: '5%',
-        }}
-        dropDownContainerStyle={{
-          width: '90%',
-          borderColor: 'rgb(214,214,214)',
-          borderRadius: 3,
-          marginLeft: '5%',
-        }}
-        placeholderStyle={{ color: 'grey', fontSize: 15 }}
-        listParentLabelStyle={{ color: 'grey', fontSize: 15, backgroundColor: 'white' }}
-        listMode="SCROLLVIEW"
-      /> */}
 
       {/* 4. 무엇이 제일 중요하세요? */}
       <View style={{ marginTop: 20 }}></View>
@@ -305,10 +285,10 @@ function CreateProposalScreen({ navigation }) {
       <View style={{ marginTop: 80 }}></View>
       <BottomButton
         leftName="초기화"
-        rightName="등록하기"
+        rightName="수정하기"
         leftRatio={40}
         leftHandler={initializeHandler}
-        rightHandler={submitAlert}
+        rightHandler={editAlert}
       />
     </ScrollView>
   );
@@ -473,14 +453,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateProposalScreen;
-
-// const { user } = route.params;
-
-// const [userType, setUserType] = useState('');
-// const [userName, setUserName] = useState('');
-// const [userEmail, setUserEmail] = useState('');
-// const [userAddress, setUserAddress] = useState('');
-
-// const handleSubmitButton = async () => {
-// };
+export default UpdateProposalScreen;
