@@ -8,14 +8,14 @@ const modelAttributes = {
     primaryKey: true,
     autoIncrement: true,
   },
-  user_id: {
+  designer_id: {
     type: DataTypes.INTEGER,
   },
   start_time: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,
   },
   end_time: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.FLOAT,
   },
   holiday_array: {
     type: DataTypes.STRING,

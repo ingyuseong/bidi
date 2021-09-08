@@ -48,6 +48,7 @@ db.User = require('./user')(sequelize, Sequelize)
 db.Proposal = require('./proposal')(sequelize, Sequelize)
 db.Branding = require('./branding')(sequelize, Sequelize)
 db.Style = require('./style')(sequelize, Sequelize)
+db.ScheduleInfo = require('./scheduleInfo')(sequelize, Sequelize)
 db.Bid = require('./bid')(sequelize, Sequelize)
 db.Matching = require('./matching')(sequelize, Sequelize)
 db.Room = require('./room')(sequelize, Sequelize)
@@ -85,6 +86,15 @@ db.User.hasMany(db.Proposal, {
 db.Proposal.belongsTo(db.User, {
   foreignKey: { allowNull: false },
   onDelete: 'CASCADE',
+})
+
+// 관계정의 User : ScheduleInfo = 1 : 1
+db.ScheduleInfo.belongsTo(db.User, {
+  foreignKey: { name: 'designer_id', allowNull: false, as: 'designer' },
+  onDelete: 'CASCADE',
+})
+db.User.hasOne(db.ScheduleInfo, {
+  foreignKey: { name: 'designer_id', allowNull: false, as: 'designer' },
 })
 
 // 관계정의 User : Bid = 1 : N
