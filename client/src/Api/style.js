@@ -26,7 +26,9 @@ const StyleAPI = {
     return await API(`/style/designer/${id}`, 'get');
   },
   getStyle: async (body) => {},
-  patchStyle: async (body) => {},
+  patchStyle: async (id, body) => {
+    return await formAPI(`/style/${id}`, 'patch', body);
+  },
   patchAiEnable: async (body) => {},
   deleteStyle: async (id) => {
     return await API(`/style/${id}`, 'delete');

@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Alert } fr
 
 import StyleAPI from '../../../Api/style';
 import { createStyleForm } from '../../../Lib/utils';
+import { getStyleListByDesignerId } from '../../../Contexts/Designer/Style';
 import { LENGTH_TYPE, STYLE_TYPE, GENDER_TYPE } from '../../../Lib/constant';
 
 import Line from '../../../Components/Common/line';
@@ -89,7 +90,12 @@ function EditStyleBookScreen({ navigation, route }) {
       length_type: lengthTypeValue,
       keyword_array: styleTags.toString(),
     });
-    // const response = await StyleAPI.editStyle(bodyData);
+    const response = await StyleAPI.patchStyle(styleItem.id, bodyData);
+    if (response) {
+      Alert.alert('스타일북 수정이 완료되었습니다!');
+      dispatch(getStyleListByDesignerId(userInfo.id));
+      navigation.navigate('BrandingMain', { screen: 'StyleBook' });
+    }
   };
 
   return (

@@ -37,7 +37,7 @@ function StyleImage({
             {objectNullChecking(frontStyle) ? (
               <>
                 <Image
-                  source={{ uri: isEdit ? frontStyle : frontStyle.uri }}
+                  source={{ uri: frontStyle.uri ? frontStyle.uri : frontStyle }}
                   style={styles.styleImg}
                 />
                 <TouchableOpacity
@@ -60,7 +60,7 @@ function StyleImage({
             {objectNullChecking(sideStyle) ? (
               <>
                 <Image
-                  source={{ uri: isEdit ? sideStyle : sideStyle.uri }}
+                  source={{ uri: sideStyle.uri ? sideStyle.uri : sideStyle }}
                   style={styles.styleImg}
                 />
                 <TouchableOpacity
@@ -82,7 +82,7 @@ function StyleImage({
             {objectNullChecking(backStyle) ? (
               <>
                 <Image
-                  source={{ uri: isEdit ? backStyle : backStyle.uri }}
+                  source={{ uri: backStyle.uri ? backStyle.uri : backStyle }}
                   style={styles.styleImg}
                 />
                 <TouchableOpacity

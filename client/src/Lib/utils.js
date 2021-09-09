@@ -49,31 +49,43 @@ exports.createFormData = (photo, body) => {
 
 exports.createStyleForm = (front, side, back, body) => {
   const data = new FormData();
+
   if (Object.keys(front).length) {
-    data.append('front', {
-      name: front.fileName,
-      type: front.type,
-      uri: front.uri.replace('file://', ''),
-    });
+    if (front.fileName) {
+      data.append('front', {
+        name: front.fileName,
+        type: front.type,
+        uri: front.uri.replace('file://', ''),
+      });
+    } else {
+      data.append('front_img_src', front);
+    }
   }
   if (Object.keys(side).length) {
-    data.append('side', {
-      name: side.fileName,
-      type: side.type,
-      uri: side.uri.replace('file://', ''),
-    });
+    if (side.fileName) {
+      data.append('side', {
+        name: side.fileName,
+        type: side.type,
+        uri: side.uri.replace('file://', ''),
+      });
+    } else {
+      data.append('side_img_src', side);
+    }
   }
   if (Object.keys(back).length) {
-    data.append('back', {
-      name: back.fileName,
-      type: back.type,
-      uri: back.uri.replace('file://', ''),
-    });
+    if (back.fileName) {
+      data.append('back', {
+        name: back.fileName,
+        type: back.type,
+        uri: back.uri.replace('file://', ''),
+      });
+    } else {
+      data.append('back_img_src', back);
+    }
   }
 
   Object.keys(body).forEach((key) => {
     data.append(key, body[key]);
   });
-  console.log(data);
   return data;
 };

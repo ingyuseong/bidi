@@ -38,7 +38,15 @@ router.get(
 )
 router.get('/:id', routesAsyncWrapper(controller.getStyle))
 
-router.patch('/:id', routesAsyncWrapper(controller.patchStyle))
+router.patch(
+  '/:id',
+  uploadImage.fields([
+    { name: 'front', maxCount: 1 },
+    { name: 'side', maxCount: 1 },
+    { name: 'back', maxCount: 1 },
+  ]),
+  routesAsyncWrapper(controller.patchStyle)
+)
 router.patch('/enable/:id', routesAsyncWrapper(controller.patchAiEnable))
 
 router.delete('/:id', routesAsyncWrapper(controller.deleteStyle))
