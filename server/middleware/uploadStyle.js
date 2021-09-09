@@ -18,7 +18,7 @@ const uploadImage = multer(
       acl: 'public-read',
       contentType: multerS3.AUTO_CONTENT_TYPE,
       key: function (req, file, cb) {
-        cb(null, `style/${generateKeys()}`)
+        cb(null, `style/${file.fieldname}/${generateKeys()}`)
       },
     }),
   },
