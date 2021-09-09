@@ -4,18 +4,18 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Alert } fr
 
 import StyleAPI from '../../../Api/style';
 import { createImageArrayForm } from '../../../Lib/utils';
+import { getStyleListByDesignerId } from '../../../Contexts/Style/';
 import { LENGTH_TYPE, STYLE_TYPE, GENDER_TYPE } from '../../../Lib/constant';
 
 import Line from '../../../Components/Common/line';
 import StyleTags from '../../../Components/StyleBook/styleTags';
-import StyleMain from '../../../Components/StyleBook/styleMain';
 import StyleImage from '../../../Components/StyleBook/styleImage';
 import StyleTitle from '../../../Components/StyleBook/styleTitle';
 import StylePrice from '../../../Components/StyleBook/stylePrice';
 import StyleCategory from '../../../Components/StyleBook/styleCategory';
 import StyleDescription from '../../../Components/StyleBook/styleDescription';
 
-function CreateStyleBookScreen() {
+function CreateStyleBookScreen({ navigation }) {
   const { data: userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -87,6 +87,11 @@ function CreateStyleBookScreen() {
       keyword_array: styleTags.toString(),
     });
     const response = await StyleAPI.registerStyle(bodyData);
+    if (response) {
+      Alert.alert('스타일북이 작성되었습니다!');
+      dispatch(getStyleListByDesignerId(userInfo.id));
+      navigation.navigate('BrandingMain', { screen: 'StyleBook' });
+    }
   };
 
   return (

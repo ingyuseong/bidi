@@ -11,7 +11,7 @@ exports.createStyle = async (body) => {
     style_type: body.style_type,
     length_type: body.length_type,
     keyword_array: body.keyword_array,
-    img_src_array: body.img_src_array,
+    img_src_array: body.img_src_array.toString(),
   }
   const style = await db.createStyle(attr)
   if (style) {
@@ -52,7 +52,7 @@ exports.findAllStyleByDesignerId = async (id) => {
       return {
         ...style.dataValues,
         keyword_array,
-        img_src_array: style.img_src_array.split(','),
+        img_src_array: style.dataValues.img_src_array.split(','),
       }
     })
     return styleList

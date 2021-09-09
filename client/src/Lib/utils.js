@@ -24,6 +24,14 @@ exports.textLimiting = (description, count) => {
 exports.priceFormating = (price) =>
   new Intl.NumberFormat('ko-KR', { currency: 'KRW' }).format(price);
 
+exports.objectNullChecking = (object) => {
+  return object && Object.keys(object).length !== 0;
+};
+
+exports.listNullChecking = (list) => {
+  return list && list.length > 0;
+};
+
 exports.createFormData = (photo, body) => {
   const data = new FormData();
 
@@ -39,26 +47,20 @@ exports.createFormData = (photo, body) => {
   return data;
 };
 
-exports.objectNullChecking = (object) => {
-  return object && Object.keys(object).length !== 0;
-};
-
-exports.listNullChecking = (list) => {
-  return list && list.length > 0;
-};
-
 exports.createImageArrayForm = (imgArray, body) => {
   const data = new FormData();
 
-  const imgData = imgArray.map((img) => ({
-    name: body.name,
-    type: img.type,
-    uri: img.uri.replace('file://', ''),
-  }));
+  imgArray.forEach((photo) => {
+    data.append('images', {
+      name: photo.fileName,
+      type: photo.type,
+      uri: photo.uri.replace('file://', ''),
+    });
+  });
 
-  data.append('images', imgData);
   Object.keys(body).forEach((key) => {
     data.append(key, body[key]);
   });
+  console.log(data);
   return data;
 };

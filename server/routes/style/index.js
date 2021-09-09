@@ -22,6 +22,7 @@ const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
 
 router.post(
   '/register',
+  // uploadImage.single('images'),
   uploadImage.array('images', 10),
   routesAsyncWrapper(controller.registerStyle)
 )

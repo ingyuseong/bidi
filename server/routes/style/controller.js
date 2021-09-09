@@ -4,7 +4,11 @@ const { STATUS_CODE } = require('../../lib/constants')
 // [ 1. POST Methods ]
 exports.registerStyle = async (req, res) => {
   const body = req.body
-  const style = await styleServices.createStyle(body)
+  const img_src_array = req.files.map((file) => file.location)
+  const style = await styleServices.createStyle({
+    ...body,
+    img_src_array,
+  })
   if (style) {
     res.status(STATUS_CODE.CREATED).json({
       status: 'success',
