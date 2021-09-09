@@ -47,16 +47,29 @@ exports.createFormData = (photo, body) => {
   return data;
 };
 
-exports.createImageArrayForm = (imgArray, body) => {
+exports.createStyleImageForm = (front, side, back, body) => {
   const data = new FormData();
-
-  imgArray.forEach((photo) => {
-    data.append('images', {
-      name: photo.fileName,
-      type: photo.type,
-      uri: photo.uri.replace('file://', ''),
+  if (Object.keys(front).length) {
+    data.append('front', {
+      name: front.fileName,
+      type: front.type,
+      uri: front.uri.replace('file://', ''),
     });
-  });
+  }
+  if (Object.keys(side).length) {
+    data.append('side', {
+      name: front.fileName,
+      type: front.type,
+      uri: front.uri.replace('file://', ''),
+    });
+  }
+  if (Object.keys(back).length) {
+    data.append('back', {
+      name: front.fileName,
+      type: front.type,
+      uri: front.uri.replace('file://', ''),
+    });
+  }
 
   Object.keys(body).forEach((key) => {
     data.append(key, body[key]);

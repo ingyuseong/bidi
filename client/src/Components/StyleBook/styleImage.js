@@ -3,49 +3,100 @@ import { StyleSheet, Text, Alert, View, TouchableOpacity, ScrollView, Image } fr
 
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { objectNullChecking } from '../../Lib/utils';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 
-function StyleImage({ styleArray, setStyleArray, isEdit }) {
-  const addStyleHandler = () => {
+function StyleImage({
+  frontStyle,
+  setFrontStyle,
+  sideStyle,
+  setSideStyle,
+  backStyle,
+  setBackStyle,
+  isEdit,
+}) {
+  const addStyleHandler = (setStyle) => {
     launchImageLibrary({ nodata: true }, (response) => {
       if (response.didCancel) {
         return Alert.alert('선택을 취소하였습니다');
       } else {
-        setStyleArray([...styleArray, response.assets[0]]);
+        setStyle(response.assets[0]);
       }
     });
   };
-  const removeStyleHandler = (targetStyle) => {
-    const newStyleArray = styleArray.filter((style) => style.fileName !== targetStyle.fileName);
-    setStyleArray(newStyleArray);
+  const removeStyleHandler = (setStyle) => {
+    setStyle({});
   };
 
   return (
     <View style={styles.styleBox}>
-      <TouchableOpacity onPress={addStyleHandler}>
-        <View style={styles.addStyleArea}>
-          <FontAwesomeIcon name="camera" size={25} style={styles.addStyleBtn} />
-          <View style={styles.styleCountArea}>
-            <Text style={[styles.styleCountText, styles.styleCurrentCountText]}>
-              {styleArray.length}
-            </Text>
-            <Text style={styles.styleCountText}>/10</Text>
+      <View style={styles.styleArea}>
+        <Text style={styles.titleText}>정면 사진</Text>
+        <TouchableOpacity onPress={() => addStyleHandler(setFrontStyle)}>
+          <View style={styles.styleImageArea}>
+            {objectNullChecking(frontStyle) ? (
+              <>
+                <Image
+                  source={{ uri: isEdit ? frontStyle : frontStyle.uri }}
+                  style={styles.styleImg}
+                />
+                <TouchableOpacity
+                  style={styles.removeStyleArea}
+                  onPress={() => removeStyleHandler(setFrontStyle)}>
+                  <IoniconsIcon name="close" size={20} style={styles.removeStyleBtn} />
+                </TouchableOpacity>
+              </>
+            ) : (
+              <FontAwesomeIcon name="camera" size={25} style={styles.addStyleBtn} />
+            )}
           </View>
-        </View>
-      </TouchableOpacity>
-      <ScrollView horizontal={true}>
-        {styleArray.length > 0 &&
-          styleArray.map((style, index) => (
-            <View style={styles.styleArea} key={index}>
-              <Image source={{ uri: isEdit ? style : style.uri }} style={styles.styleImg} />
-              <TouchableOpacity
-                style={styles.removeStyleArea}
-                onPress={() => removeStyleHandler(style)}>
-                <IoniconsIcon name="close" size={20} style={styles.removeStyleBtn} />
-              </TouchableOpacity>
-            </View>
-          ))}
-      </ScrollView>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.styleArea}>
+        <Text style={styles.titleText}>측면 사진</Text>
+        <TouchableOpacity onPress={() => addStyleHandler(setSideStyle)}>
+          <View style={styles.styleImageArea}>
+            {objectNullChecking(sideStyle) ? (
+              <>
+                <Image
+                  source={{ uri: isEdit ? sideStyle : sideStyle.uri }}
+                  style={styles.styleImg}
+                />
+                <TouchableOpacity
+                  style={styles.removeStyleArea}
+                  onPress={() => removeStyleHandler(setSideStyle)}>
+                  <IoniconsIcon name="close" size={20} style={styles.removeStyleBtn} />
+                </TouchableOpacity>
+              </>
+            ) : (
+              <FontAwesomeIcon name="camera" size={25} style={styles.addStyleBtn} />
+            )}
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.styleArea}>
+        <Text style={styles.titleText}>후면 사진</Text>
+        <TouchableOpacity onPress={() => addStyleHandler(setBackStyle)}>
+          <View style={styles.styleImageArea}>
+            {objectNullChecking(backStyle) ? (
+              <>
+                <Image
+                  source={{ uri: isEdit ? backStyle : backStyle.uri }}
+                  style={styles.styleImg}
+                />
+                <TouchableOpacity
+                  style={styles.removeStyleArea}
+                  onPress={() => removeStyleHandler(setBackStyle)}>
+                  <IoniconsIcon name="close" size={20} style={styles.removeStyleBtn} />
+                </TouchableOpacity>
+              </>
+            ) : (
+              <FontAwesomeIcon name="camera" size={25} style={styles.addStyleBtn} />
+            )}
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -55,20 +106,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     margin: 16,
     marginTop: 0,
+    justifyContent: 'space-around',
   },
-  addStyleArea: {
+  styleArea: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  styleImageArea: {
     width: 90,
     height: 90,
     borderColor: '#DBDBDB',
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 16,
-    marginTop: 16,
+    marginTop: 8,
   },
   addStyleBtn: {
     color: 'gray',
-    marginBottom: 8,
   },
   styleCountArea: {
     flexDirection: 'row',
@@ -81,14 +136,6 @@ const styles = StyleSheet.create({
   },
   styleCurrentCountText: {
     color: '#FF533A',
-  },
-  styleArea: {
-    width: 90,
-    height: 90,
-    resizeMode: 'center',
-    marginRight: 8,
-    position: 'relative',
-    marginTop: 16,
   },
   styleImg: { width: '100%', height: 90 },
   removeStyleArea: {
@@ -104,6 +151,13 @@ const styles = StyleSheet.create({
   },
   removeStyleBtn: {
     color: 'white',
+  },
+  titleText: {
+    color: '#111111',
+    fontWeight: 'bold',
+    lineHeight: 20,
+    letterSpacing: -0.5,
+    fontSize: 15,
   },
 });
 

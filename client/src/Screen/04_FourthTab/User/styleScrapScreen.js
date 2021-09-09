@@ -1,79 +1,66 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Alert, Text, TouchableOpacity, View, StyleSheet, ScrollView, Image } from 'react-native';
-
-// Screens
-import StyleScrapIntroScreen from './introStyleScrapScreen';
-
-// Components
 import Modal from 'react-native-modal';
 import StyleModal from '../../../Components/Modal/styleModal';
-import Loading from '../../../Components/Common/loading';
 
-// Redux Action
-import { getStyleScrapList } from '../../../Contexts/StyleScrap/action';
-
-function StyleScrapScreen({ navigation }) {
-  const { data: user } = useSelector((state) => state.user);
-  const { data: styleScrapList, loading, error } = useSelector((state) => state.styleScrap);
+function StyleScrapIntroScreen({ navigation, styleScraps, userInfo }) {
+  const [styleScrapList, setStyleScrapList] = useState(styleScraps);
   const [modalVisible, setModalVisible] = useState(false);
   const [styleIndex, setStyleIndex] = useState(0);
-
-  const dispatch = useDispatch();
   const modalOpen = (index) => {
     setModalVisible(true);
     setStyleIndex(index);
   };
-
   useEffect(() => {
-    dispatch(getStyleScrapList(user.id));
-  }, [dispatch]);
-  if (loading || error) return <Loading loading />;
-  if (!styleScrapList) return <StyleScrapIntroScreen />;
+    const fetchMode = async () => {
+      setStyleScrapList(
+        styleScraps.map((style) => {
+          return { ...style, isScraped: true };
+        }),
+      );
+    };
+    fetchMode();
+  }, []);
   return (
-    <>
-      {styleScrapList && styleScrapList.length > 0 ? (
-        <ScrollView>
-          <View style={styles.styleContainer}>
-            {styleScrapList.map((item, index) => (
-              <View style={styles.styleItem} key={index}>
-                <View>
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    style={styles.imageAfter}
-                    onPress={() => modalOpen(index)}>
-                    <Image
-                      style={styles.styleImg}
-                      source={{
-                        uri: item.img_src_array[0],
-                      }}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            ))}
+    <ScrollView>
+      <View style={styles.styleContainer}>
+        {styleScraps.map((item, index) => (
+          <View style={styles.styleItem} key={index}>
+            <View>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.imageAfter}
+                onPress={() => modalOpen(index)}>
+                <Image
+                  style={styles.styleImg}
+                  source={{
+                    uri: item.img_src,
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
-          <Modal
-            animationType="fade"
-            transparent={true}
-            isVisible={modalVisible}
-            style={{
-              alignItems: 'center',
-            }}
-            backdropOpacity={0.3}>
-            <StyleModal
-              styleList={styleScrapList}
-              index={styleIndex}
-              setModalVisible={setModalVisible}
-              navigation={navigation}
-              deleteIcon={true}
-            />
-          </Modal>
-        </ScrollView>
-      ) : (
-        <StyleScrapIntroScreen />
-      )}
-    </>
+        ))}
+      </View>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        isVisible={modalVisible}
+        style={{
+          alignItems: 'center',
+        }}
+        backdropOpacity={0.3}>
+        <StyleModal
+          styleScraps={styleScrapList}
+          index={styleIndex}
+          setModalVisible={setModalVisible}
+          setStyleScrapList={setStyleScrapList}
+          userInfo={userInfo}
+          navigation={navigation}
+          deleteIcon={true}
+        />
+      </Modal>
+    </ScrollView>
   );
 }
 
@@ -101,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StyleScrapScreen;
+export default StyleScrapIntroScreen;

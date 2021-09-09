@@ -1,13 +1,16 @@
 const styleServices = require('../../services/style')
 const { STATUS_CODE } = require('../../lib/constants')
+const { extractUrl } = require('../../lib/utls')
 
 // [ 1. POST Methods ]
 exports.registerStyle = async (req, res) => {
   const body = req.body
-  const img_src_array = req.files.map((file) => file.location)
+  const { front, side, back } = req.files
   const style = await styleServices.createStyle({
     ...body,
-    img_src_array,
+    front_img_src: extractUrl(front),
+    side_img_src: extractUrl(side),
+    back_img_src: extractUrl(back),
   })
   if (style) {
     res.status(STATUS_CODE.CREATED).json({

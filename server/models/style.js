@@ -32,7 +32,13 @@ const modelAttributes = {
   keyword_array: {
     type: DataTypes.STRING,
   },
-  img_src_array: {
+  front_img_src: {
+    type: DataTypes.STRING,
+  },
+  side_img_src: {
+    type: DataTypes.STRING,
+  },
+  back_img_src: {
     type: DataTypes.STRING,
   },
 

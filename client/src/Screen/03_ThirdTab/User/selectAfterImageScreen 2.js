@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, TouchableHighlight, TouchableOpacity, Image } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableHighlight,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from 'react-native';
 
 function SelectAfterImageScreen({ navigation, route }) {
-  const { setAfterImageStyle, setAlbumImage, setIsFromAlbum, userInfo } = route.params;
+  const { setAfterImageStyle, setAlbumImage, setIsFromAlbum } = route.params;
+  const { data: user } = useSelector((state) => state.user);
 
   const goBack = async (e) => {
     navigation.goBack();
@@ -11,20 +21,24 @@ function SelectAfterImageScreen({ navigation, route }) {
     navigation.navigate('SelectFromAlbum', {
       setAlbumImage: setAlbumImage,
       setIsFromAlbum: setIsFromAlbum,
-      userInfo: userInfo,
     });
   };
   const selectScrap = async (e) => {
     navigation.navigate('SelectFromScrap', {
       setAfterImageStyle: setAfterImageStyle,
-      userInfo: userInfo,
     });
   };
   const selectBidi = async (e) => {
-    navigation.navigate('SelectFromBidi', {
-      setAfterImageStyle: setAfterImageStyle,
-      userInfo: userInfo,
-    });
+    if (user.ai_enable) {
+      navigation.navigate('SelectFromBidi', {
+        setAfterImageStyle: setAfterImageStyle,
+      });
+    } else {
+      Alert.alert(
+        '아직 BiDi AI 디자이너를 활성화 하지 않으셨어요',
+        '마이페이지에서 활성화 하실 수 있어요!',
+      );
+    }
   };
 
   return (
@@ -40,7 +54,7 @@ function SelectAfterImageScreen({ navigation, route }) {
           <Text style={styles.title}>원하는 After 헤어사진을</Text>
           <Text style={styles.title}>등록해주세요!</Text>
         </View>
-        <View style={{ marginTop: 20 }}>
+        <View style={{ marginTop: 10 }}>
           <TouchableHighlight
             underlayColor="white"
             style={styles.keywordNormal}

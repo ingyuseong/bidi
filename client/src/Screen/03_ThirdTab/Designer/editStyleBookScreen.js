@@ -23,7 +23,7 @@ function EditStyleBookScreen({ navigation, route }) {
   const [styleArray, setStyleArray] = useState(styleItem.img_src_array);
   const [styleTitle, setStyleTitle] = useState(styleItem.title);
   const [styleDescription, setStyleDescription] = useState(styleItem.description);
-  const [stylePrice, setStylePrice] = useState(styleItem.price);
+  const [stylePrice, setStylePrice] = useState(String(styleItem.price));
   const [tagText, setTagText] = useState('');
   const [styleTags, setStyleTags] = useState(styleItem.keyword_array);
 
@@ -37,6 +37,7 @@ function EditStyleBookScreen({ navigation, route }) {
   const [styleTypeValue, setStyleTypeValue] = useState(styleItem.style_type);
   const [styleTypeItems, setStyleTypeItems] = useState([]);
 
+  console.log(styleArray);
   useEffect(() => {
     setStyleTypeItems(STYLE_TYPE[lengthTypeValue]);
   }, [lengthTypeValue]);

@@ -26,7 +26,7 @@ function StyleBookListScreen({ navigation }) {
   if (!styleList.length) {
     return <NoStyleBookScreen navigation={navigation} />;
   }
-
+  console.log(styleList);
   return (
     <View style={styles.container}>
       <View style={styles.filterBox}>
@@ -51,7 +51,7 @@ function StyleBookListScreen({ navigation }) {
               <Image
                 style={styles.styleImg}
                 source={{
-                  uri: styleItem.img_src_array[0],
+                  uri: styleItem.front_img_src,
                 }}
               />
             </TouchableOpacity>

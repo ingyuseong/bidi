@@ -1,49 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
-
-// Screens
-import CreateProposalScreen from './createProposalScreen';
-import RegisteredProposalScreen from './registeredProposalScreen';
-import MatchingExistScreen from './matchingExistScreen';
-
-// Components
-import Loading from '../../../Components/Common/loading';
-
-// Redux Action
-import { getProposalAsync } from '../../../Contexts/Proposal/action';
-import { getMatchingByCustomerId } from '../../../Contexts/Matching/action';
+import BidiStorage from '../../../Lib/storage';
+import { STORAGE_KEY } from '../../../Lib/constant';
 
 function CheckingProposalScreen({ navigation }) {
-  const { data: user } = useSelector((state) => state.user);
-  const {
-    data: proposal,
-    loading: proposalLoading,
-    error: proposalError,
-  } = useSelector((state) => state.proposal);
-  const {
-    data: matching,
-    loading: matchingLoading,
-    error: matchingError,
-  } = useSelector((state) => state.matching);
-  const [animating, setAnimating] = useState(true);
-  const dispatch = useDispatch();
+  const [animating] = useState(true);
+  const getProposalInfo = async (user) => {
+    await fetch('http://127.0.0.1:3000' + `/api/proposal/user/${user.id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.data && Object.keys(result.data).length !== 0) {
+          navigation.replace('ProposalRegistered');
+        } else {
+          navigation.replace('Intro');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   useEffect(() => {
-    dispatch(getProposalAsync());
-    dispatch(getMatchingByCustomerId(user.id));
-  }, [dispatch]);
-  if (proposalLoading || matchingLoading || proposalError || matchingError)
-    return <Loading matchingError />;
+    async function fetchMode() {
+      const user = await BidiStorage.getData(STORAGE_KEY);
+      getProposalInfo(user);
+    }
+    fetchMode();
+  }, []);
+
   return (
-    <>
-      {proposal && proposal.length > 0 ? (
-        <RegisteredProposalScreen navigation={navigation} />
-      ) : matching && matching.length > 0 ? (
-        <MatchingExistScreen navigation={navigation} />
-      ) : (
-        <CreateProposalScreen navigation={navigation} />
-      )}
-    </>
+    <View style={styles.container}>
+      <ActivityIndicator
+        animating={animating}
+        color=""
+        size="large"
+        style={styles.activityIndicator}
+      />
+    </View>
   );
 }
 

@@ -41,17 +41,21 @@ function DetailStyleBookScreen({ navigation, route }) {
             loop={false}
             nextButton={<Icon name="right" size={30} color="white"></Icon>}
             prevButton={<Icon name="left" size={30} color="white"></Icon>}>
-            {styleItem.img_src_array.length > 0 &&
-              styleItem.img_src_array.map((item, index) => (
-                <View style={styles.styleContainer} key={index}>
-                  <Image
-                    style={styles.styleImg}
-                    source={{
-                      uri: item,
-                    }}
-                  />
-                </View>
-              ))}
+            {/* {[styleItem.front_img_src, styleItem.side_img_src, styleItem.back_img_src].length > 0 &&
+              [styleItem.front_img_src, styleItem.side_img_src, styleItem.back_img_src].map(
+                (item, index) => {
+                  if (item) {
+                    <View style={styles.styleContainer} key={index}>
+                      <Image
+                        style={styles.styleImg}
+                        source={{
+                          uri: item,
+                        }}
+                      />
+                    </View>;
+                  }
+                },
+              )} */}
           </Swiper>
         </View>
         <View style={styles.contentBox}>

@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 
 function SelectAfterImageScreen({ navigation, route }) {
-  const { setAlbumImage, setIsFromAlbum, userInfo } = route.params;
+  const { setAlbumImage, setIsFromAlbum } = route.params;
 
   const handleChoosePhoto = () => {
     launchImageLibrary({ nodata: true }, (response) => {
@@ -14,7 +14,7 @@ function SelectAfterImageScreen({ navigation, route }) {
       } else {
         setAlbumImage(response.assets[0]);
         setIsFromAlbum(true);
-        navigation.navigate('CreateProposal');
+        navigation.navigate('Main');
       }
     });
   };
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: '40%',
+    height: '45%',
     borderRadius: 30,
     backgroundColor: 'white',
     padding: 20,
