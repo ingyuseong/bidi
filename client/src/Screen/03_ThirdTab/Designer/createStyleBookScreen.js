@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
 
 import StyleAPI from '../../../Api/style';
-import { createStyleImageForm } from '../../../Lib/utils';
+import { createStyleForm } from '../../../Lib/utils';
 import { getStyleListByDesignerId } from '../../../Contexts/Designer/Style/';
 import { LENGTH_TYPE, STYLE_TYPE, GENDER_TYPE } from '../../../Lib/constant';
 
@@ -78,7 +78,7 @@ function CreateStyleBookScreen({ navigation }) {
     if (!stylePrice) {
       return Alert.alert('스타일의 가격을 입력해주세요!');
     }
-    const bodyData = createStyleImageForm(frontStyle, sideStyle, backStyle, {
+    const bodyData = createStyleForm(frontStyle, sideStyle, backStyle, {
       user_id: userInfo.id,
       title: styleTitle,
       description: styleDescription,

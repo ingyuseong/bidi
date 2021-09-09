@@ -47,7 +47,7 @@ exports.createFormData = (photo, body) => {
   return data;
 };
 
-exports.createStyleImageForm = (front, side, back, body) => {
+exports.createStyleForm = (front, side, back, body) => {
   const data = new FormData();
   if (Object.keys(front).length) {
     data.append('front', {
@@ -58,16 +58,16 @@ exports.createStyleImageForm = (front, side, back, body) => {
   }
   if (Object.keys(side).length) {
     data.append('side', {
-      name: front.fileName,
-      type: front.type,
-      uri: front.uri.replace('file://', ''),
+      name: side.fileName,
+      type: side.type,
+      uri: side.uri.replace('file://', ''),
     });
   }
   if (Object.keys(back).length) {
     data.append('back', {
-      name: front.fileName,
-      type: front.type,
-      uri: front.uri.replace('file://', ''),
+      name: back.fileName,
+      type: back.type,
+      uri: back.uri.replace('file://', ''),
     });
   }
 

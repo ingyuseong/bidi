@@ -13,9 +13,9 @@ import { convertDate, priceFormating } from '../../../Lib/utils';
 function DetailStyleBookScreen({ navigation, route }) {
   const dispatch = useDispatch();
   const { styleItem } = route.params;
+  const styleList = [styleItem.front_img_src, styleItem.side_img_src, styleItem.back_img_src];
   const [toggle, setToggle] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-
   const editHandler = () => {
     navigation.push('EditStyleBook', { styleItem });
   };
@@ -41,10 +41,10 @@ function DetailStyleBookScreen({ navigation, route }) {
             loop={false}
             nextButton={<Icon name="right" size={30} color="white"></Icon>}
             prevButton={<Icon name="left" size={30} color="white"></Icon>}>
-            {/* {[styleItem.front_img_src, styleItem.side_img_src, styleItem.back_img_src].length > 0 &&
-              [styleItem.front_img_src, styleItem.side_img_src, styleItem.back_img_src].map(
-                (item, index) => {
-                  if (item) {
+            {styleList.length > 0 &&
+              styleList.map((item, index) => {
+                if (item) {
+                  return (
                     <View style={styles.styleContainer} key={index}>
                       <Image
                         style={styles.styleImg}
@@ -52,10 +52,10 @@ function DetailStyleBookScreen({ navigation, route }) {
                           uri: item,
                         }}
                       />
-                    </View>;
-                  }
-                },
-              )} */}
+                    </View>
+                  );
+                }
+              })}
           </Swiper>
         </View>
         <View style={styles.contentBox}>
