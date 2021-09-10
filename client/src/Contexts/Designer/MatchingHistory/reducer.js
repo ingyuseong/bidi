@@ -9,9 +9,9 @@ import {
   GET_MATCHINGHISTORY_LIST_DESIGNER_SUCCESS,
   GET_MATCHINGHISTORY_LIST_DESIGNER_ERROR,
 } from './constant';
-import { reducerUtils, handleAsyncActions } from '../Common/asyncUtils';
+import { reducerUtils, handleAsyncActions } from '../../Common/asyncUtils';
 const initialState = {
-  ...reducerUtils.initial([]),
+  ...reducerUtils.initial(null),
 };
 const matchingHistoryReducer = (state = initialState, action) => {
   switch (action.type) {

@@ -8,11 +8,11 @@ import {
   GET_BID_LIST_DESIGNER_SUCCESS,
   GET_BID_LIST_DESIGNER_ERROR,
 } from './constant';
-import { reducerUtils, handleAsyncActions } from '../Common/asyncUtils';
+import { reducerUtils, handleAsyncActions } from '../../Common/asyncUtils';
 const initialState = {
   ...reducerUtils.initial(null),
 };
-const bidReducer = (state = initialState, action) => {
+const designerBidReducer = (state = initialState, action) => {
   switch (action.type) {
     case PATCH_BID:
       return {
@@ -40,4 +40,4 @@ const bidReducer = (state = initialState, action) => {
       return state;
   }
 };
-export default bidReducer;
+export default designerBidReducer;

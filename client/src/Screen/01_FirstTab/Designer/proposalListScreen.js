@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -11,16 +11,18 @@ import ProposalDetailScreen from './proposalDetailScreen';
 import { getProposalList } from '../../../Contexts/Proposal';
 
 function ProposalListScreen({ navigation }) {
-  const { data: proposalList, loading, error } = useSelector((state) => state.proposal);
+  const { data: proposalList, loading, error } = useSelector((state) => state.designerProposal);
   const dispatch = useDispatch();
   useEffect(() => {
-    async function fetchMode() {
-      await dispatch(getProposalList());
-    }
-    fetchMode();
+    dispatch(getProposalList());
   }, [dispatch]);
-  if (loading || error) return <Loading loading />;
-  if (!proposalList) return null;
+  if (loading || error || !proposalList) return <Loading loading />;
+  if (!proposalList.length)
+    return (
+      <View>
+        <Text>No List</Text>
+      </View>
+    );
   return (
     <Swiper style={styles.wrapper} loop={false} showsButtons={false} showsPagination={false}>
       {proposalList.map((proposal, index) => (
@@ -39,19 +41,26 @@ function ProposalListScreen({ navigation }) {
                 height={'60%'}
                 topRadius={true}
               />
-              <TouchableOpacity
-                style={styles.bidiBtn}
-                onPress={() =>
-                  navigation.navigate('ProposalDetail', {
-                    proposal: proposalList[index],
-                  })
-                }>
-                <Icon name="pencil" size={25} style={styles.bidiIcon} />
-              </TouchableOpacity>
             </View>
-            <View style={styles.deatilContainer}>
-              <ProposalDetailScreen navigation={navigation} props={{ proposal }} />
-            </View>
+            <CardInfo
+              info={proposal}
+              navigation={navigation}
+              height={150}
+              tagBackgroundColor="#E1ECFF"
+              tagColor="#323274"
+            />
+            <TouchableOpacity
+              style={styles.bidiBtn}
+              onPress={() =>
+                navigation.navigate('ProposalDetail', {
+                  proposal: proposalList[index],
+                })
+              }>
+              <Icon name="pencil" size={25} style={styles.bidiIcon} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.deatilContainer}>
+            <ProposalDetailScreen navigation={navigation} props={{ proposal }} />
           </View>
         </Swiper>
       ))}

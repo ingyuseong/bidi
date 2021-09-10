@@ -6,8 +6,8 @@ import {
   GET_BID_LIST_DESIGNER,
 } from './constant';
 
-import BidAPI from '../../Api/bid';
-import { createPromiseThunk } from '../Common/asyncUtils';
+import BidAPI from '../../../Api/bid';
+import { createPromiseThunk } from '../../Common/asyncUtils';
 
 export const patchBid = (id, payload) => ({ type: PATCH_BID, id, payload });
 export const deleteBid = (id) => ({ type: DELETE_BID, id });

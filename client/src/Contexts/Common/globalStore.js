@@ -2,7 +2,6 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 
 import ReduxThunk from 'redux-thunk';
 import userReducer from '../User';
-import proposalReducer from '../Proposal';
 import bidReducer from '../Bid';
 import matchingReducer from '../Matching';
 import matchingHistoryReducer from '../MatchingHistory';
@@ -18,23 +17,17 @@ import customerStyleScrapReducer from '../Customer/StyleScrap';
 import customerMatchingReducer from '../Customer/Matching';
 import customerMatchingHistoryReducer from '../Customer/MatchingHistory';
 
-// import designerProposalReducer from '../Designer/Proposal';
-// import designerBidReducer from '../Designer/Bid';
-// import designerMatchingReducer from '../Designer/Matching';
-// import designerMatchingHistoryReducer from '../Designer/MatchingHistory';
-// import designerBrandingReducer from '../Designer/Branding';
-// import designerStyleScrapReducer from '../Designer/StyleScrap';
-// import designerStyleReducer from '../Designer/Style';
+import designerProposalReducer from '../Designer/Proposal';
+import designerBidReducer from '../Designer/Bid';
+import designerMatchingReducer from '../Designer/Matching';
+import designerMatchingHistoryReducer from '../Designer/MatchingHistory';
+import designerBrandingReducer from '../Designer/Branding';
+import designerStyleScrapReducer from '../Designer/StyleScrap';
+import designerStyleReducer from '../Designer/Style';
 
 const rootReducer = combineReducers({
   user: userReducer,
-  proposal: proposalReducer,
-  branding: brandingReducer,
-  bid: bidReducer,
-  styleScrap: styleScrapReducer,
-  matching: matchingReducer,
-  matchingHistory: matchingHistoryReducer,
-  style: styleReducer,
+
   customerProposal: customerProposalReducer,
   customerStyle: customerStyleReducer,
   customerBranding: customerBrandingReducer,
@@ -42,16 +35,14 @@ const rootReducer = combineReducers({
   customerStyleScrap: customerStyleScrapReducer,
   customerMatching: customerMatchingReducer,
   customerMatchingHistory: customerMatchingHistoryReducer,
-  designer: {
-    user: userReducer,
-    proposal: proposalReducer,
-    branding: brandingReducer,
-    bid: bidReducer,
-    styleScrap: styleScrapReducer,
-    matching: matchingReducer,
-    matchingHistory: matchingHistoryReducer,
-    style: styleReducer,
-  },
+
+  designerProposal: designerProposalReducer,
+  designerBranding: designerBrandingReducer,
+  designerBid: designerBidReducer,
+  designerStyleScrap: designerStyleScrapReducer,
+  designerMatching: designerMatchingReducer,
+  designerMatchingHistory: designerMatchingHistoryReducer,
+  designerStyle: designerStyleReducer,
 });
 const globalStore = () => {
   return createStore(rootReducer, applyMiddleware(ReduxThunk));

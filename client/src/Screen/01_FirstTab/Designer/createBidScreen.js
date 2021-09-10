@@ -24,7 +24,11 @@ function CreateBidScreen({ navigation, route }) {
     loading: userLoading,
     error: userError,
   } = useSelector((state) => state.user);
-  const { data: bidList, loading: bidLoading, error: bidError } = useSelector((state) => state.bid);
+  const {
+    data: bidList,
+    loading: bidLoading,
+    error: bidError,
+  } = useSelector((state) => state.designerBid);
 
   const [lengthTypeOpen, setLengthTypeOpen] = useState(false);
   const [lengthTypeValue, setLengthTypeValue] = useState('미선택');
@@ -58,7 +62,7 @@ function CreateBidScreen({ navigation, route }) {
       letter: bidLetter,
       need_care: needCare,
       status: 'wait',
-      styleIdList: '1,2',
+      styleIdList: [1, 2],
     });
     if (response) {
       dispatch(getBidListByDesignerId(userInfo.id));
@@ -70,7 +74,7 @@ function CreateBidScreen({ navigation, route }) {
     }
   };
 
-  if (userLoading || userError || bidLoading || bidError) return <Loading loading />;
+  if (userLoading || userError || bidLoading || bidError) return <Loading />;
   if (!userInfo) return null;
 
   return (
