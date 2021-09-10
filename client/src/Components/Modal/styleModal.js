@@ -57,7 +57,7 @@ function StyleModal({ styleList, index, setModalVisible, deleteIcon }) {
                 <Image
                   style={styles.styleImg}
                   source={{
-                    uri: styleList[index].img_src_array[0],
+                    uri: styleList[index].front_img_src,
                   }}
                 />
                 <TouchableOpacity

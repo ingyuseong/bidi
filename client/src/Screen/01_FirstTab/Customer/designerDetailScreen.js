@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, ScrollView, TouchableOpacity } from 'react-nati
 
 // Components
 import DesignerStyleScreen from './TabScreen/designerStyleScreen';
-import DesignerHistoryScrenn from './TabScreen/designerHistoryScreen';
+import DesignerHistoryScreen from './TabScreen/designerHistoryScreen';
 
 function DesignerDetailScreen({ branding, navigation }) {
   const [tab, setTab] = useState('tab1');
@@ -30,7 +30,7 @@ function DesignerDetailScreen({ branding, navigation }) {
         {tab == 'tab1' ? (
           <DesignerStyleScreen navigation={navigation} branding={branding} isUser={true} />
         ) : (
-          <DesignerHistoryScrenn branding={branding} isUser={true} />
+          <DesignerHistoryScreen branding={branding} isUser={true} />
         )}
       </View>
     </ScrollView>

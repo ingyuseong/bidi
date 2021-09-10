@@ -3,6 +3,7 @@ import { Stack } from '../../../../App';
 import DesignerListScreen from '../../../Screen/01_FirstTab/Customer/designerListScreen';
 import DesignerDetailScreen from '../../../Screen/01_FirstTab/Customer/designerDetailScreen';
 import { createStackNavigator } from '@react-navigation/stack';
+import CommonHeader from '../../../Components/HeaderBar/commonHeader';
 
 const SearchStack = createStackNavigator();
 
@@ -12,16 +13,12 @@ function SearchTabScreen() {
       <SearchStack.Screen
         name="DesignerList"
         component={DesignerListScreen}
-        options={{
-          headerShown: false,
-        }}
+        options={CommonHeader}
       />
       <SearchStack.Screen
         name="DesignerDetail"
         component={DesignerDetailScreen}
-        options={{
-          headerShown: false,
-        }}
+        options={CommonHeader}
       />
     </Stack.Navigator>
   );

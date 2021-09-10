@@ -42,7 +42,7 @@ function StyleScrapScreen({ navigation }) {
                     <Image
                       style={styles.styleImg}
                       source={{
-                        uri: item.img_src_array[0],
+                        uri: item.front_img_src,
                       }}
                     />
                   </TouchableOpacity>

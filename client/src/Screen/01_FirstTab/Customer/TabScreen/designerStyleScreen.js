@@ -81,7 +81,7 @@ function DesignerStyle({ navigation, branding, isUser }) {
                     <Image
                       style={styles.styleImg}
                       source={{
-                        uri: style.img_src_array[0],
+                        uri: style.front_img_src,
                       }}
                     />
                   </TouchableOpacity>

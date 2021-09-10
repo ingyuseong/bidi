@@ -6,7 +6,7 @@ import MatchingTabScreen from './Customer/matchingTabScreen';
 import SearchTabScreen from './Customer/searchTabScreen';
 import HistoryTabScreen from './Customer/historyTabScreen';
 import MyPageTabScreen from './Customer/myPageTabScreen';
-import ProposalTabScreen from './Customer/proposalTabScreen';
+import contentsTabScreen from './Customer/contentsTabScreen';
 
 const Tab = createBottomTabNavigator();
 function CustomerTabStack() {
@@ -21,8 +21,8 @@ function CustomerTabStack() {
             iconName = 'search-outline';
           } else if (route.name === 'Bid') {
             iconName = 'document-text-outline';
-          } else if (route.name === 'Proposal') {
-            iconName = 'add-outline';
+          } else if (route.name === 'Contents') {
+            iconName = 'camera-reverse-outline';
           } else if (route.name === 'History') {
             iconName = 'md-timer-outline';
           } else if (route.name === 'Mypage') {
@@ -53,9 +53,9 @@ function CustomerTabStack() {
         options={{ headerShown: false, title: '' }}
       />
       <Tab.Screen
-        name="Proposal"
-        component={ProposalTabScreen}
-        options={{ headerShown: false, title: '', tabBarVisible: false }}
+        name="Contents"
+        component={contentsTabScreen}
+        options={{ headerShown: false, title: '' }}
       />
       <Tab.Screen
         name="History"

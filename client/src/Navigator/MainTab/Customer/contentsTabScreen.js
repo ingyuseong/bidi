@@ -5,12 +5,12 @@ import CommonHeader from '../../../Components/HeaderBar/commonHeader';
 
 import Intro from '../../../Screen/03_ThirdTab/Customer/intro';
 
-const ProposalStack = createStackNavigator();
+const ContentsTab = createStackNavigator();
 
-function ProposalTabScreen({ navigation }) {
+function ContetnsTabScreen({ navigation }) {
   return (
     <Stack.Navigator>
-      <ProposalStack.Screen
+      <ContentsTab.Screen
         name="Main"
         component={Intro}
         options={CommonHeader}
@@ -20,4 +20,4 @@ function ProposalTabScreen({ navigation }) {
   );
 }
 
-export default ProposalTabScreen;
+export default ContetnsTabScreen;
