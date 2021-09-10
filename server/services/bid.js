@@ -64,7 +64,6 @@ exports.findAllBidByDesignerId = async (id) => {
           return {
             ...style.dataValues,
             keyword_array: style_keyword_array,
-            img_src_array: style.img_src_array.split(','),
           }
         }),
       }
@@ -96,7 +95,6 @@ exports.findAllBidByCustomerId = async (id) => {
           return {
             ...style.dataValues,
             keyword_array: style_keyword_array,
-            img_src_array: style.img_src_array.split(','),
           }
         }),
       }
@@ -127,7 +125,6 @@ exports.findOneBid = async (id) => {
         return {
           ...style.dataValues,
           keyword_array: style_keyword_array,
-          img_src_array: style.img_src_array.split(','),
         }
       }),
     }

@@ -91,6 +91,7 @@ db.Proposal.belongsTo(db.User, {
 // 관계정의 User : ScheduleInfo = 1 : 1
 db.ScheduleInfo.belongsTo(db.User, {
   foreignKey: { name: 'designer_id', allowNull: false, as: 'designer' },
+  sourceKey: { name: 'id', allowNull: false, as: 'designer' },
   onDelete: 'CASCADE',
 })
 db.User.hasOne(db.ScheduleInfo, {
