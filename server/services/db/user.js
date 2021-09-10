@@ -1,4 +1,4 @@
-const { User } = require('../../models')
+const { User, ScheduleInfo } = require('../../models')
 const { Sequelize } = require('sequelize')
 const { and, or, like, not } = Sequelize.Op
 
@@ -18,6 +18,12 @@ exports.createUser = async (attr) => {
 // Read User Resource [findOne, findAll]
 exports.findAllUser = async () => {
   const userList = await User.findAll({
+    include: [
+      {
+        model: ScheduleInfo,
+        attributes: ['start_time', 'end_time', 'holiday_array'],
+      },
+    ],
     order: [['id', 'ASC']],
   })
   return userList

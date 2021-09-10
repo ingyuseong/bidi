@@ -3,6 +3,7 @@ const {
   Bid,
   Proposal,
   BidStyle,
+  ScheduleInfo,
   Style,
   User,
 } = require('../../models')
@@ -46,6 +47,12 @@ exports.findAllMatching = async () => {
             model: User,
             attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
             required: true,
+            include: [
+              {
+                model: ScheduleInfo,
+                attributes: ['start_time', 'end_time', 'holiday_array'],
+              },
+            ],
           },
           {
             model: Style,
@@ -90,6 +97,12 @@ exports.findOneMatching = async (id) => {
             model: User,
             attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
             required: true,
+            include: [
+              {
+                model: ScheduleInfo,
+                attributes: ['start_time', 'end_time', 'holiday_array'],
+              },
+            ],
           },
           {
             model: Style,
@@ -135,6 +148,12 @@ exports.findOneMatchingByCustomerId = async (id) => {
             model: User,
             attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
             required: true,
+            include: [
+              {
+                model: ScheduleInfo,
+                attributes: ['start_time', 'end_time', 'holiday_array'],
+              },
+            ],
           },
           {
             model: Style,
@@ -181,6 +200,12 @@ exports.findAllMatchingByDesignerId = async (id) => {
             model: User,
             attributes: ['name', 'nick_name', 'gender_type', 'img_src'],
             required: true,
+            include: [
+              {
+                model: ScheduleInfo,
+                attributes: ['start_time', 'end_time', 'holiday_array'],
+              },
+            ],
           },
           {
             model: Style,

@@ -14,35 +14,23 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
 import BidiStorage from '../../Lib/storage';
-import { STORAGE_KEY } from '../../Lib/constant';
 import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/AntDesign';
+import Loading from '../../Components/Common/loading';
+
+import { getScheduleInfoByDesignerId } from '../../Contexts/Designer/ScheduleInfo/action';
 
 function MypageScreen({ navigation }) {
-  const [userInfo, setUserInfo] = useState('');
+  const { data: user } = useSelector((state) => state.user);
+  const { data: scheduleInfo, loading, error } = useSelector((state) => state.scheduleInfo);
   const [isEdit, setEdit] = useState(false);
   const [userNickName, setUserNickName] = useState('');
   const [userAddress, setUserAddress] = useState('');
   const [inference, setInference] = useState(false);
-
   const nickNameInputRef = createRef();
   const addressInputRef = createRef();
-
-  const getUserInfo = async (user) => {
-    await fetch('http://127.0.0.1:3000' + `/api/user/${user.id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => setUserInfo(result.data))
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
   const inferenceAI = () => {
     fetch('http://127.0.0.1:3000' + '/api/user/inference', {
       method: 'POST',
@@ -50,9 +38,9 @@ function MypageScreen({ navigation }) {
         'Content-Type': 'application/json;charset=UTF-8',
       },
       body: JSON.stringify({
-        id: userInfo.id,
-        gender: userInfo.gender,
-        img_src: userInfo.img_src,
+        id: user.id,
+        gender: user.gender,
+        img_src: user.img_src,
       }),
     })
       .then((res) => res.json())
@@ -60,17 +48,9 @@ function MypageScreen({ navigation }) {
         const { status, message } = res;
         if (status == 200) {
           setTimeout(() => {
-            setUserInfo({
-              ...userInfo,
-              ai_status: 'using',
-            });
             Alert.alert('이미 AI를 이용가능합니다!');
           }, 2000);
         } else {
-          setUserInfo({
-            ...userInfo,
-            ai_status: 'using',
-          });
           Alert.alert('등록완료되었습니다!');
         }
       })
@@ -84,13 +64,6 @@ function MypageScreen({ navigation }) {
     );
   };
 
-  useEffect(() => {
-    const fetchMode = async () => {
-      const user = await BidiStorage.getData(STORAGE_KEY);
-      getUserInfo(user);
-    };
-    fetchMode();
-  }, []);
   const logoutHandler = () => {
     BidiStorage.clearData().then(() => {
       navigation.replace('Landing');
@@ -99,7 +72,12 @@ function MypageScreen({ navigation }) {
   const handleChoosePhoto = () => {
     launchImageLibrary({}, (response) => {});
   };
-  if (!userInfo) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getScheduleInfoByDesignerId(user.id));
+  }, [dispatch]);
+  if (loading || error || !scheduleInfo) return <Loading />;
+  if (!user) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Loading</Text>
@@ -107,6 +85,7 @@ function MypageScreen({ navigation }) {
       </View>
     );
   }
+  console.log(scheduleInfo);
   return (
     <ScrollView
       style={styles.container}
@@ -115,8 +94,8 @@ function MypageScreen({ navigation }) {
       <View style={styles.formArea}>
         <View style={styles.headerContainer}>
           <View style={styles.imageArea}>
-            {userInfo.img_src ? (
-              <Image source={{ uri: userInfo.img_src }} style={styles.profile} />
+            {user.img_src ? (
+              <Image source={{ uri: user.img_src }} style={styles.profile} />
             ) : (
               <Image source={require('../../../public/img/profile.png')} style={styles.profile} />
             )}
@@ -127,7 +106,7 @@ function MypageScreen({ navigation }) {
           <View style={styles.headerRightContainer}>
             <View style={styles.nameContainer}>
               <View style={styles.nameArea}>
-                <Text style={styles.nameText}>{userInfo.name}</Text>
+                <Text style={styles.nameText}>{user.name}</Text>
               </View>
               <TouchableOpacity style={styles.editBtn} onPress={() => setEdit(!isEdit)}>
                 <Text style={styles.editBtnText}>프로필 수정</Text>
@@ -155,11 +134,11 @@ function MypageScreen({ navigation }) {
             <Text style={styles.inputLabel}>Bidi-Ai</Text>
             <View style={styles.selectArea}>
               <TouchableOpacity
-                style={[styles.selectBox, userInfo.ai_status == 'wait' && styles.active]}
-                disabled={userInfo.ai_status == 'wait' ? false : true}
+                style={[styles.selectBox, user.ai_status == 'wait' && styles.active]}
+                disabled={user.ai_status == 'wait' ? false : true}
                 onPress={inferenceAI}>
-                <Text style={[styles.selectText, userInfo.ai_status == 'wait' && styles.active]}>
-                  {userInfo.ai_status == 'wait' ? '사용하기' : '사용중'}
+                <Text style={[styles.selectText, user.ai_status == 'wait' && styles.active]}>
+                  {user.ai_status == 'wait' ? '사용하기' : '사용중'}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -169,7 +148,7 @@ function MypageScreen({ navigation }) {
               <Text style={styles.inputLabel}>닉네임</Text>
               <TextInput
                 style={styles.inputArea}
-                placeholder={userInfo.nick_name}
+                placeholder={user.nick_name}
                 placeholderTextColor="gray"
                 onChangeText={(input) => setUserNickName(input)}
                 ref={nickNameInputRef}
@@ -180,7 +159,7 @@ function MypageScreen({ navigation }) {
             <View style={styles.inputForm}>
               <Text style={styles.inputLabel}>닉네임</Text>
               <View style={styles.inputArea}>
-                <Text style={{ color: '#878787' }}>{userInfo.nick_name}</Text>
+                <Text style={{ color: '#878787' }}>{user.nick_name}</Text>
               </View>
             </View>
           )}
@@ -188,21 +167,19 @@ function MypageScreen({ navigation }) {
           <View style={styles.inputForm}>
             <Text style={styles.inputLabel}>이름</Text>
             <View style={styles.inputArea}>
-              <Text style={{ color: '#878787' }}>{userInfo.name}</Text>
+              <Text style={{ color: '#878787' }}>{user.name}</Text>
             </View>
           </View>
           <View style={styles.inputForm}>
             <Text style={styles.inputLabel}>성별</Text>
             <View style={styles.selectArea}>
-              <TouchableOpacity
-                style={[styles.selectBox, userInfo.gender == '여성' && styles.active]}>
-                <Text style={[styles.selectText, userInfo.gender == '여성' && styles.active]}>
+              <TouchableOpacity style={[styles.selectBox, user.gender == '여성' && styles.active]}>
+                <Text style={[styles.selectText, user.gender == '여성' && styles.active]}>
                   여성
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.selectBox, userInfo.gender == '남성' && styles.active]}>
-                <Text style={[styles.selectText, userInfo.gender == '남성' && styles.active]}>
+              <TouchableOpacity style={[styles.selectBox, user.gender == '남성' && styles.active]}>
+                <Text style={[styles.selectText, user.gender == '남성' && styles.active]}>
                   남성
                 </Text>
               </TouchableOpacity>
@@ -211,7 +188,7 @@ function MypageScreen({ navigation }) {
           <View style={styles.inputForm}>
             <Text style={styles.inputLabel}>생년월일</Text>
             <View style={styles.inputArea}>
-              <Text style={{ color: '#878787' }}>{userInfo.birth}</Text>
+              <Text style={{ color: '#878787' }}>{user.birth}</Text>
             </View>
           </View>
           {isEdit ? (
@@ -219,7 +196,7 @@ function MypageScreen({ navigation }) {
               <Text style={styles.inputLabel}>선호 지역</Text>
               <TextInput
                 style={styles.inputArea}
-                placeholder={userInfo.address}
+                placeholder={user.address}
                 placeholderTextColor="gray"
                 onChangeText={(input) => setUserAddress(input)}
                 ref={addressInputRef}
@@ -230,7 +207,7 @@ function MypageScreen({ navigation }) {
             <View style={styles.inputForm}>
               <Text style={styles.inputLabel}>선호 지역</Text>
               <View style={styles.inputArea}>
-                <Text style={{ color: '#878787' }}>{userInfo.address}</Text>
+                <Text style={{ color: '#878787' }}>{user.address}</Text>
               </View>
             </View>
           )}
@@ -238,13 +215,13 @@ function MypageScreen({ navigation }) {
           <View style={styles.inputForm}>
             <Text style={styles.inputLabel}>이메일</Text>
             <View style={styles.inputArea}>
-              <Text style={{ color: '#878787' }}>{userInfo.email}</Text>
+              <Text style={{ color: '#878787' }}>{user.email}</Text>
             </View>
           </View>
           <View style={styles.inputForm}>
             <Text style={styles.inputLabel}>핸드폰 번호</Text>
             <View style={styles.inputArea}>
-              <Text style={{ color: '#878787' }}>{userInfo.phone_number}</Text>
+              <Text style={{ color: '#878787' }}>{user.phone_number}</Text>
             </View>
           </View>
         </View>
