@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const controller = require('./controller')
 const upload = require('../../middleware/upload')
-const getLastUserId = require('../../middleware/getLastUserId')
 const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
 
 /*
@@ -23,7 +22,7 @@ const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
 
 router.post(
   '/register',
-  upload.single('userImage'),
+  upload.single('image'),
   routesAsyncWrapper(controller.registerUser)
 )
 router.post('/checkToken', routesAsyncWrapper(controller.checkToken))

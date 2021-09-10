@@ -5,11 +5,11 @@ import {
   GET_STYLESCRAP_LIST_SUCCESS,
   GET_STYLESCRAP_LIST_ERROR,
 } from './constant';
-import { reducerUtils, handleAsyncActions } from '../Common/asyncUtils';
+import { reducerUtils, handleAsyncActions } from '../../Common/asyncUtils';
 const initialState = {
-  ...reducerUtils.initial([]),
+  ...reducerUtils.initial(null),
 };
-const styleScrapReducer = (state = initialState, action) => {
+const designerStyleScrapReducer = (state = initialState, action) => {
   switch (action.type) {
     case REGISTER_STYLESCRAP:
       return {
@@ -31,4 +31,4 @@ const styleScrapReducer = (state = initialState, action) => {
       return state;
   }
 };
-export default styleScrapReducer;
+export default designerStyleScrapReducer;

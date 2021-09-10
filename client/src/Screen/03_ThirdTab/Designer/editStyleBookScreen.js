@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
 
 import StyleAPI from '../../../Api/style';
-import { createImageArrayForm } from '../../../Lib/utils';
+import { createStyleForm } from '../../../Lib/utils';
+import { getStyleListByDesignerId } from '../../../Contexts/Designer/Style';
 import { LENGTH_TYPE, STYLE_TYPE, GENDER_TYPE } from '../../../Lib/constant';
 
 import Line from '../../../Components/Common/line';
@@ -20,10 +21,12 @@ function EditStyleBookScreen({ navigation, route }) {
   const { data: userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const [styleArray, setStyleArray] = useState(styleItem.img_src_array);
+  const [frontStyle, setFrontStyle] = useState(styleItem.front_img_src);
+  const [sideStyle, setSideStyle] = useState(styleItem.side_img_src);
+  const [backStyle, setBackStyle] = useState(styleItem.back_img_src);
   const [styleTitle, setStyleTitle] = useState(styleItem.title);
   const [styleDescription, setStyleDescription] = useState(styleItem.description);
-  const [stylePrice, setStylePrice] = useState(styleItem.price);
+  const [stylePrice, setStylePrice] = useState(String(styleItem.price));
   const [tagText, setTagText] = useState('');
   const [styleTags, setStyleTags] = useState(styleItem.keyword_array);
 
@@ -56,7 +59,7 @@ function EditStyleBookScreen({ navigation, route }) {
   };
 
   const editHandler = async () => {
-    if (!styleArray) {
+    if (!frontStyle) {
       return Alert.alert('스타일 사진을 등록해주세요!');
     }
     if (!styleTitle) {
@@ -77,7 +80,7 @@ function EditStyleBookScreen({ navigation, route }) {
     if (!stylePrice) {
       return Alert.alert('스타일의 가격을 입력해주세요!');
     }
-    const bodyData = createImageArrayForm(styleArray, {
+    const bodyData = createStyleForm(frontStyle, sideStyle, backStyle, {
       user_id: userInfo.id,
       title: styleTitle,
       description: styleDescription,
@@ -87,13 +90,26 @@ function EditStyleBookScreen({ navigation, route }) {
       length_type: lengthTypeValue,
       keyword_array: styleTags.toString(),
     });
-    // const response = await StyleAPI.editStyle(bodyData);
+    const response = await StyleAPI.patchStyle(styleItem.id, bodyData);
+    if (response) {
+      Alert.alert('스타일북 수정이 완료되었습니다!');
+      dispatch(getStyleListByDesignerId(userInfo.id));
+      navigation.navigate('BrandingMain', { screen: 'StyleBook' });
+    }
   };
 
   return (
     <ScrollView>
       <View style={styles.container}>
-        <StyleImage styleArray={styleArray} setStyleArray={setStyleArray} isEdit={true} />
+        <StyleImage
+          frontStyle={frontStyle}
+          setFrontStyle={setFrontStyle}
+          sideStyle={sideStyle}
+          setSideStyle={setSideStyle}
+          backStyle={backStyle}
+          setBackStyle={setBackStyle}
+          isEdit={true}
+        />
         <Line />
         <StyleTitle
           title="스타일 이름"

@@ -6,6 +6,8 @@ require('dotenv').config()
 // [ 1. POST Methods ]
 exports.registerUser = async (req, res) => {
   const body = req.body
+  console.log('body:', body)
+  console.log('lastUser:', req.lastUserId)
   // const { location } = req.file
   const user = await userServices.createUser(body, '1234')
   if (user) {

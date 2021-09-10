@@ -24,23 +24,6 @@ exports.textLimiting = (description, count) => {
 exports.priceFormating = (price) =>
   new Intl.NumberFormat('ko-KR', { currency: 'KRW' }).format(price);
 
-exports.createFormData = (photo, body) => {
-  const data = new FormData();
-
-  photo.forEach((item) => {
-    data.append('userImage', {
-      name: body.name,
-      type: item.type,
-      uri: item.uri.replace('file://', ''),
-    });
-  });
-
-  Object.keys(body).forEach((key) => {
-    data.append(key, body[key]);
-  });
-  return data;
-};
-
 exports.objectNullChecking = (object) => {
   return object && Object.keys(object).length !== 0;
 };
@@ -49,19 +32,60 @@ exports.listNullChecking = (list) => {
   return list && list.length > 0;
 };
 
-exports.createImageArrayForm = (imgArray, body) => {
+exports.createFormData = (photo, body) => {
   const data = new FormData();
 
-  const imgData = imgArray.map((img) => ({
+  data.append('image', {
     name: body.name,
-    type: img.type,
-    uri: img.uri.replace('file://', ''),
-  }));
+    type: photo.type,
+    uri: photo.uri.replace('file://', ''),
+  });
 
-  data.append('images', imgData);
   Object.keys(body).forEach((key) => {
     data.append(key, body[key]);
   });
   return data;
 };
 
+exports.createStyleForm = (front, side, back, body) => {
+  const data = new FormData();
+
+  if (Object.keys(front).length) {
+    if (front.fileName) {
+      data.append('front', {
+        name: front.fileName,
+        type: front.type,
+        uri: front.uri.replace('file://', ''),
+      });
+    } else {
+      data.append('front_img_src', front);
+    }
+  }
+  if (Object.keys(side).length) {
+    if (side.fileName) {
+      data.append('side', {
+        name: side.fileName,
+        type: side.type,
+        uri: side.uri.replace('file://', ''),
+      });
+    } else {
+      data.append('side_img_src', side);
+    }
+  }
+  if (Object.keys(back).length) {
+    if (back.fileName) {
+      data.append('back', {
+        name: back.fileName,
+        type: back.type,
+        uri: back.uri.replace('file://', ''),
+      });
+    } else {
+      data.append('back_img_src', back);
+    }
+  }
+
+  Object.keys(body).forEach((key) => {
+    data.append(key, body[key]);
+  });
+  return data;
+};

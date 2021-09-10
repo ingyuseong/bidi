@@ -19,14 +19,16 @@ import { API, formAPI } from './common';
 
 const StyleAPI = {
   registerStyle: async (body) => {
-    return await formAPI('/style/register', 'post', JSON.stringify(body));
+    return await formAPI('/style/register', 'post', body);
   },
   getStyleList: async (body) => {},
   getStyleListByDesignerId: async (id) => {
     return await API(`/style/designer/${id}`, 'get');
   },
   getStyle: async (body) => {},
-  patchStyle: async (body) => {},
+  patchStyle: async (id, body) => {
+    return await formAPI(`/style/${id}`, 'patch', body);
+  },
   patchAiEnable: async (body) => {},
   deleteStyle: async (id) => {
     return await API(`/style/${id}`, 'delete');

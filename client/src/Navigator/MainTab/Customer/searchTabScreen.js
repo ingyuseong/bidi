@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Stack } from '../../../../App';
-import DesignerListScreen from '../../../Screen/01_FirstTab/User/designerListScreen';
-import DesignerDetailScreen from '../../../Screen/01_FirstTab/User/designerDetailScreen';
+import DesignerListScreen from '../../../Screen/01_FirstTab/Customer/designerListScreen';
+import DesignerDetailScreen from '../../../Screen/01_FirstTab/Customer/designerDetailScreen';
 import { createStackNavigator } from '@react-navigation/stack';
 import CommonHeader from '../../../Components/HeaderBar/commonHeader';
 

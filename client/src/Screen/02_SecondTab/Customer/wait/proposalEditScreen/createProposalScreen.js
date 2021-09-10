@@ -474,13 +474,3 @@ const styles = StyleSheet.create({
 });
 
 export default CreateProposalScreen;
-
-// const { user } = route.params;
-
-// const [userType, setUserType] = useState('');
-// const [userName, setUserName] = useState('');
-// const [userEmail, setUserEmail] = useState('');
-// const [userAddress, setUserAddress] = useState('');
-
-// const handleSubmitButton = async () => {
-// };

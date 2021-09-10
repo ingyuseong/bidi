@@ -30,7 +30,6 @@ exports.findAllStyleScrap = async (id) => {
       return {
         ...style.dataValues,
         keyword_array: style_keyword_array,
-        img_src_array: style.img_src_array.split(','),
       }
     })
     return styleScrapList

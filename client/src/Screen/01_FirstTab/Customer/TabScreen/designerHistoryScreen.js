@@ -10,12 +10,14 @@ import Loading from '../../../../Components/Common/loading';
 // Redux Action
 import { getMatchingHistoryListByDesignerId } from '../../../../Contexts/MatchingHistory/action';
 
-function DesignerHistoryScreen({ branding }) {
+function DesignerHistory({ branding, isUser }) {
   const {
     data: matchingHistoryList,
     loading,
     error,
-  } = useSelector((state) => state.matchingHistory);
+  } = useSelector((state) =>
+    isUser ? state.customerMatchingHistory : state.designerMatchingHistory,
+  );
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getMatchingHistoryListByDesignerId(branding.user_id));
@@ -144,4 +146,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DesignerHistoryScreen;
+export default DesignerHistory;
