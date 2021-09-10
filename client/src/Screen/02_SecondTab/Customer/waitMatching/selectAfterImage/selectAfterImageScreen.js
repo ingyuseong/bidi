@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatcher } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   Text,
   View,
@@ -57,7 +57,7 @@ function SelectAfterImageScreen({ navigation, route }) {
           <Text style={styles.title}>원하는 After 헤어사진을</Text>
           <Text style={styles.title}>등록해주세요!</Text>
         </View>
-        <View style={{ marginTop: 20 }}>
+        <View style={{ marginTop: 10 }}>
           <TouchableHighlight
             underlayColor="white"
             style={styles.keywordNormal}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { heightPercentageToDP } from 'react-native-responsive-screen';
+import { isRequired } from 'react-native/Libraries/DeprecatedPropTypes/DeprecatedColorPropType';
 
 function NoHistoryScreen() {
   return (

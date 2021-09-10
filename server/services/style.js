@@ -11,7 +11,9 @@ exports.createStyle = async (body) => {
     style_type: body.style_type,
     length_type: body.length_type,
     keyword_array: body.keyword_array,
-    img_src_array: body.img_src_array,
+    front_img_src: body.front_img_src,
+    side_img_src: body.side_img_src,
+    back_img_src: body.back_img_src,
   }
   const style = await db.createStyle(attr)
   if (style) {
@@ -33,7 +35,6 @@ exports.findAllStyle = async () => {
       return {
         ...style.dataValues,
         keyword_array,
-        img_src_array: style.img_src_array.split(','),
       }
     })
     return styleList
@@ -52,7 +53,6 @@ exports.findAllStyleByDesignerId = async (id) => {
       return {
         ...style.dataValues,
         keyword_array,
-        img_src_array: style.img_src_array.split(','),
       }
     })
     return styleList
@@ -70,7 +70,6 @@ exports.findOneStyle = async (id) => {
     style = {
       ...style.dataValues,
       keyword_array,
-      img_src_array: style.img_src_array.split(','),
     }
     return style
   } else {

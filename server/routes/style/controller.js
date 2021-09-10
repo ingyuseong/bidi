@@ -1,10 +1,17 @@
 const styleServices = require('../../services/style')
 const { STATUS_CODE } = require('../../lib/constants')
+const { extractUrl } = require('../../lib/utls')
 
 // [ 1. POST Methods ]
 exports.registerStyle = async (req, res) => {
   const body = req.body
-  const style = await styleServices.createStyle(body)
+  const { front, side, back } = req.files
+  const style = await styleServices.createStyle({
+    ...body,
+    front_img_src: extractUrl(front),
+    side_img_src: extractUrl(side),
+    back_img_src: extractUrl(back),
+  })
   if (style) {
     res.status(STATUS_CODE.CREATED).json({
       status: 'success',
@@ -75,8 +82,14 @@ exports.getStyle = async (req, res) => {
 // [ 3. PATCH Methods ]
 exports.patchStyle = async (req, res) => {
   const { id } = req.params
+  const { front, side, back } = req.files
   const body = req.body
-  const patchedStyleCount = await styleServices.updateStyle(id, body)
+  const patchedStyleCount = await styleServices.updateStyle(id, {
+    ...body,
+    front_img_src: extractUrl(front, req.body.front_img_src),
+    side_img_src: extractUrl(side, req.body.side_img_src),
+    back_img_src: extractUrl(back, req.body.back_img_src),
+  })
   if (patchedStyleCount) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',

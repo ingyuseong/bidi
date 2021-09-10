@@ -16,6 +16,7 @@ function CustomerTabStack() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
           let iconName;
+
           if (route.name === 'Search') {
             iconName = 'search-outline';
           } else if (route.name === 'Bid') {
@@ -27,6 +28,7 @@ function CustomerTabStack() {
           } else if (route.name === 'Mypage') {
             iconName = 'md-person-circle-outline';
           }
+
           return <Ionicons name={iconName} size={30} color={color} />;
         },
       })}
@@ -53,7 +55,7 @@ function CustomerTabStack() {
       <Tab.Screen
         name="Proposal"
         component={ProposalTabScreen}
-        options={{ headerShown: false, title: '' }}
+        options={{ headerShown: false, title: '', tabBarVisible: false }}
       />
       <Tab.Screen
         name="History"

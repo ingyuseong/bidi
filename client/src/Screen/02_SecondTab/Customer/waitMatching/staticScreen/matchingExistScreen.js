@@ -1,35 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import BidiStorage from '../../../Lib/storage';
-import { STORAGE_KEY } from '../../../Lib/constant';
 
-function RegisteredProposalScreen({ navigation }) {
-  const [userInfo, setUserInfo] = useState('');
-  const getUserInfo = async (user) => {
-    await fetch('http://127.0.0.1:3000' + `/api/user/${user.id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        setUserInfo(result.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-  useEffect(() => {
-    const fetchMode = async () => {
-      const user = await BidiStorage.getData(STORAGE_KEY);
-      getUserInfo(user);
-    };
-    fetchMode();
-  }, []);
-
+function MatchingExistScreen({ navigation }) {
   const designerHandler = async () => {
-    navigation.navigate('MainTab', { screen: 'Search' });
+    navigation.replace('MainTab', { screen: 'Bid' });
   };
 
   return (
@@ -44,18 +18,18 @@ function RegisteredProposalScreen({ navigation }) {
       </View>
       <View style={styles.header}>
         <Text style={styles.title}>
-          <Text style={styles.boldTitle}>제안서 등록이 완료</Text>되었습니다
+          <Text style={styles.boldTitle}>이미 매칭이 진행 중</Text>입니다
         </Text>
         <Text style={styles.title}>
-          <Text style={styles.boldTitle}></Text>조금만 기다려주세요!
+          <Text style={styles.boldTitle}></Text>매칭을 확인해주세요!
         </Text>
         <View style={styles.description}>
-          <Text style={styles.text}>곧 헤어디자이너가</Text>
-          <Text style={styles.text}>{userInfo.name}님께 비드를 보낼꺼에요</Text>
+          <Text style={styles.text}>시간정보와 스타일을 결정해서</Text>
+          <Text style={styles.text}>시술을 받아보세요!</Text>
         </View>
       </View>
       <TouchableOpacity activeOpacity={0.8} style={styles.button} onPress={designerHandler}>
-        <Text style={styles.buttonText}>디자이너 직접 찾아보기 {'>>'}</Text>
+        <Text style={styles.buttonText}>매칭 정보 확인하기</Text>
       </TouchableOpacity>
     </View>
   );
@@ -128,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisteredProposalScreen;
+export default MatchingExistScreen;

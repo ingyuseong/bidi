@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const { DataTypes } = Sequelize
-const modelName = 'style'
+const modelName = 'matchingHistory'
 
 const modelAttributes = {
   id: {
@@ -8,43 +8,23 @@ const modelAttributes = {
     primaryKey: true,
     autoIncrement: true,
   },
-  user_id: {
+  bid_id: {
     type: DataTypes.INTEGER,
   },
-  title: {
-    type: DataTypes.STRING,
-  },
-  description: {
-    type: DataTypes.STRING,
-  },
-  price: {
+  customer_id: {
     type: DataTypes.INTEGER,
   },
-  gender_type: {
-    type: DataTypes.ENUM('female', 'male'),
+  designer_id: {
+    type: DataTypes.INTEGER,
   },
-  style_type: {
-    type: DataTypes.ENUM('cut', 'perm', 'color'),
+  proposal_id: {
+    type: DataTypes.INTEGER,
   },
-  length_type: {
-    type: DataTypes.ENUM('long', 'medium', 'short'),
-  },
-  keyword_array: {
+  review: {
     type: DataTypes.STRING,
   },
-  front_img_src: {
-    type: DataTypes.STRING,
-  },
-  side_img_src: {
-    type: DataTypes.STRING,
-  },
-  back_img_src: {
-    type: DataTypes.STRING,
-  },
-
-  // Status Attribute
-  ai_enable: {
-    type: DataTypes.BOOLEAN,
+  star: {
+    type: DataTypes.FLOAT,
   },
   created_at: {
     type: DataTypes.DATE,

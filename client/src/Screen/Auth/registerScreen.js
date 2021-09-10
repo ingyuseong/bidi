@@ -37,9 +37,10 @@ const RegisterScreen = ({ navigation, route }) => {
   const nickNameInputRef = createRef();
 
   const dispatch = useDispatch();
+
   const handleSubmitButton = async () => {
     if (photo) {
-      const bodyData = createFormData([photo], {
+      const bodyData = createFormData(photo, {
         user_type: userType,
         name: profile.nickname,
         nick_name: userNickName,
@@ -50,6 +51,7 @@ const RegisterScreen = ({ navigation, route }) => {
       });
       // 1. API 호출
       const user = await UserAPI.registerUser(bodyData);
+
       if (user) {
         // 2. User 생성 성공시 AsyncStorage에는 토큰, Redux에는 유저 정보를 저장
         const { naver_token, kakao_token, apple_token } = user;

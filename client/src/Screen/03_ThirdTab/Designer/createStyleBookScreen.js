@@ -3,23 +3,25 @@ import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
 
 import StyleAPI from '../../../Api/style';
-import { createImageArrayForm } from '../../../Lib/utils';
+import { createStyleForm } from '../../../Lib/utils';
+import { getStyleListByDesignerId } from '../../../Contexts/Designer/Style/';
 import { LENGTH_TYPE, STYLE_TYPE, GENDER_TYPE } from '../../../Lib/constant';
 
 import Line from '../../../Components/Common/line';
 import StyleTags from '../../../Components/StyleBook/styleTags';
-import StyleMain from '../../../Components/StyleBook/styleMain';
 import StyleImage from '../../../Components/StyleBook/styleImage';
 import StyleTitle from '../../../Components/StyleBook/styleTitle';
 import StylePrice from '../../../Components/StyleBook/stylePrice';
 import StyleCategory from '../../../Components/StyleBook/styleCategory';
 import StyleDescription from '../../../Components/StyleBook/styleDescription';
 
-function CreateStyleBookScreen() {
+function CreateStyleBookScreen({ navigation }) {
   const { data: userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const [styleArray, setStyleArray] = useState([]);
+  const [frontStyle, setFrontStyle] = useState({});
+  const [sideStyle, setSideStyle] = useState({});
+  const [backStyle, setBackStyle] = useState({});
   const [styleTitle, setStyleTitle] = useState('');
   const [styleDescription, setStyleDescription] = useState('');
   const [stylePrice, setStylePrice] = useState('');
@@ -55,7 +57,7 @@ function CreateStyleBookScreen() {
   };
 
   const registerHandler = async () => {
-    if (!styleArray) {
+    if (!frontStyle) {
       return Alert.alert('스타일 사진을 등록해주세요!');
     }
     if (!styleTitle) {
@@ -76,7 +78,7 @@ function CreateStyleBookScreen() {
     if (!stylePrice) {
       return Alert.alert('스타일의 가격을 입력해주세요!');
     }
-    const bodyData = createImageArrayForm(styleArray, {
+    const bodyData = createStyleForm(frontStyle, sideStyle, backStyle, {
       user_id: userInfo.id,
       title: styleTitle,
       description: styleDescription,
@@ -87,12 +89,25 @@ function CreateStyleBookScreen() {
       keyword_array: styleTags.toString(),
     });
     const response = await StyleAPI.registerStyle(bodyData);
+    if (response) {
+      Alert.alert('스타일북이 작성되었습니다!');
+      dispatch(getStyleListByDesignerId(userInfo.id));
+      navigation.navigate('BrandingMain', { screen: 'StyleBook' });
+    }
   };
 
   return (
     <ScrollView>
       <View style={styles.container}>
-        <StyleImage styleArray={styleArray} setStyleArray={setStyleArray} isEdit={false} />
+        <StyleImage
+          frontStyle={frontStyle}
+          setFrontStyle={setFrontStyle}
+          sideStyle={sideStyle}
+          setSideStyle={setSideStyle}
+          backStyle={backStyle}
+          setBackStyle={setBackStyle}
+          isEdit={false}
+        />
         <Line />
         <StyleTitle
           title="스타일 이름"
