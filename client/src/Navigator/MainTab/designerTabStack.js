@@ -6,7 +6,7 @@ import BidTabScreen from './Designer/bidTabScreen';
 import SearchTabScreen from './Designer/searchTabScreen';
 import BrandingTabScreen from './Designer/brandingTabScreen';
 import HistoryTabScreen from './Designer/historyTabScreen';
-import MyPageTabScreen from './Designer/myPageTabScren';
+import MyPageTabScreen from './Designer/myPageTabScreen';
 
 const Tab = createBottomTabNavigator();
 
