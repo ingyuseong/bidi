@@ -2,12 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 
 import ReduxThunk from 'redux-thunk';
 import userReducer from '../User';
-import bidReducer from '../Bid';
-import matchingReducer from '../Matching';
-import matchingHistoryReducer from '../MatchingHistory';
-import brandingReducer from '../Branding';
-import styleScrapReducer from '../StyleScrap';
-import styleReducer from '../Style';
+import scheduleInfoReducer from '../Designer/ScheduleInfo';
 
 import customerProposalReducer from '../Customer/Proposal';
 import customerStyleReducer from '../Customer/Style';
@@ -27,7 +22,8 @@ import designerStyleReducer from '../Designer/Style';
 
 const rootReducer = combineReducers({
   user: userReducer,
-
+  scheduleInfo: scheduleInfoReducer,
+  
   customerProposal: customerProposalReducer,
   customerStyle: customerStyleReducer,
   customerBranding: customerBrandingReducer,
