@@ -2,7 +2,9 @@ const Sequelize = require('sequelize')
 const { DataTypes } = Sequelize
 const modelName = 'matchingSchedule'
 
-const modelAttributes = {}
+const modelAttributes = {
+  time: DataTypes.FLOAT,
+}
 
 const modelOptions = {
   timestamps: false,

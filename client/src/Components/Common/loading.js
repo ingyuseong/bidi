@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
 
-function Loading({ loading }) {
-  return <ActivityIndicator animating={loading} color="" size="large" style={styles.loader} />;
+function Loading() {
+  return <ActivityIndicator animating={true} color="" size="large" style={styles.loader} />;
 }
 
 const styles = StyleSheet.create({

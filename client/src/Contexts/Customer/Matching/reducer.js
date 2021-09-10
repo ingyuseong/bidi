@@ -13,11 +13,11 @@ import {
   GET_MATCHING_LIST_DESIGNER_SUCCESS,
   GET_MATCHING_LIST_DESIGNER_ERROR,
 } from './constant';
-import { reducerUtils, handleAsyncActions } from '../Common/asyncUtils';
+import { reducerUtils, handleAsyncActions } from '../../Common/asyncUtils';
 const initialState = {
   ...reducerUtils.initial(null),
 };
-const matchingReducer = (state = initialState, action) => {
+const customerMatchingReducer = (state = initialState, action) => {
   switch (action.type) {
     case REGISTER_MATCHING:
       return {
@@ -62,4 +62,4 @@ const matchingReducer = (state = initialState, action) => {
       return state;
   }
 };
-export default matchingReducer;
+export default customerMatchingReducer;

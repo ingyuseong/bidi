@@ -8,6 +8,7 @@ import DetailHeader from '../../../Components/HeaderBar/detailHeader';
 import MyPageScreen from '../../../Screen/05_MypageTab/designer/myPageScreen';
 import DetailMypageScreen from '../../../Screen/05_MypageTab/designer/detailMypageScreen';
 
+
 const MypageStack = createStackNavigator();
 
 function MyPageStackScreen() {
