@@ -18,6 +18,8 @@ import customerStyleScrapReducer from '../Customer/StyleScrap';
 import customerMatchingReducer from '../Customer/Matching';
 import customerMatchingHistoryReducer from '../Customer/MatchingHistory';
 
+import scheduleInfoReducer from '../Designer/ScheduleInfo';
+
 // import designerProposalReducer from '../Designer/Proposal';
 // import designerBidReducer from '../Designer/Bid';
 // import designerMatchingReducer from '../Designer/Matching';
@@ -42,6 +44,7 @@ const rootReducer = combineReducers({
   customerStyleScrap: customerStyleScrapReducer,
   customerMatching: customerMatchingReducer,
   customerMatchingHistory: customerMatchingHistoryReducer,
+  scheduleInfo: scheduleInfoReducer,
   designer: {
     user: userReducer,
     proposal: proposalReducer,

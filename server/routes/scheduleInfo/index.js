@@ -4,7 +4,7 @@ const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
 
 /*
     [ 1. POST Methods ]
-    POST /api/scheduleInfo/register         : 스케줄 등록 API
+    POST /api/scheduleInfo/register     : 스케줄 등록 API
     
     [ 2. GET Methods ]
     GET /api/scheduleInfo/list          : 전체 스케줄 목록 조회 API
