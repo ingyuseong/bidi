@@ -3,21 +3,12 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
-<<<<<<< HEAD:client/src/Screen/01_FirstTab/User/TabScreen/designerHistoryScreen.js
-import DesignerReview from '../../../../Components/MatchingHistory/DesignerReview';
-import NoHistoryScreen from './noHistoryScreen';
-import Loading from '../../../../Components/Common/loading';
-
-// Redux Action
-import { getMatchingHistoryListByDesignerId } from '../../../../Contexts/MatchingHistory/action';
-=======
 import DesignerReview from '../MatchingHistory/DesignerReview';
-import NoHistoryScreen from '../../Screen/01_FirstTab/User/noHistoryScreen';
+import NoHistoryScreen from '../../Screen/01_FirstTab/Customer/TabScreen/noHistoryScreen';
 import Loading from '../Common/loading';
 
 // Redux Action
 import { getMatchingHistoryListByDesignerId } from '../../Contexts/MatchingHistory';
->>>>>>> a7f4573477e20d43ba43e966c860e24f0303e604:client/src/Components/Branding/designerHistory.js
 
 function DesignerHistory({ branding, isUser }) {
   const {
@@ -32,15 +23,12 @@ function DesignerHistory({ branding, isUser }) {
     dispatch(getMatchingHistoryListByDesignerId(branding.user_id));
   }, [dispatch]);
   if (loading || error || !matchingHistoryList) return <Loading />;
-<<<<<<< HEAD:client/src/Screen/01_FirstTab/User/TabScreen/designerHistoryScreen.js
-=======
   if (!matchingHistoryList.length)
     return (
       <View>
         <Text>No List</Text>
       </View>
     );
->>>>>>> a7f4573477e20d43ba43e966c860e24f0303e604:client/src/Components/Branding/designerHistory.js
   return (
     <View>
       {matchingHistoryList && matchingHistoryList.length > 0 ? (

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity } from 'react-native';
 
 // Components
-import DesignerStyle from '../../../Components/Branding/designerStyle';
-import DesignerHistory from '../../../Components/Branding/designerHistory';
+import DesignerStyleScreen from './TabScreen/designerStyleScreen';
+import DesignerHistoryScrenn from './TabScreen/designerHistoryScreen';
 
 function DesignerDetailScreen({ branding, navigation }) {
   const [tab, setTab] = useState('tab1');
@@ -28,9 +28,9 @@ function DesignerDetailScreen({ branding, navigation }) {
       <View style={styles.tabLine}></View>
       <View style={styles.contentContainer}>
         {tab == 'tab1' ? (
-          <DesignerStyle navigation={navigation} branding={branding} isUser={true} />
+          <DesignerStyleScreen navigation={navigation} branding={branding} isUser={true} />
         ) : (
-          <DesignerHistory branding={branding} isUser={true} />
+          <DesignerHistoryScrenn branding={branding} isUser={true} />
         )}
       </View>
     </ScrollView>

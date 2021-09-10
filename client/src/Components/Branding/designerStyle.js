@@ -1,39 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TouchableOpacity, StyleSheet, Text, View, Image, ScrollView } from 'react-native';
-<<<<<<< HEAD:client/src/Screen/01_FirstTab/User/TabScreen/designerStyleScreen.js
-import { priceFormating, textLimiting } from '../../../../Lib/utils';
-=======
 import { priceFormating, textLimiting } from '../../Lib/utils';
->>>>>>> a7f4573477e20d43ba43e966c860e24f0303e604:client/src/Components/Branding/designerStyle.js
 
 // Components
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Modal from 'react-native-modal';
-<<<<<<< HEAD:client/src/Screen/01_FirstTab/User/TabScreen/designerStyleScreen.js
-import StyleModal from '../../../../Components/Modal/styleModal';
-import Loading from '../../../../Components/Common/loading';
-=======
 import StyleModal from '../Modal/styleModal';
 import Loading from '../Common/loading';
->>>>>>> a7f4573477e20d43ba43e966c860e24f0303e604:client/src/Components/Branding/designerStyle.js
 
 // Redux Action
 import {
   registerStyleScrap,
   deleteStyleScrap,
   getStyleScrapList,
-<<<<<<< HEAD:client/src/Screen/01_FirstTab/User/TabScreen/designerStyleScreen.js
-} from '../../../../Contexts/StyleScrap/action';
-
-// API
-import StyleScrapAPI from '../../../../Api/styleScrap';
-=======
 } from '../../Contexts/StyleScrap/action';
 
 // API
 import StyleScrapAPI from '../../Api/styleScrap';
->>>>>>> a7f4573477e20d43ba43e966c860e24f0303e604:client/src/Components/Branding/designerStyle.js
 
 function DesignerStyle({ navigation, branding, isUser }) {
   // state
@@ -71,15 +55,12 @@ function DesignerStyle({ navigation, branding, isUser }) {
     dispatch(getStyleScrapList(user.id));
   }, [dispatch]);
   if (loading || error || !styleScrapList) return <Loading />;
-<<<<<<< HEAD:client/src/Screen/01_FirstTab/User/TabScreen/designerStyleScreen.js
-=======
   if (!styleScrapList.length)
     return (
       <View>
         <Text>No List</Text>
       </View>
     );
->>>>>>> a7f4573477e20d43ba43e966c860e24f0303e604:client/src/Components/Branding/designerStyle.js
   return (
     <View style={{ marginLeft: 20, marginRight: 20 }}>
       <View style={styles.titleContainer}>
