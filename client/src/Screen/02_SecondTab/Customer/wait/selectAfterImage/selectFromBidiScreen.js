@@ -60,7 +60,7 @@ function SelectFromBidiScreen({ navigation, route }) {
           <Image
             style={styles.image}
             source={{
-              uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${user.id}/input/align_image.png`,
+              uri: user.img_src,
             }}
           />
         ) : (
@@ -110,7 +110,7 @@ function SelectFromBidiScreen({ navigation, route }) {
                 afterStyle == 'none' ? { ...styles.styleImage, opacity: 0.9 } : styles.styleImage
               }
               source={{
-                uri: `https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/user/${user.id}/input/align_image.png`,
+                uri: user.img_src,
               }}
             />
           </TouchableOpacity>

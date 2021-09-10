@@ -19,7 +19,7 @@ function CustomerTabStack() {
 
           if (route.name === 'Search') {
             iconName = 'search-outline';
-          } else if (route.name === 'Bid') {
+          } else if (route.name === 'Matching') {
             iconName = 'document-text-outline';
           } else if (route.name === 'Contents') {
             iconName = 'camera-reverse-outline';
@@ -48,7 +48,7 @@ function CustomerTabStack() {
         options={{ headerShown: false, title: '' }}
       />
       <Tab.Screen
-        name="Bid"
+        name="Matching"
         component={MatchingTabScreen}
         options={{ headerShown: false, title: '' }}
       />
