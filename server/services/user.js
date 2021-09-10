@@ -1,7 +1,7 @@
 const db = require('./db/user')
 
 // Create User Resource [create]
-exports.createUser = async (body, location) => {
+exports.createUser = async (body) => {
   const attr = {
     user_type: body.user_type ? body.user_type : '',
     naver_token: body.naver_token ? body.naver_token : '',
@@ -12,7 +12,7 @@ exports.createUser = async (body, location) => {
     phone_number: body.phone_number ? body.phone_number : '',
     birth: body.birth ? body.birth : '',
     gender_type: body.gender_type ? body.gender_type : '',
-    img_src: location ? location : '',
+    img_src: body.img_src ? body.img_src : '',
   }
   const user = await db.createUser(attr)
   if (user) {
@@ -51,16 +51,9 @@ exports.findOneUserByToken = async (body) => {
 
 // Update User Resource [update]
 exports.updateUser = async (id, body) => {
-  const attr = {
-    name: body.name ? body.name : '',
-    nick_name: body.nick_name ? body.nick_name : '',
-    phone_number: body.phone_number ? body.phone_number : '',
-    birth: body.birth ? body.birth : '',
-    gender_type: body.gender_type ? body.gender_type : '',
-  }
-  const user = await db.updateUser(id, attr)
+  const user = await db.updateUser(id, body)
   if (user) {
-    return user[0]
+    return user
   } else {
     return null
   }

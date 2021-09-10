@@ -31,7 +31,11 @@ router.post('/inferenceAI', routesAsyncWrapper(controller.inferenceAI))
 router.get('/list', routesAsyncWrapper(controller.getUserList))
 router.get('/:id', routesAsyncWrapper(controller.getUser))
 
-router.patch('/:id', routesAsyncWrapper(controller.patchUser))
+router.patch(
+  '/:id',
+  upload.single('image'),
+  routesAsyncWrapper(controller.patchUser)
+)
 
 router.delete('/:id', routesAsyncWrapper(controller.deleteUser))
 
