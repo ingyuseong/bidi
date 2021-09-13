@@ -13,11 +13,11 @@ import {
   GET_MAIN_BRANDING_DESIGNER_SUCCESS,
   GET_MAIN_BRANDING_DESIGNER_ERROR,
 } from './constant';
-import { reducerUtils, handleAsyncActions } from '../Common/asyncUtils';
+import { reducerUtils, handleAsyncActions } from '../../Common/asyncUtils';
 const initialState = {
-  ...reducerUtils.initial([]),
+  ...reducerUtils.initial(null),
 };
-const brandingReducer = (state = initialState, action) => {
+const customerBrandingReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_BRANDING_LIST_DESIGNER:
     case GET_BRANDING_LIST_DESIGNER_SUCCESS:
@@ -65,4 +65,4 @@ const brandingReducer = (state = initialState, action) => {
       return state;
   }
 };
-export default brandingReducer;
+export default customerBrandingReducer;

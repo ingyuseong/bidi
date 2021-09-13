@@ -5,8 +5,8 @@ import {
   GET_MATCHING_CUSTOMER,
   GET_MATCHING_LIST_DESIGNER,
 } from './constant';
-import MatchingAPI from '../../Api/matching';
-import { createPromiseThunk } from '../Common/asyncUtils';
+import MatchingAPI from '../../../Api/matching';
+import { createPromiseThunk } from '../../Common/asyncUtils';
 
 export const registerMatching = (payload) => ({ type: REGISTER_MATCHING, payload });
 export const patchMatching = (id, payload) => ({ type: PATCH_MATCHING, id, payload });

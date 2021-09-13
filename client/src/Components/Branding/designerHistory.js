@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // Components
 import DesignerReview from '../MatchingHistory/DesignerReview';
-import NoHistoryScreen from '../../Screen/01_FirstTab/User/noHistoryScreen';
+import NoHistoryScreen from '../../Screen/01_FirstTab/Customer/TabScreen/noHistoryScreen';
 import Loading from '../Common/loading';
 
 // Redux Action

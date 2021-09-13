@@ -29,6 +29,7 @@ const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
 
 router.post('/register', routesAsyncWrapper(controller.registerMatching))
 
+// GET Methods
 router.get('/list', routesAsyncWrapper(controller.getMatchingList))
 router.get('/:id', routesAsyncWrapper(controller.getMatching))
 router.get(
@@ -47,18 +48,25 @@ router.get(
   '/history/designer/:id',
   routesAsyncWrapper(controller.getMatchingHistoryListByDesignerId)
 )
+
+// PATCH Methods
+// 1. 매칭 중일 때 -> 예약 관련 업데이트
 router.patch('/style/:id', routesAsyncWrapper(controller.patchMatchingStyle))
-router.patch('/review/:id', routesAsyncWrapper(controller.patchMatchingReview))
-router.patch('/star/:id', routesAsyncWrapper(controller.patchMatchingStar))
 router.patch(
   '/reserved/:id',
   routesAsyncWrapper(controller.patchMatchingReserved)
 )
+
+// 2. 시술 종료 시
 router.patch('/done/:id', routesAsyncWrapper(controller.patchMatchingDone))
 router.patch(
   '/cancel/:id',
   routesAsyncWrapper(controller.patchMatchingCanceled)
 )
+
+// 3. 매칭 히스토리 관련
+router.patch('/review/:id', routesAsyncWrapper(controller.patchMatchingReview))
+router.patch('/star/:id', routesAsyncWrapper(controller.patchMatchingStar))
 
 router.delete('/:id', routesAsyncWrapper(controller.deleteMatching))
 

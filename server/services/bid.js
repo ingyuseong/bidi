@@ -8,6 +8,7 @@ exports.createBid = async (body) => {
     designer_id: body.designer_id,
     style_type: body.style_type,
     length_type: body.length_type,
+    address: body.address ? body.address : null,
     letter: body.letter,
     need_care: body.need_care,
   }
@@ -22,7 +23,7 @@ exports.createBid = async (body) => {
 exports.createBidStyle = async ({ bidId, styleIdList }) => {
   if (styleIdList) {
     const bidStyleList = await Promise.all(
-      styleIdList.map((styleId) => {
+      styleIdList.split(',').map((styleId) => {
         const attr = {
           bidId,
           styleId,
@@ -63,7 +64,6 @@ exports.findAllBidByDesignerId = async (id) => {
           return {
             ...style.dataValues,
             keyword_array: style_keyword_array,
-            img_src_array: style.img_src_array.split(','),
           }
         }),
       }
@@ -95,7 +95,6 @@ exports.findAllBidByCustomerId = async (id) => {
           return {
             ...style.dataValues,
             keyword_array: style_keyword_array,
-            img_src_array: style.img_src_array.split(','),
           }
         }),
       }
@@ -126,7 +125,6 @@ exports.findOneBid = async (id) => {
         return {
           ...style.dataValues,
           keyword_array: style_keyword_array,
-          img_src_array: style.img_src_array.split(','),
         }
       }),
     }

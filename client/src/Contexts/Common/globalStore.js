@@ -2,20 +2,15 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 
 import ReduxThunk from 'redux-thunk';
 import userReducer from '../User';
-import bidReducer from '../Bid';
-import matchingReducer from '../Matching';
-import matchingHistoryReducer from '../MatchingHistory';
-import brandingReducer from '../Branding';
-import styleScrapReducer from '../StyleScrap';
-import styleReducer from '../Style';
+import scheduleInfoReducer from '../Designer/ScheduleInfo';
 
-// import proposalReducer as customerProposalReducer from '../Customer/Proposal';
-// import customerBidReducer from '../Customer/Bid';
-// import customerMatchingReducer from '../CustomerMatching';
-// import customerMatchingHistoryReducer from '../Customer/MatchingHistory';
-// import customerBrandingReducer from '../Customer/Branding';
-// import customerStyleScrapReducer from '../Customer/StyleScrap';
-// import customerStyleReducer from '../Customer/Style';
+import customerProposalReducer from '../Customer/Proposal';
+import customerStyleReducer from '../Customer/Style';
+import customerBrandingReducer from '../Customer/Branding';
+import customerBidReducer from '../Customer/Bid';
+import customerStyleScrapReducer from '../Customer/StyleScrap';
+import customerMatchingReducer from '../Customer/Matching';
+import customerMatchingHistoryReducer from '../Customer/MatchingHistory';
 
 import designerProposalReducer from '../Designer/Proposal';
 import designerBidReducer from '../Designer/Bid';
@@ -27,17 +22,16 @@ import designerStyleReducer from '../Designer/Style';
 
 const rootReducer = combineReducers({
   user: userReducer,
+  scheduleInfo: scheduleInfoReducer,
+  
+  customerProposal: customerProposalReducer,
+  customerStyle: customerStyleReducer,
+  customerBranding: customerBrandingReducer,
+  customerBid: customerBidReducer,
+  customerStyleScrap: customerStyleScrapReducer,
+  customerMatching: customerMatchingReducer,
+  customerMatchingHistory: customerMatchingHistoryReducer,
 
-  customer: {
-    user: userReducer,
-    proposal: designerProposalReducer,
-    branding: brandingReducer,
-    bid: bidReducer,
-    styleScrap: styleScrapReducer,
-    matching: matchingReducer,
-    matchingHistory: matchingHistoryReducer,
-    style: styleReducer,
-  },
   designerProposal: designerProposalReducer,
   designerBranding: designerBrandingReducer,
   designerBid: designerBidReducer,

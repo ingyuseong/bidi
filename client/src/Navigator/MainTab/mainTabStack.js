@@ -6,7 +6,7 @@ import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 import { registerUser } from '../../Contexts/User';
 
-import UserTabStack from './userTabStack';
+import UserTabStack from './customerTabStack';
 import DesignerTabStack from './designerTabStack';
 import Loading from '../../Components/Common/loading';
 
@@ -16,9 +16,7 @@ function mainTabStack({ navigation }) {
     data: null,
     error: null,
   };
-  if (loading || !data) {
-    return <Loading loading />;
-  }
+  if (loading || !data) return <Loading />;
   if (data) {
     const { user_type } = data;
     return user_type == 'customer' ? <UserTabStack /> : <DesignerTabStack />;

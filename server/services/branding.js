@@ -59,7 +59,6 @@ exports.findAllBranding = async () => {
           return {
             ...style.dataValues,
             keyword_array: style_keyword_array,
-            img_src_array: style.img_src_array.split(','),
           }
         }),
       }
@@ -87,7 +86,6 @@ exports.findOneBranding = async (id) => {
         return {
           ...style.dataValues,
           keyword_array: style_keyword_array,
-          img_src_array: style.img_src_array.split(','),
         }
       }),
     }
@@ -115,7 +113,6 @@ exports.findAllBrandingByDesignerId = async (id) => {
           return {
             ...style.dataValues,
             keyword_array: style_keyword_array,
-            img_src_array: style.img_src_array.split(','),
           }
         }),
       }
@@ -143,7 +140,6 @@ exports.findOneBrandingByDesignerId = async (userId) => {
         return {
           ...style.dataValues,
           keyword_array: style_keyword_array,
-          img_src_array: style.img_src_array.split(','),
         }
       }),
     }

@@ -10,14 +10,12 @@ exports.createMatching = async (body) => {
     body.customer_id
   )
   const bid = await bidDb.updateBidMatching(body.bid_id)
-  console.log(proposal, bidCancelElse, bid)
   if (proposal && bid && bidCancelElse) {
     const attr = {
       bidId: body.bid_id,
       proposalId: body.proposal_id,
       customer_id: body.customer_id,
       designer_id: body.designer_id,
-      address: body.address,
     }
     const matching = await db.createMatching(attr)
     if (matching) {
@@ -61,7 +59,6 @@ exports.findAllMatching = async () => {
             return {
               ...style.dataValues,
               keyword_array: style_keyword_array,
-              img_src_array: style.img_src_array.split(','),
             }
           }),
         },
@@ -96,7 +93,6 @@ exports.findOneMatching = async (id) => {
           return {
             ...style.dataValues,
             keyword_array: style_keyword_array,
-            img_src_array: style.img_src_array.split(','),
           }
         }),
       },
@@ -129,7 +125,6 @@ exports.findOneMatchingByCustomerId = async (id) => {
           return {
             ...style.dataValues,
             keyword_array: style_keyword_array,
-            img_src_array: style.img_src_array.split(','),
           }
         }),
       },
@@ -163,7 +158,6 @@ exports.findAllMatchingByDesignerId = async (id) => {
             return {
               ...style.dataValues,
               keyword_array: style_keyword_array,
-              img_src_array: style.img_src_array.split(','),
             }
           }),
         },
@@ -199,7 +193,6 @@ exports.findAllMatchingHistoryByCustomerId = async (id) => {
             return {
               ...style.dataValues,
               keyword_array: style_keyword_array,
-              img_src_array: style.img_src_array.split(','),
             }
           }),
         },
@@ -235,7 +228,6 @@ exports.findAllMatchingHistoryByDesignerId = async (id) => {
             return {
               ...style.dataValues,
               keyword_array: style_keyword_array,
-              img_src_array: style.img_src_array.split(','),
             }
           }),
         },

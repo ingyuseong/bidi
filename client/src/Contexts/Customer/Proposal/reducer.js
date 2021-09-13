@@ -16,11 +16,11 @@ import {
   DELETE_PROPOSAL,
   DELETE_PROPOSAL_LIST,
 } from './constant';
-import { reducerUtils, handleAsyncActions } from '../Common/asyncUtils';
+import { reducerUtils, handleAsyncActions } from '../../Common/asyncUtils';
 const initialState = {
-  ...reducerUtils.initial([]),
+  ...reducerUtils.initial(null),
 };
-const proposalReducer = (state = initialState, action) => {
+const customerProposalReducer = (state = initialState, action) => {
   switch (action.type) {
     case REGISTER_PROPOSAL:
     case REGISTER_PROPOSAL_SUCCESS:
@@ -66,4 +66,4 @@ const proposalReducer = (state = initialState, action) => {
       return state;
   }
 };
-export default proposalReducer;
+export default customerProposalReducer;
