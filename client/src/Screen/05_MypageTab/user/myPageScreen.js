@@ -56,7 +56,7 @@ function MyPageScreen({ navigation }) {
             <View style={styles.iconArea}>
               <Icon name="pencil" size={30} style={styles.icon} />
             </View>
-            <Text style={styles.itemText}>비드 작성</Text>
+            <Text style={styles.itemText}>제안서 작성</Text>
             <View style={styles.itemArea}>
               <Text>0</Text>
               <Text>건</Text>
@@ -93,7 +93,7 @@ function MyPageScreen({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity>
           <View style={styles.settingArea}>
-            <Text style={styles.settingText}>사용자 인증하기</Text>
+            <Text style={styles.settingText}>디자이너 인증하기</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity>
