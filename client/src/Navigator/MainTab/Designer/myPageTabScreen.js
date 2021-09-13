@@ -13,7 +13,7 @@ const MypageStack = createStackNavigator();
 function MyPageStackScreen() {
   return (
     <Stack.Navigator>
-      <MypageStack.Screen name="Mypage" component={MyPageScreen} options={CommonHeader} />
+      <MypageStack.Screen name="MyPage" component={MyPageScreen} options={CommonHeader} />
       <MypageStack.Screen
         name="EditMypage"
         component={DetailMypageScreen}

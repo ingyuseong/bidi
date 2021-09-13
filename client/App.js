@@ -11,7 +11,6 @@ import TopRightBar from './src/Components/HeaderBar/topRightBar';
 
 import MainTabStack from './src/Navigator/MainTab/mainTabStack';
 
-import MypageScreen from './src/Screen/05_MypageTab/mypageScreen';
 // import MainScreen from './src/Screen/mainScreen'
 
 import DMStack from './src/Navigator/DM/directMessageStack';

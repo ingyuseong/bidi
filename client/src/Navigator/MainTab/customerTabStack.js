@@ -25,7 +25,7 @@ function CustomerTabStack() {
             iconName = 'camera-reverse-outline';
           } else if (route.name === 'History') {
             iconName = 'md-timer-outline';
-          } else if (route.name === 'Mypage') {
+          } else if (route.name === 'MyPage') {
             iconName = 'md-person-circle-outline';
           }
 
@@ -63,7 +63,7 @@ function CustomerTabStack() {
         options={{ headerShown: false, title: '' }}
       />
       <Tab.Screen
-        name="Mypage"
+        name="MyPage"
         component={MyPageTabScreen}
         options={{ headerShown: false, title: '' }}
       />
