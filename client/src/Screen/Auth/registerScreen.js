@@ -58,7 +58,7 @@ const RegisterScreen = ({ navigation, route }) => {
         await BidiStorage.storeData(STORAGE_KEY, {
           token: naver_token || kakao_token || apple_token,
         });
-        await dispatch(getUser(user));
+        dispatch(getUser(user));
         Alert.alert('회원가입이 정상적으로 완료되었습니다!');
         navigation.replace('MainTab');
       }

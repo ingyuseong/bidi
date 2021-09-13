@@ -7,7 +7,6 @@ function Line() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     height: 10,
     backgroundColor: '#f4f4f4',
   },

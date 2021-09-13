@@ -34,12 +34,13 @@ exports.listNullChecking = (list) => {
 
 exports.createFormData = (photo, body) => {
   const data = new FormData();
-
-  data.append('image', {
-    name: body.name,
-    type: photo.type,
-    uri: photo.uri.replace('file://', ''),
-  });
+  if (photo.fileName) {
+    data.append('image', {
+      name: photo.fileName,
+      type: photo.type,
+      uri: photo.uri.replace('file://', ''),
+    });
+  }
 
   Object.keys(body).forEach((key) => {
     data.append(key, body[key]);

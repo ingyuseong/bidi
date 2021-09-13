@@ -6,10 +6,8 @@ require('dotenv').config()
 // [ 1. POST Methods ]
 exports.registerUser = async (req, res) => {
   const body = req.body
-  console.log('body:', body)
-  console.log('lastUser:', req.lastUserId)
-  // const { location } = req.file
-  const user = await userServices.createUser(body, '1234')
+  const img_src = req?.file?.location
+  const user = await userServices.createUser({ ...body, img_src })
   if (user) {
     res.status(STATUS_CODE.CREATED).json({
       state: 'success',
@@ -113,7 +111,11 @@ exports.getUser = async (req, res) => {
 exports.patchUser = async (req, res) => {
   const { id } = req.params
   const body = req.body
-  const updatedUserCount = await userServices.updateUser(id, body)
+  const img_src = req?.file?.location
+  const updatedUserCount = await userServices.updateUser(id, {
+    ...body,
+    img_src,
+  })
   if (updatedUserCount) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
@@ -124,7 +126,7 @@ exports.patchUser = async (req, res) => {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'empty',
       message: '수정된 사용자 정보가 없습니다',
-      data: updatedUserCount,
+      data: 1,
     })
   }
 }

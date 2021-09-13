@@ -62,7 +62,7 @@ function CreateBidScreen({ navigation, route }) {
       letter: bidLetter,
       need_care: needCare,
       status: 'wait',
-      styleIdList: [1, 2],
+      // styleIdList: [1, 2],
     });
     if (response) {
       dispatch(getBidListByDesignerId(userInfo.id));
