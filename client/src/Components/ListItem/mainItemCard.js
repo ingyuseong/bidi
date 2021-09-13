@@ -6,7 +6,7 @@ import Modal from 'react-native-modal';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import BrandingAPI from '../../Api/branding';
 import ItemBottomBtn from './itemBottomBtn';
-import { deleteBranding, patchBranding } from '../../Contexts/Branding';
+import { deleteBranding, patchBranding } from '../../Contexts/Designer/Branding';
 
 function MainItemCard({ info, navigation }) {
   const dispatch = useDispatch();

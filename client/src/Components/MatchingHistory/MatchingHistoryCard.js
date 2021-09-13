@@ -14,7 +14,8 @@ import BidModal from '../Modal/bidModal';
 import MatchingAPI from '../../Api/matching';
 
 // Redux Action
-import { patchMatchingHistory } from '../../Contexts/MatchingHistory/action';
+import { patchMatchingHistory } from '../../Contexts/Designer/MatchingHistory/action';
+//수정필요
 
 function MatchingHistoryCard({ index, type, isUser }) {
   const {

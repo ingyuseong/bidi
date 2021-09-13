@@ -9,7 +9,7 @@ import BidiStorage from '../Lib/storage';
 import { STORAGE_KEY } from '../Lib/constant';
 import UserAPI from '../Api/user';
 import { useDispatch } from 'react-redux';
-import { getUser } from '../Contexts/User/action';
+import { getUser } from '../Contexts/User';
 
 const LandingScreen = ({ navigation }) => {
   const [animating, setAnimating] = useState(true);

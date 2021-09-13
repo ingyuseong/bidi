@@ -23,12 +23,12 @@ import designerStyleReducer from '../Designer/Style';
 const rootReducer = combineReducers({
   user: userReducer,
   scheduleInfo: scheduleInfoReducer,
-  
+
   customerProposal: customerProposalReducer,
   customerStyle: customerStyleReducer,
   customerBranding: customerBrandingReducer,
   customerBid: customerBidReducer,
-  customerStyleScrap: customerStyleScrapReducer,
+  leScrap: customerStyleScrapReducer,
   customerMatching: customerMatchingReducer,
   customerMatchingHistory: customerMatchingHistoryReducer,
 

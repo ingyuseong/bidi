@@ -16,7 +16,7 @@ import { priceFormating, dateFormating } from '../../Lib/utils';
 
 // API
 import StyleScrapAPI from '../../Api/styleScrap';
-import { deleteStyleScrap } from '../../Contexts/StyleScrap/action';
+import { deleteStyleScrap } from '../../Contexts/Customer/StyleScrap';
 
 function StyleModal({ styleList, index, setModalVisible, deleteIcon }) {
   // state

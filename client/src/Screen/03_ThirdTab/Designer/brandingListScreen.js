@@ -15,7 +15,7 @@ import {
   getBrandingListByDesignerId,
   getMainBrandingByDesignerId,
   patchMainBranding,
-} from '../../../Contexts/Branding';
+} from '../../../Contexts/Designer/Branding';
 
 import Line from '../../../Components/Common/line';
 import Loading from '../../../Components/Common/loading';

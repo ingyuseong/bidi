@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import { getBidListByDesignerId } from '../../../Contexts/Bid';
-import { getMatchingListByDesignerId } from '../../../Contexts/Matching';
+import { getBidListByDesignerId } from '../../../Contexts/Designer/Bid';
+import { getMatchingListByDesignerId } from '../../../Contexts/Designer/Matching';
 
 import Loading from '../../../Components/Common/loading';
 import NoProcessBidList from './noProcessBidList';
@@ -32,7 +32,9 @@ function BidMainScreen({ navigation }) {
   }, [dispatch]);
   if (bidLoading || matchingLoading || bidError || matchingError || !bidList || !matchingList)
     return <Loading />;
-
+  console.log('bid', bidList.length);
+  console.log('matching', matchingList.length);
+  console.log('----------------------------');
   return (
     <Tab.Navigator
       swipeEnabled={false}

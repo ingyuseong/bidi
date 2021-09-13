@@ -7,7 +7,7 @@ import Swiper from 'react-native-swiper';
 
 import Icon from 'react-native-vector-icons/AntDesign';
 import StyleAPI from '../../../Api/style';
-import { deleteStyle } from '../../../Contexts/Style/';
+import { deleteStyle } from '../../../Contexts/Designer/Style';
 import { convertDate, priceFormating } from '../../../Lib/utils';
 
 function DetailStyleBookScreen({ navigation, route }) {

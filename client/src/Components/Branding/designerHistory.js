@@ -8,7 +8,7 @@ import NoHistoryScreen from '../../Screen/01_FirstTab/Customer/TabScreen/noHisto
 import Loading from '../Common/loading';
 
 // Redux Action
-import { getMatchingHistoryListByDesignerId } from '../../Contexts/MatchingHistory';
+import { getMatchingHistoryListByDesignerId } from '../../Contexts/Designer/MatchingHistory';
 
 function DesignerHistory({ branding, isUser }) {
   const {

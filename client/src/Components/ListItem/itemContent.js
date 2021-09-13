@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Modal from 'react-native-modal';
 import BrandingAPI from '../../Api/branding';
-import { deleteBranding } from '../../Contexts/Branding';
+import { deleteBranding } from '../../Contexts/Designer/Branding';
 
 function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }) {
   const dispatch = useDispatch();
