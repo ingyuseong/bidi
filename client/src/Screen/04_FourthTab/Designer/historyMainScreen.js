@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import { getMatchingHistoryListByDesignerId } from '../../../Contexts/MatchingHistory/action';
+import { getMatchingHistoryListByDesignerId } from '../../../Contexts/Designer/MatchingHistory/action';
 
 import Loading from '../../../Components/Common/loading';
 import HistroyListScreen from './histroyListScreen';

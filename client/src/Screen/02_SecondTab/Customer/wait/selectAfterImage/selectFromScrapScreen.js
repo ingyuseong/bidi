@@ -10,7 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Loading from '../../../../../Components/Common/loading';
 
 // Redux Action
-import { getStyleScrapList } from '../../../../../Contexts/StyleScrap/action';
+import { getStyleScrapList } from '../../../../../Contexts/Customer/StyleScrap/action';
 
 function SelectFromScrapScreen({ navigation, route }) {
   // states

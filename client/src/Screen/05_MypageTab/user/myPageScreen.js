@@ -93,7 +93,7 @@ function MyPageScreen({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity>
           <View style={styles.settingArea}>
-            <Text style={styles.settingText}>디자이너 인증하기</Text>
+            <Text style={styles.settingText}>유저 인증하기</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity>

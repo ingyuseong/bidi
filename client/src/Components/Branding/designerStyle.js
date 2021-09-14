@@ -14,7 +14,8 @@ import {
   registerStyleScrap,
   deleteStyleScrap,
   getStyleScrapList,
-} from '../../Contexts/StyleScrap/action';
+} from '../../Contexts/Designer/StyleScrap/action';
+// 수정필요
 
 // API
 import StyleScrapAPI from '../../Api/styleScrap';

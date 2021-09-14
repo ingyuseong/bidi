@@ -18,7 +18,7 @@ import BottomButton from '../../../../Components/Common/bottomButton';
 import MatchingAPI from '../../../../Api/matching';
 
 // Redux Action
-import { deleteMatching } from '../../../../Contexts/Matching/action';
+import { deleteMatching } from '../../../../Contexts/Customer/Matching/action';
 
 function ReservationScreen({ navigation }) {
   const { data: matching } = useSelector((state) => state.customerMatching);

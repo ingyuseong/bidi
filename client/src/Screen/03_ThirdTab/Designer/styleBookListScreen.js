@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'rea
 import Loading from '../../../Components/Common/loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import NoStyleBookScreen from './noStyleBookScreen';
-import { getStyleListByDesignerId } from '../../../Contexts/Style';
+import { getStyleListByDesignerId } from '../../../Contexts/Designer/Style';
 
 function StyleBookListScreen({ navigation }) {
   const dispatch = useDispatch();

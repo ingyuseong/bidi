@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Alert } fr
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import BrandingInput from '../../../Components/Branding/brandingInput';
-import { patchBranding } from '../../../Contexts/Branding';
+import { patchBranding } from '../../../Contexts/Designer/Branding';
 import BrandingAPI from '../../../Api/branding';
 
 function EditBrandingScreen({ navigation, route }) {

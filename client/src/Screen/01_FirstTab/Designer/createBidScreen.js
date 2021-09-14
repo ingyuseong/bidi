@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 
 import BidAPI from '../../../Api/bid';
-import { getBidListByDesignerId } from '../../../Contexts/Bid';
-import { getMatchingListByDesignerId } from '../../../Contexts/Matching';
+import { getBidListByDesignerId } from '../../../Contexts/Designer/Bid';
+import { getMatchingListByDesignerId } from '../../../Contexts/Designer/Matching';
 import { LENGTH_TYPE, STYLE_TYPE } from '../../../Lib/constant';
 
 import Loading from '../../../Components/Common/loading';

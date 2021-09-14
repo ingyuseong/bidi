@@ -14,7 +14,7 @@ import {
   registerStyleScrap,
   deleteStyleScrap,
   getStyleScrapList,
-} from '../../../../Contexts/StyleScrap/action';
+} from '../../../../Contexts/Customer/StyleScrap';
 
 // API
 import StyleScrapAPI from '../../../../Api/styleScrap';

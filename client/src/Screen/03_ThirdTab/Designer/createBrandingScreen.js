@@ -7,7 +7,7 @@ import BrandingAPI from '../../../Api/branding';
 import Loading from '../../../Components/Common/loading';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BrandingInput from '../../../Components/Branding/brandingInput';
-import { getBrandingListByDesignerId } from '../../../Contexts/Branding';
+import { getBrandingListByDesignerId } from '../../../Contexts/Designer/Branding';
 
 function CreateBrandingScreen({ navigation }) {
   const { data: userInfo } = useSelector((state) => state.user);

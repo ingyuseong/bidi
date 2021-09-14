@@ -8,7 +8,7 @@ import NoHistoryScreen from './noHistoryScreen';
 import Loading from '../../../../Components/Common/loading';
 
 // Redux Action
-import { getMatchingHistoryListByDesignerId } from '../../../../Contexts/MatchingHistory/action';
+import { getMatchingHistoryListByDesignerId } from '../../../../Contexts/Customer/MatchingHistory/action';
 
 function DesignerHistory({ branding, isUser }) {
   const {

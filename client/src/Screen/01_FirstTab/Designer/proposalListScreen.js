@@ -8,7 +8,7 @@ import Loading from '../../../Components/Common/loading';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardChangeStyle from '../../../Components/Card/cardChangeStyle';
 import ProposalDetailScreen from './proposalDetailScreen';
-import { getProposalList } from '../../../Contexts/Proposal';
+import { getProposalList } from '../../../Contexts/Designer/Proposal';
 
 function ProposalListScreen({ navigation }) {
   const { data: proposalList, loading, error } = useSelector((state) => state.designerProposal);

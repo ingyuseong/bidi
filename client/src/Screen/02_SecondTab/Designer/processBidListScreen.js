@@ -1,11 +1,30 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, View, ScrollView, Alert } from 'react-native';
+
+import { getMatchingListByDesignerId } from '../../../Contexts/Designer/Matching';
+
+import Line from '../../../Components/Common/line';
+import Loading from '../../../Components/Common/loading';
 import ItemHeader from '../../../Components/ListItem/itemHeader';
 import ItemContent from '../../../Components/ListItem/itemContent';
 import ItemBottomBtn from '../../../Components/ListItem/itemBottomBtn';
-import Line from '../../../Components/Common/line';
+import NoWaitBidListScreen from './noWaitBidListScreen';
 
-function ProcessBidListScreen({ navigation, matchingList }) {
+function ProcessBidListScreen({ navigation }) {
+  const dispatch = useDispatch();
+  const { data: userInfo } = useSelector((state) => state.user);
+
+  const {
+    data: matchingList,
+    loading: matchingLoading,
+    error: matchingError,
+  } = useSelector((state) => state.designerMatching);
+
+  useEffect(() => {
+    dispatch(getMatchingListByDesignerId(userInfo.id));
+  }, [dispatch]);
+
   const cancelAlert = (id) => {
     Alert.alert('정말 취소하시겠습니까?', '취소후에는 변경이 불가능합니다', [
       { text: '취소', style: 'cancel' },
@@ -75,6 +94,11 @@ function ProcessBidListScreen({ navigation, matchingList }) {
       });
   };
 
+  if (matchingLoading || matchingError || !matchingList) return <Loading />;
+
+  if (!matchingList.length) {
+    return <NoWaitBidListScreen navigation={navigation} />;
+  }
   return (
     <ScrollView style={styles.container}>
       {matchingList.map((matching, index) => (

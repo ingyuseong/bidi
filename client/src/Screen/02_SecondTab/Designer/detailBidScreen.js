@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
 
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardDisableStyle from '../../../Components/Card/cardDisableStyle';
@@ -12,7 +13,7 @@ import BidNeedCare from '../../../Components/Bid/bidNeedCare';
 import BidRefStyle from '../../../Components/Bid/bidRefStyle';
 
 import BidAPI from '../../../Api/bid';
-import { patchBid, deleteBid } from '../../../Contexts/Bid/';
+import { patchBid, deleteBid } from '../../../Contexts/Designer/Bid';
 import { STYLE_TYPE, LENGTH_TYPE } from '../../../Lib/constant';
 
 function DetailBidScreen({ navigation, route }) {
@@ -64,7 +65,7 @@ function DetailBidScreen({ navigation, route }) {
     if (response) {
       dispatch(deleteBid(id));
       Alert.alert('Bid 삭제가 성공적으로 완료되었습니다!');
-      navigation.push('BidMain');
+      navigation.reset({ routes: [{ name: 'BidMain' }] });
     }
   };
   const editToggleHandler = () => {
