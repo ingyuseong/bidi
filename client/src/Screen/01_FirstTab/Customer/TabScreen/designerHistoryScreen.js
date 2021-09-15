@@ -15,9 +15,7 @@ function DesignerHistory({ branding, isUser }) {
     data: matchingHistoryList,
     loading,
     error,
-  } = useSelector((state) =>
-    isUser ? state.customerMatchingHistory : state.designerMatchingHistory,
-  );
+  } = useSelector((state) => state.customerMatchingHistory);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getMatchingHistoryListByDesignerId(branding.user_id));

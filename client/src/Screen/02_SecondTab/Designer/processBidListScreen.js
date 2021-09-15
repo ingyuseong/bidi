@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { StyleSheet, View, ScrollView, Alert } from 'react-native';
+import { StyleSheet, View, ScrollView, Alert, Text } from 'react-native';
 
 import { getMatchingListByDesignerId } from '../../../Contexts/Designer/Matching';
 
@@ -120,13 +120,19 @@ function ProcessBidListScreen({ navigation }) {
             }}
           />
           <ItemContent navigation={navigation} info={matching} screen="matching" />
-          <ItemBottomBtn
-            info={matching}
-            leftBtnText="취소됨"
-            leftBtnHandler={() => cancelAlert(matching.id)}
-            rightBtnText="시술 완료"
-            rightBtnHandler={() => doneAlert(matching)}
-          />
+          {matching.reserved ? (
+            <ItemBottomBtn
+              info={matching}
+              leftBtnText="취소됨"
+              leftBtnHandler={() => cancelAlert(matching.id)}
+              rightBtnText="시술 완료"
+              rightBtnHandler={() => doneAlert(matching)}
+            />
+          ) : (
+            <View style={styles.waitReservation}>
+              <Text style={styles.reservationText}>아직 유저가 예약 정보를 입력하지 않았어요!</Text>
+            </View>
+          )}
           <Line />
         </View>
       ))}
@@ -137,6 +143,13 @@ function ProcessBidListScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  waitReservation: {
+    alignItems: 'center',
+    padding: 15,
+  },
+  reservationText: {
+    color: '#8D8D8D',
   },
 });
 

@@ -18,7 +18,7 @@ exports.createMatching = async (attr) => {
     style_id: null,
     review: null,
     star: 0,
-    confirm: false,
+    reserved: false,
     done: false,
     canceled: false,
   })
