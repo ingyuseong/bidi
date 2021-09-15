@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import BrandingListScreen from './brandingListScreen';
+import BrandingScreen from './brandingScreen';
 import StyleBookListScreen from './styleBookListScreen';
 
 const Tab = createMaterialTopTabNavigator();
@@ -26,11 +27,7 @@ function BidMainScreen({ navigation }) {
           borderColor: 'black',
         },
       }}>
-      <Tab.Screen
-        name="Branding"
-        options={{ title: '포트폴리오' }}
-        component={BrandingListScreen}
-      />
+      <Tab.Screen name="Branding" options={{ title: '포트폴리오' }} component={BrandingScreen} />
       <Tab.Screen
         name="StyleBook"
         options={{ title: '스타일북' }}
