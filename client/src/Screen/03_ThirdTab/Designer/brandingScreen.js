@@ -2,29 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, View, ScrollView, TouchableOpacity, Text } from 'react-native';
 
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import DropDownPicker from 'react-native-dropdown-picker';
+import { getBrandingListByDesignerId } from '../../../Contexts/Designer/Branding';
+
+import Line from '../../../Components/Common/line';
 import Loading from '../../../Components/Common/loading';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import DesignerInfo from '../../../Components/Branding/designerInfo';
 import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
 import DesignerStyle from '../../../Components/Branding/designerStyle';
 import DesignerHistory from '../../../Components/Branding/designerHistory';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {
-  getBrandingListByDesignerId,
-  getMainBrandingByDesignerId,
-  patchMainBranding,
-} from '../../../Contexts/Designer/Branding';
-import DropDownPicker from 'react-native-dropdown-picker';
-
 function BrandingScreen({ navigation, route }) {
   const dispatch = useDispatch();
   const { data: userInfo } = useSelector((state) => state.user);
   const { data: brandingList, loading, error } = useSelector((state) => state.designerBranding);
-
-  const [tab, setTab] = useState('tab1');
-  const [brandingTypeOpen, setBrandingTypeOpen] = useState(false);
-  const [brandingTypeValue, setBrandingTypeValue] = useState(0);
   const BRANDING_ITEMS =
     loading || !brandingList
       ? []
@@ -35,6 +29,10 @@ function BrandingScreen({ navigation, route }) {
             key: index,
           };
         });
+
+  const [tab, setTab] = useState('tab1');
+  const [brandingTypeOpen, setBrandingTypeOpen] = useState(false);
+  const [brandingTypeValue, setBrandingTypeValue] = useState(0);
   const [brandingTypeItems, setBrandingTypeItems] = useState(BRANDING_ITEMS);
 
   const info = loading || !brandingList ? {} : brandingList[brandingTypeValue];
@@ -96,10 +94,11 @@ function BrandingScreen({ navigation, route }) {
           <Text style={styles.mainText}>메인 등록</Text>
         </TouchableOpacity>
       </View>
+
       <ScrollView>
         <CardStyle styleLists={info.brandingStyles} isUser={true} height={400} />
-        <CardInfo info={info} navigation={navigation} />
-        <View style={styles.line}></View>
+        <DesignerInfo info={info} navigation={navigation} />
+        <Line />
         <ScrollView>
           <View style={styles.headerContainer}>
             <View style={[styles.tab, tab == 'tab1' && styles.active]}>
