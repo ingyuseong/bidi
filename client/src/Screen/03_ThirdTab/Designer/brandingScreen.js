@@ -12,6 +12,7 @@ import {
   getMainBrandingByDesignerId,
   patchMainBranding,
   patchBranding,
+  deleteBranding,
 } from '../../../Contexts/Designer/Branding';
 
 import Line from '../../../Components/Common/line';
@@ -88,8 +89,30 @@ function BrandingScreen({ navigation, route }) {
     }
   };
 
-  const deleteAlert = () => {};
-  const editHandler = () => {};
+  const deleteAlert = () => {
+    Alert.alert('정말 삭제하시겠습니까?', '삭제후에는 변경이 불가능합니다', [
+      { text: '취소', style: 'cancel' },
+      {
+        text: '삭제하기',
+        onPress: () => {
+          deleteSubmitHandler();
+        },
+      },
+    ]);
+  };
+
+  const deleteSubmitHandler = async () => {
+    const response = await BrandingAPI.deleteBranding(info.id);
+    if (response) {
+      dispatch(deleteBranding(info.id));
+      Alert.alert('삭제되었습니다!');
+      navigation.reset({ routes: [{ name: 'BrandingMain' }] });
+    }
+  };
+  const editHandler = () => {
+    navigation.push('EditBranding', { info });
+  };
+
   useEffect(() => {
     dispatch(getBrandingListByDesignerId(userInfo.id));
   }, [dispatch]);

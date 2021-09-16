@@ -21,7 +21,6 @@ import {
 import StyleScrapAPI from '../../Api/styleScrap';
 
 function DesignerStyle({ navigation, branding, isUser }) {
-  console.log(branding.brandingStyles);
   // state
   const { data: user } = useSelector((state) => state.user);
 
