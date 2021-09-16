@@ -75,7 +75,7 @@ function ReservationScreen({ navigation }) {
                   </TouchableOpacity>
                 </View>
               )}
-              <View style={{ ...styles.imageTypeLabel, backgroundColor: 'rgb(11,14,43)' }}>
+              <View style={styles.imageTypeLabel}>
                 <Text style={styles.imageTypeLabelText}>Style</Text>
               </View>
             </View>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Screen
@@ -18,7 +18,7 @@ import { deleteMatching } from '../../../../Contexts/Customer/Matching/action';
 function StyleSelectScreen({ navigation, route }) {
   const { data: matching } = useSelector((state) => state.customerMatching);
   const { setStyleMenu } = route.params;
-  const [branding, setBranding] = useState();
+  const [brandingStyles, setBrandingStyles] = useState();
   const [selectedStyle, setSelectedStyle] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [styleIndex, setStyleIndex] = useState(0);
@@ -37,51 +37,53 @@ function StyleSelectScreen({ navigation, route }) {
   useEffect(() => {
     async function FetchMode() {
       const branding = await BrandingAPI.getMainBrandingByDesignerId(matching[0].bid.designer_id);
-      await setBranding(branding);
+      let brandingStyles = await branding[0].brandingStyles.filter(
+        (style) => !matching[0].bid.bidStyles.some((bidStyle) => bidStyle.id == style.id),
+      );
+      brandingStyles = matching[0].bid.bidStyles.concat(brandingStyles);
+      await setBrandingStyles(brandingStyles);
     }
     FetchMode();
   }, []);
   return (
     <View style={styles.container}>
-      <View style={styles.styleContainer}>
-        {branding &&
-          branding.length &&
-          branding[0].brandingStyles.map((style, index) => (
-            <View style={{ width: '48%' }} key={index}>
-              <View style={{ width: '100%', height: 300 }}>
-                <View style={{ width: '100%' }}>
-                  <TouchableOpacity activeOpacity={0.8} onPress={() => modalOpen(index)}>
-                    <Image
-                      style={styles.styleImg}
-                      source={{
-                        uri: style.front_img_src,
-                      }}
-                    />
-                    {selectedStyle && selectedStyle.id == style.id ? (
-                      <TouchableOpacity
-                        style={styles.checkedIconArea}
-                        onPress={() => setSelectedStyle(null)}>
-                        <AntDesign name="check" size={25} style={styles.checkIcon} />
-                      </TouchableOpacity>
-                    ) : (
-                      <TouchableOpacity
-                        style={styles.checkIconArea}
-                        onPress={() => setSelectedStyle(style)}>
-                        <AntDesign name="check" size={25} style={styles.checkIcon} />
-                      </TouchableOpacity>
-                    )}
-                  </TouchableOpacity>
-                </View>
+      <ScrollView>
+        <View style={styles.styleContainer}>
+          {brandingStyles &&
+            brandingStyles.length &&
+            brandingStyles.map((style, index) => (
+              <View style={styles.styleItem} key={index}>
                 <TouchableOpacity activeOpacity={0.8} onPress={() => modalOpen(index)}>
-                  <View>
-                    <Text style={styles.styleTitle}>{style.title}</Text>
-                  </View>
+                  <Image
+                    style={styles.styleImg}
+                    source={{
+                      uri: style.front_img_src,
+                    }}
+                  />
+                  {selectedStyle && selectedStyle.id == style.id ? (
+                    <TouchableOpacity
+                      style={styles.checkedIconArea}
+                      onPress={() => setSelectedStyle(null)}>
+                      <AntDesign name="check" size={25} style={styles.checkIcon} />
+                    </TouchableOpacity>
+                  ) : (
+                    <TouchableOpacity
+                      style={styles.checkIconArea}
+                      onPress={() => setSelectedStyle(style)}>
+                      <AntDesign name="check" size={25} style={styles.checkIcon} />
+                    </TouchableOpacity>
+                  )}
+                  {matching[0].bid.bidStyles.some((bidStyle) => bidStyle.id == style.id) && (
+                    <View style={styles.rankLabel}>
+                      <Text style={styles.rankLabelText}>추천</Text>
+                    </View>
+                  )}
                 </TouchableOpacity>
               </View>
-            </View>
-          ))}
-      </View>
-      {branding && branding.length && (
+            ))}
+        </View>
+      </ScrollView>
+      {brandingStyles && brandingStyles.length && (
         <Modal
           animationType="slide"
           transparent={true}
@@ -91,7 +93,7 @@ function StyleSelectScreen({ navigation, route }) {
           }}
           backdropOpacity={0.3}>
           <StyleModal
-            styleList={branding[0].brandingStyles}
+            styleList={brandingStyles}
             index={styleIndex}
             setModalVisible={setModalVisible}
             navigation={navigation}
@@ -100,7 +102,7 @@ function StyleSelectScreen({ navigation, route }) {
         </Modal>
       )}
       <TouchableOpacity style={styles.bottomBtnArea} onPress={submitStyle}>
-        <Text style={styles.bottomBtnText}>추가하기</Text>
+        <Text style={styles.bottomBtnText}>선택하기</Text>
       </TouchableOpacity>
     </View>
   );
@@ -118,12 +120,28 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   styleItem: {
-    width: '48%',
-    height: 300,
+    width: '50%',
+    height: 200,
+    padding: 2,
   },
   styleImg: {
     width: '100%',
-    height: 170,
+    height: 196,
+  },
+  rankLabel: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: 40,
+    height: 30,
+    backgroundColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  rankLabelText: {
+    fontSize: 13,
+    color: 'white',
+    fontWeight: 'bold',
   },
   checkIconArea: {
     position: 'absolute',
@@ -140,7 +158,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 8,
     top: 8,
-    backgroundColor: '#0A0A32',
+    backgroundColor: '#FF533A',
     borderRadius: 50,
     width: 30,
     height: 30,
@@ -151,23 +169,8 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
-  styleTitle: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-  styleDescription: {
-    height: 20,
-    overflow: 'hidden',
-  },
-  stylePrice: {
-    fontWeight: 'bold',
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
   bottomBtnArea: {
-    backgroundColor: '#0A0A32',
+    backgroundColor: '#FF533A',
     width: '100%',
     height: 60,
     position: 'absolute',
