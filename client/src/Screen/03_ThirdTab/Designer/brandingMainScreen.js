@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import BrandingListScreen from './brandingListScreen';
-import BrandingScreen from './brandingScreen';
-import StyleBookListScreen from './styleBookListScreen';
+// import BrandingListScreen from './Branding/brandingListScreen';
+import BrandingScreen from './Branding/brandingScreen';
+import StyleBookListScreen from './StyleBook/styleBookListScreen';
 
 const Tab = createMaterialTopTabNavigator();
 

@@ -6,21 +6,21 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-import BrandingAPI from '../../../Api/branding';
+import BrandingAPI from '../../../../Api/branding';
 import {
   getBrandingListByDesignerId,
   getMainBrandingByDesignerId,
   patchMainBranding,
   patchBranding,
   deleteBranding,
-} from '../../../Contexts/Designer/Branding';
+} from '../../../../Contexts/Designer/Branding';
 
-import Line from '../../../Components/Common/line';
-import Loading from '../../../Components/Common/loading';
-import CardStyle from '../../../Components/Card/cardStyle';
-import DesignerInfo from '../../../Components/Branding/designerInfo';
-import DesignerStyle from '../../../Components/Branding/designerStyle';
-import DesignerHistory from '../../../Components/Branding/designerHistory';
+import Line from '../../../../Components/Common/line';
+import Loading from '../../../../Components/Common/loading';
+import CardStyle from '../../../../Components/Card/cardStyle';
+import DesignerInfo from '../../../../Components/Branding/designerInfo';
+import DesignerStyle from '../../../../Components/Branding/designerStyle';
+import DesignerHistory from '../../../../Components/Branding/designerHistory';
 
 function BrandingScreen({ navigation, route }) {
   const dispatch = useDispatch();

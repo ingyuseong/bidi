@@ -7,13 +7,13 @@ import DetailHeader from '../../../Components/HeaderBar/detailHeader';
 
 import BrandingMainScreen from '../../../Screen/03_ThirdTab/Designer/brandingMainScreen';
 
-import CreateBrandingScreen from '../../../Screen/03_ThirdTab/Designer/createBrandingScreen';
-import DetailBrandingScreen from '../../../Screen/03_ThirdTab/Designer/detailBrandingScreen';
-import EditBrandingScreen from '../../../Screen/03_ThirdTab/Designer/editBrandingScreen';
+import CreateBrandingScreen from '../../../Screen/03_ThirdTab/Designer/Branding/createBrandingScreen';
+import DetailBrandingScreen from '../../../Screen/03_ThirdTab/Designer/Branding/detailBrandingScreen';
+import EditBrandingScreen from '../../../Screen/03_ThirdTab/Designer/Branding/editBrandingScreen';
 
-import CreateStyleBookScreen from '../../../Screen/03_ThirdTab/Designer/createStyleBookScreen';
-import DetailStyleBookScreen from '../../../Screen/03_ThirdTab/Designer/deatailStyleBookScreen';
-import EditStyleBookScreen from '../../../Screen/03_ThirdTab/Designer/editStyleBookScreen';
+import CreateStyleBookScreen from '../../../Screen/03_ThirdTab/Designer/StyleBook/createStyleBookScreen';
+import DetailStyleBookScreen from '../../../Screen/03_ThirdTab/Designer/StyleBook/deatailStyleBookScreen';
+import EditStyleBookScreen from '../../../Screen/03_ThirdTab/Designer/StyleBook/editStyleBookScreen';
 
 const BrandingStack = createStackNavigator();
 
@@ -39,6 +39,11 @@ function BrandingTabScreen({ navigation }) {
         name="EditBranding"
         component={EditBrandingScreen}
         options={{ ...DetailHeader, title: '포트폴리오 수정 페이지' }}
+      />
+      <BrandingStack.Screen
+        name="StyleList"
+        component={EditBrandingScreen}
+        options={{ ...DetailHeader, title: '스타일 목록' }}
       />
       <BrandingStack.Screen
         name="CreateStyleBook"

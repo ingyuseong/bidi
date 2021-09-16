@@ -2,40 +2,42 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
 
-import StyleAPI from '../../../Api/style';
-import { createStyleForm } from '../../../Lib/utils';
-import { getStyleListByDesignerId } from '../../../Contexts/Designer/Style/';
-import { LENGTH_TYPE, STYLE_TYPE, GENDER_TYPE } from '../../../Lib/constant';
+import StyleAPI from '../../../../Api/style';
+import { createStyleForm } from '../../../../Lib/utils';
+import { getStyleListByDesignerId } from '../../../../Contexts/Designer/Style';
+import { LENGTH_TYPE, STYLE_TYPE, GENDER_TYPE } from '../../../../Lib/constant';
 
-import Line from '../../../Components/Common/line';
-import StyleTags from '../../../Components/StyleBook/styleTags';
-import StyleImage from '../../../Components/StyleBook/styleImage';
-import StyleTitle from '../../../Components/StyleBook/styleTitle';
-import StylePrice from '../../../Components/StyleBook/stylePrice';
-import StyleCategory from '../../../Components/StyleBook/styleCategory';
-import StyleDescription from '../../../Components/StyleBook/styleDescription';
+import Line from '../../../../Components/Common/line';
+import StyleTags from '../../../../Components/StyleBook/styleTags';
+import StyleMain from '../../../../Components/StyleBook/styleMain';
+import StyleImage from '../../../../Components/StyleBook/styleImage';
+import StyleTitle from '../../../../Components/StyleBook/styleTitle';
+import StylePrice from '../../../../Components/StyleBook/stylePrice';
+import StyleCategory from '../../../../Components/StyleBook/styleCategory';
+import StyleDescription from '../../../../Components/StyleBook/styleDescription';
 
-function CreateStyleBookScreen({ navigation }) {
+function EditStyleBookScreen({ navigation, route }) {
+  const { styleItem } = route.params;
   const { data: userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const [frontStyle, setFrontStyle] = useState({});
-  const [sideStyle, setSideStyle] = useState({});
-  const [backStyle, setBackStyle] = useState({});
-  const [styleTitle, setStyleTitle] = useState('');
-  const [styleDescription, setStyleDescription] = useState('');
-  const [stylePrice, setStylePrice] = useState('');
+  const [frontStyle, setFrontStyle] = useState(styleItem.front_img_src);
+  const [sideStyle, setSideStyle] = useState(styleItem.side_img_src);
+  const [backStyle, setBackStyle] = useState(styleItem.back_img_src);
+  const [styleTitle, setStyleTitle] = useState(styleItem.title);
+  const [styleDescription, setStyleDescription] = useState(styleItem.description);
+  const [stylePrice, setStylePrice] = useState(String(styleItem.price));
   const [tagText, setTagText] = useState('');
-  const [styleTags, setStyleTags] = useState([]);
+  const [styleTags, setStyleTags] = useState(styleItem.keyword_array);
 
   const [genderTypeOpen, setGenderTypeOpen] = useState(false);
-  const [genderTypeValue, setGenderTypeValue] = useState('미선택');
+  const [genderTypeValue, setGenderTypeValue] = useState(styleItem.gender_type);
   const [genderTypeItems, setGenderTypeItems] = useState(GENDER_TYPE);
   const [lengthTypeOpen, setLengthTypeOpen] = useState(false);
-  const [lengthTypeValue, setLengthTypeValue] = useState('미선택');
+  const [lengthTypeValue, setLengthTypeValue] = useState(styleItem.length_type);
   const [lengthTypeItems, setLengthTypeItems] = useState(LENGTH_TYPE);
   const [styleTypeOpen, setStyleTypeOpen] = useState(false);
-  const [styleTypeValue, setStyleTypeValue] = useState(null);
+  const [styleTypeValue, setStyleTypeValue] = useState(styleItem.style_type);
   const [styleTypeItems, setStyleTypeItems] = useState([]);
 
   useEffect(() => {
@@ -56,7 +58,7 @@ function CreateStyleBookScreen({ navigation }) {
     setStyleTags(filteredStyleTags);
   };
 
-  const registerHandler = async () => {
+  const editHandler = async () => {
     if (!frontStyle) {
       return Alert.alert('스타일 사진을 등록해주세요!');
     }
@@ -88,9 +90,9 @@ function CreateStyleBookScreen({ navigation }) {
       length_type: lengthTypeValue,
       keyword_array: styleTags.toString(),
     });
-    const response = await StyleAPI.registerStyle(bodyData);
+    const response = await StyleAPI.patchStyle(styleItem.id, bodyData);
     if (response) {
-      Alert.alert('스타일북이 작성되었습니다!');
+      Alert.alert('스타일북 수정이 완료되었습니다!');
       dispatch(getStyleListByDesignerId(userInfo.id));
       navigation.navigate('BrandingMain', { screen: 'StyleBook' });
     }
@@ -106,7 +108,7 @@ function CreateStyleBookScreen({ navigation }) {
           setSideStyle={setSideStyle}
           backStyle={backStyle}
           setBackStyle={setBackStyle}
-          isEdit={false}
+          isEdit={true}
         />
         <Line />
         <StyleTitle
@@ -162,9 +164,9 @@ function CreateStyleBookScreen({ navigation }) {
           placeholderMessage="0"
           placeholderColor="#878787"
         />
-        <TouchableOpacity onPress={registerHandler}>
+        <TouchableOpacity onPress={editHandler}>
           <View style={styles.bottomBtnArea}>
-            <Text style={styles.registerBtnText}>등록하기</Text>
+            <Text style={styles.editBtnText}>수정하기</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -184,7 +186,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  registerBtnText: {
+  editBtnText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: 'normal',
@@ -194,4 +196,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateStyleBookScreen;
+export default EditStyleBookScreen;

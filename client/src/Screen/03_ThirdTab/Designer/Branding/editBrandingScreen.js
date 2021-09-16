@@ -3,9 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import BrandingInput from '../../../Components/Branding/brandingInput';
-import { patchBranding } from '../../../Contexts/Designer/Branding';
-import BrandingAPI from '../../../Api/branding';
+
+import BrandingAPI from '../../../../Api/branding';
+import BrandingInput from '../../../../Components/Branding/brandingInput';
+import { patchBranding } from '../../../../Contexts/Designer/Branding';
 
 function EditBrandingScreen({ navigation, route }) {
   const { info } = route.params;

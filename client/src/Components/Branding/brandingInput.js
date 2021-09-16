@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 16,
-    marginBottom: 16,
   },
   styleTagText: {
     color: '#8D8D8D',
