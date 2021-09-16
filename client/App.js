@@ -28,7 +28,6 @@ function App() {
         screenOptions={({ navigation }) => ({
           title: '',
           headerStyle: {
-            backgroundColor: '',
             height: 100,
           },
           headerLeft: () => <TopLeftBar navigation={navigation} />,
