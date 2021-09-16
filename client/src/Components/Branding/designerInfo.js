@@ -25,9 +25,6 @@ function DesignerInfo({ info, navigation }) {
             <View>
               <Text style={styles.designerName}>{name}</Text>
             </View>
-            <TouchableOpacity style={styles.editBtn} onPress={editHandler}>
-              <Text style={styles.editBtnText}>포트폴리오 수정</Text>
-            </TouchableOpacity>
           </View>
           <View style={styles.shopInfo}>
             <Text style={styles.shopName}>

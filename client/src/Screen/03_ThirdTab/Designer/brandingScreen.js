@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { StyleSheet, View, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, ScrollView, TouchableOpacity, Text, Alert } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { getBrandingListByDesignerId } from '../../../Contexts/Designer/Branding';
+
+import BrandingAPI from '../../../Api/branding';
+import {
+  getBrandingListByDesignerId,
+  getMainBrandingByDesignerId,
+  patchMainBranding,
+  patchBranding,
+} from '../../../Contexts/Designer/Branding';
 
 import Line from '../../../Components/Common/line';
 import Loading from '../../../Components/Common/loading';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import DesignerInfo from '../../../Components/Branding/designerInfo';
-import CardInfo from '../../../Components/Card/cardInfo';
 import CardStyle from '../../../Components/Card/cardStyle';
+import DesignerInfo from '../../../Components/Branding/designerInfo';
 import DesignerStyle from '../../../Components/Branding/designerStyle';
 import DesignerHistory from '../../../Components/Branding/designerHistory';
 
@@ -42,13 +48,56 @@ function BrandingScreen({ navigation, route }) {
     setTab(nextTab);
   };
 
+  const registerAlert = () => {
+    Alert.alert('대표 포트폴리오로 등록하시겠습니까?', '', [
+      { text: '취소', style: 'cancel' },
+      {
+        text: '등록하기',
+        onPress: () => {
+          registerSubmitHandler();
+        },
+      },
+    ]);
+  };
+  const registerSubmitHandler = async () => {
+    const response = BrandingAPI.patchMainBranding(info.id, userInfo.id);
+    if (response) {
+      dispatch(patchMainBranding);
+      Alert.alert('대표 포트폴리오 설정되었습니다!');
+      navigation.reset({ routes: [{ name: 'BrandingMain' }] });
+    }
+  };
+
+  const cancelAlert = () => {
+    Alert.alert('대표 등록을 취소하시겠습니까?', '', [
+      { text: '취소', style: 'cancel' },
+      {
+        text: '등록 취소하기',
+        onPress: () => {
+          statusSubmitHandler();
+        },
+      },
+    ]);
+  };
+  const statusSubmitHandler = async () => {
+    const response = await BrandingAPI.patchBranding(info.id, { main: false });
+    if (response) {
+      dispatch(patchBranding(info.id, { main: false }));
+      Alert.alert('대표 포트폴리오 설정이 취소되었습니다!');
+      navigation.reset({ routes: [{ name: 'BrandingMain' }] });
+    }
+  };
+
+  const deleteAlert = () => {};
+  const editHandler = () => {};
   useEffect(() => {
     dispatch(getBrandingListByDesignerId(userInfo.id));
-    // dispatch(getMainBrandingByDesignerId(userInfo.id));
   }, [dispatch]);
+
   if (loading || error || !brandingList) {
     return <Loading />;
   }
+
   if (!brandingList.length) {
     return (
       <View style={styles.noBrandingContainer}>
@@ -90,9 +139,15 @@ function BrandingScreen({ navigation, route }) {
             listMode="SCROLLVIEW"
           />
         </View>
-        <TouchableOpacity style={styles.mainArea}>
-          <Text style={styles.mainText}>메인 등록</Text>
-        </TouchableOpacity>
+        {info.main ? (
+          <TouchableOpacity style={styles.mainArea} onPress={cancelAlert}>
+            <Text style={styles.mainText}>메인 취소</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={styles.notMainArea} onPress={registerAlert}>
+            <Text style={styles.notMainText}>메인 등록</Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       <ScrollView>
@@ -124,6 +179,14 @@ function BrandingScreen({ navigation, route }) {
               <DesignerHistory branding={info} isUser={false} />
             )}
           </View>
+          <View style={styles.bottomBox}>
+            <TouchableOpacity style={styles.leftBtnArea} onPress={deleteAlert}>
+              <Text style={styles.leftBtnText}>삭제하기</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.rightBtnArea} onPress={editHandler}>
+              <Text style={styles.rightBtnText}>수정하기</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </ScrollView>
       <TouchableOpacity
@@ -131,7 +194,7 @@ function BrandingScreen({ navigation, route }) {
         onPress={() => {
           navigation.push('CreateBranding');
         }}>
-        <Icon name="pencil" size={30} style={styles.editIcon} />
+        <FontAwesome name="plus" size={30} style={styles.editIcon} />
       </TouchableOpacity>
     </View>
   );
@@ -154,13 +217,31 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     height: 42,
     width: '25%',
-    borderColor: '#DBDBDB',
+    borderColor: '#0A0A32',
+    backgroundColor: '#0A0A32',
     paddingTop: 8,
     paddingBottom: 8,
     paddingLeft: 16,
     paddingRight: 16,
   },
   mainText: {
+    fontWeight: '500',
+    fontSize: 14,
+    color: '#FFFFFF',
+    lineHeight: 18,
+    textAlign: 'center',
+  },
+  notMainArea: {
+    borderWidth: 1,
+    height: 42,
+    width: '25%',
+    borderColor: '#DBDBDB',
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: 16,
+    paddingRight: 16,
+  },
+  notMainText: {
     fontWeight: '500',
     fontSize: 14,
     color: '#878787',
@@ -239,6 +320,42 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     borderColor: 'black',
     paddingBottom: 5,
+  },
+  bottomBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  leftBtnArea: {
+    width: '40%',
+    height: 65,
+    backgroundColor: '#ffffff',
+    borderWidth: 1,
+    borderColor: '#DDDDDD',
+    borderRadius: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  rightBtnArea: {
+    width: '60%',
+    height: 65,
+    backgroundColor: '#0A0A32',
+    borderWidth: 1,
+    borderColor: '#DDDDDD',
+    borderRadius: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  leftBtnText: {
+    color: '#878787',
+    fontSize: 18,
+    lineHeight: 22,
+    letterSpacing: -0.5,
+  },
+  rightBtnText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    lineHeight: 22,
+    letterSpacing: -0.5,
   },
 });
 
