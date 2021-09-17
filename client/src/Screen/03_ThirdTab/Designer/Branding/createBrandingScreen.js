@@ -8,10 +8,10 @@ import BrandingAPI from '../../../../Api/branding';
 import Line from '../../../../Components/Common/line';
 import Loading from '../../../../Components/Common/loading';
 import BrandingInput from '../../../../Components/Branding/brandingInput';
-import BrandingRefInput from '../../../../Components/Branding/brandingRefInput';
+import StyleMenuInput from '../../../../Components/Branding/styleMenuInput';
 import { getBrandingListByDesignerId } from '../../../../Contexts/Designer/Branding';
 
-function CreateBrandingScreen({ navigation }) {
+function CreateBrandingScreen({ navigation, route }) {
   const { data: userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -22,7 +22,7 @@ function CreateBrandingScreen({ navigation }) {
   const [description, setDesciption] = useState('');
   const [tagText, setTagText] = useState('');
   const [styleTags, setStyleTags] = useState([]);
-  const [styleList, setStyleList] = useState('');
+  const [styleMenuList, setStyleMenuList] = useState([]);
 
   const addStyleTags = () => {
     if (styleTags.length > 2) {
@@ -112,7 +112,12 @@ function CreateBrandingScreen({ navigation }) {
           ( {description.length} / 400 )
         </Text>
       </View>
-      <BrandingRefInput title="스타일 메뉴" />
+      <StyleMenuInput
+        title="스타일 메뉴"
+        navigation={navigation}
+        styleMenuList={styleMenuList}
+        setStyleMenuList={setStyleMenuList}
+      />
       <BrandingInput
         title="헤어샵"
         value={shopName}

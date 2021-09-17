@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, View, ScrollView, TouchableOpacity, Text, Alert } from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -217,7 +218,7 @@ function BrandingScreen({ navigation, route }) {
         onPress={() => {
           navigation.push('CreateBranding');
         }}>
-        <FontAwesome name="plus" size={30} style={styles.editIcon} />
+        <Ionicons name="add" size={50} style={styles.editIcon} />
       </TouchableOpacity>
     </View>
   );
@@ -308,15 +309,18 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   editIconArea: {
+    position: 'absolute',
     width: 65,
     height: 65,
     backgroundColor: '#0A0A32',
-    justifyContent: 'center',
-    alignItems: 'center',
     borderRadius: 50,
-    position: 'absolute',
     bottom: 16,
     right: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000000', //그림자색
+    shadowOpacity: 0.3, //그림자 투명도
+    shadowOffset: { width: 2, height: 2 }, //그림자 위치
   },
   editIcon: {
     color: 'white',

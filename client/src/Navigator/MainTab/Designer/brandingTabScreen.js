@@ -10,6 +10,7 @@ import BrandingMainScreen from '../../../Screen/03_ThirdTab/Designer/brandingMai
 import CreateBrandingScreen from '../../../Screen/03_ThirdTab/Designer/Branding/createBrandingScreen';
 import DetailBrandingScreen from '../../../Screen/03_ThirdTab/Designer/Branding/detailBrandingScreen';
 import EditBrandingScreen from '../../../Screen/03_ThirdTab/Designer/Branding/editBrandingScreen';
+import styleListScreen from '../../../Screen/03_ThirdTab/Designer/Branding/styleListScreen';
 
 import CreateStyleBookScreen from '../../../Screen/03_ThirdTab/Designer/StyleBook/createStyleBookScreen';
 import DetailStyleBookScreen from '../../../Screen/03_ThirdTab/Designer/StyleBook/deatailStyleBookScreen';
@@ -42,9 +43,10 @@ function BrandingTabScreen({ navigation }) {
       />
       <BrandingStack.Screen
         name="StyleList"
-        component={EditBrandingScreen}
+        component={styleListScreen}
         options={{ ...DetailHeader, title: '스타일 목록' }}
       />
+
       <BrandingStack.Screen
         name="CreateStyleBook"
         component={CreateStyleBookScreen}

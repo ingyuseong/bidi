@@ -3,33 +3,30 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-function BrandingRefInput({ title }) {
+function StyleMenuInput({ title, navigation, styleMenuList, setStyleMenuList }) {
   return (
     <View style={styles.inputBox}>
       <View style={styles.titleTextArea}>
         <Text style={styles.titleText}>{title}</Text>
       </View>
       <View style={styles.styleBox}>
-        <TouchableOpacity style={styles.styleArea}>
-          <Image
-            source={{
-              uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/style_img7.png',
-            }}
-            style={styles.styleImg}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.styleArea}>
-          <Image
-            source={{
-              uri: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/test/style_img8.png',
-            }}
-            style={styles.styleImg}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.styleArea, styles.addStyleArea]}>
+        {styleMenuList.map((styleItem, index) => {
+          return (
+            <TouchableOpacity style={styles.styleArea} key={index}>
+              <Image
+                source={{
+                  uri: styleItem.front_img_src,
+                }}
+                style={styles.styleImg}
+              />
+            </TouchableOpacity>
+          );
+        })}
+        <TouchableOpacity
+          style={[styles.styleArea, styles.addStyleArea]}
+          onPress={() => navigation.navigate('StyleList', { styleMenuList, setStyleMenuList })}>
           <Icon name="add" size={50} style={styles.addIcon} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.styleArea}></TouchableOpacity>
       </View>
     </View>
   );
@@ -80,4 +77,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BrandingRefInput;
+export default StyleMenuInput;
