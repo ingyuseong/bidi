@@ -16,7 +16,7 @@ function styleListScreen({ navigation, route }) {
   const { data: userInfo } = useSelector((state) => state.user);
   const { data: styleList, loading, error } = useSelector((state) => state.designerStyle);
   const [modalVisible, setModalVisible] = useState(false);
-  const [checkStyleList, setCheckStyleList] = useState([]);
+  const [checkStyleList, setCheckStyleList] = useState(styleMenuList);
   useEffect(() => {
     dispatch(getStyleListByDesignerId(userInfo.id));
   }, [dispatch]);

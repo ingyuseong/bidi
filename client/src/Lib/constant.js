@@ -4,6 +4,53 @@ export const APP_VERSION = 'v1.0.0';
 
 export const STORAGE_KEY = 'user';
 
+export const SHOP_EXTRA_INFO_LIST = [
+  {
+    id: 1,
+    value: '주차 가능',
+  },
+  {
+    id: 2,
+    value: 'wifi 제공',
+  },
+  {
+    id: 3,
+    value: '음료/간식',
+  },
+  {
+    id: 4,
+    value: '반려견 동반가능',
+  },
+  {
+    id: 5,
+    value: '공유 헤어샵',
+  },
+  {
+    id: 6,
+    value: '남성 전문',
+  },
+  {
+    id: 7,
+    value: '여성 전문',
+  },
+  {
+    id: 8,
+    value: '유아전용의자',
+  },
+  {
+    id: 9,
+    value: '대중교통 용이',
+  },
+  {
+    id: 10,
+    value: '심야 영업',
+  },
+  {
+    id: 11,
+    value: '클리닉 가능',
+  },
+];
+
 export const GENDER_TYPE = [
   { label: '남성', value: 'male', key: '13' },
   { label: '여성', value: 'female', key: '14' },

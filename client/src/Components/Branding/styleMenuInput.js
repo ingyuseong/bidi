@@ -12,14 +12,14 @@ function StyleMenuInput({ title, navigation, styleMenuList, setStyleMenuList }) 
       <View style={styles.styleBox}>
         {styleMenuList.map((styleItem, index) => {
           return (
-            <TouchableOpacity style={styles.styleArea} key={index}>
+            <View style={styles.styleArea} key={index}>
               <Image
                 source={{
                   uri: styleItem.front_img_src,
                 }}
                 style={styles.styleImg}
               />
-            </TouchableOpacity>
+            </View>
           );
         })}
         <TouchableOpacity

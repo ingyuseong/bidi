@@ -9,6 +9,7 @@ import Line from '../../../../Components/Common/line';
 import Loading from '../../../../Components/Common/loading';
 import BrandingInput from '../../../../Components/Branding/brandingInput';
 import StyleMenuInput from '../../../../Components/Branding/styleMenuInput';
+import ExtraShopInfoInput from '../../../../Components/Branding/extraShopInfoInput';
 import { getBrandingListByDesignerId } from '../../../../Contexts/Designer/Branding';
 
 function CreateBrandingScreen({ navigation, route }) {
@@ -23,11 +24,12 @@ function CreateBrandingScreen({ navigation, route }) {
   const [tagText, setTagText] = useState('');
   const [styleTags, setStyleTags] = useState([]);
   const [styleMenuList, setStyleMenuList] = useState([]);
+  const [shopExtraInfoList, setShopExtraInfoList] = useState([]);
 
   const addStyleTags = () => {
     if (styleTags.length > 2) {
       setTagText('');
-      return Alert.alert('스타일 태그는 최대 3개까지 입력이 가능합니다');
+      return Alert.alert('키워드 등록은 최대 3개까지 입력이 가능합니다');
     }
     setStyleTags([...styleTags, tagText]);
     setTagText('');
@@ -36,6 +38,7 @@ function CreateBrandingScreen({ navigation, route }) {
     const filteredStyleTags = styleTags.filter((tag) => tag != deleteTag);
     setStyleTags(filteredStyleTags);
   };
+
   const registerHandler = async () => {
     if (!shopName) {
       return Alert.alert('헤어샵명을 입력해주세요!');
@@ -48,9 +51,6 @@ function CreateBrandingScreen({ navigation, route }) {
     }
     if (!brandingName) {
       return Alert.alert('포트폴리오 이름을 입력해주세요!');
-    }
-    if (!styleTags) {
-      return Alert.alert('스타일 태그를 입력해주세요!');
     }
     if (!description) {
       return Alert.alert('상세 설명을 입력해주세요!');
@@ -86,19 +86,6 @@ function CreateBrandingScreen({ navigation, route }) {
         placeholderColor="#FF533A"
       />
       <BrandingInput
-        title="해시 태그"
-        subTitle="(최대 3개)"
-        value={tagText}
-        setValue={setTagText}
-        setStyleTags={setStyleTags}
-        placeholderMessage="스타일에 관련된 키워드들을 입력해주세요"
-        placeholderColor="#878787"
-        returnKeyType="next"
-        styleTags={styleTags}
-        addStyleTags={addStyleTags}
-        deleteStyleTags={deleteStyleTags}
-      />
-      <BrandingInput
         title="상세 설명"
         value={description}
         setValue={setDesciption}
@@ -106,6 +93,19 @@ function CreateBrandingScreen({ navigation, route }) {
         placeholderColor="#878787"
         height={167}
         multiline={true}
+      />
+      <BrandingInput
+        title="키워드 등록"
+        subTitle="(최대 3개)"
+        value={tagText}
+        setValue={setTagText}
+        setStyleTags={setStyleTags}
+        placeholderMessage="포트폴리오에 관련된 키워드들을 입력해주세요"
+        placeholderColor="#878787"
+        returnKeyType="next"
+        styleTags={styleTags}
+        addStyleTags={addStyleTags}
+        deleteStyleTags={deleteStyleTags}
       />
       <View style={styles.lengthArea}>
         <Text style={[styles.lengthText, description.length === 400 && styles.maxLengthText]}>
@@ -118,11 +118,34 @@ function CreateBrandingScreen({ navigation, route }) {
         styleMenuList={styleMenuList}
         setStyleMenuList={setStyleMenuList}
       />
+      <Line />
       <BrandingInput
         title="헤어샵"
         value={shopName}
         setValue={setShopName}
         placeholderMessage="근무중인 헤어샵을 입력해주세요"
+        placeholderColor="#878787"
+      />
+      <BrandingInput
+        title="직급"
+        value={position}
+        setValue={setPosition}
+        placeholderMessage="직급을 입력해주세요"
+        placeholderColor="#878787"
+      />
+      <BrandingInput
+        title="영업시간"
+        value={shopName}
+        setValue={setShopName}
+        placeholderMessage="헤어샵의 영업시간을 입력해주세요"
+        placeholderColor="#878787"
+      />
+
+      <BrandingInput
+        title="연락처"
+        value={shopName}
+        setValue={setShopName}
+        placeholderMessage="헤어샵의 연락처를 입력해주세요"
         placeholderColor="#878787"
       />
       <BrandingInput
@@ -132,12 +155,12 @@ function CreateBrandingScreen({ navigation, route }) {
         placeholderMessage="서울특별시 강남구"
         placeholderColor="#878787"
       />
-      <BrandingInput
-        title="직급"
-        value={position}
-        setValue={setPosition}
-        placeholderMessage="직급을 입력해주세요"
-        placeholderColor="#878787"
+
+      <ExtraShopInfoInput
+        title="부가 정보"
+        subTitle="복수 응답 가능"
+        shopExtraInfoList={shopExtraInfoList}
+        setShopExtraInfoList={setShopExtraInfoList}
       />
       <TouchableOpacity style={styles.registerBtnArea} onPress={registerHandler}>
         <Text style={styles.registerBtnText}>저장하기</Text>
@@ -149,10 +172,6 @@ function CreateBrandingScreen({ navigation, route }) {
 const styles = StyleSheet.create({
   container: { flex: 1 },
 
-  line: {
-    height: 10,
-    backgroundColor: '#f4f4f4',
-  },
   registerBtnArea: {
     justifyContent: 'center',
     height: 65,

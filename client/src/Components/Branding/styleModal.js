@@ -106,6 +106,9 @@ const styles = StyleSheet.create({
   },
   contentBox: {
     marginTop: 10,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
   },
   infoArea: {
     margin: 15,
