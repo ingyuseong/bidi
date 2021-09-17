@@ -88,12 +88,20 @@ function MyPageScreen({ navigation }) {
       <View style={styles.settingBox}>
         <TouchableOpacity>
           <View style={styles.settingArea}>
-            <Text style={styles.settingText}>공지사항</Text>
+            <Text style={styles.settingText}>디자이너 인증하기</Text>
           </View>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('ScheduleInfo')}>
+          <View style={styles.settingArea}>
+            <Text style={styles.settingText}>시술 스케줄 관리</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <Line />
+      <View style={styles.settingBox}>
         <TouchableOpacity>
           <View style={styles.settingArea}>
-            <Text style={styles.settingText}>사용자 인증하기</Text>
+            <Text style={styles.settingText}>공지사항</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity>

@@ -37,6 +37,7 @@ function StyleSelectScreen({ navigation, route }) {
   useEffect(() => {
     async function FetchMode() {
       const branding = await BrandingAPI.getMainBrandingByDesignerId(matching[0].bid.designer_id);
+      // 브랜딩 스타일에서 추천 메뉴를 앞쪽에 위치 시키는 필터링!
       let brandingStyles = await branding[0].brandingStyles.filter(
         (style) => !matching[0].bid.bidStyles.some((bidStyle) => bidStyle.id == style.id),
       );
