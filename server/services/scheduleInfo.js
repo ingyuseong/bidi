@@ -62,13 +62,13 @@ exports.findOneScheduleInfoByDesignerId = async (id) => {
     scheduleInfo = {
       ...scheduleInfo.dataValues,
       weeklySchedule: [
+        { date: '일', timeArray: timeArray(scheduleInfo.dataValues.sun) },
         { date: '월', timeArray: timeArray(scheduleInfo.dataValues.mon) },
         { date: '화', timeArray: timeArray(scheduleInfo.dataValues.tue) },
         { date: '수', timeArray: timeArray(scheduleInfo.dataValues.wed) },
         { date: '목', timeArray: timeArray(scheduleInfo.dataValues.thu) },
         { date: '금', timeArray: timeArray(scheduleInfo.dataValues.fri) },
         { date: '토', timeArray: timeArray(scheduleInfo.dataValues.sat) },
-        { date: '일', timeArray: timeArray(scheduleInfo.dataValues.sun) },
       ],
     }
     return scheduleInfo

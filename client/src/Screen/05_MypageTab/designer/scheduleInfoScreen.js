@@ -11,7 +11,7 @@ function ScheduleInfoScreen({ navigation }) {
   const [scheduleInfo, setScheduleInfo] = useState();
   const timeFormatting = (timefloat) => {
     let remainder = (Number(timefloat) % 1).toFixed(2);
-    let minutes = remainder * 100 ? remainder * 100 : '00';
+    let minutes = remainder * 60 ? remainder * 60 : '00';
     let hours = timefloat - remainder;
     return `${hours}:${minutes}`;
   };
@@ -32,7 +32,8 @@ function ScheduleInfoScreen({ navigation }) {
         scheduleInfo[0].weeklySchedule.map((item, index) => {
           return (
             <View style={styles.tagBox} key={index}>
-              <View style={styles.dayTag}>
+              <View
+                style={index ? styles.dayTag : { ...styles.dayTag, backgroundColor: '#FF533A' }}>
                 <Text style={{ color: 'white' }}>{item.date}</Text>
               </View>
               {item.timeArray && item.timeArray[0] ? (

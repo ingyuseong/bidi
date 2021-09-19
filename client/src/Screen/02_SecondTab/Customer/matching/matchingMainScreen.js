@@ -31,6 +31,7 @@ function ReservationScreen({ navigation }) {
   const { data: matching } = useSelector((state) => state.customerMatching);
   const [now, setNow] = useState(new Date());
   const [styleMenu, setStyleMenu] = useState(null);
+  const [styleTime, setStyleTime] = useState(null);
   const dispatch = useDispatch();
   const removeMatching = async () => {
     const response = await MatchingAPI.deleteMatching(matching[0].id);
@@ -46,6 +47,21 @@ function ReservationScreen({ navigation }) {
     Alert.alert('정말 취소하시겠습니까?', '매칭을 취소할 경우 다시 제안서를 작성해야 합니다!', [
       { text: '아니요', style: 'cancel' },
       { text: '취소하기', onPress: removeMatching },
+    ]);
+  };
+  const submitReservation = async () => {
+    if (!styleMenu) {
+      Alert.alert('스타일을 선택해 주세요!');
+    }
+    if (!styleTime) {
+      Alert.alert('시간을 선택해 주세요!');
+    }
+    console.log(styleTime, styleMenu.id);
+  };
+  const submitAlert = () => {
+    Alert.alert('정말 예약하시겠습니까?', '예약 이후에는 디자이너와의 DM으로만 취소 가능합니다', [
+      { text: '아니요', style: 'cancel' },
+      { text: '예약하기', onPress: submitReservation },
     ]);
   };
   const styleSelectHandler = async (e) => {
@@ -161,7 +177,22 @@ function ReservationScreen({ navigation }) {
           <View style={styles.titleBox}>
             <Text style={styles.title}>스타일링 시간 선택</Text>
           </View>
-          <StylingTime navigation={navigation} />
+          <StylingTime navigation={navigation} setStyleTime={setStyleTime} styleTime={styleTime} />
+          {/* <View style={styles.timeBox}>
+            <View style={{ width: '50%' }}></View>
+            <View style={{ flexDirection: 'row' }}>
+              <View style={styles.priceTag}>
+                <Text style={styles.timeText}>시간</Text>
+              </View>
+              <View style={styles.priceTag}>
+                {styleTime ? (
+                  <Text style={styles.timeLabel}>{styleTime}</Text>
+                ) : (
+                  <Text style={{ color: '#8D8D8D' }}>선택해 주세요!</Text>
+                )}
+              </View>
+            </View>
+          </View> */}
           <View style={{ marginTop: 80 }}></View>
         </View>
       </View>
@@ -170,6 +201,7 @@ function ReservationScreen({ navigation }) {
         rightName="예약완료"
         leftRatio={50}
         leftHandler={deleteAlert}
+        rightHandler={submitAlert}
       />
     </View>
   );
@@ -286,30 +318,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  timeTag: {
-    paddingLeft: 10,
-    paddingRight: 10,
-    backgroundColor: '#EEEEEE',
-    borderRadius: 2,
-    marginTop: 10,
-    marginRight: 10,
-    height: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+  timeBox: {
+    flexDirection: 'row',
+    marginTop: 40,
   },
-  dropdownBox: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 7,
+  timeText: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
-  locationInput: {
-    width: '90%',
-    height: 42,
-    marginBottom: 10,
-    borderRadius: 3,
-    backgroundColor: 'rgb(243,243,243)',
-    padding: 10,
-    zIndex: 2,
+  timeLabel: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

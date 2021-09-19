@@ -1,0 +1,100 @@
+import React, { useState, useEffect } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+  Alert,
+} from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { dayFormating } from '../../Lib/utils';
+import { DATE_SKELETON } from '../../Lib/constant';
+
+function TimeSpecific({ selectedDay, isClicked, isToday, setStyleTime, styleTime }) {
+  const { data: matching } = useSelector((state) => state.customerMatching);
+  let timeLabel = [];
+  const timeFormating = (timefloat) => {
+    let remainder = (Number(timefloat) % 1).toFixed(2);
+    let minutes = remainder * 60 ? remainder * 60 : '00';
+    let hours = timefloat - remainder;
+    return `${hours}:${minutes}`;
+  };
+  if (matching && matching.length > 0 && isClicked) {
+    let startTime = Number(
+      matching[0].bid.user.scheduleInfo.weeklySchedule[selectedDay].timeArray[0],
+    );
+    const endTime = Number(
+      matching[0].bid.user.scheduleInfo.weeklySchedule[selectedDay].timeArray[1],
+    );
+    if (isToday) {
+      startTime = Math.max(new Date().getHours(), startTime);
+      startTime = 21;
+    }
+    if (startTime && endTime) {
+      for (var i = startTime; i <= endTime; i += 0.5) {
+        const j = i;
+        timeLabel.push(
+          <TouchableOpacity
+            style={
+              styleTime == j ? { ...styles.timeTag, backgroundColor: '#FF533A' } : styles.timeTag
+            }
+            key={j}
+            onPress={() => setStyleTime(j)}>
+            <Text style={styleTime == j && { color: 'white' }}>{timeFormating(i)}</Text>
+          </TouchableOpacity>,
+        );
+      }
+    } else {
+      timeLabel.push(
+        <View style={styles.timeTag} key={1}>
+          <Text>디자이너 휴무</Text>
+        </View>,
+      );
+    }
+  }
+  return (
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      horizontal={true}
+      style={styles.container}>
+      {timeLabel && timeLabel.length > 0 ? (
+        timeLabel
+      ) : (
+        <View style={styles.timeTag} key={1}>
+          <Text>예약 마감</Text>
+        </View>
+      )}
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 10,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  timeTagBox: {
+    width: '100%',
+    height: 100,
+    padding: 10,
+    backgroundColor: '#f0f',
+  },
+  timeTag: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    backgroundColor: '#EEEEEE',
+    borderRadius: 2,
+    marginTop: 10,
+    marginRight: 10,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
+
+export default TimeSpecific;

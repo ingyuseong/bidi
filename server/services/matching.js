@@ -135,6 +135,12 @@ exports.findOneMatchingByCustomerId = async (id) => {
           scheduleInfo: {
             weeklySchedule: [
               {
+                date: '일',
+                timeArray: timeArray(
+                  matching.bid.user.scheduleInfo.dataValues.sun
+                ),
+              },
+              {
                 date: '월',
                 timeArray: timeArray(
                   matching.bid.user.scheduleInfo.dataValues.mon
@@ -168,12 +174,6 @@ exports.findOneMatchingByCustomerId = async (id) => {
                 date: '토',
                 timeArray: timeArray(
                   matching.bid.user.scheduleInfo.dataValues.sat
-                ),
-              },
-              {
-                date: '일',
-                timeArray: timeArray(
-                  matching.bid.user.scheduleInfo.dataValues.sun
                 ),
               },
             ],

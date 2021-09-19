@@ -13,17 +13,29 @@ import { useSelector, useDispatch } from 'react-redux';
 import { dayFormating } from '../../Lib/utils';
 import { DATE_SKELETON } from '../../Lib/constant';
 
-function StylingTime({ navigation }) {
+import TimeSpecific from './timeSpecific';
+
+function StylingTime({ navigation, setStyleTime, styleTime }) {
   const { data: matching } = useSelector((state) => state.customerMatching);
-  // const [now, setNow] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(DATE_SKELETON);
-  const selectDate = (id, year, month, date, day) => {
-    console.log(year, month + 1, date, day);
+  const [selectedDay, setSelectedDay] = useState(0);
+  const [isClicked, setIsClicked] = useState(false);
+  const [isToday, setIsToday] = useState(false);
+  const selectDate = (id, year, month, date, day, index) => {
     setSelectedDate(
       selectedDate.map((item) =>
         item.id == id ? { ...item, selected: true } : { ...item, selected: false },
       ),
     );
+    setSelectedDay(day);
+    setIsClicked(true);
+    if (!index) {
+      // 오늘이면
+      setIsToday(true);
+    } else {
+      setIsToday(false);
+    }
+    setStyleTime(null);
   };
   const now = new Date();
   const timeTable = DATE_SKELETON.map((item, index) => {
@@ -33,39 +45,51 @@ function StylingTime({ navigation }) {
     const day = now.getDay();
     now.setDate(now.getDate() + 1);
     return (
-      <View style={styles.tagBox} key={date}>
-        <View style={styles.dayTag}>
-          <Text style={styles.dayTagText}>{dayFormating(day)}</Text>
-        </View>
-        <TouchableOpacity
-          key={item.id}
-          style={
-            selectedDate[item.id].selected
-              ? { ...styles.dateTag, backgroundColor: '#FF533A' }
-              : styles.dateTag
-          }
-          onPress={() => selectDate(item.id, year, month, date, day)}>
-          <Text
-            key={date}
+      <View key={date}>
+        <View style={styles.tagBox} key={date}>
+          <View style={styles.dayTag}>
+            <Text style={styles.dayTagText}>{dayFormating(day)}</Text>
+          </View>
+          <TouchableOpacity
+            key={item.id}
             style={
               selectedDate[item.id].selected
-                ? { ...styles.dateTagText, color: 'white' }
-                : styles.dateTagText
-            }>
-            {date}
-          </Text>
-        </TouchableOpacity>
+                ? { ...styles.dateTag, backgroundColor: '#FF533A' }
+                : styles.dateTag
+            }
+            onPress={() => selectDate(item.id, year, month, date, day, index)}>
+            <Text
+              key={date}
+              style={
+                selectedDate[item.id].selected
+                  ? { ...styles.dateTagText, color: 'white' }
+                  : styles.dateTagText
+              }>
+              {date}
+            </Text>
+          </TouchableOpacity>
+          {index == 0 && <Text style={{ marginTop: 5 }}>오늘</Text>}
+        </View>
       </View>
     );
   });
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-      horizontal={true}>
-      <View style={styles.timeTableContainer}>{timeTable}</View>
-    </ScrollView>
+    <View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        horizontal={true}>
+        <View style={styles.timeTableContainer}>{timeTable}</View>
+      </ScrollView>
+      <TimeSpecific
+        selectedDay={selectedDay}
+        isClicked={isClicked}
+        isToday={isToday}
+        setStyleTime={setStyleTime}
+        styleTime={styleTime}
+      />
+    </View>
   );
 }
 
@@ -77,7 +101,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginRight: 10,
     width: 40,
-    justifyContent: 'center',
     alignItems: 'center',
   },
   dayTag: {
@@ -120,6 +143,12 @@ const styles = StyleSheet.create({
     height: 20,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  timeTagBox: {
+    width: '100%',
+    height: 100,
+    padding: 10,
+    backgroundColor: '#f0f',
   },
   timeTag: {
     paddingLeft: 10,

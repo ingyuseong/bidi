@@ -11,20 +11,20 @@ import ScheduleInfoAPI from '../../../../Api/scheduleInfo';
 
 function RegisterScheduleInfoScreen({ navigation, route }) {
   const { scheduleInfo } = route.params;
-  const [MonStart, setMonStart] = useState(scheduleInfo.weeklySchedule[0].timeArray[0]);
-  const [MonEnd, setMonEnd] = useState(scheduleInfo.weeklySchedule[0].timeArray[1]);
-  const [TueStart, setTueStart] = useState(scheduleInfo.weeklySchedule[1].timeArray[0]);
-  const [TueEnd, setTueEnd] = useState(scheduleInfo.weeklySchedule[1].timeArray[1]);
-  const [WedStart, setWedStart] = useState(scheduleInfo.weeklySchedule[2].timeArray[0]);
-  const [WedEnd, setWedEnd] = useState(scheduleInfo.weeklySchedule[2].timeArray[1]);
-  const [ThuStart, setThuStart] = useState(scheduleInfo.weeklySchedule[3].timeArray[0]);
-  const [ThuEnd, setThuEnd] = useState(scheduleInfo.weeklySchedule[3].timeArray[1]);
-  const [FriStart, setFriStart] = useState(scheduleInfo.weeklySchedule[4].timeArray[0]);
-  const [FriEnd, setFriEnd] = useState(scheduleInfo.weeklySchedule[4].timeArray[1]);
-  const [SatStart, setSatStart] = useState(scheduleInfo.weeklySchedule[5].timeArray[0]);
-  const [SatEnd, setSatEnd] = useState(scheduleInfo.weeklySchedule[5].timeArray[1]);
-  const [SunStart, setSunStart] = useState(scheduleInfo.weeklySchedule[6].timeArray[0]);
-  const [SunEnd, setSunEnd] = useState(scheduleInfo.weeklySchedule[6].timeArray[1]);
+  const [SunStart, setSunStart] = useState(scheduleInfo.weeklySchedule[0].timeArray[0]);
+  const [SunEnd, setSunEnd] = useState(scheduleInfo.weeklySchedule[0].timeArray[1]);
+  const [MonStart, setMonStart] = useState(scheduleInfo.weeklySchedule[1].timeArray[0]);
+  const [MonEnd, setMonEnd] = useState(scheduleInfo.weeklySchedule[1].timeArray[1]);
+  const [TueStart, setTueStart] = useState(scheduleInfo.weeklySchedule[2].timeArray[0]);
+  const [TueEnd, setTueEnd] = useState(scheduleInfo.weeklySchedule[2].timeArray[1]);
+  const [WedStart, setWedStart] = useState(scheduleInfo.weeklySchedule[3].timeArray[0]);
+  const [WedEnd, setWedEnd] = useState(scheduleInfo.weeklySchedule[3].timeArray[1]);
+  const [ThuStart, setThuStart] = useState(scheduleInfo.weeklySchedule[4].timeArray[0]);
+  const [ThuEnd, setThuEnd] = useState(scheduleInfo.weeklySchedule[4].timeArray[1]);
+  const [FriStart, setFriStart] = useState(scheduleInfo.weeklySchedule[5].timeArray[0]);
+  const [FriEnd, setFriEnd] = useState(scheduleInfo.weeklySchedule[5].timeArray[1]);
+  const [SatStart, setSatStart] = useState(scheduleInfo.weeklySchedule[6].timeArray[0]);
+  const [SatEnd, setSatEnd] = useState(scheduleInfo.weeklySchedule[6].timeArray[1]);
   const initialize = () => {
     setMonStart(null);
     setMonEnd(null);
@@ -94,6 +94,33 @@ function RegisterScheduleInfoScreen({ navigation, route }) {
         <Text style={styles.subTitle}>설정하지 않으면 휴무일로 지정됩니다!</Text>
       </View>
       <View>
+        <View style={styles.tagBox}>
+          <View style={{ ...styles.dayTag, backgroundColor: '#FF533A' }}>
+            <Text style={{ color: 'white' }}>일</Text>
+          </View>
+          <View style={styles.timeTag}>
+            <Text style={{ color: '#8D8D8D' }}>시작시간:</Text>
+          </View>
+          <View style={styles.tag}>
+            <RNPickerSelect
+              onValueChange={(value) => setSunStart(value)}
+              placeholder={{ label: '휴무' }}
+              value={SunStart}
+              style={pickerSelectStyles}
+              items={START_TIME_LIST}></RNPickerSelect>
+          </View>
+          <View style={styles.timeTag}>
+            <Text style={{ color: '#8D8D8D' }}>종료시간:</Text>
+          </View>
+          <View style={styles.tag}>
+            <RNPickerSelect
+              onValueChange={(value) => setSunEnd(value)}
+              placeholder={{ label: '휴무' }}
+              value={SunEnd}
+              style={pickerSelectStyles}
+              items={END_TIME_LIST}></RNPickerSelect>
+          </View>
+        </View>
         <View style={styles.tagBox}>
           <View style={styles.dayTag}>
             <Text style={{ color: 'white' }}>월</Text>
@@ -252,33 +279,6 @@ function RegisterScheduleInfoScreen({ navigation, route }) {
               onValueChange={(value) => setSatEnd(value)}
               placeholder={{ label: '휴무' }}
               value={SatEnd}
-              style={pickerSelectStyles}
-              items={END_TIME_LIST}></RNPickerSelect>
-          </View>
-        </View>
-        <View style={styles.tagBox}>
-          <View style={styles.dayTag}>
-            <Text style={{ color: 'white' }}>일</Text>
-          </View>
-          <View style={styles.timeTag}>
-            <Text style={{ color: '#8D8D8D' }}>시작시간:</Text>
-          </View>
-          <View style={styles.tag}>
-            <RNPickerSelect
-              onValueChange={(value) => setSunStart(value)}
-              placeholder={{ label: '휴무' }}
-              value={SunStart}
-              style={pickerSelectStyles}
-              items={START_TIME_LIST}></RNPickerSelect>
-          </View>
-          <View style={styles.timeTag}>
-            <Text style={{ color: '#8D8D8D' }}>종료시간:</Text>
-          </View>
-          <View style={styles.tag}>
-            <RNPickerSelect
-              onValueChange={(value) => setSunEnd(value)}
-              placeholder={{ label: '휴무' }}
-              value={SunEnd}
               style={pickerSelectStyles}
               items={END_TIME_LIST}></RNPickerSelect>
           </View>
