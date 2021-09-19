@@ -106,8 +106,11 @@ exports.findOneMatching = async (id) => {
     return null
   }
 }
+
 exports.findOneMatchingByCustomerId = async (id) => {
   let matching = await db.findOneMatchingByCustomerId(id)
+  const timeArray = (timeString) =>
+    timeString ? timeString.split(',') : [null, null]
   if (matching) {
     let proposal_keyword_array = []
     if (matching.proposal.keyword_array) {
@@ -127,6 +130,55 @@ exports.findOneMatchingByCustomerId = async (id) => {
             keyword_array: style_keyword_array,
           }
         }),
+        user: {
+          ...matching.bid.user.dataValues,
+          scheduleInfo: {
+            weeklySchedule: [
+              {
+                date: '월',
+                timeArray: timeArray(
+                  matching.bid.user.scheduleInfo.dataValues.mon
+                ),
+              },
+              {
+                date: '화',
+                timeArray: timeArray(
+                  matching.bid.user.scheduleInfo.dataValues.tue
+                ),
+              },
+              {
+                date: '수',
+                timeArray: timeArray(
+                  matching.bid.user.scheduleInfo.dataValues.wed
+                ),
+              },
+              {
+                date: '목',
+                timeArray: timeArray(
+                  matching.bid.user.scheduleInfo.dataValues.thu
+                ),
+              },
+              {
+                date: '금',
+                timeArray: timeArray(
+                  matching.bid.user.scheduleInfo.dataValues.fri
+                ),
+              },
+              {
+                date: '토',
+                timeArray: timeArray(
+                  matching.bid.user.scheduleInfo.dataValues.sat
+                ),
+              },
+              {
+                date: '일',
+                timeArray: timeArray(
+                  matching.bid.user.scheduleInfo.dataValues.sun
+                ),
+              },
+            ],
+          },
+        },
       },
       proposal: {
         ...matching.proposal.dataValues,

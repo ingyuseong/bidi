@@ -19,6 +19,7 @@ import {
 
 // Components
 import BottomButton from '../../../../Components/Common/bottomButton';
+import StylingTime from '../../../../Components/Reservation/stylingTime';
 
 // API
 import MatchingAPI from '../../../../Api/matching';
@@ -28,6 +29,7 @@ import { deleteMatching } from '../../../../Contexts/Customer/Matching/action';
 
 function ReservationScreen({ navigation }) {
   const { data: matching } = useSelector((state) => state.customerMatching);
+  const [now, setNow] = useState(new Date());
   const [styleMenu, setStyleMenu] = useState(null);
   const dispatch = useDispatch();
   const removeMatching = async () => {
@@ -55,7 +57,7 @@ function ReservationScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={{ padding: 20 }}>
-        <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+        <View>
           <View style={styles.titleBox}>
             <Text style={styles.title}>시술할 스타일 선택</Text>
           </View>
@@ -154,28 +156,14 @@ function ReservationScreen({ navigation }) {
               )}
             </View>
           </View>
+
+          <View style={{ marginTop: 20 }}></View>
           <View style={styles.titleBox}>
             <Text style={styles.title}>스타일링 시간 선택</Text>
           </View>
-          <View style={styles.tagBox}>
-            <View style={styles.timeTag}>
-              <Text style={{ color: '#8D8D8D' }}>10:30</Text>
-            </View>
-            <View style={styles.timeTag}>
-              <Text style={{ color: '#8D8D8D' }}>11:00</Text>
-            </View>
-            <View style={styles.timeTag}>
-              <Text style={{ color: '#8D8D8D' }}>11:30</Text>
-            </View>
-            <View style={styles.timeTag}>
-              <Text style={{ color: '#8D8D8D' }}>12:00</Text>
-            </View>
-            <View style={styles.timeTag}>
-              <Text style={{ color: '#8D8D8D' }}>12:30</Text>
-            </View>
-          </View>
+          <StylingTime navigation={navigation} />
           <View style={{ marginTop: 80 }}></View>
-        </ScrollView>
+        </View>
       </View>
       <BottomButton
         leftName="취소하기"

@@ -73,6 +73,65 @@ export const DISTANCE_CATEGORY = [
   { label: '5km 이내', value: '5', key: 3 },
 ];
 
+export const DATE_SKELETON = [
+  {
+    id: 0,
+    selected: false,
+  },
+  {
+    id: 1,
+    selected: false,
+  },
+  {
+    id: 2,
+    selected: false,
+  },
+  {
+    id: 3,
+    selected: false,
+  },
+  {
+    id: 4,
+    selected: false,
+  },
+  {
+    id: 5,
+    selected: false,
+  },
+  {
+    id: 6,
+    selected: false,
+  },
+  {
+    id: 7,
+    selected: false,
+  },
+  {
+    id: 8,
+    selected: false,
+  },
+  {
+    id: 9,
+    selected: false,
+  },
+  {
+    id: 10,
+    selected: false,
+  },
+  {
+    id: 11,
+    selected: false,
+  },
+  {
+    id: 12,
+    selected: false,
+  },
+  {
+    id: 13,
+    selected: false,
+  },
+];
+
 export const KEYWORDS = [
   {
     id: 0,
