@@ -1,28 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import BidiStorage from '../../../Lib/storage';
-import { STORAGE_KEY } from '../../../Lib/constant';
 
-function ContentLandingScreen({ navigation }) {
+function MatchingExistScreen({ navigation }) {
+  const designerHandler = async () => {
+    navigation.replace('MainTab', { screen: 'Bid' });
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={require('../../../../public/img/logo.png')}
-            resizeMode="center"
-          />
-        </View>
-      </View>
-      <View style={styles.header}>
-        <Text style={styles.title}>
-          <Text style={styles.boldTitle}>다양한 컨텐츠가</Text> 준비중이에요
-        </Text>
-        <View style={{ alignItems: 'center' }}>
-          <Text style={styles.title}>조금만 기다려주세요!</Text>
-        </View>
-      </View>
+      <Text style={styles.title}>
+        <Text style={styles.boldTitle}>BiDi AI 디자이너</Text>
+      </Text>
     </View>
   );
 }
@@ -36,15 +24,17 @@ const styles = StyleSheet.create({
   },
   content: {
     width: '100%',
-    height: '30%',
+    height: '50%',
   },
   imageContainer: {
     flexWrap: 'wrap',
     alignContent: 'flex-start',
     width: '100%',
+    height: '100%',
   },
   image: {
-    width: '100%',
+    width: '85%',
+    height: '100%',
   },
   header: {
     width: '100%',
@@ -92,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ContentLandingScreen;
+export default MatchingExistScreen;

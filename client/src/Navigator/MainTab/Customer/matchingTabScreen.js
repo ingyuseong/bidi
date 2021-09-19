@@ -18,18 +18,14 @@ import SelectAfterImageScreen from '../../../Screen/02_SecondTab/Customer/wait/s
 import SelectFromAlbumScreen from '../../../Screen/02_SecondTab/Customer/wait/selectAfterImage/selectFromAlbumScreen';
 import SelectFromBidiScreen from '../../../Screen/02_SecondTab/Customer/wait/selectAfterImage/selectFromBidiScreen';
 import SelectFromScrapScreen from '../../../Screen/02_SecondTab/Customer/wait/selectAfterImage/selectFromScrapScreen';
+import StyleSelectScreen from '../../../Screen/02_SecondTab/Customer/matching/styleSelectScreen';
 
 const matchingStack = createStackNavigator();
 function MatchingStackScreen() {
   return (
     <Stack.Navigator>
       <matchingStack.Screen name="Main" component={MainScreen} options={CommonHeader} />
-      <matchingStack.Screen name="Matching" component={ReservationScreen} options={CommonHeader} />
-      <matchingStack.Screen
-        name="Reserved"
-        component={ReservedMatchingScreen}
-        options={CommonHeader}
-      />
+
       {/* Wait Screen */}
       <matchingStack.Screen name="Wait" component={WaitMainScreen} options={CommonHeader} />
       <matchingStack.Screen name="MyProposal" component={MyProposalScreen} options={CommonHeader} />
@@ -66,6 +62,19 @@ function MatchingStackScreen() {
       />
 
       {/* Matching Screen */}
+      <matchingStack.Screen name="Matching" component={ReservationScreen} options={CommonHeader} />
+      <matchingStack.Screen
+        name="StyleSelect"
+        component={StyleSelectScreen}
+        options={CommonHeader}
+      />
+
+      {/* Reserved Screen */}
+      <matchingStack.Screen
+        name="Reserved"
+        component={ReservedMatchingScreen}
+        options={CommonHeader}
+      />
     </Stack.Navigator>
   );
 }

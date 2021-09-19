@@ -11,13 +11,25 @@ const modelAttributes = {
   designer_id: {
     type: DataTypes.INTEGER,
   },
-  start_time: {
-    type: DataTypes.FLOAT,
+  mon: {
+    type: DataTypes.STRING,
   },
-  end_time: {
-    type: DataTypes.FLOAT,
+  tue: {
+    type: DataTypes.STRING,
   },
-  holiday_array: {
+  wed: {
+    type: DataTypes.STRING,
+  },
+  thu: {
+    type: DataTypes.STRING,
+  },
+  fri: {
+    type: DataTypes.STRING,
+  },
+  sat: {
+    type: DataTypes.STRING,
+  },
+  sun: {
     type: DataTypes.STRING,
   },
   created_at: {

@@ -10,6 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { objectNullChecking } from '../../../../Lib/utils';
 
 // Components
 import BottomButton from '../../../../Components/Common/bottomButton';
@@ -22,7 +23,7 @@ import { deleteMatching } from '../../../../Contexts/Customer/Matching/action';
 
 function ReservationScreen({ navigation }) {
   const { data: matching } = useSelector((state) => state.customerMatching);
-  const [styleUri, setStyleUrl] = useState('none');
+  const [styleMenu, setStyleMenu] = useState(null);
   const dispatch = useDispatch();
   const removeMatching = async () => {
     const response = await MatchingAPI.deleteMatching(matching[0].id);
@@ -40,63 +41,45 @@ function ReservationScreen({ navigation }) {
       { text: '취소하기', onPress: removeMatching },
     ]);
   };
+  const styleSelectHandler = async (e) => {
+    setStyleMenu(null);
+    navigation.push('StyleSelect', {
+      setStyleMenu: setStyleMenu,
+    });
+  };
   return (
     <View style={styles.container}>
       <View style={{ padding: 20 }}>
         <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
           <View style={styles.titleBox}>
-            <Text style={styles.title}>스타일 선택</Text>
+            <Text style={styles.title}>시술할 스타일 선택</Text>
           </View>
           <View style={styles.imageContainer}>
             <View style={styles.imageBox}>
-              {styleUri == 'none' ? (
-                <View style={styles.image}>
-                  <TouchableOpacity activeOpacity={0.8}>
-                    <Text style={styles.imageLabel}>스타일 선택하기</Text>
-                  </TouchableOpacity>
-                </View>
-              ) : (
-                <TouchableOpacity activeOpacity={0.8} style={styles.imageAfter}>
+              {styleMenu ? (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={styles.imageAfter}
+                  onPress={styleSelectHandler}>
                   <Image
                     style={{ width: '100%', height: '100%' }}
                     source={{
-                      uri: styleUri,
+                      uri: styleMenu.front_img_src,
                     }}
                   />
                 </TouchableOpacity>
+              ) : (
+                <View style={styles.image}>
+                  <TouchableOpacity activeOpacity={0.8} onPress={styleSelectHandler}>
+                    <Text style={styles.imageLabel}>스타일 선택하기</Text>
+                  </TouchableOpacity>
+                </View>
               )}
-              <View style={{ ...styles.imageTypeLabel, backgroundColor: 'rgb(11,14,43)' }}>
+              <View style={styles.imageTypeLabel}>
                 <Text style={styles.imageTypeLabelText}>Style</Text>
               </View>
             </View>
           </View>
-          {/* <View style={styles.titleBox}>
-            <Text style={styles.title}>제안 키워드</Text>
-          </View>
-          <View style={styles.tagBox}>
-            {matching.proposal.keyword_array && matching.proposal.keyword_array.length > 0 ? (
-              matching.proposal.keyword_array.map((item, index) => (
-                <View style={styles.tag} key={index}>
-                  <Text style={{ color: '#8D8D8D', fontWeight: '600' }}>{item}</Text>
-                </View>
-              ))
-            ) : (
-              <View style={styles.tag}>
-                <Text style={{ color: '#8D8D8D' }}>키워드 없음</Text>
-              </View>
-            )}
-          </View>
-          <View style={styles.titleBox}>
-            <Text style={styles.title}>비드 키워드</Text>
-          </View>
-          <View style={styles.tagBox}>
-            <View style={styles.tag}>
-              <Text style={{ color: '#8D8D8D' }}>{matching.bid.length_type}</Text>
-            </View>
-            <View style={styles.tag}>
-              <Text style={{ color: '#8D8D8D' }}>{matching.bid.style_type}</Text>
-            </View>
-          </View> */}
           <View style={styles.titleBox}>
             <Text style={styles.title}>스타일링 시간 선택</Text>
           </View>
