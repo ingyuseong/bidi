@@ -5,11 +5,15 @@ exports.createBranding = async (body) => {
   const attr = {
     userId: body.user_id,
     title: body.title,
-    shop_name: body.shop_name,
-    address: body.address,
-    position: body.position,
     description: body.description,
     keyword_array: body.keyword_array,
+    shop_name: body.shop_name,
+    position: body.position,
+    address: body.address,
+    operation_time: body.operation_time,
+    break_time: body.break_time,
+    shop_number: body.shopNumber,
+    extra_info: body.extra_info,
   }
   const branding = await db.createBranding(attr)
   if (branding) {
