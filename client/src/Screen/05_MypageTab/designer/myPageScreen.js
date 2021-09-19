@@ -43,7 +43,7 @@ function MyPageScreen({ navigation }) {
             </TouchableOpacity>
           </View>
           <View style={styles.nickNameArea}>
-            <Text>일반 사용자</Text>
+            <Text>디자이너</Text>
           </View>
         </View>
       </View>

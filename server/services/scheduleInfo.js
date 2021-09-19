@@ -56,32 +56,29 @@ exports.findAllScheduleInfo = async () => {
 }
 exports.findOneScheduleInfoByDesignerId = async (id) => {
   let scheduleInfo = await db.findOneScheduleInfoByDesignerId(id)
+  const timeArray = (timeString) =>
+    timeString
+      ? timeString.split(',').map((time) => timeFormatting(Number(time)))
+      : []
+  const timeFormatting = (timefloat) => {
+    let remainder = (timefloat % 1).toFixed(2)
+    let minutes = remainder * 100 ? remainder * 100 : '00'
+    let hours = timefloat - remainder
+    return `${hours}:${minutes}`
+  }
   if (scheduleInfo) {
     scheduleInfo = {
       ...scheduleInfo.dataValues,
-      mon: scheduleInfo.dataValues.mon
-        ? scheduleInfo.dataValues.mon.split(',').map((time) => Number(time))
-        : [],
-      tue: scheduleInfo.dataValues.tue
-        ? scheduleInfo.dataValues.tue.split(',').map((time) => Number(time))
-        : [],
-      wed: scheduleInfo.dataValues.wed
-        ? scheduleInfo.dataValues.wed.split(',').map((time) => Number(time))
-        : [],
-      thu: scheduleInfo.dataValues.thu
-        ? scheduleInfo.dataValues.thu.split(',').map((time) => Number(time))
-        : [],
-      fri: scheduleInfo.dataValues.fri
-        ? scheduleInfo.dataValues.fri.split(',').map((time) => Number(time))
-        : [],
-      sat: scheduleInfo.dataValues.sat
-        ? scheduleInfo.dataValues.sat.split(',').map((time) => Number(time))
-        : [],
-      sun: scheduleInfo.dataValues.sun
-        ? scheduleInfo.dataValues.sun.split(',').map((time) => Number(time))
-        : [],
+      weeklySchedule: [
+        { date: '월', timeArray: timeArray(scheduleInfo.dataValues.mon) },
+        { date: '화', timeArray: timeArray(scheduleInfo.dataValues.tue) },
+        { date: '수', timeArray: timeArray(scheduleInfo.dataValues.wed) },
+        { date: '목', timeArray: timeArray(scheduleInfo.dataValues.thu) },
+        { date: '금', timeArray: timeArray(scheduleInfo.dataValues.fri) },
+        { date: '토', timeArray: timeArray(scheduleInfo.dataValues.sat) },
+        { date: '일', timeArray: timeArray(scheduleInfo.dataValues.sun) },
+      ],
     }
-    console.log(scheduleInfo)
     return scheduleInfo
   } else {
     return null

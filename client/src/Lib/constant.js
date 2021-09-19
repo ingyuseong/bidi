@@ -9,6 +9,39 @@ export const GENDER_TYPE = [
   { label: '여성', value: 'female', key: '14' },
 ];
 
+export const START_TIME_LIST = [
+  { label: '9:00', value: '9' },
+  { label: '9:30', value: '9.3' },
+  { label: '10:00', value: '10' },
+  { label: '10:30', value: '10.3' },
+  { label: '11:00', value: '11' },
+  { label: '11:30', value: '11.3' },
+  { label: '12:00', value: '12' },
+  { label: '12:30', value: '12.3' },
+  { label: '13:00', value: '13' },
+  { label: '13:30', value: '13.3' },
+  { label: '14:00', value: '14' },
+  { label: '14:30', value: '14.3' },
+];
+export const END_TIME_LIST = [
+  { label: '15:00', value: '15' },
+  { label: '15:30', value: '15.3' },
+  { label: '16:00', value: '16' },
+  { label: '16:30', value: '16.3' },
+  { label: '17:00', value: '17' },
+  { label: '17:30', value: '17.3' },
+  { label: '18:00', value: '18' },
+  { label: '18:30', value: '18.3' },
+  { label: '19:00', value: '19' },
+  { label: '19:30', value: '19.3' },
+  { label: '20:00', value: '20' },
+  { label: '20:30', value: '20.3' },
+  { label: '21:00', value: '21' },
+  { label: '21:30', value: '21.3' },
+  { label: '22:00', value: '22' },
+  { label: '22:30', value: '22.3' },
+];
+
 export const LENGTH_TYPE = [
   { label: '롱', value: 'long', key: '1' },
   { label: '미디엄', value: 'medium', key: '2' },

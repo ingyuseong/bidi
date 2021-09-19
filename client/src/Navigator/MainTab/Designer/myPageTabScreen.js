@@ -8,6 +8,7 @@ import DetailHeader from '../../../Components/HeaderBar/detailHeader';
 import MyPageScreen from '../../../Screen/05_MypageTab/designer/myPageScreen';
 import DetailMypageScreen from '../../../Screen/05_MypageTab/designer/detailMypageScreen';
 import ScheduleInfoScreen from '../../../Screen/05_MypageTab/designer/scheduleInfoScreen';
+import RegisterScheduleInfoScreen from '../../../Screen/05_MypageTab/designer/registerScheduleInfoScreen';
 
 const MypageStack = createStackNavigator();
 
@@ -24,6 +25,11 @@ function MyPageStackScreen() {
         name="ScheduleInfo"
         component={ScheduleInfoScreen}
         options={{ ...DetailHeader, title: '시술 스케줄 관리' }}
+      />
+      <MypageStack.Screen
+        name="RegisterScheduleInfo"
+        component={RegisterScheduleInfoScreen}
+        options={{ ...DetailHeader, title: '주간 시술 스케줄 등록' }}
       />
     </Stack.Navigator>
   );
