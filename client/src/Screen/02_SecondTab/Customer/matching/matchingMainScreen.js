@@ -10,7 +10,12 @@ import {
   Alert,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { objectNullChecking } from '../../../../Lib/utils';
+import {
+  priceFormating,
+  styleTypeFormatting,
+  lengthTypeFormatting,
+  genderTypeFormatting,
+} from '../../../../Lib/utils';
 
 // Components
 import BottomButton from '../../../../Components/Common/bottomButton';
@@ -54,49 +59,118 @@ function ReservationScreen({ navigation }) {
           <View style={styles.titleBox}>
             <Text style={styles.title}>시술할 스타일 선택</Text>
           </View>
-          <View style={styles.imageContainer}>
-            <View style={styles.imageBox}>
-              {styleMenu ? (
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={styles.imageAfter}
-                  onPress={styleSelectHandler}>
-                  <Image
-                    style={{ width: '100%', height: '100%' }}
-                    source={{
-                      uri: styleMenu.front_img_src,
-                    }}
-                  />
-                </TouchableOpacity>
-              ) : (
-                <View style={styles.image}>
-                  <TouchableOpacity activeOpacity={0.8} onPress={styleSelectHandler}>
-                    <Text style={styles.imageLabel}>스타일 선택하기</Text>
+          <View style={styles.styleContainer}>
+            <View style={styles.imageContainer}>
+              <View style={styles.imageBox}>
+                {styleMenu ? (
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    style={styles.imageAfter}
+                    onPress={styleSelectHandler}>
+                    <Image
+                      style={{ width: '100%', height: '100%' }}
+                      source={{
+                        uri: styleMenu.front_img_src,
+                      }}
+                    />
                   </TouchableOpacity>
+                ) : (
+                  <View style={styles.image}>
+                    <TouchableOpacity activeOpacity={0.8} onPress={styleSelectHandler}>
+                      <Text style={styles.imageLabel}>스타일 선택하기</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+                <View style={styles.imageTypeLabel}>
+                  <Text style={styles.imageTypeLabelText}>Style</Text>
+                </View>
+              </View>
+              {styleMenu ? (
+                <View style={styles.styleBox}>
+                  <View style={styles.tagBox}>
+                    <View style={styles.nameTag}>
+                      <Text style={{ color: '#8D8D8D', fontWeight: 'bold' }}>스타일</Text>
+                    </View>
+                    <View style={styles.tag}>
+                      <Text style={styles.tagText}>{styleMenu.title}</Text>
+                    </View>
+                  </View>
+                  <View style={styles.tagBox}>
+                    <View style={styles.nameTag}>
+                      <Text style={{ color: '#8D8D8D', fontWeight: 'bold' }}>타입</Text>
+                    </View>
+                    <View style={styles.tag}>
+                      <Text style={styles.tagText}>
+                        {styleTypeFormatting(styleMenu.style_type)}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={styles.tagBox}>
+                    <View style={styles.nameTag}>
+                      <Text style={{ color: '#8D8D8D', fontWeight: 'bold' }}>길이</Text>
+                    </View>
+                    <View style={styles.tag}>
+                      <Text style={styles.tagText}>
+                        {lengthTypeFormatting(styleMenu.length_type)}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={styles.tagBox}>
+                    <View style={styles.nameTag}>
+                      <Text style={{ color: '#8D8D8D', fontWeight: 'bold' }}>성별</Text>
+                    </View>
+                    <View style={styles.tag}>
+                      <Text style={styles.tagText}>
+                        {genderTypeFormatting(styleMenu.gender_type)}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={{ ...styles.tagBox, marginTop: 20 }}>
+                    <View style={styles.priceTag}>
+                      <Text style={{ fontSize: 18, fontWeight: 'bold' }}>금액</Text>
+                    </View>
+                    <View style={styles.priceTag}>
+                      <Text style={{ fontSize: 18, fontWeight: 'bold', marginLeft: 8 }}>
+                        {priceFormating(styleMenu.price)} 원
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+              ) : (
+                <View style={styles.styleBox}>
+                  <View style={{ height: 120, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text style={{ color: '#8D8D8D' }}>스타일을 선택하면</Text>
+                    <Text style={{ color: '#8D8D8D' }}>세부정보가 표시됩니다</Text>
+                  </View>
+                  <View style={{ ...styles.tagBox, marginTop: 20 }}>
+                    <View style={styles.priceTag}>
+                      <Text style={{ fontSize: 18, fontWeight: 'bold' }}>금액</Text>
+                    </View>
+                    <View style={styles.priceTag}>
+                      <Text style={{ color: '#8D8D8D' }}>0 원</Text>
+                    </View>
+                  </View>
                 </View>
               )}
-              <View style={styles.imageTypeLabel}>
-                <Text style={styles.imageTypeLabelText}>Style</Text>
-              </View>
             </View>
           </View>
           <View style={styles.titleBox}>
             <Text style={styles.title}>스타일링 시간 선택</Text>
           </View>
           <View style={styles.tagBox}>
-            <View style={styles.tag}>
+            <View style={styles.timeTag}>
               <Text style={{ color: '#8D8D8D' }}>10:30</Text>
             </View>
-            <View style={styles.tag}>
+            <View style={styles.timeTag}>
               <Text style={{ color: '#8D8D8D' }}>11:00</Text>
             </View>
-            <View style={styles.tag}>
+            <View style={styles.timeTag}>
               <Text style={{ color: '#8D8D8D' }}>11:30</Text>
             </View>
-            <View style={styles.tag}>
+            <View style={styles.timeTag}>
               <Text style={{ color: '#8D8D8D' }}>12:00</Text>
             </View>
-            <View style={styles.tag}>
+            <View style={styles.timeTag}>
               <Text style={{ color: '#8D8D8D' }}>12:30</Text>
             </View>
           </View>
@@ -174,6 +248,12 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#ffffff',
   },
+  styleBox: {
+    flexDirection: 'column',
+    height: '100%',
+    width: '50%',
+    marginTop: 10,
+  },
   descriptionBox: {
     width: '100%',
     alignItems: 'center',
@@ -187,17 +267,45 @@ const styles = StyleSheet.create({
   },
   tagBox: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     marginLeft: 10,
   },
+  nameTag: {
+    marginTop: 10,
+    marginRight: 10,
+    width: 45,
+    height: 25,
+    justifyContent: 'center',
+  },
   tag: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    backgroundColor: '#FF533A',
+    borderRadius: 2,
+    marginTop: 10,
+    marginLeft: 12,
+    height: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tagText: {
+    fontSize: 13,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  priceTag: {
+    marginRight: 25,
+    height: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  timeTag: {
     paddingLeft: 10,
     paddingRight: 10,
     backgroundColor: '#EEEEEE',
     borderRadius: 2,
     marginTop: 10,
     marginRight: 10,
-    height: 30,
+    height: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },

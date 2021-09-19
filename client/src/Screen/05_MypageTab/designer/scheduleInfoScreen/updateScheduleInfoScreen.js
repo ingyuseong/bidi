@@ -291,7 +291,7 @@ function RegisterScheduleInfoScreen({ navigation, route }) {
           <Text style={{ ...styles.buttonText, color: '#8D8D8D' }}>초기화하기</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={updateAlert}>
-          <Text style={styles.buttonText}>설정하기</Text>
+          <Text style={styles.buttonText}>업데이트</Text>
         </TouchableOpacity>
       </View>
     </View>
