@@ -1,13 +1,7 @@
 import React, { useState, useEffect, createRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 import { Text, TextInput, View, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-
 import Loading from '../../../Components/Common/loading';
-
 // API
 import ScheduleInfoAPI from '../../../Api/scheduleInfo';
 
@@ -15,34 +9,39 @@ function ScheduleInfoScreen({ navigation }) {
   const dispatch = useDispatch();
   const { data: user } = useSelector((state) => state.user);
   const [scheduleInfo, setScheduleInfo] = useState();
+  const timeFormatting = (timefloat) => {
+    let remainder = (Number(timefloat) % 1).toFixed(2);
+    let minutes = remainder * 100 ? remainder * 100 : '00';
+    let hours = timefloat - remainder;
+    return `${hours}:${minutes}`;
+  };
   useEffect(() => {
     async function fetchMode() {
       const scheduleInfo = await ScheduleInfoAPI.getScheduleInfoByDesignerId(user.id);
-      if (scheduleInfo && scheduleInfo.length > 0) {
-        setScheduleInfo(scheduleInfo[0]);
-      }
+      await setScheduleInfo(scheduleInfo);
     }
     fetchMode();
   }, []);
+  if (!scheduleInfo) return <Loading />;
   return (
     <View style={styles.container}>
       <View style={styles.textBox}>
         <Text style={styles.title}>주간 시술 스케줄 관리하기</Text>
       </View>
-      {scheduleInfo ? (
-        scheduleInfo.weeklySchedule.map((item, index) => {
+      {scheduleInfo && scheduleInfo.length > 0 ? (
+        scheduleInfo[0].weeklySchedule.map((item, index) => {
           return (
             <View style={styles.tagBox} key={index}>
               <View style={styles.dayTag}>
                 <Text style={{ color: 'white' }}>{item.date}</Text>
               </View>
-              {item.timeArray && item.timeArray.length ? (
+              {item.timeArray && item.timeArray[0] ? (
                 <>
                   <View style={styles.tag}>
-                    <Text style={{ color: '#8D8D8D' }}>{item.timeArray[0]}</Text>
+                    <Text style={{ color: '#8D8D8D' }}>{timeFormatting(item.timeArray[0])}</Text>
                   </View>
                   <View style={styles.tag}>
-                    <Text style={{ color: '#8D8D8D' }}>{item.timeArray[1]}</Text>
+                    <Text style={{ color: '#8D8D8D' }}>{timeFormatting(item.timeArray[1])}</Text>
                   </View>
                 </>
               ) : (
@@ -63,7 +62,17 @@ function ScheduleInfoScreen({ navigation }) {
           </TouchableOpacity>
         </View>
       )}
-
+      {scheduleInfo && scheduleInfo.length > 0 && (
+        <View style={{ width: '90%', margin: 10, alignItems: 'flex-end' }}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              navigation.navigate('UpdateScheduleInfo', { scheduleInfo: scheduleInfo[0] })
+            }>
+            <Text style={styles.buttonText}>업데이트</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       <View style={styles.textBox}>
         <Text style={styles.title}>시간별 스케줄 직접 등록하기</Text>
       </View>
@@ -136,6 +145,27 @@ const styles = StyleSheet.create({
     backgroundColor: '#0A0A32',
   },
   scheduleRegisterButtonText: {
+    color: 'white',
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 80,
+    height: 35,
+    borderRadius: 55,
+    backgroundColor: '#0a0a32',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  buttonText: {
+    fontSize: 14,
+    fontWeight: '500',
     color: 'white',
   },
 });

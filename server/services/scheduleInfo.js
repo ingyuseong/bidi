@@ -57,15 +57,7 @@ exports.findAllScheduleInfo = async () => {
 exports.findOneScheduleInfoByDesignerId = async (id) => {
   let scheduleInfo = await db.findOneScheduleInfoByDesignerId(id)
   const timeArray = (timeString) =>
-    timeString
-      ? timeString.split(',').map((time) => timeFormatting(Number(time)))
-      : []
-  const timeFormatting = (timefloat) => {
-    let remainder = (timefloat % 1).toFixed(2)
-    let minutes = remainder * 100 ? remainder * 100 : '00'
-    let hours = timefloat - remainder
-    return `${hours}:${minutes}`
-  }
+    timeString ? timeString.split(',') : [null, null]
   if (scheduleInfo) {
     scheduleInfo = {
       ...scheduleInfo.dataValues,

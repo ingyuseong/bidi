@@ -8,7 +8,8 @@ import DetailHeader from '../../../Components/HeaderBar/detailHeader';
 import MyPageScreen from '../../../Screen/05_MypageTab/designer/myPageScreen';
 import DetailMypageScreen from '../../../Screen/05_MypageTab/designer/detailMypageScreen';
 import ScheduleInfoScreen from '../../../Screen/05_MypageTab/designer/scheduleInfoScreen';
-import RegisterScheduleInfoScreen from '../../../Screen/05_MypageTab/designer/registerScheduleInfoScreen';
+import RegisterScheduleInfoScreen from '../../../Screen/05_MypageTab/designer/scheduleInfoScreen/registerScheduleInfoScreen';
+import UpdateScheduleInfoScreen from '../../../Screen/05_MypageTab/designer/scheduleInfoScreen/updateScheduleInfoScreen';
 
 const MypageStack = createStackNavigator();
 
@@ -30,6 +31,11 @@ function MyPageStackScreen() {
         name="RegisterScheduleInfo"
         component={RegisterScheduleInfoScreen}
         options={{ ...DetailHeader, title: '주간 시술 스케줄 등록' }}
+      />
+      <MypageStack.Screen
+        name="UpdateScheduleInfo"
+        component={UpdateScheduleInfoScreen}
+        options={{ ...DetailHeader, title: '주간 시술 스케줄 업데이트' }}
       />
     </Stack.Navigator>
   );
