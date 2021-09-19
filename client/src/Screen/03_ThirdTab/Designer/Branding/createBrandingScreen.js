@@ -1,13 +1,26 @@
 import React, { useState, createRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Alert } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Alert,
+  Modal,
+  Button,
+} from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 import BrandingAPI from '../../../../Api/branding';
 
 import Line from '../../../../Components/Common/line';
 import Loading from '../../../../Components/Common/loading';
 import BrandingInput from '../../../../Components/Branding/brandingInput';
+import ShopAddressInput from '../../../../Components/Branding/shopAddressInput';
 import StyleMenuInput from '../../../../Components/Branding/styleMenuInput';
 import ExtraShopInfoInput from '../../../../Components/Branding/extraShopInfoInput';
 import { getBrandingListByDesignerId } from '../../../../Contexts/Designer/Branding';
@@ -16,16 +29,23 @@ function CreateBrandingScreen({ navigation, route }) {
   const { data: userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const [shopName, setShopName] = useState('');
-  const [shopAddress, setShopAddress] = useState('');
-  const [position, setPosition] = useState('');
   const [brandingName, setBrandingName] = useState('');
   const [description, setDesciption] = useState('');
   const [tagText, setTagText] = useState('');
   const [styleTags, setStyleTags] = useState([]);
   const [styleMenuList, setStyleMenuList] = useState([]);
+  const [shopName, setShopName] = useState('');
+  const [position, setPosition] = useState('');
+  const [shopAddress, setShopAddress] = useState({});
+  const [shopOperationTime, setShopOperationTime] = useState('');
+  const [shopBreakTime, setShopBreakTime] = useState('');
+  const [shopNumber, setShopNumber] = useState('');
   const [shopExtraInfoList, setShopExtraInfoList] = useState([]);
+  const [shopAutoSaveSelected, setShopAutoSaveSelected] = useState(null);
 
+  const checkHandler = () => {
+    setShopAutoSaveSelected(!shopAutoSaveSelected);
+  };
   const addStyleTags = () => {
     if (styleTags.length > 2) {
       setTagText('');
@@ -40,40 +60,46 @@ function CreateBrandingScreen({ navigation, route }) {
   };
 
   const registerHandler = async () => {
-    if (!shopName) {
-      return Alert.alert('헤어샵명을 입력해주세요!');
-    }
-    if (!shopAddress) {
-      return Alert.alert('헤어샵 위치를 입력해주세요!');
-    }
-    if (!position) {
-      return Alert.alert('헤어샵명을 입력해주세요!');
-    }
+    const styleIdList = styleMenuList.map((style) => style.id);
+    const extraInfoList = shopExtraInfoList.map((item) => item.value);
     if (!brandingName) {
       return Alert.alert('포트폴리오 이름을 입력해주세요!');
     }
     if (!description) {
       return Alert.alert('상세 설명을 입력해주세요!');
     }
+    if (!shopName) {
+      return Alert.alert('헤어샵명을 입력해주세요!');
+    }
+    if (!shopAddress) {
+      return Alert.alert('헤어샵 위치를 입력해주세요!');
+    }
+    if (!styleIdList.length) {
+      return Alert.alert('스타일을 하나 이상 등록해주세요!');
+    }
     const response = BrandingAPI.registerBranding({
       user_id: userInfo.id,
-      description: description,
-      shop_name: shopName,
-      address: shopAddress,
-      position: position,
       title: brandingName,
+      description: description,
       keyword_array: styleTags.toString(),
+      styleIdList: styleIdList,
+      shop_name: shopName,
+      position: position,
+      operation_time: shopOperationTime,
+      break_time: shopBreakTime,
+      shopNumber: shopNumber,
+      address: shopAddress.address,
+      extra_info: extraInfoList,
       main: 0,
       authentication: 0,
-      styleIdList: [1, 2],
     });
-    if (response) {
-      await dispatch(getBrandingListByDesignerId(userInfo.id));
-      navigation.push('BrandingMain');
-      Alert.alert('포트폴리오 작성이 성공적으로 완료되었습니다!');
-    } else {
-      Alert.alert('Error');
-    }
+    // if (response) {
+    //   await dispatch(getBrandingListByDesignerId(userInfo.id));
+    //   navigation.push('BrandingMain');
+    //   Alert.alert('포트폴리오 작성이 성공적으로 완료되었습니다!');
+    // } else {
+    //   Alert.alert('Error');
+    // }
   };
 
   return (
@@ -134,34 +160,53 @@ function CreateBrandingScreen({ navigation, route }) {
         placeholderColor="#878787"
       />
       <BrandingInput
-        title="영업시간"
-        value={shopName}
-        setValue={setShopName}
-        placeholderMessage="헤어샵의 영업시간을 입력해주세요"
+        title="운영 시간"
+        value={shopOperationTime}
+        setValue={setShopOperationTime}
+        placeholderMessage="운영시간을 입력해주세요"
         placeholderColor="#878787"
       />
-
+      <BrandingInput
+        title="휴무일"
+        value={shopBreakTime}
+        setValue={setShopBreakTime}
+        placeholderMessage="휴무일을 입력해주세요"
+        placeholderColor="#878787"
+      />
       <BrandingInput
         title="연락처"
-        value={shopName}
-        setValue={setShopName}
+        value={shopNumber}
+        setValue={setShopNumber}
         placeholderMessage="헤어샵의 연락처를 입력해주세요"
         placeholderColor="#878787"
       />
-      <BrandingInput
+      <ShopAddressInput
         title="헤어샵 위치"
-        value={shopAddress}
-        setValue={setShopAddress}
-        placeholderMessage="서울특별시 강남구"
-        placeholderColor="#878787"
+        shopAddress={shopAddress}
+        setShopAddress={setShopAddress}
+        navigation={navigation}
       />
-
       <ExtraShopInfoInput
         title="부가 정보"
         subTitle="복수 응답 가능"
         shopExtraInfoList={shopExtraInfoList}
         setShopExtraInfoList={setShopExtraInfoList}
       />
+      <View style={styles.inputBox}>
+        <View style={styles.titleTextArea}>
+          <Text style={styles.titleText}>헤어샵 정보를 저장하시겠습니까?</Text>
+        </View>
+        {shopAutoSaveSelected ? (
+          <TouchableOpacity style={styles.checkedIconArea} onPress={() => checkHandler()}>
+            <AntDesign name="check" size={25} style={styles.checkIcon} />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={styles.checkIconArea} onPress={() => checkHandler()}>
+            <AntDesign name="check" size={25} style={styles.checkIcon} />
+          </TouchableOpacity>
+        )}
+      </View>
+
       <TouchableOpacity style={styles.registerBtnArea} onPress={registerHandler}>
         <Text style={styles.registerBtnText}>저장하기</Text>
       </TouchableOpacity>
@@ -171,7 +216,24 @@ function CreateBrandingScreen({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-
+  inputBox: {
+    margin: 16,
+    marginBottom: 32,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  titleText: {
+    color: '#111111',
+    fontWeight: 'bold',
+    lineHeight: 20,
+    letterSpacing: -0.5,
+    fontSize: 17,
+  },
+  titleTextArea: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   registerBtnArea: {
     justifyContent: 'center',
     height: 65,
@@ -197,6 +259,24 @@ const styles = StyleSheet.create({
   },
   maxLengthText: {
     color: 'red',
+  },
+  checkIconArea: {
+    backgroundColor: 'gray',
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkedIconArea: {
+    backgroundColor: '#0A0A32',
+    width: 30,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkIcon: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
   },
 });
 

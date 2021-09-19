@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
 
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Modal from 'react-native-modal';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import Loading from '../../../../Components/Common/loading';
 import StyleModal from '../../../../Components/Branding/styleModal';
