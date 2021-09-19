@@ -7,7 +7,6 @@ function ShopAddressInput({ navigation, title, shopAddress, setShopAddress }) {
   const findAddressHandler = () => {
     navigation.push('FindAddress', { shopAddress, setShopAddress });
   };
-  console.log('@@@', shopAddress);
   return (
     <View style={styles.inputBox}>
       <View style={styles.titleTextArea}>

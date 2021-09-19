@@ -22,6 +22,7 @@ import CardStyle from '../../../../Components/Card/cardStyle';
 import DesignerInfo from '../../../../Components/Branding/designerInfo';
 import DesignerStyle from '../../../../Components/Branding/designerStyle';
 import DesignerHistory from '../../../../Components/Branding/designerHistory';
+import DesignerHairShopInfo from '../../../../Components/Branding/designerHairShopInfo';
 
 function BrandingScreen({ navigation, route }) {
   const dispatch = useDispatch();
@@ -44,11 +45,6 @@ function BrandingScreen({ navigation, route }) {
   const [brandingTypeItems, setBrandingTypeItems] = useState(BRANDING_ITEMS);
 
   const info = loading || !brandingList ? {} : brandingList[brandingTypeValue];
-
-  const tabHandler = () => {
-    const nextTab = tab == 'tab1' ? 'tab2' : 'tab1';
-    setTab(nextTab);
-  };
 
   const registerAlert = () => {
     Alert.alert('대표 포트폴리오로 등록하시겠습니까?', '', [
@@ -181,16 +177,21 @@ function BrandingScreen({ navigation, route }) {
         <ScrollView>
           <View style={styles.headerContainer}>
             <View style={[styles.tab, tab == 'tab1' && styles.active]}>
-              <TouchableOpacity onPress={tabHandler}>
+              <TouchableOpacity onPress={() => setTab('tab1')}>
                 <Text style={[styles.headerTitle, tab == 'tab1' && styles.active]}>
                   대표 스타일
                 </Text>
               </TouchableOpacity>
             </View>
             <View style={[styles.tab, tab == 'tab2' && styles.active]}>
-              <TouchableOpacity onPress={tabHandler}>
-                <Text style={[styles.headerTitle, tab == 'tab2' && styles.active]}>
-                  매칭 히스토리
+              <TouchableOpacity onPress={() => setTab('tab2')}>
+                <Text style={[styles.headerTitle, tab == 'tab2' && styles.active]}>매칭 내역</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={[styles.tab, tab == 'tab3' && styles.active]}>
+              <TouchableOpacity onPress={() => setTab('tab3')}>
+                <Text style={[styles.headerTitle, tab == 'tab3' && styles.active]}>
+                  헤어샵 정보
                 </Text>
               </TouchableOpacity>
             </View>
@@ -199,8 +200,10 @@ function BrandingScreen({ navigation, route }) {
           <View style={styles.contentContainer}>
             {tab == 'tab1' ? (
               <DesignerStyle navigation={navigation} branding={brandingList[0]} isUser={false} />
-            ) : (
+            ) : tab == 'tab2' ? (
               <DesignerHistory branding={info} isUser={false} />
+            ) : (
+              <DesignerHairShopInfo />
             )}
           </View>
           <View style={styles.bottomBox}>
@@ -331,6 +334,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     margin: 20,
     marginBottom: 0,
+    justifyContent: 'space-between',
   },
   tabLine: {
     borderBottomWidth: 1,
@@ -340,7 +344,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   tab: {
-    marginRight: 30,
+    paddingLeft: 8,
+    paddingRight: 8,
   },
   active: {
     fontWeight: 'bold',

@@ -89,17 +89,17 @@ function CreateBrandingScreen({ navigation, route }) {
       break_time: shopBreakTime,
       shopNumber: shopNumber,
       address: shopAddress.address,
-      extra_info: extraInfoList,
+      extra_info: extraInfoList.toString(),
       main: 0,
       authentication: 0,
     });
-    // if (response) {
-    //   await dispatch(getBrandingListByDesignerId(userInfo.id));
-    //   navigation.push('BrandingMain');
-    //   Alert.alert('포트폴리오 작성이 성공적으로 완료되었습니다!');
-    // } else {
-    //   Alert.alert('Error');
-    // }
+    if (response) {
+      await dispatch(getBrandingListByDesignerId(userInfo.id));
+      navigation.push('BrandingMain');
+      Alert.alert('포트폴리오 작성이 성공적으로 완료되었습니다!');
+    } else {
+      Alert.alert('Error');
+    }
   };
 
   return (
