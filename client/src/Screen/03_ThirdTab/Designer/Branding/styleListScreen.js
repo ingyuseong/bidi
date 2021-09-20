@@ -52,32 +52,30 @@ function styleListScreen({ navigation, route }) {
       <ScrollView>
         <View style={styles.styleBox}>
           {styleList.map((styleItem, index) => (
-            <>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={styles.styleItem}
-                key={index}
-                onPress={() => detailStyleHandler(styleItem)}>
-                <Image
-                  style={styles.styleImg}
-                  source={{
-                    uri: styleItem.front_img_src,
-                  }}
-                />
-                {checkStyleList.some((checkedStyle) => checkedStyle.id == styleItem.id) ? (
-                  <TouchableOpacity
-                    style={styles.checkedIconArea}
-                    onPress={() => checkedHandler(styleItem)}>
-                    <AntDesign name="check" size={25} style={styles.checkIcon} />
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    style={styles.checkIconArea}
-                    onPress={() => checkHandler(styleItem)}>
-                    <AntDesign name="check" size={25} style={styles.checkIcon} />
-                  </TouchableOpacity>
-                )}
-              </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.styleItem}
+              key={index}
+              onPress={() => detailStyleHandler(styleItem)}>
+              <Image
+                style={styles.styleImg}
+                source={{
+                  uri: styleItem.front_img_src,
+                }}
+              />
+              {checkStyleList.some((checkedStyle) => checkedStyle.id == styleItem.id) ? (
+                <TouchableOpacity
+                  style={styles.checkedIconArea}
+                  onPress={() => checkedHandler(styleItem)}>
+                  <AntDesign name="check" size={25} style={styles.checkIcon} />
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={styles.checkIconArea}
+                  onPress={() => checkHandler(styleItem)}>
+                  <AntDesign name="check" size={25} style={styles.checkIcon} />
+                </TouchableOpacity>
+              )}
               <Modal
                 animationType="slide"
                 transparent={true}
@@ -92,7 +90,7 @@ function styleListScreen({ navigation, route }) {
                   navigation={navigation}
                 />
               </Modal>
-            </>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>

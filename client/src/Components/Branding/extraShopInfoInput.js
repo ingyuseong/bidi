@@ -13,7 +13,7 @@ function ExtraShopInfoInput({ title, subTitle, shopExtraInfoList, setShopExtraIn
     });
     setShopExtraInfoList(filteredList);
   };
-
+  console.log(shopExtraInfoList);
   return (
     <View style={styles.inputBox}>
       <View style={styles.titleTextArea}>
