@@ -28,10 +28,10 @@ function DesignerInfo({ info, navigation }) {
           </View>
           <View style={styles.shopInfo}>
             <Text style={styles.shopName}>
-              @ {info.shopName || info.shop_name || info.address || info.user.address}
+              @ {info.shop_name || info.address || info.user.address}
             </Text>
             <Ionicons name="location-outline" size={15} />
-            <Text style={styles.shopDistance}>{info.address}</Text>
+            <Text style={styles.shopDistance}>{info.position}</Text>
           </View>
         </View>
       </View>

@@ -71,7 +71,7 @@ function CreateBrandingScreen({ navigation, route }) {
     if (!shopName) {
       return Alert.alert('헤어샵명을 입력해주세요!');
     }
-    if (!shopAddress) {
+    if (!shopAddress.address) {
       return Alert.alert('헤어샵 위치를 입력해주세요!');
     }
     if (!styleIdList.length) {
@@ -88,7 +88,7 @@ function CreateBrandingScreen({ navigation, route }) {
       operation_time: shopOperationTime,
       break_time: shopBreakTime,
       shopNumber: shopNumber,
-      address: shopAddress.address,
+      address: shopAddress.address + ' ' + shopAddress.detailAddress,
       extra_info: extraInfoList.toString(),
       main: 0,
       authentication: 0,

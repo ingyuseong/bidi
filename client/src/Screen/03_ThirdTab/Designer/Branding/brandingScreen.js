@@ -203,7 +203,7 @@ function BrandingScreen({ navigation, route }) {
             ) : tab == 'tab2' ? (
               <DesignerHistory branding={info} isUser={false} />
             ) : (
-              <DesignerHairShopInfo />
+              <DesignerHairShopInfo branding={info} />
             )}
           </View>
           <View style={styles.bottomBox}>

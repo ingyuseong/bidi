@@ -10,8 +10,12 @@ function FindAddressScreen({ navigation, route }) {
       style={styles.container}
       jsOptions={{ animation: true, hideMapBtn: true }}
       onSelected={(data) => {
-        console.log(data);
-        setShopAddress({ ...shopAddress, zoneCode: data.zonecode, address: data.address });
+        setShopAddress({
+          ...shopAddress,
+          zoneCode: data.zonecode,
+          address: data.address,
+          detailAddress: '',
+        });
         navigation.navigate('CreateBranding');
       }}
     />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 
 import { objectNullChecking } from '../../Lib/utils';
 
@@ -23,9 +23,22 @@ function ShopAddressInput({ navigation, title, shopAddress, setShopAddress }) {
         </View>
       </TouchableOpacity>
       {objectNullChecking(shopAddress) && (
-        <View style={styles.addressArea}>
-          <Text style={styles.addressText}>{shopAddress.address}</Text>
-        </View>
+        <>
+          <View style={styles.addressArea}>
+            <Text style={styles.addressText}>{shopAddress.address}</Text>
+          </View>
+          <TextInput
+            style={styles.inputArea}
+            value={shopAddress.detailAddress}
+            onChangeText={(text) => setShopAddress({ ...shopAddress, detailAddress: text })}
+            placeholder="상세 주소를 입력해주세요"
+            placeholderTextColor="#878787"
+            autoCapitalize="sentences"
+            autoCorrect
+            maxLength={20}
+            returnKeyType="search"
+          />
+        </>
       )}
     </View>
   );
@@ -34,6 +47,14 @@ function ShopAddressInput({ navigation, title, shopAddress, setShopAddress }) {
 const styles = StyleSheet.create({
   inputBox: {
     margin: 16,
+  },
+  inputArea: {
+    borderWidth: 1,
+    borderColor: '#DBDBDB',
+    borderRadius: 3,
+    padding: 16,
+    paddingTop: 16,
+    marginTop: 8,
   },
   titleText: {
     color: '#111111',
