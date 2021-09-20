@@ -309,6 +309,7 @@ function CreateProposalScreen({ navigation }) {
         leftRatio={40}
         leftHandler={initializeHandler}
         rightHandler={submitAlert}
+        notBottomRadius={true}
       />
     </ScrollView>
   );

@@ -147,8 +147,8 @@ function ReservationScreen({ navigation }) {
                     <View style={styles.priceTag}>
                       <Text style={{ fontSize: 18, fontWeight: 'bold' }}>금액</Text>
                     </View>
-                    <View style={styles.priceTag}>
-                      <Text style={{ fontSize: 18, fontWeight: 'bold', marginLeft: 8 }}>
+                    <View style={styles.priceTagActive}>
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>
                         {priceFormating(styleMenu.price)} 원
                       </Text>
                     </View>
@@ -178,23 +178,11 @@ function ReservationScreen({ navigation }) {
             <Text style={styles.title}>스타일링 시간 선택</Text>
           </View>
           <StylingTime navigation={navigation} setStyleTime={setStyleTime} styleTime={styleTime} />
-          {/* <View style={styles.timeBox}>
-            <View style={{ width: '50%' }}></View>
-            <View style={{ flexDirection: 'row' }}>
-              <View style={styles.priceTag}>
-                <Text style={styles.timeText}>시간</Text>
-              </View>
-              <View style={styles.priceTag}>
-                {styleTime ? (
-                  <Text style={styles.timeLabel}>{styleTime}</Text>
-                ) : (
-                  <Text style={{ color: '#8D8D8D' }}>선택해 주세요!</Text>
-                )}
-              </View>
-            </View>
-          </View> */}
-          <View style={{ marginTop: 80 }}></View>
         </View>
+      </View>
+      <View style={{ width: '100%', height: 80, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ color: '#8D8D8D' }}>예약을 완료하면</Text>
+        <Text style={{ color: '#8D8D8D' }}>디자이너와의 DM이 개설됩니다!</Text>
       </View>
       <BottomButton
         leftName="취소하기"
@@ -202,6 +190,7 @@ function ReservationScreen({ navigation }) {
         leftRatio={50}
         leftHandler={deleteAlert}
         rightHandler={submitAlert}
+        notBottomRadius={true}
       />
     </View>
   );
@@ -291,7 +280,7 @@ const styles = StyleSheet.create({
   },
   nameTag: {
     marginTop: 10,
-    marginRight: 10,
+    marginRight: 5,
     width: 45,
     height: 25,
     justifyContent: 'center',
@@ -299,22 +288,30 @@ const styles = StyleSheet.create({
   tag: {
     paddingLeft: 10,
     paddingRight: 10,
-    backgroundColor: '#FF533A',
+    backgroundColor: '#e2e2e2',
     borderRadius: 2,
     marginTop: 10,
-    marginLeft: 12,
+    // marginLeft: 12,
     height: 25,
     alignItems: 'center',
     justifyContent: 'center',
   },
   tagText: {
     fontSize: 13,
-    color: 'white',
-    fontWeight: 'bold',
   },
   priceTag: {
-    marginRight: 25,
-    height: 20,
+    marginRight: 10,
+    height: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  priceTagActive: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginLeft: 10,
+    backgroundColor: '#FF533A',
+    borderRadius: 2,
+    height: 25,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -83,12 +83,23 @@ function StyleModal({ styleList, index, setModalVisible, deleteIcon }) {
               <Text style={styles.update}>{dateFormating(styleList[index].updated_at)}</Text>
             </View>
             <View style={styles.tagArea}>
-              <View style={styles.tag}>
+              {styleList[index].keyword_array.length ? (
+                styleList[index].keyword_array.map((keyword, index) => (
+                  <View style={styles.tag} key={index}>
+                    <Text style={{ color: '#8D8D8D' }}># {keyword}</Text>
+                  </View>
+                ))
+              ) : (
+                <View style={styles.tag}>
+                  <Text style={{ color: '#8D8D8D' }}># 키워드 없음</Text>
+                </View>
+              )}
+              {/* <View style={styles.tag}>
                 <Text style={{ color: '#8D8D8D' }}># 무난한 스타일</Text>
               </View>
               <View style={styles.tag}>
                 <Text style={{ color: '#8D8D8D' }}># 사진보다 더 이쁘게</Text>
-              </View>
+              </View> */}
             </View>
             <View style={styles.subtitleArea}>
               <Text style={styles.subtitleText}>{styleList[index].description}</Text>

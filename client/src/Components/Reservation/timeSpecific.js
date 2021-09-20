@@ -31,7 +31,6 @@ function TimeSpecific({ selectedDay, isClicked, isToday, setStyleTime, styleTime
     );
     if (isToday) {
       startTime = Math.max(new Date().getHours(), startTime);
-      startTime = 21;
     }
     if (startTime && endTime) {
       for (var i = startTime; i <= endTime; i += 0.5) {
@@ -43,7 +42,9 @@ function TimeSpecific({ selectedDay, isClicked, isToday, setStyleTime, styleTime
             }
             key={j}
             onPress={() => setStyleTime(j)}>
-            <Text style={styleTime == j && { color: 'white' }}>{timeFormating(i)}</Text>
+            <Text style={styleTime == j && { color: 'white', fontWeight: 'bold' }}>
+              {timeFormating(i)}
+            </Text>
           </TouchableOpacity>,
         );
       }

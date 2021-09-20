@@ -17,7 +17,7 @@ const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
     
     [ 3. PATCH Methods ]
     PATCH /api/matching/style/:id       : 매칭 스타일 정보 수정 API
-    PATCH /api/matching/reserved/:id     : 매칭 승인 정보 수정 API
+    PATCH /api/matching/reserved/:id    : 매칭 승인 정보 수정 API
     PATCH /api/matching/review/:id      : 매칭 리뷰 정보 수정 API
     PATCH /api/matching/star/:id        : 매칭 별점 정보 수정 API
     PATCH /api/matching/done/:id        : 매칭 종료 상태 수정 API
