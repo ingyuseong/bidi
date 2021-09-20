@@ -26,6 +26,9 @@ const modelAttributes = {
   style_id: {
     type: DataTypes.INTEGER,
   },
+  style_time: {
+    type: DataTypes.DATE,
+  },
   review: {
     type: DataTypes.STRING,
   },

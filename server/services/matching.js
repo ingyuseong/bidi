@@ -312,8 +312,13 @@ exports.updateMatchingStar = async (id, body) => {
   const matching = await db.updateMatchingStar(id, star)
   return matching
 }
-exports.updateMatchingReserved = async (id) => {
-  const matching = await db.updateMatchingReserved(id)
+exports.updateMatchingReservation = async (id, body) => {
+  const attr = {
+    reserved: true,
+    style_id: body.style_id,
+    style_time: body.style_time,
+  }
+  const matching = await db.updateMatchingReservation(id, attr)
   return matching
 }
 exports.updateMatchingDone = async (id) => {

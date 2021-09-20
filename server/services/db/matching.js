@@ -16,6 +16,7 @@ exports.createMatching = async (attr) => {
     raw: true,
     ...attr,
     style_id: null,
+    style_time: null,
     review: null,
     star: 0,
     reserved: false,
@@ -363,11 +364,11 @@ exports.updateMatchingStar = async (id, star) => {
   )
   return matching[0]
 }
-exports.updateMatchingReserved = async (id) => {
+exports.updateMatchingReservation = async (id, attr) => {
   const matching = await Matching.update(
     {
       raw: true,
-      reserved: true,
+      ...attr,
     },
     {
       where: {

@@ -189,10 +189,11 @@ exports.patchMatchingStar = async (req, res) => {
     })
   }
 }
-exports.patchMatchingReserved = async (req, res) => {
+exports.patchMatchingReservation = async (req, res) => {
   const { id } = req.params
+  const body = req.body
   const patchedMatchingReservedCount =
-    await matchingServices.updateMatchingReserved(id)
+    await matchingServices.updateMatchingReservation(id, body)
   if (patchedMatchingReservedCount) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',

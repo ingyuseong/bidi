@@ -52,11 +52,21 @@ function ReservationScreen({ navigation }) {
   const submitReservation = async () => {
     if (!styleMenu) {
       Alert.alert('스타일을 선택해 주세요!');
-    }
-    if (!styleTime) {
+    } else if (!styleTime) {
       Alert.alert('시간을 선택해 주세요!');
+    } else {
+      const body = {
+        style_id: styleMenu.id,
+        style_time: styleTime,
+      };
+      const matchingReservationCount = await MatchingAPI.patchMatchingReservation(
+        matching[0].id,
+        body,
+      );
+      if (matchingReservationCount) {
+        navigation.reset({ routes: [{ name: 'Main' }] });
+      }
     }
-    console.log(styleTime, styleMenu.id);
   };
   const submitAlert = () => {
     Alert.alert('정말 예약하시겠습니까?', '예약 이후에는 디자이너와의 DM으로만 취소 가능합니다', [
@@ -177,7 +187,7 @@ function ReservationScreen({ navigation }) {
           <View style={styles.titleBox}>
             <Text style={styles.title}>스타일링 시간 선택</Text>
           </View>
-          <StylingTime navigation={navigation} setStyleTime={setStyleTime} styleTime={styleTime} />
+          <StylingTime navigation={navigation} setStyleTime={setStyleTime} />
         </View>
       </View>
       <View style={{ width: '100%', height: 80, justifyContent: 'center', alignItems: 'center' }}>

@@ -13,8 +13,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { dayFormating } from '../../Lib/utils';
 import { DATE_SKELETON } from '../../Lib/constant';
 
-function TimeSpecific({ selectedDay, isClicked, isToday, setStyleTime, styleTime }) {
+function TimeSpecific({ setStyleTime, selectedDay, isClicked, isToday, year, month, date }) {
   const { data: matching } = useSelector((state) => state.customerMatching);
+  const [time, setTime] = useState(null);
   let timeLabel = [];
   const timeFormating = (timefloat) => {
     let remainder = (Number(timefloat) % 1).toFixed(2);
@@ -37,12 +38,14 @@ function TimeSpecific({ selectedDay, isClicked, isToday, setStyleTime, styleTime
         const j = i;
         timeLabel.push(
           <TouchableOpacity
-            style={
-              styleTime == j ? { ...styles.timeTag, backgroundColor: '#FF533A' } : styles.timeTag
-            }
+            style={time == j ? { ...styles.timeTag, backgroundColor: '#FF533A' } : styles.timeTag}
             key={j}
-            onPress={() => setStyleTime(j)}>
-            <Text style={styleTime == j && { color: 'white', fontWeight: 'bold' }}>
+            onPress={() => {
+              setTime(j);
+              const submitTime = new Date(year, month, date, Math.floor(j), (j % 1) * 60, 0);
+              setStyleTime(submitTime);
+            }}>
+            <Text style={time == j && { color: 'white', fontWeight: 'bold' }}>
               {timeFormating(i)}
             </Text>
           </TouchableOpacity>,

@@ -15,18 +15,26 @@ import { DATE_SKELETON } from '../../Lib/constant';
 
 import TimeSpecific from './timeSpecific';
 
-function StylingTime({ navigation, setStyleTime, styleTime }) {
+function StylingTime({ navigation, setStyleTime }) {
   const { data: matching } = useSelector((state) => state.customerMatching);
   const [selectedDate, setSelectedDate] = useState(DATE_SKELETON);
   const [selectedDay, setSelectedDay] = useState(0);
   const [isClicked, setIsClicked] = useState(false);
   const [isToday, setIsToday] = useState(false);
+
+  // 유저 예약 버튼 누를 시에 전송될 시간 정보 틀
+  const [year, setYear] = useState(null);
+  const [month, setMonth] = useState(null);
+  const [date, setDate] = useState(null);
   const selectDate = (id, year, month, date, day, index) => {
     setSelectedDate(
       selectedDate.map((item) =>
         item.id == id ? { ...item, selected: true } : { ...item, selected: false },
       ),
     );
+    setYear(year);
+    setMonth(month);
+    setDate(date);
     setSelectedDay(day);
     setIsClicked(true);
     if (!index) {
@@ -35,7 +43,6 @@ function StylingTime({ navigation, setStyleTime, styleTime }) {
     } else {
       setIsToday(false);
     }
-    setStyleTime(null);
   };
   const now = new Date();
   const timeTable = DATE_SKELETON.map((item, index) => {
@@ -83,11 +90,13 @@ function StylingTime({ navigation, setStyleTime, styleTime }) {
         <View style={styles.timeTableContainer}>{timeTable}</View>
       </ScrollView>
       <TimeSpecific
+        setStyleTime={setStyleTime}
         selectedDay={selectedDay}
         isClicked={isClicked}
         isToday={isToday}
-        setStyleTime={setStyleTime}
-        styleTime={styleTime}
+        year={year}
+        month={month}
+        date={date}
       />
     </View>
   );

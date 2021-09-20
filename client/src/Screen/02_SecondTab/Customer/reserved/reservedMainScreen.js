@@ -14,60 +14,9 @@ import {
 import ProposalUserInfo from '../../../../Components/Proposal/proposalUserInfo';
 
 function ReservedMatchingScreen({ navigation, matching }) {
-  const [imageToggle, setImageToggle] = useState(false);
   return (
     <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-        <View style={styles.content}>
-          {imageToggle ? (
-            <Image
-              style={styles.image}
-              source={{
-                uri: matching.proposal.after_src,
-              }}
-            />
-          ) : (
-            <Image
-              style={styles.image}
-              source={{
-                uri: matching.proposal.before_src,
-              }}
-            />
-          )}
-          <View style={styles.imageCover}>
-            <Text style={styles.imageCoverText}>매칭 중</Text>
-          </View>
-          <TouchableOpacity
-            style={
-              imageToggle
-                ? { ...styles.imageToggleButton, backgroundColor: '#0A0A32' }
-                : styles.imageToggleButton
-            }
-            activeOpacity={0.8}
-            onPress={() => setImageToggle(!imageToggle)}>
-            <Text style={styles.imageToggleText}>{imageToggle ? 'After' : 'Before'}</Text>
-          </TouchableOpacity>
-        </View>
-        <ProposalUserInfo proposal={matching.proposal} />
-        <View style={styles.descriptionBox}>
-          <Text style={styles.description}>
-            {matching.proposal.description != '' ? matching.proposal.description : '요구사항 없음'}
-          </Text>
-        </View>
-        <View style={styles.textBox}>
-          <Text style={styles.title}>금액 범위 설정</Text>
-        </View>
-        <View style={styles.dropdownBox}>
-          <TextInput
-            style={styles.locationInput}
-            underlineColorAndroid="transparent"
-            editable={false}
-            selectTextOnFocus={false}
-            value={String(matching.proposal.price_limit / 10000) + '만원 이내'}
-          />
-        </View>
-        <View style={{ marginTop: 30 }}></View>
-      </ScrollView>
+      <Text>Reserved</Text>
     </View>
   );
 }
