@@ -9,11 +9,11 @@ function ExtraShopInfoInput({ title, subTitle, shopExtraInfoList, setShopExtraIn
   };
   const checkedHandler = (item) => {
     const filteredList = shopExtraInfoList.filter((info) => {
-      return item.id !== info.id;
+      return item !== info;
     });
     setShopExtraInfoList(filteredList);
   };
-  console.log(shopExtraInfoList);
+
   return (
     <View style={styles.inputBox}>
       <View style={styles.titleTextArea}>
@@ -23,19 +23,19 @@ function ExtraShopInfoInput({ title, subTitle, shopExtraInfoList, setShopExtraIn
       <View style={styles.extraInfoArea}>
         {SHOP_EXTRA_INFO_LIST.map((item, index) => (
           <View key={index}>
-            {shopExtraInfoList.some((checkedItem) => checkedItem.id == item.id) ? (
+            {shopExtraInfoList.some((checkedItem) => checkedItem == item) ? (
               <TouchableOpacity
                 style={styles.checkedExtraInfoItem}
                 key={index}
                 onPress={() => checkedHandler(item)}>
-                <Text style={styles.checkedExtraInfoText}>{item.value}</Text>
+                <Text style={styles.checkedExtraInfoText}>{item}</Text>
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
                 style={styles.checkExtraInfoItem}
                 key={index}
                 onPress={() => checkHandler(item)}>
-                <Text style={styles.checkExtraInfoText}>{item.value}</Text>
+                <Text style={styles.checkExtraInfoText}>{item}</Text>
               </TouchableOpacity>
             )}
           </View>

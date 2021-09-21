@@ -3,9 +3,9 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-nativ
 
 import { objectNullChecking } from '../../Lib/utils';
 
-function ShopAddressInput({ navigation, title, shopAddress, setShopAddress }) {
+function ShopAddressInput({ navigation, title, shopAddress, setShopAddress, nextTo }) {
   const findAddressHandler = () => {
-    navigation.push('FindAddress', { shopAddress, setShopAddress });
+    navigation.push('FindAddress', { shopAddress, setShopAddress, nextTo });
   };
   return (
     <View style={styles.inputBox}>

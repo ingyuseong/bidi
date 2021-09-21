@@ -29,7 +29,7 @@ function EditBrandingScreen({ navigation, route }) {
   const { info } = route.params;
   const { data: userInfo } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  console.log(info);
+
   const [brandingName, setBrandingName] = useState(info.title);
   const [description, setDesciption] = useState(info.description);
   const [tagText, setTagText] = useState('');
@@ -56,9 +56,9 @@ function EditBrandingScreen({ navigation, route }) {
     setStyleTags(filteredStyleTags);
   };
 
-  const registerHandler = async () => {
+  const editHandler = async () => {
     const styleIdList = styleMenuList.map((style) => style.id);
-    const extraInfoList = shopExtraInfoList.map((item) => item.value);
+    const extraInfoList = shopExtraInfoList.map((item) => item);
     if (!brandingName) {
       return Alert.alert('포트폴리오 이름을 입력해주세요!');
     }
@@ -74,7 +74,7 @@ function EditBrandingScreen({ navigation, route }) {
     if (!styleIdList.length) {
       return Alert.alert('스타일을 하나 이상 등록해주세요!');
     }
-    const response = BrandingAPI.registerBranding({
+    const response = BrandingAPI.patchBranding(info.id, {
       user_id: userInfo.id,
       title: brandingName,
       description: description,
@@ -85,7 +85,7 @@ function EditBrandingScreen({ navigation, route }) {
       operation_time: shopOperationTime,
       break_time: shopBreakTime,
       shopNumber: shopNumber,
-      address: shopAddress.address + ' ' + shopAddress.detailAddress,
+      address: [shopAddress.zoneCode, shopAddress.address, shopAddress.detailAddress].toString(),
       extra_info: extraInfoList.toString(),
       main: 0,
       authentication: 0,
@@ -93,7 +93,7 @@ function EditBrandingScreen({ navigation, route }) {
     if (response) {
       await dispatch(getBrandingListByDesignerId(userInfo.id));
       navigation.push('BrandingMain');
-      Alert.alert('포트폴리오 작성이 성공적으로 완료되었습니다!');
+      Alert.alert('포트폴리오 수정이 성공적으로 완료되었습니다!');
     } else {
       Alert.alert('Error');
     }
@@ -140,6 +140,7 @@ function EditBrandingScreen({ navigation, route }) {
         navigation={navigation}
         styleMenuList={styleMenuList}
         setStyleMenuList={setStyleMenuList}
+        nextTo="EditBranding"
       />
       <Line />
       <BrandingInput
@@ -182,6 +183,7 @@ function EditBrandingScreen({ navigation, route }) {
         shopAddress={shopAddress}
         setShopAddress={setShopAddress}
         navigation={navigation}
+        nextTo="EditBranding"
       />
       <ExtraShopInfoInput
         title="부가 정보"
@@ -190,7 +192,7 @@ function EditBrandingScreen({ navigation, route }) {
         setShopExtraInfoList={setShopExtraInfoList}
       />
 
-      <TouchableOpacity style={styles.registerBtnArea} onPress={registerHandler}>
+      <TouchableOpacity style={styles.registerBtnArea} onPress={editHandler}>
         <Text style={styles.registerBtnText}>저장하기</Text>
       </TouchableOpacity>
     </ScrollView>

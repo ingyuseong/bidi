@@ -45,7 +45,6 @@ function BrandingScreen({ navigation, route }) {
   const [brandingTypeItems, setBrandingTypeItems] = useState(BRANDING_ITEMS);
 
   const info = loading || !brandingList ? {} : brandingList[brandingTypeValue];
-
   const registerAlert = () => {
     Alert.alert('대표 포트폴리오로 등록하시겠습니까?', '', [
       { text: '취소', style: 'cancel' },
@@ -103,6 +102,8 @@ function BrandingScreen({ navigation, route }) {
     if (response) {
       dispatch(deleteBranding(info.id));
       Alert.alert('삭제되었습니다!');
+      setBrandingTypeValue(0);
+
       navigation.reset({ routes: [{ name: 'BrandingMain' }] });
     }
   };

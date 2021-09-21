@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-function StyleMenuInput({ title, navigation, styleMenuList, setStyleMenuList }) {
+function StyleMenuInput({ title, navigation, styleMenuList, setStyleMenuList, nextTo }) {
   return (
     <View style={styles.inputBox}>
       <View style={styles.titleTextArea}>
@@ -24,7 +24,13 @@ function StyleMenuInput({ title, navigation, styleMenuList, setStyleMenuList }) 
         })}
         <TouchableOpacity
           style={[styles.styleArea, styles.addStyleArea]}
-          onPress={() => navigation.navigate('StyleList', { styleMenuList, setStyleMenuList })}>
+          onPress={() =>
+            navigation.navigate('StyleList', {
+              styleMenuList,
+              setStyleMenuList,
+              nextTo,
+            })
+          }>
           <Icon name="add" size={50} style={styles.addIcon} />
         </TouchableOpacity>
       </View>

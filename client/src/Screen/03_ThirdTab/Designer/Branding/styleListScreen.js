@@ -12,7 +12,7 @@ import { getStyleListByDesignerId } from '../../../../Contexts/Designer/Style';
 
 function styleListScreen({ navigation, route }) {
   const dispatch = useDispatch();
-  const { styleMenuList, setStyleMenuList } = route.params;
+  const { styleMenuList, setStyleMenuList, nextTo } = route.params;
   const { data: userInfo } = useSelector((state) => state.user);
   const { data: styleList, loading, error } = useSelector((state) => state.designerStyle);
   const [modalVisible, setModalVisible] = useState(false);
@@ -38,7 +38,7 @@ function styleListScreen({ navigation, route }) {
 
   const addHandler = () => {
     setStyleMenuList(checkStyleList);
-    navigation.navigate('CreateBranding');
+    navigation.navigate(nextTo);
   };
   if (loading || error || !styleList) {
     return <Loading />;

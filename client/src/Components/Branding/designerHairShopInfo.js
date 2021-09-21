@@ -28,17 +28,25 @@ function DesignerHairShopInfo({ branding }) {
         </View>
         <Text>{branding.break_time}</Text>
       </View>
-      <View style={styles.infoBox}>
+      <View style={[styles.extraInfoBox, styles.infoBox]}>
         <View style={styles.titleTextArea}>
           <Text style={styles.titleText}>부가정보</Text>
         </View>
-        <Text>{branding.extra_info}</Text>
+        <View style={styles.extraInfoArea}>
+          {branding.extra_info.map((item, index) => (
+            <View style={styles.checkExtraInfoItem} key={index}>
+              <Text style={styles.checkExtraInfoText}>{item}</Text>
+            </View>
+          ))}
+        </View>
       </View>
       <View style={styles.infoBox}>
         <View style={styles.titleTextArea}>
           <Text style={styles.titleText}>위치</Text>
         </View>
-        <Text>{branding.address}</Text>
+        <Text>
+          {branding.address.address} {branding.address.detailAddress}
+        </Text>
       </View>
     </View>
   );
@@ -66,6 +74,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 16,
     width: '20%',
+  },
+  checkExtraInfoItem: {
+    borderWidth: 1,
+    borderColor: '#DBDBDB',
+    borderRadius: 3,
+    marginRight: 8,
+    backgroundColor: '#DBDBDB',
+    padding: 8,
+    height: 35,
+    marginBottom: 8,
+  },
+  extraInfoBox: {
+    alignItems: 'center',
+  },
+  extraInfoArea: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    width: '80%',
+    marginTop: 8,
   },
 });
 

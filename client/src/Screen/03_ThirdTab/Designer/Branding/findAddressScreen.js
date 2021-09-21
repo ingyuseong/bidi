@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import Postcode from '@actbase/react-daum-postcode';
 
 function FindAddressScreen({ navigation, route }) {
-  const { shopAddress, setShopAddress } = route.params;
+  const { shopAddress, setShopAddress, nextTo } = route.params;
   return (
     <Postcode
       style={styles.container}
@@ -16,7 +16,7 @@ function FindAddressScreen({ navigation, route }) {
           address: data.address,
           detailAddress: '',
         });
-        navigation.navigate('CreateBranding');
+        navigation.navigate(nextTo);
       }}
     />
   );

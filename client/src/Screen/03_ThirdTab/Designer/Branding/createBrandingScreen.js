@@ -61,7 +61,7 @@ function CreateBrandingScreen({ navigation, route }) {
 
   const registerHandler = async () => {
     const styleIdList = styleMenuList.map((style) => style.id);
-    const extraInfoList = shopExtraInfoList.map((item) => item.value);
+    const extraInfoList = shopExtraInfoList.map((item) => item);
     if (!brandingName) {
       return Alert.alert('포트폴리오 이름을 입력해주세요!');
     }
@@ -95,8 +95,8 @@ function CreateBrandingScreen({ navigation, route }) {
     });
     if (response) {
       await dispatch(getBrandingListByDesignerId(userInfo.id));
-      navigation.push('BrandingMain');
       Alert.alert('포트폴리오 작성이 성공적으로 완료되었습니다!');
+      navigation.reset({ routes: [{ name: 'BrandingMain' }] });
     } else {
       Alert.alert('Error');
     }
@@ -143,6 +143,7 @@ function CreateBrandingScreen({ navigation, route }) {
         navigation={navigation}
         styleMenuList={styleMenuList}
         setStyleMenuList={setStyleMenuList}
+        nextTo="CreateBranding"
       />
       <Line />
       <BrandingInput
@@ -185,6 +186,7 @@ function CreateBrandingScreen({ navigation, route }) {
         shopAddress={shopAddress}
         setShopAddress={setShopAddress}
         navigation={navigation}
+        nextTo="CreateBranding"
       />
       <ExtraShopInfoInput
         title="부가 정보"
