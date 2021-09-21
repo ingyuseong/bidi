@@ -526,7 +526,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.bidi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.domainname.bidi;
 				PRODUCT_NAME = bidi;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "bidi-Bridging-Header.h";
@@ -562,7 +562,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.bidi;
+				PRODUCT_BUNDLE_IDENTIFIER = com.domainname.bidi;
 				PRODUCT_NAME = bidi;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "bidi-Bridging-Header.h";
