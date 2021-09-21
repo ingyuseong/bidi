@@ -60,10 +60,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#DBDBDB',
     borderRadius: 3,
+    padding: 16,
     paddingTop: 16,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingBottom: 16,
   },
   titleText: {
     color: '#111111',
@@ -97,7 +95,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 16,
-    marginBottom: 16,
   },
   styleTagText: {
     color: '#8D8D8D',

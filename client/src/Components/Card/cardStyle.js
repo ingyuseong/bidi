@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, Image, Text } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/AntDesign';
 

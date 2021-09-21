@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { StyleSheet, View, ScrollView, TouchableOpacity, Text } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import CardInfo from '../../../Components/Card/cardInfo';
-import CardStyle from '../../../Components/Card/cardStyle';
-import DesignerStyle from '../../../Components/Branding/designerStyle';
-import DesignerHistory from '../../../Components/Branding/designerHistory';
+
+import CardInfo from '../../../../Components/Card/cardInfo';
+import CardStyle from '../../../../Components/Card/cardStyle';
+import DesignerStyle from '../../../../Components/Branding/designerStyle';
+import DesignerHistory from '../../../../Components/Branding/designerHistory';
 
 function DetailBrandingScreen({ navigation, route }) {
   const { info } = route.params;

@@ -14,19 +14,31 @@ const modelAttributes = {
   title: {
     type: DataTypes.STRING,
   },
+  description: {
+    type: DataTypes.TEXT,
+  },
+  keyword_array: {
+    type: DataTypes.STRING,
+  },
   shop_name: {
     type: DataTypes.STRING,
   },
   position: {
     type: DataTypes.STRING,
   },
+  operation_time: {
+    type: DataTypes.STRING,
+  },
+  break_time: {
+    type: DataTypes.STRING,
+  },
+  shop_number: {
+    type: DataTypes.STRING,
+  },
   address: {
     type: DataTypes.STRING,
   },
-  description: {
-    type: DataTypes.TEXT,
-  },
-  keyword_array: {
+  extra_info: {
     type: DataTypes.STRING,
   },
 

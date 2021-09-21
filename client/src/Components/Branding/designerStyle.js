@@ -23,45 +23,19 @@ import StyleScrapAPI from '../../Api/styleScrap';
 function DesignerStyle({ navigation, branding, isUser }) {
   // state
   const { data: user } = useSelector((state) => state.user);
-  const {
-    data: styleScrapList,
-    loading,
-    error,
-  } = useSelector((state) => (isUser ? state.customerStyleScrap : state.designerStyleScrap));
+
   const [moreToggle, setMoreToggle] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [styleIndex, setStyleIndex] = useState(0);
 
   // functions
   const dispatch = useDispatch();
-  const registerScrap = async (style) => {
-    await StyleScrapAPI.registerStyleScrap({
-      user_id: user.id,
-      style_id: style.id,
-    });
-    dispatch(registerStyleScrap(style));
-  };
-  const deleteScrap = async (style) => {
-    await StyleScrapAPI.deleteStyleScrap({
-      user_id: user.id,
-      style_id: style.id,
-    });
-    dispatch(deleteStyleScrap(style.id));
-  };
+
   const modalOpen = (index) => {
     setModalVisible(true);
     setStyleIndex(index);
   };
-  useEffect(() => {
-    dispatch(getStyleScrapList(user.id));
-  }, [dispatch]);
-  if (loading || error || !styleScrapList) return <Loading />;
-  if (!styleScrapList.length)
-    return (
-      <View>
-        <Text>No List</Text>
-      </View>
-    );
+
   return (
     <View style={{ marginLeft: 20, marginRight: 20 }}>
       <View style={styles.titleContainer}>
@@ -81,53 +55,35 @@ function DesignerStyle({ navigation, branding, isUser }) {
       <View style={styles.styleContainer}>
         {branding.brandingStyles.map((style, index) => (
           <View style={{ width: '48%' }} key={index}>
-            {moreToggle || index < 4 ? (
-              <View style={{ width: '100%', height: 300 }}>
-                <View style={{ width: '100%' }}>
-                  <TouchableOpacity activeOpacity={0.8} onPress={() => modalOpen(index)}>
-                    <Image
-                      style={styles.styleImg}
-                      source={{
-                        uri: style.img_src_array[0],
-                      }}
-                    />
-                  </TouchableOpacity>
-                  <View style={styles.styleScrapIcon}>
-                    {styleScrapList.some((scrap) => scrap.id == style.id) ? (
-                      <TouchableOpacity activeOpacity={0.8} onPress={() => deleteScrap(style)}>
-                        <Icon name="heart" color="#FF533A" size={20} />
-                      </TouchableOpacity>
-                    ) : (
-                      <TouchableOpacity onPress={() => registerScrap(style)}>
-                        <Icon name="heart-o" color="white" size={20} />
-                      </TouchableOpacity>
+            {moreToggle ||
+              (index < 4 && (
+                <View style={{ width: '100%', height: 300 }}>
+                  <View style={{ width: '100%' }}>
+                    <TouchableOpacity activeOpacity={0.8} onPress={() => modalOpen(index)}>
+                      <Image
+                        style={styles.styleImg}
+                        source={{
+                          uri: style.front_img_src,
+                        }}
+                      />
+                    </TouchableOpacity>
+                    {index < 3 && (
+                      <View style={styles.rankLabel}>
+                        <Text style={styles.rankLabelText}>{index + 1}위</Text>
+                      </View>
                     )}
                   </View>
-                  {index < 3 ? (
-                    <View style={styles.rankLabel}>
-                      <Text style={styles.rankLabelText}>{index + 1}위</Text>
-                    </View>
-                  ) : (
-                    <View></View>
-                  )}
-                </View>
-                <TouchableOpacity activeOpacity={0.8} onPress={() => modalOpen(index)}>
-                  <View>
+                  <TouchableOpacity activeOpacity={0.8} onPress={() => modalOpen(index)}>
                     <Text style={styles.styleTitle}>{style.title}</Text>
-                  </View>
-                  <View style={styles.styleDescription}>
-                    <Text style={styles.styleDescriptionText}>
-                      {textLimiting(style.description, 100)}
-                    </Text>
-                  </View>
-                  <View>
+                    <View style={styles.styleDescription}>
+                      <Text style={styles.styleDescriptionText} numberOfLines={2}>
+                        {textLimiting(style.description, 100)}
+                      </Text>
+                    </View>
                     <Text style={styles.stylePrice}>{priceFormating(style.price)}</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <View></View>
-            )}
+                  </TouchableOpacity>
+                </View>
+              ))}
           </View>
         ))}
       </View>
@@ -222,7 +178,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   styleDescription: {
-    height: 40,
     overflow: 'hidden',
   },
   stylePrice: {

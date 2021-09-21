@@ -262,6 +262,7 @@ exports.findAllMatchingHistoryByCustomerId = async (id) => {
 }
 exports.findAllMatchingHistoryByDesignerId = async (id) => {
   let matchingList = await db.findAllMatchingHistoryByDesignerId(id)
+
   if (matchingList && matchingList.length > 0) {
     matchingList = matchingList.map((matching) => {
       let proposal_keyword_array = []

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 
-import Loading from '../../../Components/Common/loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import Loading from '../../../../Components/Common/loading';
 import NoStyleBookScreen from './noStyleBookScreen';
-import { getStyleListByDesignerId } from '../../../Contexts/Designer/Style';
+import { getStyleListByDesignerId } from '../../../../Contexts/Designer/Style';
 
 function StyleBookListScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -115,8 +116,8 @@ const styles = StyleSheet.create({
     height: 65,
     backgroundColor: '#0A0A32',
     borderRadius: 50,
-    bottom: 20,
-    right: 20,
+    bottom: 16,
+    right: 16,
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000000', //그림자색

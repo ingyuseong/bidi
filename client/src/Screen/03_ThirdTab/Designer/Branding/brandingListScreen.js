@@ -15,15 +15,15 @@ import {
   getBrandingListByDesignerId,
   getMainBrandingByDesignerId,
   patchMainBranding,
-} from '../../../Contexts/Designer/Branding';
+} from '../../../../Contexts/Designer/Branding';
 
-import Line from '../../../Components/Common/line';
-import Loading from '../../../Components/Common/loading';
-import ItemHeader from '../../../Components/ListItem/itemHeader';
-import ItemContent from '../../../Components/ListItem/itemContent';
-import ItemBottomBtn from '../../../Components/ListItem/itemBottomBtn';
-import MainItemCard from '../../../Components/ListItem/mainItemCard';
-import BrandingAPI from '../../../Api/branding';
+import Line from '../../../../Components/Common/line';
+import Loading from '../../../../Components/Common/loading';
+import ItemHeader from '../../../../Components/ListItem/itemHeader';
+import ItemContent from '../../../../Components/ListItem/itemContent';
+import ItemBottomBtn from '../../../../Components/ListItem/itemBottomBtn';
+import MainItemCard from '../../../../Components/ListItem/mainItemCard';
+import BrandingAPI from '../../../../Api/branding';
 
 function BrandingListScreen({ navigation }) {
   const dispatch = useDispatch();

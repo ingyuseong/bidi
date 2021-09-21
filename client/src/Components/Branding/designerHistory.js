@@ -3,12 +3,13 @@ import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 // Components
+import Loading from '../Common/loading';
 import DesignerReview from '../MatchingHistory/DesignerReview';
 import NoHistoryScreen from '../../Screen/01_FirstTab/Customer/TabScreen/noHistoryScreen';
-import Loading from '../Common/loading';
 
 // Redux Action
 import { getMatchingHistoryListByDesignerId } from '../../Contexts/Designer/MatchingHistory';
+import { getDesignerMatchingHistoryListByDesignerId } from '../../Contexts/Customer/MatchingHistory';
 
 function DesignerHistory({ branding, isUser }) {
   const {
@@ -20,7 +21,9 @@ function DesignerHistory({ branding, isUser }) {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getMatchingHistoryListByDesignerId(branding.user_id));
+    isUser
+      ? dispatch(getDesignerMatchingHistoryListByDesignerId(branding.user_id))
+      : dispatch(getMatchingHistoryListByDesignerId(branding.user_id));
   }, [dispatch]);
   if (loading || error || !matchingHistoryList) return <Loading />;
   if (!matchingHistoryList.length)

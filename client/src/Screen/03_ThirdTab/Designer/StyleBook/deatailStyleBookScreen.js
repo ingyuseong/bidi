@@ -4,11 +4,11 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'rea
 
 import Modal from 'react-native-modal';
 import Swiper from 'react-native-swiper';
-
 import Icon from 'react-native-vector-icons/AntDesign';
-import StyleAPI from '../../../Api/style';
-import { deleteStyle } from '../../../Contexts/Designer/Style';
-import { convertDate, priceFormating } from '../../../Lib/utils';
+
+import StyleAPI from '../../../../Api/style';
+import { deleteStyle } from '../../../../Contexts/Designer/Style';
+import { convertDate, priceFormating } from '../../../../Lib/utils';
 
 function DetailStyleBookScreen({ navigation, route }) {
   const dispatch = useDispatch();

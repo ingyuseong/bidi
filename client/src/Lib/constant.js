@@ -4,6 +4,20 @@ export const APP_VERSION = 'v1.0.0';
 
 export const STORAGE_KEY = 'user';
 
+export const SHOP_EXTRA_INFO_LIST = [
+  '주차 가능',
+  'wifi 제공',
+  '음료/간식',
+  '반려견 동반가능',
+  '공유 헤어샵',
+  '남성 전문',
+  '여성 전문',
+  '유아전용의자',
+  '대중교통 용이',
+  '심야 영업',
+  '클리닉 가능',
+];
+
 export const GENDER_TYPE = [
   { label: '남성', value: 'male', key: '13' },
   { label: '여성', value: 'female', key: '14' },

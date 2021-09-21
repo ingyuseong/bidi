@@ -11,11 +11,7 @@ import DesignerTabStack from './designerTabStack';
 import Loading from '../../Components/Common/loading';
 
 function mainTabStack({ navigation }) {
-  const { data, loading, error } = useSelector((state) => state.user) || {
-    loading: false,
-    data: null,
-    error: null,
-  };
+  const { data, loading, error } = useSelector((state) => state.user);
   if (loading || !data) return <Loading />;
   if (data) {
     const { user_type } = data;

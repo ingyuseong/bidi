@@ -18,7 +18,7 @@ function NoStyleBookScreen({ navigation }) {
         <Text style={styles.buttonText}>스타일북 등록하기 {'>>'}</Text>
       </TouchableOpacity>
       <View style={styles.imageBox}>
-        <Image source={require('../../../../public/img/noBidList.jpg')} style={styles.image} />
+        <Image source={require('../../../../../public/img/noBidList.jpg')} style={styles.image} />
       </View>
     </View>
   );
