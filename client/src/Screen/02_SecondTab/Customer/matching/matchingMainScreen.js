@@ -55,7 +55,14 @@ function ReservationScreen({ navigation }) {
     } else if (!styleTime) {
       Alert.alert('시간을 선택해 주세요!');
     } else {
+      console.log(matching[0]);
       const body = {
+        // 스케줄 등록 관련 정보
+        designer_id: matching[0].designer_id,
+        matching_id: matching[0].id,
+        schedule_type: 'matching',
+        time: styleTime,
+        // 예약 관련 정보
         style_id: styleMenu.id,
         style_time: styleTime,
       };

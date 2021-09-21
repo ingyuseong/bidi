@@ -21,6 +21,7 @@ const matching = require('./matching')
 // Depth 4, 5
 const room = require('./room')
 const message = require('./message')
+const schedule = require('./schedule')
 
 router.use('/user', user)
 router.use('/proposal', proposal)
@@ -30,6 +31,7 @@ router.use('/scheduleInfo', scheduleInfo)
 router.use('/bid', bid)
 router.use('/styleScrap', styleScrap)
 router.use('/matching', matching)
+router.use('/schedule', schedule)
 router.use('/room', room)
 router.use('/message', message)
 

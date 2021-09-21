@@ -10,8 +10,6 @@ import {
   Alert,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { dayFormating } from '../../Lib/utils';
-import { DATE_SKELETON } from '../../Lib/constant';
 
 function TimeSpecific({ setStyleTime, selectedDay, isClicked, isToday, year, month, date }) {
   const { data: matching } = useSelector((state) => state.customerMatching);

@@ -49,6 +49,7 @@ db.Proposal = require('./proposal')(sequelize, Sequelize)
 db.Branding = require('./branding')(sequelize, Sequelize)
 db.Style = require('./style')(sequelize, Sequelize)
 db.ScheduleInfo = require('./scheduleInfo')(sequelize, Sequelize)
+db.Schedule = require('./schedule')(sequelize, Sequelize)
 db.Bid = require('./bid')(sequelize, Sequelize)
 db.Matching = require('./matching')(sequelize, Sequelize)
 db.Room = require('./room')(sequelize, Sequelize)
@@ -95,6 +96,16 @@ db.ScheduleInfo.belongsTo(db.User, {
   onDelete: 'CASCADE',
 })
 db.User.hasOne(db.ScheduleInfo, {
+  foreignKey: { name: 'designer_id', allowNull: false, as: 'designer' },
+})
+
+// 관계정의 User : Schedule = 1 : N
+db.Schedule.belongsTo(db.User, {
+  foreignKey: { name: 'designer_id', allowNull: false, as: 'designer' },
+  sourceKey: { name: 'id', allowNull: false, as: 'designer' },
+  onDelete: 'CASCADE',
+})
+db.User.hasMany(db.Schedule, {
   foreignKey: { name: 'designer_id', allowNull: false, as: 'designer' },
 })
 
@@ -197,5 +208,8 @@ db.Message.belongsTo(db.Room, {
 // 관계정의 Matching : Bid = 1 : 1
 db.Matching.belongsTo(db.Bid)
 db.Matching.belongsTo(db.Proposal)
+
+// 관계정의 Schedule : Matching = 1 : 1
+db.Schedule.belongsTo(db.Matching)
 
 module.exports = db
