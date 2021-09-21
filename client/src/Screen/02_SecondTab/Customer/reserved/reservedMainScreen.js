@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   StyleSheet,
   Text,
@@ -11,12 +12,58 @@ import {
 } from 'react-native';
 
 // Components
+import Loading from '../../../../Components/Common/loading';
 import ProposalUserInfo from '../../../../Components/Proposal/proposalUserInfo';
 
-function ReservedMatchingScreen({ navigation, matching }) {
+function ReservedMatchingScreen({ navigation }) {
+  const { data: matching } = useSelector((state) => state.customerMatching);
+  const timeFormating = (style_time) => {
+    const time = new Date(style_time);
+    return {
+      date: `${
+        (time.getMonth() + 1).length == 2 ? time.getMonth() + 1 : '0' + (time.getMonth() + 1)
+      }월 ${time.getDate()}일`,
+      time: `${time.getHours()}:${time.getMinutes()}`,
+    };
+  };
+  if (!matching || !matching.length) return <Loading />;
   return (
     <View style={styles.container}>
-      <Text>Reserved</Text>
+      <View style={styles.titleBox}>
+        <Text style={styles.title}>현재 예약 정보</Text>
+      </View>
+      <View style={styles.tagBox}>
+        <View style={styles.nameTag}>
+          <Text style={{ color: '#8D8D8D', fontWeight: 'bold' }}>날짜</Text>
+        </View>
+        <View style={styles.tag}>
+          <Text style={styles.tagText}>{timeFormating(matching[0].style_time).date}</Text>
+        </View>
+      </View>
+      <View style={styles.tagBox}>
+        <View style={styles.nameTag}>
+          <Text style={{ color: '#8D8D8D', fontWeight: 'bold' }}>시간</Text>
+        </View>
+        <View style={styles.tag}>
+          <Text style={styles.tagText}>{timeFormating(matching[0].style_time).time}</Text>
+        </View>
+      </View>
+      <View style={styles.tagBox}>
+        <View style={styles.nameTag}>
+          <Text style={{ color: '#8D8D8D', fontWeight: 'bold' }}>디자이너</Text>
+        </View>
+        <View style={styles.tag}>
+          <Text style={styles.tagText}>{matching[0].bid.user.nick_name}</Text>
+        </View>
+      </View>
+      <View style={styles.tagBox}>
+        <View style={styles.nameTag}>
+          <Text style={{ color: '#8D8D8D', fontWeight: 'bold' }}>스타일</Text>
+        </View>
+        <View style={styles.tag}>
+          <Text style={styles.tagText}>{matching[0].style.title}</Text>
+        </View>
+      </View>
     </View>
   );
 }
@@ -35,84 +82,36 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 15,
+    padding: 20,
   },
-  content: {
-    width: '100%',
-    height: 375,
-    borderWidth: 1,
-    borderColor: 'rgb(243,243,243)',
-  },
-  imageContainer: {
-    width: '100%',
-    height: '100%',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  imageCover: {
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    backgroundColor: '#111111',
-    alignItems: 'center',
-    justifyContent: 'center',
-    opacity: 0.5,
-  },
-  imageCoverText: { color: 'white', fontSize: 30, fontWeight: '500', opacity: 1 },
-  imageToggleButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    width: 99,
-    height: 37,
-    right: 20,
-    bottom: 15,
-    backgroundColor: '#FF533A',
-    borderRadius: 3,
-  },
-  imageToggleText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#ffffff',
-  },
-  descriptionBox: {
-    width: '100%',
-    alignItems: 'center',
-  },
-  description: {
-    width: '90%',
-    padding: 5,
-    fontSize: 14,
-    fontWeight: '300',
-    lineHeight: 21,
-  },
-  textBox: {
-    width: '100%',
-    margin: 25,
-    marginBottom: 5,
+  titleBox: {
+    marginTop: 20,
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
   },
-  dropdownBox: {
+  tagBox: {
+    flexDirection: 'row',
+    marginLeft: 10,
+  },
+  nameTag: {
+    marginTop: 10,
+    marginRight: 5,
+    width: 60,
+    height: 25,
+    justifyContent: 'center',
+  },
+  tag: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    backgroundColor: '#e2e2e2',
+    borderRadius: 2,
+    marginTop: 10,
+    // marginLeft: 12,
+    height: 25,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 7,
-  },
-  locationInput: {
-    width: '90%',
-    height: 42,
-    marginBottom: 10,
-    borderRadius: 3,
-    backgroundColor: 'rgb(243,243,243)',
-    padding: 10,
-    zIndex: 2,
   },
 });
 
