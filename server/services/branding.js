@@ -12,7 +12,7 @@ exports.createBranding = async (body) => {
     address: body.address,
     operation_time: body.operation_time,
     break_time: body.break_time,
-    shop_number: body.shopNumber,
+    shop_number: body.shop_number,
     extra_info: body.extra_info,
   }
   const branding = await db.createBranding(attr)
@@ -49,12 +49,28 @@ exports.findAllBranding = async () => {
   if (brandingList && brandingList.length > 0) {
     brandingList = brandingList.map((branding) => {
       let keyword_array = []
+      let address = {}
+      let extra_info = []
       if (branding.keyword_array) {
         keyword_array = branding.keyword_array.split(',')
+      }
+      if (branding.extra_info) {
+        extra_info = branding.extra_info.split(',')
+      }
+      if (branding.address) {
+        const [zoneCode, streetAddress, detailAddress] =
+          branding.address.split(',')
+        address = {
+          zoneCode,
+          address: streetAddress,
+          detailAddress,
+        }
       }
       return {
         ...branding.dataValues,
         keyword_array,
+        address,
+        extra_info,
         brandingStyles: branding.brandingStyles.map((style) => {
           let style_keyword_array = []
           if (style.keyword_array) {
@@ -76,12 +92,28 @@ exports.findOneBranding = async (id) => {
   let branding = await db.findOneBranding(id)
   if (branding) {
     let keyword_array = []
+    let address = {}
+    let extra_info = []
     if (branding.keyword_array) {
       keyword_array = branding.keyword_array.split(',')
+    }
+    if (branding.extra_info) {
+      extra_info = branding.extra_info.split(',')
+    }
+    if (branding.address) {
+      const [zoneCode, streetAddress, detailAddress] =
+        branding.address.split(',')
+      address = {
+        zoneCode,
+        address: streetAddress,
+        detailAddress,
+      }
     }
     branding = {
       ...branding.dataValues,
       keyword_array,
+      address,
+      extra_info,
       brandingStyles: branding.brandingStyles.map((style) => {
         let style_keyword_array = []
         if (style.keyword_array) {
@@ -103,12 +135,28 @@ exports.findAllBrandingByDesignerId = async (id) => {
   if (brandingList && brandingList.length > 0) {
     brandingList = brandingList.map((branding) => {
       let keyword_array = []
+      let address = {}
+      let extra_info = []
       if (branding.keyword_array) {
         keyword_array = branding.keyword_array.split(',')
+      }
+      if (branding.extra_info) {
+        extra_info = branding.extra_info.split(',')
+      }
+      if (branding.address) {
+        const [zoneCode, streetAddress, detailAddress] =
+          branding.address.split(',')
+        address = {
+          zoneCode,
+          address: streetAddress,
+          detailAddress,
+        }
       }
       return {
         ...branding.dataValues,
         keyword_array,
+        address,
+        extra_info,
         brandingStyles: branding.brandingStyles.map((style) => {
           let style_keyword_array = []
           if (style.keyword_array) {
@@ -130,12 +178,28 @@ exports.findOneBrandingByDesignerId = async (userId) => {
   let branding = await db.findOneBrandingByUserId(userId)
   if (branding) {
     let keyword_array = []
+    let address = {}
+    let extra_info = []
     if (branding.keyword_array) {
       keyword_array = branding.keyword_array.split(',')
+    }
+    if (branding.extra_info) {
+      extra_info = branding.extra_info.split(',')
+    }
+    if (branding.address) {
+      const [zoneCode, streetAddress, detailAddress] =
+        branding.address.split(',')
+      address = {
+        zoneCode,
+        address: streetAddress,
+        detailAddress,
+      }
     }
     branding = {
       ...branding.dataValues,
       keyword_array,
+      address,
+      extra_info,
       brandingStyles: branding.brandingStyles.map((style) => {
         let style_keyword_array = []
         if (style.keyword_array) {
