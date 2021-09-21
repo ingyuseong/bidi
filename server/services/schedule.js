@@ -46,7 +46,9 @@ exports.findAllScheduleByDate = async (body) => {
       const sHour = schedule.dataValues.time.getHours()
       const sMinutes = schedule.dataValues.time.getMinutes()
       if (year == sYear && month == sMonth && date == sDate) {
-        reservedTimeList.push(`${sHour}.${sMinutes / 6}`)
+        let time = `${sHour}`
+        if (sMinutes) time += `.${sMinutes / 6}`
+        reservedTimeList.push(time)
       }
     })
     return reservedTimeList

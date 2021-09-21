@@ -55,12 +55,13 @@ function ReservationScreen({ navigation }) {
       Alert.alert('시간을 선택해 주세요!');
     } else {
       const body = {
-        // 스케줄 등록 관련 정보
+        // 스케줄 등록 관련 정보 -> Schedule에 새롭게 생성될 정보
         designer_id: matching[0].designer_id,
         matching_id: matching[0].id,
         schedule_type: 'matching',
         time: styleTime,
-        // 예약 관련 정보
+
+        // 예약 관련 정보 -> Matching에 업데이트 될 정보
         style_id: styleMenu.id,
         style_time: styleTime,
       };
@@ -196,8 +197,8 @@ function ReservationScreen({ navigation }) {
         </View>
       </View>
       <View style={{ width: '100%', height: 80, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ color: '#8D8D8D' }}>예약을 완료하면</Text>
-        <Text style={{ color: '#8D8D8D' }}>디자이너와의 DM이 개설됩니다!</Text>
+        <Text style={{ color: '#8D8D8D' }}>디자이너와의 DM을 통해</Text>
+        <Text style={{ color: '#8D8D8D' }}>디테일한 시술 요청을 전달해보세요!</Text>
       </View>
       <BottomButton
         leftName="취소하기"
