@@ -29,7 +29,6 @@ import { deleteMatching } from '../../../../Contexts/Customer/Matching/action';
 
 function ReservationScreen({ navigation }) {
   const { data: matching } = useSelector((state) => state.customerMatching);
-  const [now, setNow] = useState(new Date());
   const [styleMenu, setStyleMenu] = useState(null);
   const [styleTime, setStyleTime] = useState(null);
   const dispatch = useDispatch();
@@ -55,7 +54,6 @@ function ReservationScreen({ navigation }) {
     } else if (!styleTime) {
       Alert.alert('시간을 선택해 주세요!');
     } else {
-      console.log(matching[0]);
       const body = {
         // 스케줄 등록 관련 정보
         designer_id: matching[0].designer_id,

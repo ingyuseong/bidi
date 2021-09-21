@@ -19,6 +19,9 @@ const ScheduleAPI = {
   registerSchedule: async (body) => {
     return await API('/schedule/register', 'post', JSON.stringify(body));
   },
+  getScheduleListByDate: async (body) => {
+    return await API('/schedule/date', 'post', JSON.stringify(body));
+  },
   getScheduleByDesignerId: async (id) => {
     return await API(`/schedule/designer/${id}`, 'get');
   },

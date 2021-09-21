@@ -18,11 +18,12 @@ const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
 */
 
 router.post('/register', routesAsyncWrapper(controller.registerSchedule))
+router.post('/date', routesAsyncWrapper(controller.getScheduleListByDate))
 
 router.get('/list', routesAsyncWrapper(controller.getScheduleList))
 router.get(
   '/designer/:id',
-  routesAsyncWrapper(controller.getScheduleByDesignerId)
+  routesAsyncWrapper(controller.getScheduleListByDesignerId)
 )
 
 router.patch('/:id', routesAsyncWrapper(controller.patchSchedule))

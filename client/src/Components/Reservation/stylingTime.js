@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
   TextInput,
   Alert,
 } from 'react-native';
@@ -15,18 +16,34 @@ import { DATE_SKELETON } from '../../Lib/constant';
 
 import TimeSpecific from './timeSpecific';
 
+// API
+import ScheduleAPI from '../../Api/schedule';
+
 function StylingTime({ navigation, setStyleTime }) {
   const { data: matching } = useSelector((state) => state.customerMatching);
+  const [scheduleList, setScheduleList] = useState([]);
   const [selectedDate, setSelectedDate] = useState(DATE_SKELETON);
   const [selectedDay, setSelectedDay] = useState(0);
   const [isClicked, setIsClicked] = useState(false);
   const [isToday, setIsToday] = useState(false);
 
+  // 디자이너 스케줄 정보 조회 시
+  const [loading, setLoading] = useState(false);
+
   // 유저 예약 버튼 누를 시에 전송될 시간 정보 틀
   const [year, setYear] = useState(null);
   const [month, setMonth] = useState(null);
   const [date, setDate] = useState(null);
-  const selectDate = (id, year, month, date, day, index) => {
+  const selectDate = async (id, year, month, date, day, index) => {
+    const body = {
+      designer_id: matching[0].designer_id,
+      year: year,
+      month: month,
+      date: date,
+    };
+    setLoading(true);
+    const scheduleResult = await ScheduleAPI.getScheduleListByDate(body);
+    setScheduleList(scheduleResult);
     setSelectedDate(
       selectedDate.map((item) =>
         item.id == id ? { ...item, selected: true } : { ...item, selected: false },
@@ -43,6 +60,7 @@ function StylingTime({ navigation, setStyleTime }) {
     } else {
       setIsToday(false);
     }
+    setLoading(false);
   };
   const now = new Date();
   const timeTable = DATE_SKELETON.map((item, index) => {
@@ -89,15 +107,20 @@ function StylingTime({ navigation, setStyleTime }) {
         horizontal={true}>
         <View style={styles.timeTableContainer}>{timeTable}</View>
       </ScrollView>
-      <TimeSpecific
-        setStyleTime={setStyleTime}
-        selectedDay={selectedDay}
-        isClicked={isClicked}
-        isToday={isToday}
-        year={year}
-        month={month}
-        date={date}
-      />
+      {loading ? (
+        <ActivityIndicator />
+      ) : (
+        <TimeSpecific
+          setStyleTime={setStyleTime}
+          scheduleList={scheduleList}
+          selectedDay={selectedDay}
+          isClicked={isClicked}
+          isToday={isToday}
+          year={year}
+          month={month}
+          date={date}
+        />
+      )}
     </View>
   );
 }

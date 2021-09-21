@@ -11,7 +11,16 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
-function TimeSpecific({ setStyleTime, selectedDay, isClicked, isToday, year, month, date }) {
+function TimeSpecific({
+  setStyleTime,
+  scheduleList,
+  selectedDay,
+  isClicked,
+  isToday,
+  year,
+  month,
+  date,
+}) {
   const { data: matching } = useSelector((state) => state.customerMatching);
   const [time, setTime] = useState(null);
   let timeLabel = [];
@@ -34,20 +43,22 @@ function TimeSpecific({ setStyleTime, selectedDay, isClicked, isToday, year, mon
     if (startTime && endTime) {
       for (var i = startTime; i <= endTime; i += 0.5) {
         const j = i;
-        timeLabel.push(
-          <TouchableOpacity
-            style={time == j ? { ...styles.timeTag, backgroundColor: '#FF533A' } : styles.timeTag}
-            key={j}
-            onPress={() => {
-              setTime(j);
-              const submitTime = new Date(year, month, date, Math.floor(j), (j % 1) * 60, 0);
-              setStyleTime(submitTime);
-            }}>
-            <Text style={time == j && { color: 'white', fontWeight: 'bold' }}>
-              {timeFormating(i)}
-            </Text>
-          </TouchableOpacity>,
-        );
+        if (!scheduleList.includes(j.toString())) {
+          timeLabel.push(
+            <TouchableOpacity
+              style={time == j ? { ...styles.timeTag, backgroundColor: '#FF533A' } : styles.timeTag}
+              key={j}
+              onPress={() => {
+                setTime(j);
+                const submitTime = new Date(year, month, date, Math.floor(j), (j % 1) * 60, 0);
+                setStyleTime(submitTime);
+              }}>
+              <Text style={time == j && { color: 'white', fontWeight: 'bold' }}>
+                {timeFormating(i)}
+              </Text>
+            </TouchableOpacity>,
+          );
+        }
       }
     } else {
       timeLabel.push(
@@ -63,13 +74,13 @@ function TimeSpecific({ setStyleTime, selectedDay, isClicked, isToday, year, mon
       showsHorizontalScrollIndicator={false}
       horizontal={true}
       style={styles.container}>
-      {timeLabel && timeLabel.length > 0 ? (
-        timeLabel
-      ) : (
-        <View style={styles.timeTag} key={1}>
-          <Text>예약 마감</Text>
-        </View>
-      )}
+      {timeLabel && timeLabel.length > 0
+        ? timeLabel
+        : isClicked && (
+            <View style={styles.timeTag} key={1}>
+              <Text>예약 마감</Text>
+            </View>
+          )}
     </ScrollView>
   );
 }

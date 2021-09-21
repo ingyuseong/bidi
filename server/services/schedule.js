@@ -29,7 +29,27 @@ exports.findAllSchedule = async () => {
 exports.findAllScheduleByDesignerId = async (id) => {
   let scheduleList = await db.findAllScheduleByDesignerId(id)
   if (scheduleList && scheduleList.length > 0) {
-    return scheduleInfoList
+    return scheduleList
+  } else {
+    return null
+  }
+}
+exports.findAllScheduleByDate = async (body) => {
+  const { designer_id, year, month, date } = body
+  const scheduleList = await db.findAllScheduleByDate(designer_id)
+  let reservedTimeList = []
+  if (scheduleList && scheduleList.length > 0) {
+    scheduleList.forEach((schedule) => {
+      const sYear = schedule.dataValues.time.getFullYear()
+      const sMonth = schedule.dataValues.time.getMonth()
+      const sDate = schedule.dataValues.time.getDate()
+      const sHour = schedule.dataValues.time.getHours()
+      const sMinutes = schedule.dataValues.time.getMinutes()
+      if (year == sYear && month == sMonth && date == sDate) {
+        reservedTimeList.push(`${sHour}.${sMinutes / 6}`)
+      }
+    })
+    return reservedTimeList
   } else {
     return null
   }

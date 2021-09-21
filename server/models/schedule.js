@@ -17,6 +17,9 @@ const modelAttributes = {
   schedule_type: {
     type: DataTypes.ENUM('matching', 'rest'),
   },
+  description: {
+    type: DataTypes.STRING,
+  },
   time: {
     type: DataTypes.DATE,
   },

@@ -19,6 +19,23 @@ exports.registerSchedule = async (req, res) => {
     })
   }
 }
+exports.getScheduleListByDate = async (req, res) => {
+  const body = req.body
+  const scheduleList = await scheduleServices.findAllScheduleByDate(body)
+  if (scheduleList && scheduleList.length > 0) {
+    res.status(STATUS_CODE.SUCCESS).json({
+      status: 'success',
+      message: '날짜별 스케줄 정보 목록 조회 성공',
+      data: scheduleList,
+    })
+  } else {
+    res.status(STATUS_CODE.SUCCESS).json({
+      status: 'empty',
+      message: '조회할 날짜별 스케줄 정보 목록이 없습니다.',
+      data: [],
+    })
+  }
+}
 
 // [ 2. GET Methods ]
 exports.getScheduleList = async (req, res) => {
@@ -37,7 +54,7 @@ exports.getScheduleList = async (req, res) => {
     })
   }
 }
-exports.getScheduleByDesignerId = async (req, res) => {
+exports.getScheduleListByDesignerId = async (req, res) => {
   const { id } = req.params
   const scheduleList = await scheduleServices.findAllScheduleByDesignerId(id)
   if (scheduleList && scheduleList.length > 0) {

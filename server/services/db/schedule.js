@@ -14,7 +14,15 @@ exports.findAllSchedule = async () => {
   const ScheduleList = await Schedule.findAll()
   return ScheduleList
 }
-exports.findAllScheduleByDesigner = async (designer_id) => {
+exports.findAllScheduleByDesignerId = async (designer_id) => {
+  const ScheduleList = await Schedule.findAll({
+    where: {
+      designer_id,
+    },
+  })
+  return ScheduleList
+}
+exports.findAllScheduleByDate = async (designer_id) => {
   const ScheduleList = await Schedule.findAll({
     where: {
       designer_id,

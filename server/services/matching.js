@@ -5,7 +5,6 @@ const scheduleDb = require('./db/schedule')
 
 // Create Matching Resource [create]
 exports.createMatching = async (body) => {
-  console.log(body)
   const proposal = await proposalDb.updateProposalMatching(body.proposal_id)
   const bidCancelElse = await bidDb.updateBidCancelElseByCustomerId(
     body.customer_id
