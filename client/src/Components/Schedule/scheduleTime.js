@@ -19,8 +19,8 @@ import TimeSpecific from './timeSpecific';
 // API
 import ScheduleAPI from '../../Api/schedule';
 
-function ScheduleTime({ navigation, setStyleTime }) {
-  const { data: matching } = useSelector((state) => state.customerMatching);
+function StylingTime({ navigation, setStyleTime }) {
+  const { data: user } = useSelector((state) => state.user);
   const [scheduleList, setScheduleList] = useState([]); // 디자이너의 해당 날짜의 schedule이 담길 상태(배열)
   const [selectedDate, setSelectedDate] = useState(DATE_SKELETON); // 선택된 날짜를 표현하기 위한 상태
 
@@ -44,7 +44,7 @@ function ScheduleTime({ navigation, setStyleTime }) {
 
     // 1. 디자이너의 해당 날짜(년, 월, 일)에 등록된 스케줄을 불러오기
     const body = {
-      designer_id: matching[0].designer_id,
+      designer_id: user.id,
       year: year,
       month: month,
       date: date,
@@ -105,7 +105,7 @@ function ScheduleTime({ navigation, setStyleTime }) {
             key={item.id}
             style={
               selectedDate[item.id].selected
-                ? { ...styles.dateTag, backgroundColor: '#FF533A' }
+                ? { ...styles.dateTag, backgroundColor: '#0A0A32' }
                 : styles.dateTag
             }
             onPress={() => selectDate(item.id, year, month, date, day, index)}>
@@ -137,6 +137,7 @@ function ScheduleTime({ navigation, setStyleTime }) {
         <ActivityIndicator />
       ) : (
         <TimeSpecific
+          navigation={navigation}
           setStyleTime={setStyleTime}
           scheduleList={scheduleList}
           isClicked={isClicked}
@@ -235,4 +236,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ScheduleTime;
+export default StylingTime;

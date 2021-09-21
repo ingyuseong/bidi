@@ -7,6 +7,7 @@ exports.createSchedule = async (body) => {
     designer_id: body.designer_id,
     matching_id: body.matching_id ? body.matching_id : null,
     schedule_type: body.schedule_type,
+    description: body.description ? body.description : null,
     time: body.time,
   }
   const schedule = await db.createSchedule(attr)

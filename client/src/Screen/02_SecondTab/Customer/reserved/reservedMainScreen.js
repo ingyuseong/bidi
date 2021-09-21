@@ -23,7 +23,7 @@ function ReservedMatchingScreen({ navigation }) {
       date: `${
         (time.getMonth() + 1).length == 2 ? time.getMonth() + 1 : '0' + (time.getMonth() + 1)
       }월 ${time.getDate()}일`,
-      time: `${time.getHours()}:${time.getMinutes()}`,
+      time: `${time.getHours()}:${time.getMinutes() ? time.getMinutes() : '00'}`,
     };
   };
   if (!matching || !matching.length) return <Loading />;

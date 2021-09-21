@@ -101,7 +101,7 @@ exports.findOneMatching = async (id) => {
             include: [
               {
                 model: ScheduleInfo,
-                attributes: ['start_time', 'end_time', 'holiday_array'],
+                attributes: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
               },
             ],
           },

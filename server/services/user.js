@@ -41,9 +41,48 @@ exports.findOneUser = async (id) => {
 }
 exports.findOneUserByToken = async (body) => {
   const { token } = body
-  const user = await db.findOneUserByToken(token)
+  const timeArray = (timeString) =>
+    timeString ? timeString.split(',') : [null, null]
+  let user = await db.findOneUserByToken(token)
   if (user) {
-    return user.dataValues
+    if (user.scheduleInfo) {
+      user = {
+        ...user.dataValues,
+        scheduleInfo: {
+          weeklySchedule: [
+            {
+              date: '일',
+              timeArray: timeArray(user.scheduleInfo.dataValues.sun),
+            },
+            {
+              date: '월',
+              timeArray: timeArray(user.scheduleInfo.dataValues.mon),
+            },
+            {
+              date: '화',
+              timeArray: timeArray(user.scheduleInfo.dataValues.tue),
+            },
+            {
+              date: '수',
+              timeArray: timeArray(user.scheduleInfo.dataValues.wed),
+            },
+            {
+              date: '목',
+              timeArray: timeArray(user.scheduleInfo.dataValues.thu),
+            },
+            {
+              date: '금',
+              timeArray: timeArray(user.scheduleInfo.dataValues.fri),
+            },
+            {
+              date: '토',
+              timeArray: timeArray(user.scheduleInfo.dataValues.sat),
+            },
+          ],
+        },
+      }
+    }
+    return user
   } else {
     return null
   }
