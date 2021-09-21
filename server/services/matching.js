@@ -106,8 +106,11 @@ exports.findOneMatching = async (id) => {
     return null
   }
 }
+
 exports.findOneMatchingByCustomerId = async (id) => {
   let matching = await db.findOneMatchingByCustomerId(id)
+  const timeArray = (timeString) =>
+    timeString ? timeString.split(',') : [null, null]
   if (matching) {
     let proposal_keyword_array = []
     if (matching.proposal.keyword_array) {
@@ -127,6 +130,55 @@ exports.findOneMatchingByCustomerId = async (id) => {
             keyword_array: style_keyword_array,
           }
         }),
+        user: {
+          ...matching.bid.user.dataValues,
+          scheduleInfo: {
+            weeklySchedule: [
+              {
+                date: '일',
+                timeArray: timeArray(
+                  matching.bid.user.scheduleInfo.dataValues.sun
+                ),
+              },
+              {
+                date: '월',
+                timeArray: timeArray(
+                  matching.bid.user.scheduleInfo.dataValues.mon
+                ),
+              },
+              {
+                date: '화',
+                timeArray: timeArray(
+                  matching.bid.user.scheduleInfo.dataValues.tue
+                ),
+              },
+              {
+                date: '수',
+                timeArray: timeArray(
+                  matching.bid.user.scheduleInfo.dataValues.wed
+                ),
+              },
+              {
+                date: '목',
+                timeArray: timeArray(
+                  matching.bid.user.scheduleInfo.dataValues.thu
+                ),
+              },
+              {
+                date: '금',
+                timeArray: timeArray(
+                  matching.bid.user.scheduleInfo.dataValues.fri
+                ),
+              },
+              {
+                date: '토',
+                timeArray: timeArray(
+                  matching.bid.user.scheduleInfo.dataValues.sat
+                ),
+              },
+            ],
+          },
+        },
       },
       proposal: {
         ...matching.proposal.dataValues,
@@ -260,8 +312,13 @@ exports.updateMatchingStar = async (id, body) => {
   const matching = await db.updateMatchingStar(id, star)
   return matching
 }
-exports.updateMatchingReserved = async (id) => {
-  const matching = await db.updateMatchingReserved(id)
+exports.updateMatchingReservation = async (id, body) => {
+  const attr = {
+    reserved: true,
+    style_id: body.style_id,
+    style_time: body.style_time,
+  }
+  const matching = await db.updateMatchingReservation(id, attr)
   return matching
 }
 exports.updateMatchingDone = async (id) => {

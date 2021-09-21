@@ -28,7 +28,7 @@ const rootReducer = combineReducers({
   customerStyle: customerStyleReducer,
   customerBranding: customerBrandingReducer,
   customerBid: customerBidReducer,
-  leScrap: customerStyleScrapReducer,
+  customerStyleScrap: customerStyleScrapReducer,
   customerMatching: customerMatchingReducer,
   customerMatchingHistory: customerMatchingHistoryReducer,
 

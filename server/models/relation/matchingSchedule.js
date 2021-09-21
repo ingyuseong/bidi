@@ -3,7 +3,7 @@ const { DataTypes } = Sequelize
 const modelName = 'matchingSchedule'
 
 const modelAttributes = {
-  time: DataTypes.FLOAT,
+  time: DataTypes.DATE,
 }
 
 const modelOptions = {

@@ -9,6 +9,39 @@ export const GENDER_TYPE = [
   { label: '여성', value: 'female', key: '14' },
 ];
 
+export const START_TIME_LIST = [
+  { label: '9:00', value: '9' },
+  { label: '9:30', value: '9.5' },
+  { label: '10:00', value: '10' },
+  { label: '10:30', value: '10.5' },
+  { label: '11:00', value: '11' },
+  { label: '11:30', value: '11.5' },
+  { label: '12:00', value: '12' },
+  { label: '12:30', value: '12.5' },
+  { label: '13:00', value: '13' },
+  { label: '13:30', value: '13.5' },
+  { label: '14:00', value: '14' },
+  { label: '14:30', value: '14.5' },
+];
+export const END_TIME_LIST = [
+  { label: '15:00', value: '15' },
+  { label: '15:30', value: '15.5' },
+  { label: '16:00', value: '16' },
+  { label: '16:30', value: '16.5' },
+  { label: '17:00', value: '17' },
+  { label: '17:30', value: '17.5' },
+  { label: '18:00', value: '18' },
+  { label: '18:30', value: '18.5' },
+  { label: '19:00', value: '19' },
+  { label: '19:30', value: '19.5' },
+  { label: '20:00', value: '20' },
+  { label: '20:30', value: '20.5' },
+  { label: '21:00', value: '21' },
+  { label: '21:30', value: '21.5' },
+  { label: '22:00', value: '22' },
+  { label: '22:30', value: '22.5' },
+];
+
 export const LENGTH_TYPE = [
   { label: '롱', value: 'long', key: '1' },
   { label: '미디엄', value: 'medium', key: '2' },
@@ -38,6 +71,65 @@ export const DISTANCE_CATEGORY = [
   { label: '1km 이내', value: '1', key: 1 },
   { label: '3km 이내', value: '3', key: 2 },
   { label: '5km 이내', value: '5', key: 3 },
+];
+
+export const DATE_SKELETON = [
+  {
+    id: 0,
+    selected: false,
+  },
+  {
+    id: 1,
+    selected: false,
+  },
+  {
+    id: 2,
+    selected: false,
+  },
+  {
+    id: 3,
+    selected: false,
+  },
+  {
+    id: 4,
+    selected: false,
+  },
+  {
+    id: 5,
+    selected: false,
+  },
+  {
+    id: 6,
+    selected: false,
+  },
+  {
+    id: 7,
+    selected: false,
+  },
+  {
+    id: 8,
+    selected: false,
+  },
+  {
+    id: 9,
+    selected: false,
+  },
+  {
+    id: 10,
+    selected: false,
+  },
+  {
+    id: 11,
+    selected: false,
+  },
+  {
+    id: 12,
+    selected: false,
+  },
+  {
+    id: 13,
+    selected: false,
+  },
 ];
 
 export const KEYWORDS = [

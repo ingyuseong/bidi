@@ -16,9 +16,10 @@ exports.createMatching = async (attr) => {
     raw: true,
     ...attr,
     style_id: null,
+    style_time: null,
     review: null,
     star: 0,
-    confirm: false,
+    reserved: false,
     done: false,
     canceled: false,
   })
@@ -151,7 +152,7 @@ exports.findOneMatchingByCustomerId = async (id) => {
             include: [
               {
                 model: ScheduleInfo,
-                attributes: ['start_time', 'end_time', 'holiday_array'],
+                attributes: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
               },
             ],
           },
@@ -203,7 +204,7 @@ exports.findAllMatchingByDesignerId = async (id) => {
             include: [
               {
                 model: ScheduleInfo,
-                attributes: ['start_time', 'end_time', 'holiday_array'],
+                attributes: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
               },
             ],
           },
@@ -363,11 +364,11 @@ exports.updateMatchingStar = async (id, star) => {
   )
   return matching[0]
 }
-exports.updateMatchingReserved = async (id) => {
+exports.updateMatchingReservation = async (id, attr) => {
   const matching = await Matching.update(
     {
       raw: true,
-      reserved: true,
+      ...attr,
     },
     {
       where: {

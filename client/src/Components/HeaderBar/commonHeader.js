@@ -5,6 +5,7 @@ import TopRightBar from './topRightBar';
 const CommonHeader = ({ navigation, route }) => ({
   headerStyle: {
     height: 100,
+    backgroundColor: '',
   },
   headerLeft: () => <TopLeftBar navigation={navigation} />,
   headerRight: () => <TopRightBar navigation={navigation} />,

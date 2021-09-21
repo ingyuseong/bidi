@@ -13,11 +13,11 @@ import { API, formAPI } from './common';
     GET /api/matching/history/customer/:id  : 유저의 완료된 매칭 목록 조회 API
 
     [ 3. PATCH Methods ]
-    PATCH /api/matching/time/:id     : 매칭 시간 정보 수정 API
-    PATCH /api/matching/review/:id   : 매칭 리뷰 정보 수정 API
-    PATCH /api/matching/star/:id     : 매칭 별점 정보 수정 API
-    PATCH /api/matching/done/:id     : 매칭 종료 상태 수정 API
-    PATCH /api/matching/cancel/:id   : 매칭 취소 상태 수정 API
+    PATCH /api/matching/reservation/:id     : 매칭 예약 처리 API
+    PATCH /api/matching/review/:id          : 매칭 리뷰 정보 수정 API
+    PATCH /api/matching/star/:id            : 매칭 별점 정보 수정 API
+    PATCH /api/matching/done/:id            : 매칭 종료 상태 수정 API
+    PATCH /api/matching/cancel/:id          : 매칭 취소 상태 수정 API
 
     [ 4. DELETE Methods]
     DELETE /api/matching/:id : 매칭 정보 삭제 API
@@ -41,8 +41,8 @@ const MatchingAPI = {
   getMatchingHistoryListByDesignerId: async (id) => {
     return await API(`/matching/history/designer/${id}`, 'get');
   },
-  patchMatchingTime: async (id, body) => {
-    return await API(`/matching/review/${id}`, 'patch', JSON.stringify(body));
+  patchMatchingReservation: async (id, body) => {
+    return await API(`/matching/reservation/${id}`, 'patch', JSON.stringify(body));
   },
   patchMatchingReview: async (id, body) => {
     return await API(`/matching/review/${id}`, 'patch', JSON.stringify(body));

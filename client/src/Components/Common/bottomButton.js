@@ -1,24 +1,44 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
-function BottomButton({ leftName, rightName, leftRatio, rightHandler, leftHandler }) {
+function BottomButton({
+  leftName,
+  rightName,
+  leftRatio,
+  rightHandler,
+  leftHandler,
+  notBottomRadius,
+}) {
   return (
     <View style={styles.submitBox}>
       <TouchableOpacity
         activeOpacity={0.8}
-        style={{ ...styles.submitButton, width: `${leftRatio}%`, borderBottomLeftRadius: 20 }}
+        style={
+          notBottomRadius
+            ? { ...styles.submitButton, width: `${leftRatio}%` }
+            : { ...styles.submitButton, width: `${leftRatio}%`, borderBottomLeftRadius: 20 }
+        }
         onPress={leftHandler}>
         <Text style={{ ...styles.submitText }}>{leftName}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         activeOpacity={0.8}
-        style={{
-          ...styles.submitButton,
-          backgroundColor: '#FF533A',
-          borderColor: '#FF533A',
-          borderBottomRightRadius: 20,
-          width: `${100 - leftRatio}%`,
-        }}
+        style={
+          notBottomRadius
+            ? {
+                ...styles.submitButton,
+                backgroundColor: '#FF533A',
+                borderColor: '#FF533A',
+                width: `${100 - leftRatio}%`,
+              }
+            : {
+                ...styles.submitButton,
+                backgroundColor: '#FF533A',
+                borderColor: '#FF533A',
+                borderBottomRightRadius: 20,
+                width: `${100 - leftRatio}%`,
+              }
+        }
         onPress={rightHandler}>
         <Text style={{ ...styles.submitText, color: 'white' }}>{rightName}</Text>
       </TouchableOpacity>

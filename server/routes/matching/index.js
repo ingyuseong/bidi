@@ -17,7 +17,7 @@ const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
     
     [ 3. PATCH Methods ]
     PATCH /api/matching/style/:id       : 매칭 스타일 정보 수정 API
-    PATCH /api/matching/reserved/:id     : 매칭 승인 정보 수정 API
+    PATCH /api/matching/reserved/:id    : 매칭 승인 정보 수정 API
     PATCH /api/matching/review/:id      : 매칭 리뷰 정보 수정 API
     PATCH /api/matching/star/:id        : 매칭 별점 정보 수정 API
     PATCH /api/matching/done/:id        : 매칭 종료 상태 수정 API
@@ -50,11 +50,10 @@ router.get(
 )
 
 // PATCH Methods
-// 1. 매칭 중일 때 -> 예약 관련 업데이트
-router.patch('/style/:id', routesAsyncWrapper(controller.patchMatchingStyle))
+// 1. 매칭 중일 때 -> 예약 관련 처리
 router.patch(
-  '/reserved/:id',
-  routesAsyncWrapper(controller.patchMatchingReserved)
+  '/reservation/:id',
+  routesAsyncWrapper(controller.patchMatchingReservation)
 )
 
 // 2. 시술 종료 시

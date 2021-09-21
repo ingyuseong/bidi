@@ -90,3 +90,45 @@ exports.createStyleForm = (front, side, back, body) => {
   });
   return data;
 };
+
+exports.styleTypeFormatting = (style_type) => {
+  if (style_type == 'cut') {
+    return '커트';
+  } else if (style_type == 'perm') {
+    return '펌';
+  } else if (style_type == 'color') {
+    return '염색';
+  }
+  return null;
+};
+
+exports.lengthTypeFormatting = (length_type) => {
+  if (length_type == 'long') {
+    return '롱';
+  } else if (length_type == 'medium') {
+    return '미디엄';
+  } else if (length_type == 'short') {
+    return '숏';
+  }
+  return null;
+};
+
+exports.genderTypeFormatting = (gender_type) => {
+  if (gender_type == 'male') {
+    return '남성';
+  } else if (gender_type == 'female') {
+    return '여성';
+  }
+  return null;
+};
+
+exports.dayFormating = (day) => {
+  if (day == 0) return '일';
+  else if (day == 1) return '월';
+  else if (day == 2) return '화';
+  else if (day == 3) return '수';
+  else if (day == 4) return '목';
+  else if (day == 5) return '금';
+  else if (day == 6) return '토';
+  else return null;
+};

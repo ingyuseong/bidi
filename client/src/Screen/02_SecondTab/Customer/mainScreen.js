@@ -24,9 +24,13 @@ function MainScreen({ navigation }) {
   if (loading || error || !matching) {
     return <Loading />;
   } else if (!matching.length) {
-    return <WaitMainScreen navigation={navigation} />;
+    navigation.navigate('Wait');
   } else if (!matching[0].reserved) {
-    return <MatchingMainScreen navigation={navigation} />;
-  } else navigation.replace('Reserved');
+    navigation.navigate('Matching');
+  } else {
+    navigation.navigate('Reserved');
+  }
+
+  return <></>;
 }
 export default MainScreen;

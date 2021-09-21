@@ -16,7 +16,7 @@ function SelectFromScrapScreen({ navigation, route }) {
   // states
   const { setAfterImageStyle, isUpdate } = route.params;
   const { data: user } = useSelector((state) => state.user);
-  const { data: styleScrapList, loading, error } = useSelector((state) => state.styleScrap);
+  const { data: styleScrapList, loading, error } = useSelector((state) => state.customerStyleScrap);
 
   // functions
   const goBack = async (e) => {
@@ -52,11 +52,11 @@ function SelectFromScrapScreen({ navigation, route }) {
                   <TouchableOpacity
                     activeOpacity={0.8}
                     style={styles.imageAfter}
-                    onPress={() => submit(item.img_src_array[0])}>
+                    onPress={() => submit(item.front_img_src)}>
                     <Image
                       style={styles.styleImg}
                       source={{
-                        uri: item.img_src_array[0],
+                        uri: item.front_img_src,
                       }}
                     />
                   </TouchableOpacity>

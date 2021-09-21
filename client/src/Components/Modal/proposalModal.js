@@ -16,7 +16,10 @@ function ProposalModal({ setModalVisible, proposal }) {
   const [imageToggle, setImageToggle] = useState(false);
   return (
     <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        bounces={false}>
         <View style={styles.content}>
           {imageToggle ? (
             <Image

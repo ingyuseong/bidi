@@ -23,7 +23,10 @@ function BidModal({ bid, setModalVisible }) {
         <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeBtnArea}>
           <Icon name="md-close" size={25} color="#8D8D8D" />
         </TouchableOpacity>
-        <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          bounces={false}>
           <UserInfo info={bid.user} keywords={[bid.style_type, bid.length_type]} height={150} />
           <View>
             <View style={styles.letterArea}>

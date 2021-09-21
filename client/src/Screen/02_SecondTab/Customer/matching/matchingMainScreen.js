@@ -10,9 +10,16 @@ import {
   Alert,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import {
+  priceFormating,
+  styleTypeFormatting,
+  lengthTypeFormatting,
+  genderTypeFormatting,
+} from '../../../../Lib/utils';
 
 // Components
 import BottomButton from '../../../../Components/Common/bottomButton';
+import StylingTime from '../../../../Components/Reservation/stylingTime';
 
 // API
 import MatchingAPI from '../../../../Api/matching';
@@ -22,7 +29,9 @@ import { deleteMatching } from '../../../../Contexts/Customer/Matching/action';
 
 function ReservationScreen({ navigation }) {
   const { data: matching } = useSelector((state) => state.customerMatching);
-  const [styleUri, setStyleUrl] = useState('none');
+  const [now, setNow] = useState(new Date());
+  const [styleMenu, setStyleMenu] = useState(null);
+  const [styleTime, setStyleTime] = useState(null);
   const dispatch = useDispatch();
   const removeMatching = async () => {
     const response = await MatchingAPI.deleteMatching(matching[0].id);
@@ -40,91 +49,158 @@ function ReservationScreen({ navigation }) {
       { text: '취소하기', onPress: removeMatching },
     ]);
   };
+  const submitReservation = async () => {
+    if (!styleMenu) {
+      Alert.alert('스타일을 선택해 주세요!');
+    } else if (!styleTime) {
+      Alert.alert('시간을 선택해 주세요!');
+    } else {
+      const body = {
+        style_id: styleMenu.id,
+        style_time: styleTime,
+      };
+      const matchingReservationCount = await MatchingAPI.patchMatchingReservation(
+        matching[0].id,
+        body,
+      );
+      if (matchingReservationCount) {
+        navigation.reset({ routes: [{ name: 'Main' }] });
+      }
+    }
+  };
+  const submitAlert = () => {
+    Alert.alert('정말 예약하시겠습니까?', '예약 이후에는 디자이너와의 DM으로만 취소 가능합니다', [
+      { text: '아니요', style: 'cancel' },
+      { text: '예약하기', onPress: submitReservation },
+    ]);
+  };
+  const styleSelectHandler = async (e) => {
+    setStyleMenu(null);
+    navigation.push('StyleSelect', {
+      setStyleMenu: setStyleMenu,
+    });
+  };
   return (
     <View style={styles.container}>
       <View style={{ padding: 20 }}>
-        <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+        <View>
           <View style={styles.titleBox}>
-            <Text style={styles.title}>스타일 선택</Text>
+            <Text style={styles.title}>시술할 스타일 선택</Text>
           </View>
-          <View style={styles.imageContainer}>
-            <View style={styles.imageBox}>
-              {styleUri == 'none' ? (
-                <View style={styles.image}>
-                  <TouchableOpacity activeOpacity={0.8}>
-                    <Text style={styles.imageLabel}>스타일 선택하기</Text>
+          <View style={styles.styleContainer}>
+            <View style={styles.imageContainer}>
+              <View style={styles.imageBox}>
+                {styleMenu ? (
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    style={styles.imageAfter}
+                    onPress={styleSelectHandler}>
+                    <Image
+                      style={{ width: '100%', height: '100%' }}
+                      source={{
+                        uri: styleMenu.front_img_src,
+                      }}
+                    />
                   </TouchableOpacity>
+                ) : (
+                  <View style={styles.image}>
+                    <TouchableOpacity activeOpacity={0.8} onPress={styleSelectHandler}>
+                      <Text style={styles.imageLabel}>스타일 선택하기</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+                <View style={styles.imageTypeLabel}>
+                  <Text style={styles.imageTypeLabelText}>Style</Text>
+                </View>
+              </View>
+              {styleMenu ? (
+                <View style={styles.styleBox}>
+                  <View style={styles.tagBox}>
+                    <View style={styles.nameTag}>
+                      <Text style={{ color: '#8D8D8D', fontWeight: 'bold' }}>스타일</Text>
+                    </View>
+                    <View style={styles.tag}>
+                      <Text style={styles.tagText}>{styleMenu.title}</Text>
+                    </View>
+                  </View>
+                  <View style={styles.tagBox}>
+                    <View style={styles.nameTag}>
+                      <Text style={{ color: '#8D8D8D', fontWeight: 'bold' }}>타입</Text>
+                    </View>
+                    <View style={styles.tag}>
+                      <Text style={styles.tagText}>
+                        {styleTypeFormatting(styleMenu.style_type)}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={styles.tagBox}>
+                    <View style={styles.nameTag}>
+                      <Text style={{ color: '#8D8D8D', fontWeight: 'bold' }}>길이</Text>
+                    </View>
+                    <View style={styles.tag}>
+                      <Text style={styles.tagText}>
+                        {lengthTypeFormatting(styleMenu.length_type)}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={styles.tagBox}>
+                    <View style={styles.nameTag}>
+                      <Text style={{ color: '#8D8D8D', fontWeight: 'bold' }}>성별</Text>
+                    </View>
+                    <View style={styles.tag}>
+                      <Text style={styles.tagText}>
+                        {genderTypeFormatting(styleMenu.gender_type)}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={{ ...styles.tagBox, marginTop: 20 }}>
+                    <View style={styles.priceTag}>
+                      <Text style={{ fontSize: 18, fontWeight: 'bold' }}>금액</Text>
+                    </View>
+                    <View style={styles.priceTagActive}>
+                      <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'white' }}>
+                        {priceFormating(styleMenu.price)} 원
+                      </Text>
+                    </View>
+                  </View>
                 </View>
               ) : (
-                <TouchableOpacity activeOpacity={0.8} style={styles.imageAfter}>
-                  <Image
-                    style={{ width: '100%', height: '100%' }}
-                    source={{
-                      uri: styleUri,
-                    }}
-                  />
-                </TouchableOpacity>
-              )}
-              <View style={{ ...styles.imageTypeLabel, backgroundColor: 'rgb(11,14,43)' }}>
-                <Text style={styles.imageTypeLabelText}>Style</Text>
-              </View>
-            </View>
-          </View>
-          {/* <View style={styles.titleBox}>
-            <Text style={styles.title}>제안 키워드</Text>
-          </View>
-          <View style={styles.tagBox}>
-            {matching.proposal.keyword_array && matching.proposal.keyword_array.length > 0 ? (
-              matching.proposal.keyword_array.map((item, index) => (
-                <View style={styles.tag} key={index}>
-                  <Text style={{ color: '#8D8D8D', fontWeight: '600' }}>{item}</Text>
+                <View style={styles.styleBox}>
+                  <View style={{ height: 120, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text style={{ color: '#8D8D8D' }}>스타일을 선택하면</Text>
+                    <Text style={{ color: '#8D8D8D' }}>세부정보가 표시됩니다</Text>
+                  </View>
+                  <View style={{ ...styles.tagBox, marginTop: 20 }}>
+                    <View style={styles.priceTag}>
+                      <Text style={{ fontSize: 18, fontWeight: 'bold' }}>금액</Text>
+                    </View>
+                    <View style={styles.priceTag}>
+                      <Text style={{ color: '#8D8D8D' }}>0 원</Text>
+                    </View>
+                  </View>
                 </View>
-              ))
-            ) : (
-              <View style={styles.tag}>
-                <Text style={{ color: '#8D8D8D' }}>키워드 없음</Text>
-              </View>
-            )}
-          </View>
-          <View style={styles.titleBox}>
-            <Text style={styles.title}>비드 키워드</Text>
-          </View>
-          <View style={styles.tagBox}>
-            <View style={styles.tag}>
-              <Text style={{ color: '#8D8D8D' }}>{matching.bid.length_type}</Text>
+              )}
             </View>
-            <View style={styles.tag}>
-              <Text style={{ color: '#8D8D8D' }}>{matching.bid.style_type}</Text>
-            </View>
-          </View> */}
+          </View>
+
+          <View style={{ marginTop: 20 }}></View>
           <View style={styles.titleBox}>
             <Text style={styles.title}>스타일링 시간 선택</Text>
           </View>
-          <View style={styles.tagBox}>
-            <View style={styles.tag}>
-              <Text style={{ color: '#8D8D8D' }}>10:30</Text>
-            </View>
-            <View style={styles.tag}>
-              <Text style={{ color: '#8D8D8D' }}>11:00</Text>
-            </View>
-            <View style={styles.tag}>
-              <Text style={{ color: '#8D8D8D' }}>11:30</Text>
-            </View>
-            <View style={styles.tag}>
-              <Text style={{ color: '#8D8D8D' }}>12:00</Text>
-            </View>
-            <View style={styles.tag}>
-              <Text style={{ color: '#8D8D8D' }}>12:30</Text>
-            </View>
-          </View>
-          <View style={{ marginTop: 80 }}></View>
-        </ScrollView>
+          <StylingTime navigation={navigation} setStyleTime={setStyleTime} />
+        </View>
+      </View>
+      <View style={{ width: '100%', height: 80, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ color: '#8D8D8D' }}>예약을 완료하면</Text>
+        <Text style={{ color: '#8D8D8D' }}>디자이너와의 DM이 개설됩니다!</Text>
       </View>
       <BottomButton
         leftName="취소하기"
         rightName="예약완료"
         leftRatio={50}
         leftHandler={deleteAlert}
+        rightHandler={submitAlert}
+        notBottomRadius={true}
       />
     </View>
   );
@@ -191,6 +267,12 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#ffffff',
   },
+  styleBox: {
+    flexDirection: 'column',
+    height: '100%',
+    width: '50%',
+    marginTop: 10,
+  },
   descriptionBox: {
     width: '100%',
     alignItems: 'center',
@@ -204,33 +286,56 @@ const styles = StyleSheet.create({
   },
   tagBox: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
     marginLeft: 10,
+  },
+  nameTag: {
+    marginTop: 10,
+    marginRight: 5,
+    width: 45,
+    height: 25,
+    justifyContent: 'center',
   },
   tag: {
     paddingLeft: 10,
     paddingRight: 10,
-    backgroundColor: '#EEEEEE',
+    backgroundColor: '#e2e2e2',
     borderRadius: 2,
     marginTop: 10,
+    // marginLeft: 12,
+    height: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tagText: {
+    fontSize: 13,
+  },
+  priceTag: {
     marginRight: 10,
-    height: 30,
+    height: 25,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  dropdownBox: {
+  priceTagActive: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginLeft: 10,
+    backgroundColor: '#FF533A',
+    borderRadius: 2,
+    height: 25,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 7,
   },
-  locationInput: {
-    width: '90%',
-    height: 42,
-    marginBottom: 10,
-    borderRadius: 3,
-    backgroundColor: 'rgb(243,243,243)',
-    padding: 10,
-    zIndex: 2,
+  timeBox: {
+    flexDirection: 'row',
+    marginTop: 40,
+  },
+  timeText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  timeLabel: {
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

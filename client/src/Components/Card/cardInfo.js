@@ -42,8 +42,8 @@ function CardInfo({ info, navigation, height, tagBackgroundColor, tagColor }) {
         /> */}
       </View>
       <View style={styles.designerTag}>
-        {info.keywords &&
-          info.keywords.map((item, index) => (
+        {info.keyword_array &&
+          info.keyword_array.map((item, index) => (
             <View style={{ ...styles.tag, backgroundColor: tagBackgroundColor }} key={index}>
               <Text style={{ ...styles.tagText, color: tagColor }}># {item}</Text>
             </View>
