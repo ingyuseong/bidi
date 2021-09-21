@@ -71,6 +71,8 @@ function ReservationScreen({ navigation }) {
       );
       if (matchingReservationCount) {
         navigation.reset({ routes: [{ name: 'Main' }] });
+      } else {
+        Alert.alert('이미 예약된 시간입니다.', '시간을 다시 선택해 주세요!');
       }
     }
   };

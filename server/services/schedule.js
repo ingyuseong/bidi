@@ -38,6 +38,8 @@ exports.findAllScheduleByDate = async (body) => {
   const { designer_id, year, month, date } = body
   const scheduleList = await db.findAllScheduleByDate(designer_id)
   let reservedTimeList = []
+
+  // 년/월/일 을 받아 해당 날짜의 스케줄을 timeFloat 배열로 return
   if (scheduleList && scheduleList.length > 0) {
     scheduleList.forEach((schedule) => {
       const sYear = schedule.dataValues.time.getFullYear()
