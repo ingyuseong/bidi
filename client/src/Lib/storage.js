@@ -4,6 +4,7 @@ class Storage {
   async storeData(key, value) {
     try {
       const jsonValue = JSON.stringify(value);
+      console.log('json: ', jsonValue);
       await AsyncStorage.setItem(key, jsonValue);
     } catch (e) {
       console.error('setItem error > ', e);
