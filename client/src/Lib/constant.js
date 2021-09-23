@@ -4,7 +4,7 @@ export const APP_VERSION = 'v1.0.0';
 
 export const STORAGE_KEY = 'user';
 export const LOCATION_STORAGE_KEY = 'location';
-
+export const CURRENT_LOCATION_STORAGE_KEY = 'current_location';
 export const SHOP_EXTRA_INFO_LIST = [
   '주차 가능',
   'wifi 제공',

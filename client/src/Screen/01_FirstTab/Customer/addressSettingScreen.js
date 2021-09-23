@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import BidiStorage from '../../../Lib/storage';
 import Line from '../../../Components/Common/line';
-import { LOCATION_STORAGE_KEY } from '../../../Lib/constant';
+import { LOCATION_STORAGE_KEY, CURRENT_LOCATION_STORAGE_KEY } from '../../../Lib/constant';
 
 function AddressSettingScreen({ navigation, route }) {
   const { location, setLocation } = route.params;
@@ -20,8 +20,9 @@ function AddressSettingScreen({ navigation, route }) {
     });
   };
 
-  const locationHandler = (address) => {
+  const locationHandler = async (address) => {
     setLocation(address);
+    await BidiStorage.storeData(CURRENT_LOCATION_STORAGE_KEY, address);
     navigation.navigate('DesignerList');
   };
   const deleteLocationHandler = async (address) => {
@@ -32,8 +33,7 @@ function AddressSettingScreen({ navigation, route }) {
 
   useEffect(() => {
     const fetchMode = async () => {
-      const locationList = await BidiStorage.getData(LOCATION_STORAGE_KEY);
-      console.log('here:', locationList);
+      const locationList = (await BidiStorage.getData(LOCATION_STORAGE_KEY)) || [];
       setRecentLocationList(locationList);
     };
     fetchMode();
@@ -48,26 +48,38 @@ function AddressSettingScreen({ navigation, route }) {
       <Line />
       <View style={styles.addressListBox}>
         <View style={styles.currentAddressArea}>
+          <Icon name="locate" size={20} style={styles.locateIcon} />
           <Text style={styles.currentAddressText}>현재 위치로 주소 찾기</Text>
         </View>
         <ScrollView style={styles.addressListArea}>
           <View style={styles.recentArea}>
             <Text style={styles.recentText}>최근 주소</Text>
           </View>
-          {recentLocationList.map((recentLocation, index) => (
-            <TouchableOpacity
-              style={styles.addressItem}
-              key={index}
-              onPress={() => locationHandler(recentLocation)}>
-              <Icon name="location-outline" size={20} style={styles.locationIcon} />
-              <View style={styles.textArea}>
-                <Text style={styles.addressTitleText}>{recentLocation}</Text>
-              </View>
-              <TouchableOpacity onPress={() => deleteLocationHandler(recentLocation)}>
-                <Icon name="close" size={20} style={styles.closeIcon} />
-              </TouchableOpacity>
-            </TouchableOpacity>
-          ))}
+          {recentLocationList &&
+            recentLocationList.map((recentLocation, index) =>
+              recentLocation === location ? (
+                <View style={styles.addressItem} key={index}>
+                  <Icon name="location-outline" size={20} style={styles.locationIcon} />
+                  <View style={styles.textArea}>
+                    <Text style={styles.addressTitleText}>{recentLocation}</Text>
+                  </View>
+                  <Icon name="checkmark-sharp" size={20} style={styles.checkIcon} />
+                </View>
+              ) : (
+                <TouchableOpacity
+                  style={styles.addressItem}
+                  key={index}
+                  onPress={() => locationHandler(recentLocation)}>
+                  <Icon name="location-outline" size={20} style={styles.locationIcon} />
+                  <View style={styles.textArea}>
+                    <Text style={styles.addressTitleText}>{recentLocation}</Text>
+                  </View>
+                  <TouchableOpacity onPress={() => deleteLocationHandler(recentLocation)}>
+                    <Icon name="close" size={20} style={styles.closeIcon} />
+                  </TouchableOpacity>
+                </TouchableOpacity>
+              ),
+            )}
         </ScrollView>
       </View>
     </View>
@@ -90,13 +102,19 @@ const styles = StyleSheet.create({
     color: '#878787',
     fontSize: 16,
   },
+  locateIcon: {
+    marginRight: 8,
+  },
   currentAddressArea: {
     borderWidth: 1,
     borderColor: 'gray',
     padding: 8,
+    paddingTop: 12,
+    paddingBottom: 12,
     justifyContent: 'center',
     flexDirection: 'row',
     borderRadius: 8,
+    alignItems: 'center',
   },
   currentAddressText: {
     color: '#111111',
@@ -145,6 +163,9 @@ const styles = StyleSheet.create({
     color: '#878787',
     fontSize: 16,
     lineHeight: 17,
+  },
+  checkIcon: {
+    color: '#FF533A',
   },
 });
 

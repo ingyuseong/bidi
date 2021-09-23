@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import BidiStorage from '../../Lib/storage';
+import { CURRENT_LOCATION_STORAGE_KEY } from '../../Lib/constant';
 
 function AddressBar({ navigation, route }) {
   const [location, setLocation] = useState('주소를 설정해주세요');
+
+  useEffect(() => {
+    const fetchMode = async () => {
+      const currentLocation = (await BidiStorage.getData(CURRENT_LOCATION_STORAGE_KEY)) || [];
+      setLocation(currentLocation);
+    };
+    fetchMode();
+  }, []);
 
   return (
     <TouchableOpacity
