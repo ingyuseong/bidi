@@ -1,7 +1,11 @@
 import React, { useState, useEffect, createRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Text, TextInput, View, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+
+// Component
+import ScheduleTime from '../../../Components/Schedule/scheduleTime';
 import Loading from '../../../Components/Common/loading';
+
 // API
 import ScheduleInfoAPI from '../../../Api/scheduleInfo';
 
@@ -9,6 +13,7 @@ function ScheduleInfoScreen({ navigation }) {
   const dispatch = useDispatch();
   const { data: user } = useSelector((state) => state.user);
   const [scheduleInfo, setScheduleInfo] = useState();
+  const [styleTime, setStyleTime] = useState();
   const timeFormatting = (timefloat) => {
     let remainder = (Number(timefloat) % 1).toFixed(2);
     let minutes = remainder * 60 ? remainder * 60 : '00';
@@ -28,55 +33,63 @@ function ScheduleInfoScreen({ navigation }) {
       <View style={styles.textBox}>
         <Text style={styles.title}>주간 시술 스케줄 관리하기</Text>
       </View>
-      {scheduleInfo && scheduleInfo.length > 0 ? (
-        scheduleInfo[0].weeklySchedule.map((item, index) => {
-          return (
-            <View style={styles.tagBox} key={index}>
-              <View
-                style={index ? styles.dayTag : { ...styles.dayTag, backgroundColor: '#FF533A' }}>
-                <Text style={{ color: 'white' }}>{item.date}</Text>
-              </View>
-              {item.timeArray && item.timeArray[0] ? (
-                <>
-                  <View style={styles.tag}>
-                    <Text style={{ color: '#8D8D8D' }}>{timeFormatting(item.timeArray[0])}</Text>
-                  </View>
-                  <View style={styles.tag}>
-                    <Text style={{ color: '#8D8D8D' }}>{timeFormatting(item.timeArray[1])}</Text>
-                  </View>
-                </>
-              ) : (
-                <View style={styles.tag}>
-                  <Text style={{ color: '#8D8D8D' }}>휴무</Text>
+      <View>
+        {scheduleInfo && scheduleInfo.length > 0 ? (
+          scheduleInfo[0].weeklySchedule.map((item, index) => {
+            return (
+              <View style={styles.tagBox} key={index}>
+                <View
+                  style={index ? styles.dayTag : { ...styles.dayTag, backgroundColor: '#FF533A' }}>
+                  <Text style={{ color: 'white' }}>{item.date}</Text>
                 </View>
-              )}
-            </View>
-          );
-        })
-      ) : (
-        <View style={styles.noScheduleInfoBox}>
-          <Text style={styles.noScheduleInfoText}>아직 주간 시술 스케줄이 설정되지 않았어요!</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('RegisterScheduleInfo')}>
-            <View style={styles.scheduleRegisterButton}>
-              <Text style={styles.scheduleRegisterButtonText}>주간 시술 스케줄 설정하기</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      )}
-      {scheduleInfo && scheduleInfo.length > 0 && (
-        <View style={{ width: '90%', margin: 10, alignItems: 'flex-end' }}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() =>
-              navigation.navigate('UpdateScheduleInfo', { scheduleInfo: scheduleInfo[0] })
-            }>
-            <Text style={styles.buttonText}>업데이트</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-      <View style={styles.textBox}>
-        <Text style={styles.title}>시간별 스케줄 직접 등록하기</Text>
+                {item.timeArray && item.timeArray[0] ? (
+                  <>
+                    <View style={styles.tag}>
+                      <Text style={{ color: '#8D8D8D' }}>{`${timeFormatting(
+                        item.timeArray[0],
+                      )}~${timeFormatting(item.timeArray[1])}`}</Text>
+                    </View>
+                  </>
+                ) : (
+                  <View style={styles.tag}>
+                    <Text style={{ color: '#8D8D8D' }}>휴무</Text>
+                  </View>
+                )}
+              </View>
+            );
+          })
+        ) : (
+          <View style={styles.noScheduleInfoBox}>
+            <Text style={styles.noScheduleInfoText}>
+              아직 주간 시술 스케줄이 설정되지 않았어요!
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('RegisterScheduleInfo')}>
+              <View style={styles.scheduleRegisterButton}>
+                <Text style={styles.scheduleRegisterButtonText}>주간 시술 스케줄 설정하기</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
+      {scheduleInfo && scheduleInfo.length > 0 && (
+        <>
+          <View style={{ width: '90%', margin: 10, alignItems: 'flex-end' }}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() =>
+                navigation.navigate('UpdateScheduleInfo', { scheduleInfo: scheduleInfo[0] })
+              }>
+              <Text style={styles.buttonText}>업데이트</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.textBox}>
+            <Text style={styles.title}>직접 스케줄 등록하기</Text>
+            <View style={{ padding: 10 }}>
+              <ScheduleTime navigation={navigation} setStyleTime={setStyleTime} />
+            </View>
+          </View>
+        </>
+      )}
     </View>
   );
 }

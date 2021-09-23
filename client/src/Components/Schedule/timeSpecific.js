@@ -11,8 +11,13 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
-function TimeSpecific({ setStyleTime, scheduleList, year, month, date, day, isClicked, isToday }) {
-  const { data: matching } = useSelector((state) => state.customerMatching);
+import Modal from 'react-native-modal';
+import ScheduleRegisterModal from './scheduleRegisterModal';
+
+function TimeSpecific({ navigation, scheduleList, year, month, date, day, isClicked, isToday }) {
+  const { data: user } = useSelector((state) => state.user);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [submitTime, setSubmitTime] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null); // 선택된 시간 라벨을 활성화 하기 위한 상태
 
   // 9.5 -> '9:30', 21 -> '21:00' 로 포맷팅하기 위한 함수
@@ -28,8 +33,8 @@ function TimeSpecific({ setStyleTime, scheduleList, year, month, date, day, isCl
     setSelectedTime(timeFloat); // 해당 timeLabel을 활성화
 
     // 최상위 예약 컴포넌트의 style_time을 설정
-    const submitTime = new Date(year, month, date, Math.floor(timeFloat), (timeFloat % 1) * 60, 0);
-    setStyleTime(submitTime);
+    const time = new Date(year, month, date, Math.floor(timeFloat), (timeFloat % 1) * 60, 0);
+    setSubmitTime(time);
   };
 
   /* 예약 가능한 timeLabel을 렌더링 하기 위한 작업 */
@@ -37,15 +42,15 @@ function TimeSpecific({ setStyleTime, scheduleList, year, month, date, day, isCl
   let timeLabelList = [];
 
   // # TimeLabel에 가능한 시간 정보를 조건에 맞게 필터링하여 push해 줄 것!
-  if (matching && matching.length > 0 && isClicked) {
+  if (user.scheduleInfo && isClicked) {
     /* 
       1. 디자이너의 주간 시술 스케줄 반영
         matching의 scheduleInfo 에는 디자이너의 일(0)~토(6) 의 '주간 시술 스케줄(weeklySchedule)'이 담겨있고, 배열로 접근 가능함
         weeklySchedule[day]에는 timeArray가 담겨있는데, [9, 17.5]의 형태로 (시작스케줄, 종료스케줄)로 구성되어 있음.
         -> String이므로 Number로 전환해서 사용
     */
-    let startTime = Number(matching[0].bid.user.scheduleInfo.weeklySchedule[day].timeArray[0]);
-    const endTime = Number(matching[0].bid.user.scheduleInfo.weeklySchedule[day].timeArray[1]);
+    let startTime = Number(user.scheduleInfo.weeklySchedule[day].timeArray[0]);
+    const endTime = Number(user.scheduleInfo.weeklySchedule[day].timeArray[1]);
 
     // 만약 오늘을 선택한 경우 현재 시간과, startTime중 더 늦은 시간으로 선택!
     if (isToday) {
@@ -63,7 +68,6 @@ function TimeSpecific({ setStyleTime, scheduleList, year, month, date, day, isCl
       for (var i = startTime; i <= endTime; i += 0.5) {
         // i를 할당하여 사용하는 이유는 i가 변함에 따라 i값은 컴포넌트에서 활용하기 부적합함
         const timeFloat = i;
-
         // 만약 timeFloat에 해당하는 시간에 스케줄이 없다면,
         if (!scheduleList.includes(timeFloat.toString())) {
           // timeLabelList에 가능한 시간으로 timeLabel을 만들어서 등록!
@@ -71,22 +75,32 @@ function TimeSpecific({ setStyleTime, scheduleList, year, month, date, day, isCl
             <TouchableOpacity
               style={
                 selectedTime == timeFloat // 선택시 활성화를 위한 구문
-                  ? { ...styles.timeTag, backgroundColor: '#FF533A' }
+                  ? { ...styles.timeTag, backgroundColor: '#0A0A32' }
                   : styles.timeTag
               }
               key={timeFloat}
-              onPress={() => selectTimeLabel(timeFloat)}>
+              onPress={() => {
+                selectTimeLabel(timeFloat);
+                setModalVisible(true);
+              }}>
               <Text style={selectedTime == timeFloat && { color: 'white', fontWeight: 'bold' }}>
                 {timeFormating(timeFloat)}
               </Text>
             </TouchableOpacity>,
+          );
+          // 만약 스케줄이 있다면
+        } else {
+          timeLabelList.push(
+            <View style={{ ...styles.timeTag, backgroundColor: '#e2e2e2' }} key={timeFloat}>
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>{timeFormating(timeFloat)}</Text>
+            </View>,
           );
         }
       }
     } else {
       timeLabelList.push(
         <View style={styles.timeTag} key={1}>
-          <Text>디자이너 휴무</Text>
+          <Text>휴무일</Text>
         </View>,
       );
     }
@@ -101,9 +115,23 @@ function TimeSpecific({ setStyleTime, scheduleList, year, month, date, day, isCl
         ? timeLabelList
         : isClicked && (
             <View style={styles.timeTag} key={1}>
-              <Text>예약 마감</Text>
+              <Text>스케줄 없음</Text>
             </View>
           )}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        isVisible={modalVisible}
+        style={{
+          alignItems: 'center',
+        }}
+        backdropOpacity={0.3}>
+        <ScheduleRegisterModal
+          navigation={navigation}
+          submitTime={submitTime}
+          setModalVisible={setModalVisible}
+        />
+      </Modal>
     </ScrollView>
   );
 }

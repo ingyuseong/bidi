@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Alert } fr
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import UserAPI from '../../../Api/user';
+import { getUser } from '../../../Contexts/User/action';
 import BidiStorage from '../../../Lib/storage';
 import Line from '../../../Components/Common/line';
 import { APP_VERSION, STORAGE_KEY } from '../../../Lib/constant';
@@ -28,6 +29,13 @@ function MyPageScreen({ navigation }) {
       Alert.alert('회원탈퇴가 완료되었습니다!');
     }
   };
+  useEffect(() => {
+    async function FetchMode() {
+      const user = await UserAPI.checkToken(userInfo.kakao_token);
+      await dispatch(getUser(user));
+    }
+    FetchMode();
+  }, []);
 
   return (
     <ScrollView style={styles.container}>

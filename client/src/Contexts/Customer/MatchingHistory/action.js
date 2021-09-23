@@ -15,7 +15,7 @@ export const getMatchingHistoryListByCustomerId = createPromiseThunk(
   GET_MATCHINGHISTORY_LIST_CUSTOMER,
   MatchingAPI.getMatchingHistoryListByCustomerId,
 );
-export const getDesignerMatchingHistoryListByDesignerId = createPromiseThunk(
+export const getMatchingHistoryListByDesignerId = createPromiseThunk(
   GET_MATCHINGHISTORY_LIST_DESIGNER,
   MatchingAPI.getMatchingHistoryListByDesignerId,
 );
