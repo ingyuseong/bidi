@@ -200,7 +200,7 @@ function BrandingScreen({ navigation, route }) {
           <View style={styles.tabLine}></View>
           <View style={styles.contentContainer}>
             {tab == 'tab1' ? (
-              <DesignerStyle navigation={navigation} branding={brandingList[0]} isUser={false} />
+              <DesignerStyle navigation={navigation} branding={info} isUser={false} />
             ) : tab == 'tab2' ? (
               <DesignerHistory branding={info} isUser={false} />
             ) : (
