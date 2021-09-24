@@ -22,7 +22,7 @@ function BidRefStyle({ title, navigation, styleMenuList, setStyleMenuList, nextT
             </View>
           );
         })}
-        {styleMenuList.length === 0 && (
+        {styleMenuList.length === 0 && isEdit === false && (
           <View>
             <Text style={styles.noRefStyleText}>추천 스타일이 존재하지 않습니다</Text>
           </View>
