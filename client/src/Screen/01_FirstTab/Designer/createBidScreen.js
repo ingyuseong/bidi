@@ -36,6 +36,8 @@ function CreateBidScreen({ navigation, route }) {
   const [styleTypeOpen, setStyleTypeOpen] = useState(false);
   const [styleTypeValue, setStyleTypeValue] = useState(null);
   const [styleTypeItems, setStyleTypeItems] = useState([]);
+
+  const [styleMenuList, setStyleMenuList] = useState([]);
   const [needCare, setNeedCare] = useState(null);
   const [bidLetter, setBidLetter] = useState('');
 
@@ -44,6 +46,7 @@ function CreateBidScreen({ navigation, route }) {
   }, [lengthTypeValue]);
 
   const registerBidHandler = async () => {
+    const styleIdList = styleMenuList.map((style) => style.id);
     if (!lengthTypeValue || !styleTypeValue) {
       return Alert.alert('카테고리 정보를 선택해주세요!');
     }
@@ -62,7 +65,7 @@ function CreateBidScreen({ navigation, route }) {
       letter: bidLetter,
       need_care: needCare,
       status: 'wait',
-      // styleIdList: [1, 2],
+      styleIdList: styleIdList,
     });
     if (response) {
       dispatch(getBidListByDesignerId(userInfo.id));
@@ -118,7 +121,14 @@ function CreateBidScreen({ navigation, route }) {
         />
         <BidNeedCare needCare={needCare} setNeedCare={setNeedCare} isEdit={true} />
         <BidLetter bidLetter={bidLetter} setBidLetter={setBidLetter} isEdit={true} />
-        <BidRefStyle />
+        <BidRefStyle
+          navigation={navigation}
+          title="추천 스타일"
+          styleMenuList={styleMenuList}
+          setStyleMenuList={setStyleMenuList}
+          nextTo="CreateBid"
+          isEdit={true}
+        />
         <View style={styles.bottomBtnArea}>
           <TouchableOpacity style={[styles.bottomBtn, styles.leftBtn]}>
             <Text style={styles.leftBtnText}>임시저장</Text>
