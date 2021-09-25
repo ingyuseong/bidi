@@ -10,7 +10,8 @@ function AddressBar({ navigation, route }) {
 
   useEffect(() => {
     const fetchMode = async () => {
-      const currentLocation = (await BidiStorage.getData(CURRENT_LOCATION_STORAGE_KEY)) || [];
+      const currentLocation =
+        (await BidiStorage.getData(CURRENT_LOCATION_STORAGE_KEY)) || '주소를 설정해주세요';
       setLocation(currentLocation);
     };
     fetchMode();

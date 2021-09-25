@@ -4,6 +4,8 @@ const { STATUS_CODE } = require('../../lib/constants')
 // [ 1. POST Methods ]
 exports.registerBid = async (req, res) => {
   const body = req.body
+  console.log(body)
+  console.log(typeof body.styleIdList)
   const bid = await bidServices.createBid(body)
   const bidStyle = await bidServices.createBidStyle({
     bidId: bid.id,
@@ -82,7 +84,11 @@ exports.patchBid = async (req, res) => {
   const { id } = req.params
   const body = req.body
   const patchedBidCount = await bidServices.updateBid(id, body)
-  if (patchedBidCount) {
+  const patchBidStyleCount = await bidServices.updateBidStyle({
+    bidId: id,
+    styleIdList: body.styleIdList,
+  })
+  if (patchedBidCount || patchBidStyleCount) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
       message: '비드 정보 수정 성공',

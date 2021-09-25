@@ -226,6 +226,29 @@ exports.updateBranding = async (id, body) => {
     return null
   }
 }
+
+exports.updateBrandingStyle = async ({ brandingId, styleIdList }) => {
+  if (styleIdList) {
+    await db.destroyBrandingStyle(brandingId)
+    const brandingStyleList = await Promise.all(
+      styleIdList.map((styleId) => {
+        const attr = {
+          brandingId,
+          styleId,
+        }
+        return db.createBrandingStyle(attr)
+      })
+    )
+    if (brandingStyleList) {
+      return brandingStyleList
+    } else {
+      return null
+    }
+  } else {
+    return null
+  }
+}
+
 exports.updateMainBranding = async (body) => {
   const { user_id, branding_id } = body
   await db.updateAllOtherBranding(user_id)
