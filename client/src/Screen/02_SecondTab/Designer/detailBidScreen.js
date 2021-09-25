@@ -18,6 +18,7 @@ import { STYLE_TYPE, LENGTH_TYPE } from '../../../Lib/constant';
 
 function DetailBidScreen({ navigation, route }) {
   const { info, screen } = route.params;
+
   const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState(false);
   const [lengthTypeOpen, setLengthTypeOpen] = useState(false);
@@ -30,7 +31,6 @@ function DetailBidScreen({ navigation, route }) {
   const [styleMenuList, setStyleMenuList] = useState(info.bidStyles);
   const [needCare, setNeedCare] = useState(info.need_care);
   const [bidLetter, setBidLetter] = useState(info.letter);
-
   useEffect(() => {
     setStyleTypeItems(STYLE_TYPE[lengthTypeValue]);
   }, [lengthTypeValue]);
@@ -52,7 +52,7 @@ function DetailBidScreen({ navigation, route }) {
     };
     const response = BidAPI.patchBid(id, bodyData);
     if (response) {
-      dispatch(patchBid(id, bodyData));
+      dispatch(patchBid(id, { ...bodyData, bidStyles: styleMenuList }));
       Alert.alert('Bid 수정이 성공적으로 완료되었습니다!');
       setIsEdit(false);
     }

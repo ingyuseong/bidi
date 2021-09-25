@@ -6,7 +6,7 @@ import Modal from 'react-native-modal';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import Loading from '../../../Components/Common/loading';
-import StyleModal from '../../../Components/Branding/styleModal';
+import StyleModal from '../../../Components/Bid/styleModal';
 import { getStyleListByDesignerId } from '../../../Contexts/Designer/Style';
 
 function styleListScreen({ navigation, route }) {
@@ -15,13 +15,15 @@ function styleListScreen({ navigation, route }) {
   const { data: userInfo } = useSelector((state) => state.user);
   const { data: styleList, loading, error } = useSelector((state) => state.designerStyle);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalIndex, setModalIndex] = useState(0);
   const [checkStyleList, setCheckStyleList] = useState(styleMenuList);
   useEffect(() => {
     dispatch(getStyleListByDesignerId(userInfo.id));
   }, [dispatch]);
 
-  const detailStyleHandler = (styleItem) => {
+  const detailStyleHandler = (index) => {
     setModalVisible(true);
+    setModalIndex(index);
   };
 
   const checkHandler = (styleItem) => {
@@ -59,7 +61,7 @@ function styleListScreen({ navigation, route }) {
               activeOpacity={0.8}
               style={styles.styleItem}
               key={index}
-              onPress={() => detailStyleHandler(styleItem)}>
+              onPress={() => detailStyleHandler(index)}>
               <Image
                 style={styles.styleImg}
                 source={{
@@ -79,24 +81,26 @@ function styleListScreen({ navigation, route }) {
                   <AntDesign name="check" size={25} style={styles.checkIcon} />
                 </TouchableOpacity>
               )}
-              <Modal
-                animationType="slide"
-                transparent={true}
-                isVisible={modalVisible}
-                style={{
-                  alignItems: 'center',
-                }}
-                backdropOpacity={0.3}>
-                <StyleModal
-                  styleItem={styleItem}
-                  setModalVisible={setModalVisible}
-                  navigation={navigation}
-                />
-              </Modal>
             </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        isVisible={modalVisible}
+        style={{
+          alignItems: 'center',
+        }}
+        backdropOpacity={0.3}>
+        <StyleModal
+          styleList={styleList}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          navigation={navigation}
+          index={modalIndex}
+        />
+      </Modal>
       <TouchableOpacity style={styles.bottomBtnArea} onPress={addHandler}>
         <Text style={styles.bottomBtnText}>추가하기</Text>
       </TouchableOpacity>
