@@ -27,9 +27,10 @@ function DetailBidScreen({ navigation, route }) {
   const [styleTypeOpen, setStyleTypeOpen] = useState(false);
   const [styleTypeValue, setStyleTypeValue] = useState(info.style_type);
   const [styleTypeItems, setStyleTypeItems] = useState([]);
+
+  const [styleMenuList, setStyleMenuList] = useState(info.bidStyles);
   const [needCare, setNeedCare] = useState(info.need_care);
   const [bidLetter, setBidLetter] = useState(info.letter);
-
   useEffect(() => {
     setStyleTypeItems(STYLE_TYPE[lengthTypeValue]);
   }, [lengthTypeValue]);
@@ -41,15 +42,17 @@ function DetailBidScreen({ navigation, route }) {
     ]);
   };
   const editSubmitHandler = async (id) => {
+    const styleIdList = styleMenuList.map((style) => style.id);
     const bodyData = {
       length_type: lengthTypeValue,
       style_type: styleTypeValue,
       need_care: needCare,
       letter: bidLetter,
+      styleIdList: styleIdList,
     };
     const response = BidAPI.patchBid(id, bodyData);
     if (response) {
-      dispatch(patchBid(id, bodyData));
+      dispatch(patchBid(id, { ...bodyData, bidStyles: styleMenuList }));
       Alert.alert('Bid 수정이 성공적으로 완료되었습니다!');
       setIsEdit(false);
     }
@@ -121,7 +124,14 @@ function DetailBidScreen({ navigation, route }) {
         />
         <BidNeedCare needCare={needCare} setNeedCare={setNeedCare} isEdit={isEdit} />
         <BidLetter bidLetter={bidLetter} setBidLetter={setBidLetter} isEdit={isEdit} />
-        <BidRefStyle />
+        <BidRefStyle
+          navigation={navigation}
+          title="추천 스타일"
+          styleMenuList={styleMenuList}
+          setStyleMenuList={setStyleMenuList}
+          nextTo="DetailBid"
+          isEdit={isEdit}
+        />
         {screen === 'bid' && (
           <View style={styles.bottomBtnArea}>
             {isEdit ? (

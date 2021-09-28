@@ -89,13 +89,6 @@ function ItemContent({ info, screen, navigation, modalVisible, setModalVisible }
             <Ionicons name="at" size={15} />
             <Text style={styles.locationText}>{data.address}</Text>
           </View>
-          <View style={styles.locationView}>
-            <Ionicons
-              name={screen === 'branding' ? 'md-cut-outline' : 'location-outline'}
-              size={15}
-            />
-            <Text style={styles.locationText}>3km</Text>
-          </View>
         </View>
         <View style={styles.tagArea}>
           {data.keyword_array &&

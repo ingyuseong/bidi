@@ -23,7 +23,7 @@ exports.createBid = async (body) => {
 exports.createBidStyle = async ({ bidId, styleIdList }) => {
   if (styleIdList) {
     const bidStyleList = await Promise.all(
-      styleIdList.split(',').map((styleId) => {
+      styleIdList.map((styleId) => {
         const attr = {
           bidId,
           styleId,
@@ -149,6 +149,29 @@ exports.updateBid = async (id, body) => {
     return null
   }
 }
+
+exports.updateBidStyle = async ({ bidId, styleIdList }) => {
+  if (styleIdList) {
+    await db.destroyBidStyle(bidId)
+    const bidStyleList = await Promise.all(
+      styleIdList.map((styleId) => {
+        const attr = {
+          bidId,
+          styleId,
+        }
+        return db.createBidStyle(attr)
+      })
+    )
+    if (bidStyleList) {
+      return bidStyleList
+    } else {
+      return null
+    }
+  } else {
+    return null
+  }
+}
+
 exports.updateBidCanceled = async (id) => {
   const bid = await db.updateBidCanceled(id)
   if (bid) {

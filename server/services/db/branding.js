@@ -108,6 +108,15 @@ exports.findOneBranding = async (id) => {
   })
   return branding
 }
+exports.findOneBrandingStyle = async ({ brandingId, styleId }) => {
+  const brandingStyle = await BrandingStyle.findOne({
+    where: {
+      brandingId,
+      styleId,
+    },
+  })
+  return brandingStyle
+}
 
 // Update Branding Resource [update]
 exports.updateBranding = async (id, attr) => {
@@ -123,6 +132,20 @@ exports.updateBranding = async (id, attr) => {
     }
   )
   return branding[0]
+}
+exports.updateBrandingStyle = async ({ brandingId, styleId }) => {
+  const bid = await BrandingStyle.updateC(
+    {
+      raw: true,
+      styleId,
+    },
+    {
+      where: {
+        brandingId,
+      },
+    }
+  )
+  return bid[0]
 }
 exports.updateAllOtherBranding = async (user_id) => {
   const brandingList = await Branding.update(
@@ -161,4 +184,12 @@ exports.destroyBranding = async (id) => {
     },
   })
   return branding
+}
+exports.destroyBrandingStyle = async (brandingId) => {
+  const brandingStyle = await BrandingStyle.destroy({
+    where: {
+      brandingId,
+    },
+  })
+  return brandingStyle
 }
