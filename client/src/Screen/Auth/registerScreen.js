@@ -28,8 +28,7 @@ import { useDispatch } from 'react-redux';
 import { getUser } from '../../Contexts/User/action';
 
 const RegisterScreen = ({ navigation, route }) => {
-  const { profile } = route.params;
-  const userKakaoToken = profile.id;
+  const { type, token, name, birthDay, authorizationCode, email, user } = route.params;
   const [userType, setUserType] = useState('');
   const [userGenderType, setUserGenderType] = useState('');
   const [userNickName, setUserNickName] = useState('');
@@ -39,15 +38,29 @@ const RegisterScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
 
   const handleSubmitButton = async () => {
+    let kakao_token = '';
+    let apple_token = '';
+    let naver_token = '';
+    if (type === 'kakao') {
+      kakao_token = token;
+    } else if (type === 'apple') {
+      apple_token = token;
+    } else {
+      naver_token = token;
+    }
     if (photo) {
       const bodyData = createFormData(photo, {
         user_type: userType,
-        name: profile.nickname,
+        name,
         nick_name: userNickName,
-        birth: profile.birthday,
-        phone_number: profile.phoneNumber,
+        birth: birthDay || '',
         gender_type: userGenderType,
-        kakao_token: userKakaoToken,
+        kakao_token,
+        naver_token,
+        apple_token,
+        authorizationCode,
+        email,
+        user,
       });
       // 1. API 호출
       const user = await UserAPI.registerUser(bodyData);

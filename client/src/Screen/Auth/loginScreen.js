@@ -11,12 +11,7 @@ import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import appleAuth, {
-  AppleButton,
-  AppleAuthRequestOperation,
-  AppleAuthRequestScope,
-  AppleAuthCredentialState,
-} from '@invertase/react-native-apple-authentication';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
 
 import { useDispatch } from 'react-redux';
 import { getUser } from '../../Contexts/User/action';
@@ -25,10 +20,9 @@ import UserAPI from '../../Api/user';
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const kakaoLoginHandler = async () => {
-    const token = await login();
-    const profile = await getKakaoProfile();
-    if (profile) {
-      const user = await UserAPI.checkToken(profile.id);
+    const { id: token, nickname: name, birthDay } = await getKakaoProfile();
+    if (token) {
+      const user = await UserAPI.checkToken(token);
       if (user) {
         // token이 이미 server에 저장되어 있는 경우(회원가입 완료)
         // 1. token 만을 asyncStorage에 저장하여 추후 자동로그인
@@ -45,7 +39,10 @@ const LoginScreen = ({ navigation }) => {
       } else {
         // token이 없는 경우(회원가입 필요)
         navigation.replace('Register', {
-          profile,
+          type: 'kakao',
+          token,
+          name,
+          birthDay,
         });
       }
     }
@@ -68,6 +65,41 @@ const LoginScreen = ({ navigation }) => {
       if (credentialState === appleAuth.State.AUTHORIZED) {
         // user is authenticated
         console.log(appleAuthRequestResponse);
+        const {
+          identityToken: token,
+          fullName: name,
+          authorizationCode,
+          email,
+          user,
+        } = appleAuthRequestResponse;
+        if (token) {
+          const user = await UserAPI.checkToken(token);
+          if (user) {
+            // token이 이미 server에 저장되어 있는 경우(회원가입 완료)
+            // 1. token 만을 asyncStorage에 저장하여 추후 자동로그인
+            const { naver_token, kakao_token, apple_token } = user;
+            await BidiStorage.storeData(STORAGE_KEY, {
+              token: naver_token || kakao_token || apple_token,
+            });
+
+            // 2. user 정보를 redux에 저장하여 관리
+            await dispatch(getUser(user));
+
+            // 3. MainTab으로 이동
+            navigation.replace('MainTab');
+          } else {
+            // token이 없는 경우(회원가입 필요)
+            navigation.replace('Register', {
+              type: 'apple',
+              token,
+              name,
+              birthDay: '',
+              authorizationCode,
+              email,
+              user,
+            });
+          }
+        }
       }
     } catch (error) {
       if (error.code === appleAuth.Error.CANCELED) {
@@ -124,7 +156,7 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.appleBtn} onPress={appleLoginHandler}>
             <AntDesign name="apple1" size={20} />
-            <Text style={styles.btnAppleText}>애플 아이디로 로그인</Text>
+            <Text style={styles.btnAppleText}>Sign in with Apple</Text>
           </TouchableOpacity>
         </View>
       </View>
