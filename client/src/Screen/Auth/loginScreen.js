@@ -49,54 +49,29 @@ const LoginScreen = ({ navigation }) => {
   };
   const appleLoginHandler = async () => {
     try {
-      console.log('??');
-      // performs login request
       const appleAuthRequestResponse = await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
         requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
       });
-
-      console.log('?!?', appleAuthRequestResponse);
-      // get current authentication state for user
       const credentialState = await appleAuth.getCredentialStateForUser(
         appleAuthRequestResponse.user,
       );
-      // use credentialState response to ensure the user is authenticated
       if (credentialState === appleAuth.State.AUTHORIZED) {
-        // user is authenticated
-        console.log(appleAuthRequestResponse);
-        const {
-          identityToken: token,
-          fullName: name,
-          authorizationCode,
-          email,
-          user,
-        } = appleAuthRequestResponse;
+        const { identityToken: token } = appleAuthRequestResponse;
         if (token) {
           const user = await UserAPI.checkToken(token);
           if (user) {
-            // token이 이미 server에 저장되어 있는 경우(회원가입 완료)
-            // 1. token 만을 asyncStorage에 저장하여 추후 자동로그인
             const { naver_token, kakao_token, apple_token } = user;
             await BidiStorage.storeData(STORAGE_KEY, {
               token: naver_token || kakao_token || apple_token,
             });
-
-            // 2. user 정보를 redux에 저장하여 관리
             await dispatch(getUser(user));
-
-            // 3. MainTab으로 이동
             navigation.replace('MainTab');
           } else {
-            // token이 없는 경우(회원가입 필요)
             navigation.replace('Register', {
               type: 'apple',
+              name: '',
               token,
-              name,
-              birthDay: '',
-              authorizationCode,
-              email,
-              user,
             });
           }
         }
