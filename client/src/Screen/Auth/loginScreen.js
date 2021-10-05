@@ -61,8 +61,8 @@ const LoginScreen = ({ navigation }) => {
         appleAuthRequestResponse.user,
       );
       if (credentialState === appleAuth.State.AUTHORIZED) {
-        const { identityToken: token } = appleAuthRequestResponse;
-        console.log('token: ', token);
+        let { identityToken: token } = appleAuthRequestResponse;
+        token = token.substring(0, 10);
         if (token) {
           const user = await UserAPI.checkToken(token);
           console.log('user', user);
