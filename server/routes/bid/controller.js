@@ -4,8 +4,6 @@ const { STATUS_CODE } = require('../../lib/constants')
 // [ 1. POST Methods ]
 exports.registerBid = async (req, res) => {
   const body = req.body
-  console.log(body)
-  console.log(typeof body.styleIdList)
   const bid = await bidServices.createBid(body)
   const bidStyle = await bidServices.createBidStyle({
     bidId: bid.id,

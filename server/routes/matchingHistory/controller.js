@@ -30,7 +30,6 @@ exports.deleteMatchingHistory = async (req, res, next) => {
     * Bid 정보 작성 API
 */
 exports.registerMatchingHistory = async (req, res, next) => {
-  console.log(req.body)
   try {
     const params = req.body
     const bid = await bidServices.editBidStatus({

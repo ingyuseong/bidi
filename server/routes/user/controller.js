@@ -6,10 +6,8 @@ require('dotenv').config()
 // [ 1. POST Methods ]
 exports.registerUser = async (req, res) => {
   const body = req.body
-  console.log('body', body)
   const img_src = req?.file?.location
   const user = await userServices.createUser({ ...body, img_src })
-  console.log('user', user)
   if (user) {
     res.status(STATUS_CODE.CREATED).json({
       state: 'success',
@@ -26,9 +24,7 @@ exports.registerUser = async (req, res) => {
 }
 exports.checkToken = async (req, res) => {
   const body = req.body
-  console.log('body', body)
   const user = await userServices.findOneUserByToken(body)
-  console.log('user', user)
   if (user) {
     return res.status(STATUS_CODE.SUCCESS).json({
       state: 'success',
