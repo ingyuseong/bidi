@@ -20,32 +20,36 @@ import UserAPI from '../../Api/user';
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const kakaoLoginHandler = async () => {
-    const { id: token, nickname: name, birthDay } = await getKakaoProfile();
-    if (token) {
-      const user = await UserAPI.checkToken(token);
-      if (user) {
-        // token이 이미 server에 저장되어 있는 경우(회원가입 완료)
-        // 1. token 만을 asyncStorage에 저장하여 추후 자동로그인
-        const { naver_token, kakao_token, apple_token } = user;
-        await BidiStorage.storeData(STORAGE_KEY, {
-          token: naver_token || kakao_token || apple_token,
-        });
+    try {
+      if (token) {
+        const user = await UserAPI.checkToken(token);
+        if (user) {
+          // token이 이미 server에 저장되어 있는 경우(회원가입 완료)
+          // 1. token 만을 asyncStorage에 저장하여 추후 자동로그인
+          const { naver_token, kakao_token, apple_token } = user;
+          await BidiStorage.storeData(STORAGE_KEY, {
+            token: naver_token || kakao_token || apple_token,
+          });
 
-        // 2. user 정보를 redux에 저장하여 관리
-        await dispatch(getUser(user));
+          // 2. user 정보를 redux에 저장하여 관리
+          await dispatch(getUser(user));
 
-        // 3. MainTab으로 이동
-        navigation.replace('MainTab');
-      } else {
-        // token이 없는 경우(회원가입 필요)
-        navigation.replace('Register', {
-          type: 'kakao',
-          token,
-          name,
-          birthDay,
-        });
+          // 3. MainTab으로 이동
+          navigation.replace('MainTab');
+        } else {
+          // token이 없는 경우(회원가입 필요)
+          navigation.replace('Register', {
+            type: 'kakao',
+            token,
+            name,
+            birthDay,
+          });
+        }
       }
+    } catch (error) {
+      console.log(error);
     }
+    const { id: token, nickname: name, birthDay } = await getKakaoProfile();
   };
   const appleLoginHandler = async () => {
     try {
@@ -58,8 +62,10 @@ const LoginScreen = ({ navigation }) => {
       );
       if (credentialState === appleAuth.State.AUTHORIZED) {
         const { identityToken: token } = appleAuthRequestResponse;
+        console.log('token: ', token);
         if (token) {
           const user = await UserAPI.checkToken(token);
+          console.log('user', user);
           if (user) {
             const { naver_token, kakao_token, apple_token } = user;
             await BidiStorage.storeData(STORAGE_KEY, {
