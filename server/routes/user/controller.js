@@ -25,6 +25,8 @@ exports.registerUser = async (req, res) => {
 exports.checkToken = async (req, res) => {
   const body = req.body
   const user = await userServices.findOneUserByToken(body)
+  console.log('body', body)
+  console.log('user', user)
   if (user) {
     return res.status(STATUS_CODE.SUCCESS).json({
       state: 'success',

@@ -77,8 +77,8 @@ function DetailBidScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        {info.status === 'done' || info.status === 'cancel' ? (
-          <CardDisableStyle styleImage={info.proposal.after_src} status={info.status} />
+        {info.matching === true ? (
+          <CardDisableStyle styleImage={info.proposal.after_src} matched={info.matching} />
         ) : (
           <CardStyle
             styleLists={[info.proposal.before_src, info.proposal.after_src]}

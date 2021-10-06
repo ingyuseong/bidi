@@ -1,4 +1,5 @@
 export const SERVER_URL = 'http://127.0.0.1:3000/api';
+// export const SERVER_URL = 'http://13.125.215.51/api';
 
 export const APP_VERSION = 'v1.0.0';
 
