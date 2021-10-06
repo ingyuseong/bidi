@@ -21,6 +21,8 @@ const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const kakaoLoginHandler = async () => {
     try {
+      const { id: token, nickname: name, birthDay } = await getKakaoProfile();
+
       if (token) {
         const user = await UserAPI.checkToken(token);
         if (user) {
@@ -49,7 +51,6 @@ const LoginScreen = ({ navigation }) => {
     } catch (error) {
       console.log(error);
     }
-    const { id: token, nickname: name, birthDay } = await getKakaoProfile();
   };
   const appleLoginHandler = async () => {
     try {
@@ -65,7 +66,6 @@ const LoginScreen = ({ navigation }) => {
         token = token.substring(0, 10);
         if (token) {
           const user = await UserAPI.checkToken(token);
-          console.log('user', user);
           if (user) {
             const { naver_token, kakao_token, apple_token } = user;
             await BidiStorage.storeData(STORAGE_KEY, {
