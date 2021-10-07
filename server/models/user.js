@@ -8,8 +8,8 @@ const modelAttributes = {
     primaryKey: true,
     autoIncrement: true,
   },
-  type: {
-    type: DataTypes.STRING,
+  user_type: {
+    type: DataTypes.ENUM('customer', 'designer'),
   },
   naver_token: {
     type: DataTypes.STRING,
@@ -17,23 +17,40 @@ const modelAttributes = {
   kakao_token: {
     type: DataTypes.STRING,
   },
+  apple_token: {
+    type: DataTypes.STRING,
+  },
   name: {
     type: DataTypes.STRING,
   },
-  email: {
+  nick_name: {
     type: DataTypes.STRING,
   },
-  address: {
+  phone_number: {
     type: DataTypes.STRING,
   },
-  lat: {
-    type: DataTypes.FLOAT,
+  birth: {
+    type: DataTypes.STRING,
   },
-  lng: {
-    type: DataTypes.FLOAT,
+  gender_type: {
+    type: DataTypes.ENUM('female', 'male'),
   },
   img_src: {
     type: DataTypes.STRING,
+  },
+
+  // Status Attributes
+  authentication: {
+    type: DataTypes.BOOLEAN,
+  },
+  ai_status: {
+    type: DataTypes.BOOLEAN,
+  },
+  ai_process: {
+    type: DataTypes.BOOLEAN,
+  },
+  ai_count: {
+    type: DataTypes.INTEGER,
   },
   created_at: {
     type: DataTypes.DATE,
@@ -58,9 +75,5 @@ module.exports = (sequelize) => {
   // model 설정
   const model = sequelize.define(modelName, modelAttributes, modelOptions)
   // 외래키 설정
-  //   model.associate = (db) => {
-  //     model.belongsTo(db.user, { foreignKey: 'uid', targetKey: 'uid' })
-  //     model.belongsTo(db.payment, { foreignKey: 'pid', targetKey: 'pid' })
-  //   }
   return model
 }

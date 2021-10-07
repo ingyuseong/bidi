@@ -2,61 +2,163 @@ import React, { useState, createRef } from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
+  widthPercentageToDP,
+  heightPercentageToDP,
 } from 'react-native-responsive-screen';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { ImageBackground, StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { getProfile as getKakaoProfile, login } from '@react-native-seoul/kakao-login';
+import BidiStorage from '../../Lib/storage';
+import { STORAGE_KEY } from '../../Lib/constant';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
+
+import { useDispatch } from 'react-redux';
+import { getUser } from '../../Contexts/User/action';
+import UserAPI from '../../Api/user';
 
 const LoginScreen = ({ navigation }) => {
-  const [user, setUser] = useState('');
+  const dispatch = useDispatch();
   const kakaoLoginHandler = async () => {
-    const token = await login();
-    const profile = await getKakaoProfile();
+    try {
+      const { id: token, nickname: name, birthDay } = await getKakaoProfile();
 
-    setUser({ ...user, token, profile });
-    navigation.replace('Register', {
-      token,
-      profile,
-    });
+      if (token) {
+        const user = await UserAPI.checkToken(token);
+        if (user) {
+          // token이 이미 server에 저장되어 있는 경우(회원가입 완료)
+          // 1. token 만을 asyncStorage에 저장하여 추후 자동로그인
+          const { naver_token, kakao_token, apple_token } = user;
+          await BidiStorage.storeData(STORAGE_KEY, {
+            token: naver_token || kakao_token || apple_token,
+          });
+
+          // 2. user 정보를 redux에 저장하여 관리
+          await dispatch(getUser(user));
+
+          // 3. MainTab으로 이동
+          navigation.replace('MainTab');
+        } else {
+          // token이 없는 경우(회원가입 필요)
+          navigation.replace('Register', {
+            type: 'kakao',
+            token,
+            name,
+            birthDay,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const appleLoginHandler = async () => {
+    try {
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
+      const credentialState = await appleAuth.getCredentialStateForUser(
+        appleAuthRequestResponse.user,
+      );
+      if (credentialState === appleAuth.State.AUTHORIZED) {
+        let { identityToken: token } = appleAuthRequestResponse;
+        token = token.substring(0, 10);
+        if (token) {
+          const user = await UserAPI.checkToken(token);
+          if (user) {
+            const { naver_token, kakao_token, apple_token } = user;
+            await BidiStorage.storeData(STORAGE_KEY, {
+              token: naver_token || kakao_token || apple_token,
+            });
+            await dispatch(getUser(user));
+            navigation.replace('MainTab');
+          } else {
+            navigation.replace('Register', {
+              type: 'apple',
+              name: '',
+              token,
+            });
+          }
+        }
+      }
+    } catch (error) {
+      if (error.code === appleAuth.Error.CANCELED) {
+        console.log('error1');
+        // login canceled
+      } else {
+        // login error
+        console.log('error12', error);
+      }
+    }
   };
 
-  const naverLoginHandler = () => {};
+  const naverLoginHandler = async () => {
+    const token = '12341234';
+    const user = await UserAPI.checkToken(token);
+    await BidiStorage.storeData(STORAGE_KEY, {
+      token,
+    });
+    await dispatch(getUser(user));
+    navigation.replace('MainTab');
+  };
+  // const token = '1806772812'
+  // await BidiStorage.storeData(STORAGE_KEY, {
+  //   id: 5,
+  //   type: '일반 사용자',
+  //   token,
+  //   nick_name: '쭈빈',
+  //   name: '이주빈',
+  //   gender: 'female',
+  //   address: '서울특별시 성북구 안암동',
+  //   img_src: 'https://bidi-s3.s3.ap-northeast-2.amazonaws.com/image/profiles/65d7f922-75791049-4cf6fc7f',
+  //   ai_status: 'using',
+  // });
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topArea}>
-        <View style={styles.titleArea}>
-          <Image
-            source={require('../../../public/img/logo.png')}
-            style={{ width: wp(30), resizeMode: 'contain' }}
-          />
+    <View style={styles.backgroundImage}>
+      <View style={styles.container}>
+        <View style={styles.topArea}>
+          <View style={styles.textArea}>
+            <Text style={styles.textLogo}>BiDi</Text>
+            <Text style={styles.text}>나만의 새로운 헤어스타일 찾기, 비디</Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.btnArea}>
-        <View style={styles.textArea}>
-          <Text style={styles.text}>간단한 소셜 로그인을 통해</Text>
-          <Text style={styles.text}>biidi를 사용해보세요 ‍📘</Text>
+        <View style={styles.btnArea}>
+          <TouchableOpacity style={styles.naverBtn} onPress={naverLoginHandler}>
+            <Text style={{ fontSize: 20, color: 'white', fontWeight: '900' }}>N</Text>
+            <Text style={styles.btnNaverText}>네이버 아이디로 로그인</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.kakaoBtn} onPress={kakaoLoginHandler}>
+            <Ionicons name="md-chatbubble-sharp" size={20} />
+            <Text style={styles.btnKakaoText}>카카오 아이디로 로그인</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.appleBtn} onPress={appleLoginHandler}>
+            <AntDesign name="apple1" size={20} />
+            <Text style={styles.btnAppleText}>Sign in with Apple</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.kakaoBtn} onPress={kakaoLoginHandler}>
-          <Text style={styles.btnKakaoText}>카카오 로그인</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.naverBtn} onPress={naverLoginHandler}>
-          <Text style={styles.btnNaverText}>네이버 로그인</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
+  },
   container: {
-    flex: 1,
-    backgroundColor: 'white',
-    paddingLeft: wp(7),
-    paddingRight: wp(7),
+    width: '100%',
+    height: '100%',
+    justifyContent: 'space-around',
+    paddingLeft: wp(10),
+    paddingRight: wp(10),
+    backgroundColor: '#FF533A',
+    opacity: 0.9,
   },
   topArea: {
-    flex: 4,
-    paddingTop: wp(2),
+    marginTop: 100,
   },
   titleArea: {
     alignItems: 'center',
@@ -64,44 +166,65 @@ const styles = StyleSheet.create({
     paddingTop: wp(3),
   },
   textArea: {
-    flex: 0.5,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+  },
+  textLogo: {
+    fontSize: 60,
+    fontWeight: '800',
+    letterSpacing: 2,
+    color: 'white',
   },
   text: {
-    fontSize: wp('4%'),
-    paddingBottom: wp('1%'),
+    fontSize: 16,
+    fontWeight: '500',
+    color: 'white',
   },
   btnArea: {
-    flex: 4,
-    height: hp(8),
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: hp(1.5),
-  },
-  kakaoBtn: {
-    width: '100%',
-    height: 50,
-    borderRadius: 7,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FEE500',
-    marginBottom: 20,
   },
   naverBtn: {
+    flexDirection: 'row',
     width: '100%',
     height: 50,
-    borderRadius: 7,
+    borderRadius: 3,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#2DB400',
+    marginBottom: 10,
+  },
+  kakaoBtn: {
+    flexDirection: 'row',
+    width: '100%',
+    height: 50,
+    borderRadius: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FEE500',
+    marginBottom: 10,
+  },
+  appleBtn: {
+    flexDirection: 'row',
+    width: '100%',
+    height: 50,
+    borderRadius: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+  },
+  btnAppleText: {
+    marginLeft: 10,
+    fontSize: wp('4%'),
+    fontWeight: 'bold',
   },
   btnKakaoText: {
+    marginLeft: 10,
     fontSize: wp('4%'),
     fontWeight: 'bold',
   },
   btnNaverText: {
+    marginLeft: 10,
     color: 'white',
     fontSize: wp('4%'),
     fontWeight: 'bold',

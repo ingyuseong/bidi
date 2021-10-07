@@ -1,168 +1,299 @@
 import React, { useState, createRef } from 'react';
+import { createFormData } from '../../Lib/utils';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import { StyleSheet, View, Text, Image, TouchableOpacity, TextInput } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  Alert,
+  ActivityIndicator,
+} from 'react-native';
+import BidiStorage from '../../Lib/storage';
+import { STORAGE_KEY } from '../../Lib/constant';
+import { launchImageLibrary, launchCamera } from 'react-native-image-picker';
+import Icon from 'react-native-vector-icons/AntDesign';
+import Loading from '../../Components/Common/loading';
+
+// Redux
+import UserAPI from '../../Api/user';
+import { useDispatch } from 'react-redux';
+import { getUser } from '../../Contexts/User/action';
 
 const RegisterScreen = ({ navigation, route }) => {
-  const { profile } = route.params;
+  const { type, token, name, birthDay } = route.params;
   const [userType, setUserType] = useState('');
-  const [userName, setUserName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [userAddress, setUserAddress] = useState('');
+  const [userGenderType, setUserGenderType] = useState('');
+  const [userNickName, setUserNickName] = useState('');
+  const [photo, setPhoto] = useState(null);
+  const [loader, setLoader] = useState(false);
+  const nickNameInputRef = createRef();
 
-  const typeInputRef = createRef();
-  const nameInputRef = createRef();
-  const emailInputRef = createRef();
-  const addressInputRef = createRef();
+  const dispatch = useDispatch();
 
   const handleSubmitButton = async () => {
-    await fetch('http://127.0.0.1:3000' + '/api/user/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-      },
-      body: JSON.stringify({
-        type: userType,
-        kakao_token: profile?.id,
-        name: userName,
-        email: userEmail,
-        address: userAddress,
-      }),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        navigation.replace('MainTab');
-      })
-      .catch((error) => {
-        console.error(error);
+    let kakao_token = '';
+    let apple_token = '';
+    let naver_token = '';
+    if (type === 'kakao') {
+      kakao_token = token;
+    } else if (type === 'apple') {
+      apple_token = token;
+    } else {
+      naver_token = token;
+    }
+    if (photo) {
+      const bodyData = createFormData(photo, {
+        user_type: userType,
+        name: name || '',
+        nick_name: userNickName,
+        birth: birthDay || '',
+        gender_type: userGenderType,
+        kakao_token,
+        naver_token,
+        apple_token,
       });
-  };
+      // 1. API 호출
+      const user = await UserAPI.registerUser(bodyData);
+      setLoader(true);
+      if (user) {
+        // 2. User 생성 성공시 AsyncStorage에는 토큰, Redux에는 유저 정보를 저장
+        const { naver_token, kakao_token, apple_token } = user;
+        await BidiStorage.storeData(STORAGE_KEY, {
+          token: naver_token || kakao_token || apple_token,
+        });
+        dispatch(getUser(user));
+        setLoader(false);
 
+        Alert.alert('회원가입이 정상적으로 완료되었습니다!');
+        navigation.replace('MainTab');
+      }
+    } else {
+      Alert.alert('사진을 등록해주세요!');
+    }
+  };
+  const handleChoosePhoto = () => {
+    launchImageLibrary({ nodata: true }, (response) => {
+      if (response.didCancel) {
+        Alert.alert('프로필 이미지는 꼭 선택해주세요!');
+      } else {
+        setPhoto(response.assets[0]);
+      }
+    });
+  };
+  if (loader) {
+    return <Loading />;
+  }
   return (
     <View style={styles.container}>
       <View style={styles.topArea}>
-        <View style={styles.titleArea}>
-          <Image
-            source={require('../../../public/img/logo.png')}
-            style={{ width: wp(40), resizeMode: 'contain' }}
+        <Image source={require('../../../public/img/logo.png')} style={styles.logo} />
+      </View>
+      <View style={styles.imageArea}>
+        <View style={styles.profile}>
+          {photo ? (
+            <Image source={{ uri: photo.uri }} style={styles.profileImage} />
+          ) : (
+            <Image
+              source={require('../../../public/img/profile.png')}
+              style={styles.profileImage}
+            />
+          )}
+          <View style={styles.cameraIconArea}>
+            <TouchableOpacity onPress={handleChoosePhoto}>
+              <Icon name="camerao" size={25} style={styles.cameraIcon} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+      <View style={styles.formArea}>
+        <View style={styles.inputForm}>
+          <Text style={styles.inputLabel}>고객 유형</Text>
+          <View style={styles.selectArea}>
+            <TouchableOpacity
+              style={[styles.selectBox, userType == 'designer' && styles.active]}
+              onPress={() => setUserType('designer')}>
+              <Text style={[styles.selectText, userType == 'designer' && styles.active]}>
+                디자이너
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.selectBox, userType == 'customer' && styles.active]}
+              onPress={() => setUserType('customer')}>
+              <Text style={[styles.selectText, userType == 'customer' && styles.active]}>
+                일반 사용자
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.inputForm}>
+          <Text style={styles.inputLabel}>성별</Text>
+          <View style={styles.selectArea}>
+            <TouchableOpacity
+              style={[styles.selectBox, userGenderType == 'female' && styles.active]}
+              onPress={() => setUserGenderType('female')}>
+              <Text style={[styles.selectText, userGenderType == 'female' && styles.active]}>
+                여성
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.selectBox, userGenderType == 'male' && styles.active]}
+              onPress={() => setUserGenderType('male')}>
+              <Text style={[styles.selectText, userGenderType == 'male' && styles.active]}>
+                남성
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.inputForm}>
+          <Text style={styles.inputLabel}>닉네임</Text>
+          <TextInput
+            style={styles.inputArea}
+            placeholder={'하늘다람쥐'}
+            placeholderTextColor="gray"
+            onChangeText={(input) => setUserNickName(input)}
+            ref={nickNameInputRef}
+            returnKeyType="next"
           />
         </View>
-        <View style={styles.TextArea}>
-          <Text style={styles.Text}>Bidi 서비스를 이용하기 위해서</Text>
-          <Text style={styles.Text}>간단한 개인정보를 추가로 등록해주세요!</Text>
-        </View>
+        {/* <View style={styles.inputForm}>
+          <Text style={styles.inputLabel}>이름</Text>
+          <TextInput
+            style={styles.inputArea}
+            placeholder={'김수현'}
+            placeholderTextColor="gray"
+            onChangeText={(input) => setUserName(input)}
+            ref={nameInputRef}
+            returnKeyType="next"
+          />
+        </View> */}
+
+        {/* <View style={styles.inputForm}>
+          <Text style={styles.inputLabel}>생년월일</Text>
+          <TextInput
+            style={styles.inputArea}
+            placeholder={'2000년 5월 4일'}
+            placeholderTextColor="gray"
+            onChangeText={(input) => setUserBirth(input)}
+            ref={birthInputRef}
+            returnKeyType="next"
+          />
+        </View> */}
       </View>
 
-      <View style={styles.formArea}>
-        <TextInput
-          style={styles.textFormTop}
-          placeholder={'디자이너 / 유저'}
-          onChangeText={(userType) => setUserType(userType)}
-          ref={typeInputRef}
-          returnKeyType="next"
-        />
-        <TextInput
-          style={styles.textFormMiddle}
-          placeholder={'이름'}
-          onChangeText={(userName) => setUserName(userName)}
-          ref={nameInputRef}
-          returnKeyType="next"
-        />
-        <TextInput
-          style={styles.textFormTop}
-          placeholder={'이메일 주소'}
-          onChangeText={(userEmail) => setUserEmail(userEmail)}
-          ref={nameInputRef}
-          returnKeyType="next"
-        />
-        <TextInput
-          style={styles.textFormTop}
-          placeholder={'주소'}
-          onChangeText={(userAddress) => setUserAddress(userAddress)}
-          ref={nameInputRef}
-          returnKeyType="next"
-        />
-      </View>
-      <View style={{ flex: 0.75 }}>
-        <View style={styles.btnArea}>
-          <TouchableOpacity style={styles.btn} onPress={handleSubmitButton}>
-            <Text style={{ color: 'white', fontSize: wp('4%') }}>회원가입</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={{ flex: 3 }} />
+      <TouchableOpacity onPress={handleSubmitButton} style={styles.btnArea}>
+        <Text style={{ color: 'white', fontSize: wp('4%'), fontWeight: '700' }}>회원가입</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, //전체의 공간을 차지한다는 의미
-    flexDirection: 'column',
+    flex: 1,
     backgroundColor: 'white',
-    paddingLeft: wp(7),
-    paddingRight: wp(7),
   },
   topArea: {
-    flex: 1.5,
     paddingTop: wp(2),
-  },
-  titleArea: {
-    flex: 0.7,
     justifyContent: 'center',
-    paddingTop: wp(3),
+    alignItems: 'center',
   },
   TextArea: {
-    flex: 0.3,
     justifyContent: 'center',
-    paddingTop: hp(3),
   },
   Text: {
     fontSize: wp(4),
   },
   formArea: {
-    flex: 4,
+    flex: 1,
+    marginTop: 30,
+    paddingLeft: wp(7),
+    paddingRight: wp(7),
+  },
+  imageArea: {
     justifyContent: 'center',
-    marginBottom: hp(-5),
+    alignItems: 'center',
+    marginTop: hp(2),
+    marginBottom: 30,
   },
-  textFormTop: {
-    borderWidth: 2,
-    borderBottomWidth: 1,
-    borderColor: 'black',
-    borderTopLeftRadius: 7,
-    borderTopRightRadius: 7,
-    width: '100%',
-    height: hp(6),
-    paddingLeft: 10,
-    paddingRight: 10,
+  cameraIconArea: {
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 100,
+    backgroundColor: 'black',
+    position: 'absolute',
+    bottom: -5,
+    right: 0,
   },
-  textFormMiddle: {
-    borderWidth: 2,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: 'black',
-    width: '100%',
-    height: hp(6),
-    paddingLeft: 10,
-    paddingRight: 10,
+  cameraIcon: {
+    color: 'white',
+    padding: 5,
+  },
+  logo: {
+    width: wp(40),
+    height: 70,
+    resizeMode: 'contain',
+  },
+  profile: {
+    width: 130,
+  },
+  profileImage: {
+    width: 130,
+    height: 130,
+    borderColor: 'rgb(243,243,243)',
+    borderWidth: 1,
+    borderRadius: 100,
   },
   btnArea: {
-    height: hp(8),
-    justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: hp(1.5),
-  },
-  btn: {
-    flex: 1,
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 0,
+    height: 70,
     width: '100%',
-    borderRadius: 7,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: 'black',
+  },
+  inputForm: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  inputLabel: {
+    width: '20%',
+    fontWeight: 'bold',
+  },
+  inputArea: {
+    borderWidth: 2,
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#F5F5F5',
+    borderColor: '#fff',
+  },
+  selectArea: {
+    flexDirection: 'row',
+  },
+  selectBox: {
+    borderWidth: 1,
+    padding: 7,
+    marginRight: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderColor: '#e2e2e2',
+  },
+  active: {
+    borderColor: 'black',
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  selectText: {
+    color: 'gray',
   },
 });
 

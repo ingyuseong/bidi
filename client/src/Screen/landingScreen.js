@@ -5,31 +5,44 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import BidiStorage from '../Lib/storage';
+import { STORAGE_KEY } from '../Lib/constant';
+import UserAPI from '../Api/user';
+import { useDispatch } from 'react-redux';
+import { getUser } from '../Contexts/User';
 
 const LandingScreen = ({ navigation }) => {
-  const [user, setUser] = useState({
-    id: '',
-    isLogin: true,
-  });
   const [animating, setAnimating] = useState(true);
-
+  const dispatch = useDispatch();
   useEffect(() => {
-    setTimeout(() => {
-      setAnimating(false);
-      // navigation.replace(user.isLogin ? 'MainTab' : 'Auth',{'user':user})
-      navigation.replace('Auth');
-    }, 2000);
+    async function fetchMode() {
+      const { token } = await BidiStorage.getData(STORAGE_KEY);
+      const user = token ? await UserAPI.checkToken(token) : '';
+      if (user) {
+        await dispatch(getUser(user));
+        setTimeout(() => {
+          setAnimating(false);
+          navigation.replace('MainTab');
+        }, 2000);
+      } else {
+        setTimeout(() => {
+          setAnimating(false);
+          navigation.replace('Auth');
+        }, 2000);
+      }
+    }
+    fetchMode();
   }, []);
 
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../public/img/logo.png')}
-        style={{ width: wp(55), resizeMode: 'contain', margin: 30 }}
+        source={require('../../public/img/landing_logo.png')}
+        style={{ width: wp(55), resizeMode: 'contain', margin: 20 }}
       />
       <ActivityIndicator
         animating={animating}
-        color="#6990F7"
+        color=""
         size="large"
         style={styles.activityIndicator}
       />
@@ -48,6 +61,6 @@ const styles = StyleSheet.create({
   },
   activityIndicator: {
     alignItems: 'center',
-    height: 80,
+    height: 60,
   },
 });

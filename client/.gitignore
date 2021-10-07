@@ -2,7 +2,8 @@
 #
 .DS_Store
 
-# Xcode
+yarn.lock
+
 #
 build/
 *.pbxuser
@@ -34,6 +35,8 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
+yarn.lock
+yarn
 
 # BUCK
 buck-out/
@@ -56,5 +59,6 @@ buck-out/
 *.jsbundle
 
 # CocoaPods
-/ios
 /ios/Pods/
+/ios/bidi/Info.plist
+/ios/Podfile.lock
