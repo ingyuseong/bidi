@@ -116,9 +116,7 @@ const LoginScreen = ({ navigation }) => {
   // });
 
   return (
-    <ImageBackground
-      source={require('../../../public/img/loginSplash.png')}
-      style={styles.backgroundImage}>
+    <View style={styles.backgroundImage}>
       <View style={styles.container}>
         <View style={styles.topArea}>
           <View style={styles.textArea}>
@@ -141,7 +139,7 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-    </ImageBackground>
+    </View>
   );
 };
 

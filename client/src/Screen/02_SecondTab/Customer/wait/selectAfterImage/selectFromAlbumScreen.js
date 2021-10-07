@@ -35,7 +35,7 @@ function SelectAfterImageScreen({ navigation, route }) {
       <View style={styles.content}>
         <Image
           style={styles.image}
-          source={require('../../../../../../public/img/afterImage.png')}
+          source={require('../../../../../../public/img/temp_image.png')}
         />
       </View>
       <View style={styles.selectBox}>

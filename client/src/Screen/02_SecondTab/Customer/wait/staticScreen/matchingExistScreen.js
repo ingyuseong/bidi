@@ -10,10 +10,7 @@ function MatchingExistScreen({ navigation }) {
     <View style={styles.container}>
       <View style={styles.content}>
         <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={require('../../../../public/img/proposal_registered.png')}
-          />
+          <Image style={styles.image} source={require('../../../../public/img/temp_image.png')} />
         </View>
       </View>
       <View style={styles.header}>
