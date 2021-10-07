@@ -18,7 +18,6 @@ const LandingScreen = ({ navigation }) => {
     async function fetchMode() {
       const { token } = await BidiStorage.getData(STORAGE_KEY);
       const user = token ? await UserAPI.checkToken(token) : '';
-      console.log('>><<>><<>><<');
       if (user) {
         await dispatch(getUser(user));
         setTimeout(() => {

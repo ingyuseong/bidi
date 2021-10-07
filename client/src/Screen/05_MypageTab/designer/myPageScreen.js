@@ -20,7 +20,7 @@ function MyPageScreen({ navigation }) {
 
   const logoutHandler = async () => {
     await BidiStorage.clearData();
-    navigation.navigate('Landing');
+    navigation.reset({ routes: [{ name: 'Landing' }] });
   };
   const withdrawalHandler = async () => {
     const response = await UserAPI.deleteUser(userInfo.id);
