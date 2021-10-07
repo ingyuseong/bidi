@@ -20,18 +20,22 @@ function MyPageScreen({ navigation }) {
 
   const logoutHandler = async () => {
     await BidiStorage.clearData();
-    navigation.navigate('Landing');
+    navigation.reset({ routes: [{ name: 'Landing' }] });
   };
   const withdrawalHandler = async () => {
     const response = await UserAPI.deleteUser(userInfo.id);
     if (response) {
-      navigation.navigate('Landing');
       Alert.alert('회원탈퇴가 완료되었습니다!');
+      await BidiStorage.clearData();
+      navigation.reset({ routes: [{ name: 'Landing' }] });
     }
   };
+
+  // todo
   useEffect(() => {
     async function FetchMode() {
-      const user = await UserAPI.checkToken(userInfo.kakao_token);
+      const { token } = await BidiStorage.getData(STORAGE_KEY);
+      const user = await UserAPI.checkToken(token);
       await dispatch(getUser(user));
     }
     FetchMode();

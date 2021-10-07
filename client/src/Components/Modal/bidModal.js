@@ -46,7 +46,7 @@ function BidModal({ bid, setModalVisible }) {
                   activeOpacity={0.8}
                   style={styles.imageAfter}
                   onPress={() => styleModalOpen(index, bid.bidStyles)}>
-                  <Image style={styles.styleImg} source={{ uri: item.img_src_array[0] }} />
+                  <Image style={styles.styleImg} source={{ uri: item.front_img_src }} />
                 </TouchableOpacity>
               ))}
             </ScrollView>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
 
 import { STYLE_TYPE, LENGTH_TYPE } from '../../../Lib/constant';
@@ -14,6 +15,8 @@ import BidRefStyle from '../../../Components/Bid/bidRefStyle';
 
 function HistoryDetailScreen({ navigation, route }) {
   const { info } = route.params;
+
+  const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState(false);
   const [lengthTypeOpen, setLengthTypeOpen] = useState(false);
   const [lengthTypeValue, setLengthTypeValue] = useState(info.bid.length_type);
@@ -21,18 +24,19 @@ function HistoryDetailScreen({ navigation, route }) {
   const [styleTypeOpen, setStyleTypeOpen] = useState(false);
   const [styleTypeValue, setStyleTypeValue] = useState(info.bid.style_type);
   const [styleTypeItems, setStyleTypeItems] = useState([]);
+
+  const [styleMenuList, setStyleMenuList] = useState(info.bid.bidStyles);
   const [needCare, setNeedCare] = useState(info.bid.need_care);
   const [bidLetter, setBidLetter] = useState(info.bid.letter);
 
   useEffect(() => {
     setStyleTypeItems(STYLE_TYPE[lengthTypeValue]);
   }, [lengthTypeValue]);
-
   return (
     <View style={styles.container}>
       <ScrollView>
-        {info.bid.status === 'done' || info.bid.status === 'cancel' ? (
-          <CardDisableStyle styleImage={info.proposal.after_src} status={info.bid.status} />
+        {info.bid.matching === true ? (
+          <CardDisableStyle styleImage={info.proposal.after_src} matched={info.bid.matching} />
         ) : (
           <CardStyle
             styleLists={[info.proposal.before_src, info.proposal.after_src]}
@@ -78,7 +82,14 @@ function HistoryDetailScreen({ navigation, route }) {
         />
         <BidNeedCare needCare={needCare} setNeedCare={setNeedCare} isEdit={isEdit} />
         <BidLetter bidLetter={bidLetter} setBidLetter={setBidLetter} isEdit={isEdit} />
-        <BidRefStyle />
+        <BidRefStyle
+          navigation={navigation}
+          title="추천 스타일"
+          styleMenuList={styleMenuList}
+          setStyleMenuList={setStyleMenuList}
+          nextTo="DetailBid"
+          isEdit={isEdit}
+        />
       </ScrollView>
     </View>
   );
