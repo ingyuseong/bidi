@@ -5,7 +5,7 @@ function RegisteredBidScreen() {
   return (
     <View style={styles.container}>
       <View>
-        <Image source={require('../../../../public/img/finish_bid.jpg')} style={styles.img} />
+        <Image source={require('../../../../public/img/temp_image.png')} style={styles.img} />
       </View>
       <View style={styles.textArea}>
         <View style={styles.rowArea}>

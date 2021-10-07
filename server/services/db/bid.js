@@ -141,6 +141,7 @@ exports.updateBid = async (id, attr) => {
   )
   return bid[0]
 }
+
 exports.updateBidMatching = async (id) => {
   const bid = await Bid.update(
     {
@@ -194,4 +195,12 @@ exports.destroyBid = async (id) => {
     },
   })
   return bid
+}
+exports.destroyBidStyle = async (bidId) => {
+  const bidStyle = await BidStyle.destroy({
+    where: {
+      bidId,
+    },
+  })
+  return bidStyle
 }

@@ -98,7 +98,11 @@ exports.patchBranding = async (req, res) => {
   const { id } = req.params
   const body = req.body
   const patchedBrandingCount = await brandingServices.updateBranding(id, body)
-  if (patchedBrandingCount) {
+  const patchBrandingStyleCount = await brandingServices.updateBrandingStyle({
+    brandingId: id,
+    styleIdList: body.styleIdList,
+  })
+  if (patchedBrandingCount || patchBrandingStyleCount) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
       message: '포트폴리오 정보 수정 성공',

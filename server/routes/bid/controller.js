@@ -82,7 +82,11 @@ exports.patchBid = async (req, res) => {
   const { id } = req.params
   const body = req.body
   const patchedBidCount = await bidServices.updateBid(id, body)
-  if (patchedBidCount) {
+  const patchBidStyleCount = await bidServices.updateBidStyle({
+    bidId: id,
+    styleIdList: body.styleIdList,
+  })
+  if (patchedBidCount || patchBidStyleCount) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
       message: '비드 정보 수정 성공',

@@ -11,19 +11,15 @@ import NoHistoryScreen from '../../Screen/01_FirstTab/Customer/TabScreen/noHisto
 import { getMatchingHistoryListByDesignerId } from '../../Contexts/Designer/MatchingHistory';
 import { getDesignerMatchingHistoryListByDesignerId } from '../../Contexts/Customer/MatchingHistory';
 
-function DesignerHistory({ branding, isUser }) {
+function DesignerHistory({ branding }) {
   const {
     data: matchingHistoryList,
     loading,
     error,
-  } = useSelector((state) =>
-    isUser ? state.customerMatchingHistory : state.designerMatchingHistory,
-  );
+  } = useSelector((state) => state.designerMatchingHistory);
   const dispatch = useDispatch();
   useEffect(() => {
-    isUser
-      ? dispatch(getDesignerMatchingHistoryListByDesignerId(branding.user_id))
-      : dispatch(getMatchingHistoryListByDesignerId(branding.user_id));
+    dispatch(getMatchingHistoryListByDesignerId(branding.user_id));
   }, [dispatch]);
   if (loading || error || !matchingHistoryList) return <Loading />;
   if (!matchingHistoryList.length)

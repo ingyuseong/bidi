@@ -1,10 +1,10 @@
 const db = require('./db/matching')
 const proposalDb = require('./db/proposal')
 const bidDb = require('./db/bid')
+const scheduleDb = require('./db/schedule')
 
 // Create Matching Resource [create]
 exports.createMatching = async (body) => {
-  console.log(body)
   const proposal = await proposalDb.updateProposalMatching(body.proposal_id)
   const bidCancelElse = await bidDb.updateBidCancelElseByCustomerId(
     body.customer_id
@@ -314,12 +314,20 @@ exports.updateMatchingStar = async (id, body) => {
   return matching
 }
 exports.updateMatchingReservation = async (id, body) => {
-  const attr = {
+  const schedule_attr = {
+    designer_id: body.designer_id,
+    matching_id: body.matching_id,
+    schedule_type: body.schedule_type,
+    time: body.time,
+  }
+  const matching_attr = {
     reserved: true,
     style_id: body.style_id,
     style_time: body.style_time,
   }
-  const matching = await db.updateMatchingReservation(id, attr)
+  // 스케줄 등록!
+  const schedule = await scheduleDb.createSchedule(schedule_attr)
+  const matching = await db.updateMatchingReservation(id, matching_attr)
   return matching
 }
 exports.updateMatchingDone = async (id) => {

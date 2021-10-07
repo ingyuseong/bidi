@@ -18,12 +18,6 @@ exports.createUser = async (attr) => {
 // Read User Resource [findOne, findAll]
 exports.findAllUser = async () => {
   const userList = await User.findAll({
-    include: [
-      {
-        model: ScheduleInfo,
-        attributes: ['start_time', 'end_time', 'holiday_array'],
-      },
-    ],
     order: [['id', 'ASC']],
   })
   return userList
@@ -45,6 +39,12 @@ exports.findOneUserByToken = async (token) => {
         { apple_token: token },
       ],
     },
+    include: [
+      {
+        model: ScheduleInfo,
+        attributes: ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'],
+      },
+    ],
   })
   return user
 }

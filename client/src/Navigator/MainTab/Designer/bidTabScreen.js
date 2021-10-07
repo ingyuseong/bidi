@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import CommonHeader from '../../../Components/HeaderBar/commonHeader';
 import DetailHeader from '../../../Components/HeaderBar/detailHeader';
+
 import DetailBidScreen from '../../../Screen/02_SecondTab/Designer/detailBidScreen';
 import BidMainScreen from '../../../Screen/02_SecondTab/Designer/bidMainScreen';
 

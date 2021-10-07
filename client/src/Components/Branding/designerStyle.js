@@ -20,7 +20,7 @@ import {
 // API
 import StyleScrapAPI from '../../Api/styleScrap';
 
-function DesignerStyle({ navigation, branding, isUser }) {
+function DesignerStyle({ navigation, branding }) {
   // state
   const { data: user } = useSelector((state) => state.user);
 

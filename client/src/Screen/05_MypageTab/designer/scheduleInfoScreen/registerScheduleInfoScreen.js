@@ -12,6 +12,8 @@ import ScheduleInfoAPI from '../../../../Api/scheduleInfo';
 function RegisterScheduleInfoScreen({ navigation }) {
   const dispatch = useDispatch();
   const { data: user } = useSelector((state) => state.user);
+  const [SunStart, setSunStart] = useState('');
+  const [SunEnd, setSunEnd] = useState('');
   const [MonStart, setMonStart] = useState('');
   const [MonEnd, setMonEnd] = useState('');
   const [TueStart, setTueStart] = useState('');
@@ -24,8 +26,6 @@ function RegisterScheduleInfoScreen({ navigation }) {
   const [FriEnd, setFriEnd] = useState('');
   const [SatStart, setSatStart] = useState('');
   const [SatEnd, setSatEnd] = useState('');
-  const [SunStart, setSunStart] = useState('');
-  const [SunEnd, setSunEnd] = useState('');
   const registerAlert = () => {
     Alert.alert('정말 등록 하시겠어요?', '시간을 정확히 입력했는지 다시 확인해보세요!', [
       { text: '취소', style: 'cancel' },
@@ -35,6 +35,8 @@ function RegisterScheduleInfoScreen({ navigation }) {
   const register = async () => {
     // 시간을 하나만 입력한 경우 필터링
     if (
+      (SunStart && !SunEnd) ||
+      (!SunStart && SunEnd) ||
       (MonStart && !MonEnd) ||
       (!MonStart && MonEnd) ||
       (TueStart && !TueEnd) ||
@@ -46,9 +48,7 @@ function RegisterScheduleInfoScreen({ navigation }) {
       (FriStart && !FriEnd) ||
       (!FriStart && FriEnd) ||
       (SatStart && !SatEnd) ||
-      (!SatStart && SatEnd) ||
-      (SunStart && !SunEnd) ||
-      (!SunStart && SunEnd)
+      (!SatStart && SatEnd)
     ) {
       Alert.alert(
         '휴무일을 정확히 설정해 주세요!',
@@ -57,13 +57,13 @@ function RegisterScheduleInfoScreen({ navigation }) {
     } else {
       const scheduleInfo = {
         designer_id: user.id,
+        sun: SunStart ? `${SunStart},${SunEnd}` : null,
         mon: MonStart ? `${MonStart},${MonEnd}` : null,
         tue: TueStart ? `${TueStart},${TueEnd}` : null,
         wed: WedStart ? `${WedStart},${WedEnd}` : null,
         thu: ThuStart ? `${ThuStart},${ThuEnd}` : null,
         fri: FriStart ? `${FriStart},${FriEnd}` : null,
         sat: SatStart ? `${SatStart},${SatEnd}` : null,
-        sun: SunStart ? `${SunStart},${SunEnd}` : null,
       };
       const result = await ScheduleInfoAPI.registerScheduleInfo(scheduleInfo);
       if (result) {
@@ -78,6 +78,31 @@ function RegisterScheduleInfoScreen({ navigation }) {
         <Text style={styles.subTitle}>설정하지 않으면 휴무일로 지정됩니다!</Text>
       </View>
       <View>
+        <View style={styles.tagBox}>
+          <View style={{ ...styles.dayTag, backgroundColor: '#FF533A' }}>
+            <Text style={{ color: 'white' }}>일</Text>
+          </View>
+          <View style={styles.timeTag}>
+            <Text style={{ color: '#8D8D8D' }}>시작시간:</Text>
+          </View>
+          <View style={styles.tag}>
+            <RNPickerSelect
+              onValueChange={(value) => setSunStart(value)}
+              placeholder={{ label: '휴무' }}
+              style={pickerSelectStyles}
+              items={START_TIME_LIST}></RNPickerSelect>
+          </View>
+          <View style={styles.timeTag}>
+            <Text style={{ color: '#8D8D8D' }}>종료시간:</Text>
+          </View>
+          <View style={styles.tag}>
+            <RNPickerSelect
+              onValueChange={(value) => setSunEnd(value)}
+              placeholder={{ label: '휴무' }}
+              style={pickerSelectStyles}
+              items={END_TIME_LIST}></RNPickerSelect>
+          </View>
+        </View>
         <View style={styles.tagBox}>
           <View style={styles.dayTag}>
             <Text style={{ color: 'white' }}>월</Text>
@@ -223,31 +248,6 @@ function RegisterScheduleInfoScreen({ navigation }) {
           <View style={styles.tag}>
             <RNPickerSelect
               onValueChange={(value) => setSatEnd(value)}
-              placeholder={{ label: '휴무' }}
-              style={pickerSelectStyles}
-              items={END_TIME_LIST}></RNPickerSelect>
-          </View>
-        </View>
-        <View style={styles.tagBox}>
-          <View style={styles.dayTag}>
-            <Text style={{ color: 'white' }}>일</Text>
-          </View>
-          <View style={styles.timeTag}>
-            <Text style={{ color: '#8D8D8D' }}>시작시간:</Text>
-          </View>
-          <View style={styles.tag}>
-            <RNPickerSelect
-              onValueChange={(value) => setSunStart(value)}
-              placeholder={{ label: '휴무' }}
-              style={pickerSelectStyles}
-              items={START_TIME_LIST}></RNPickerSelect>
-          </View>
-          <View style={styles.timeTag}>
-            <Text style={{ color: '#8D8D8D' }}>종료시간:</Text>
-          </View>
-          <View style={styles.tag}>
-            <RNPickerSelect
-              onValueChange={(value) => setSunEnd(value)}
               placeholder={{ label: '휴무' }}
               style={pickerSelectStyles}
               items={END_TIME_LIST}></RNPickerSelect>

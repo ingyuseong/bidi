@@ -8,7 +8,7 @@ function StyleScrapIntroScreen({ navigation }) {
         <View style={styles.imageContainer}>
           <Image
             style={styles.image}
-            source={require('../../../../../../public/img/noScrap.png')}
+            source={require('../../../../../../public/img/temp_image.png')}
           />
         </View>
       </View>

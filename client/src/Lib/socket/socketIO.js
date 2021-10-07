@@ -1,8 +1,9 @@
-import socketIOClient from "socket.io-client";
+import socketIOClient from 'socket.io-client';
 // import BidiStorage from '../storage';
 // import STORAGE_KEY from '../constant';
 
-const SOCKET_SERVER_URL = "http://localhost:4000";
+// const SOCKET_SERVER_URL = 'http://localhost:4000';
+const SOCKET_SERVER_URL = 'http://13.125.215.51:4000';
 
 // const Socket = async () => {
 //     const user = await BidiStorage.getData(STORAGE_KEY)
@@ -21,8 +22,8 @@ const SOCKET_SERVER_URL = "http://localhost:4000";
 // const socket = Socket()
 
 const socket = socketIOClient(SOCKET_SERVER_URL, {
-    // query: { userId: '5', userToken: '1806772812' },
-    query: { roomId: '5' },
-})
+  // query: { userId: '5', userToken: '1806772812' },
+  query: { roomId: '5' },
+});
 
 export default socket;

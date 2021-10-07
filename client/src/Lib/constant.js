@@ -1,9 +1,11 @@
 export const SERVER_URL = 'http://127.0.0.1:3000/api';
+// export const SERVER_URL = 'http://13.125.215.51/api';
 
 export const APP_VERSION = 'v1.0.0';
 
 export const STORAGE_KEY = 'user';
-
+export const LOCATION_STORAGE_KEY = 'location';
+export const CURRENT_LOCATION_STORAGE_KEY = 'current_location';
 export const SHOP_EXTRA_INFO_LIST = [
   '주차 가능',
   'wifi 제공',
