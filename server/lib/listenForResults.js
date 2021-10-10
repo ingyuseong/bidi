@@ -1,4 +1,5 @@
 const amqp = require('amqplib')
+const { emitter } = require('./eventEmitter')
 
 exports.listenForResults = async () => {
   // connect to Rabbit MQ
@@ -18,10 +19,9 @@ function consume({ connection, channel, resultsChannel }) {
     channel.consume('processing.results', async function (msg) {
       // parse message
       let msgBody = msg.content.toString()
-      console.log(msgBody)
       let data = JSON.parse(msgBody)
-      let requestId = data.requestId
-      let processingResults = data.requestData
+      let requestId = data.id
+      let processingResults = data.status
       console.log(
         'Received a result message, requestId:',
         requestId,
@@ -31,6 +31,9 @@ function consume({ connection, channel, resultsChannel }) {
 
       // acknowledge message as received
       await channel.ack(msg)
+      emitter.emit(requestId, requestId, processingResults)
+      console.log(new Date())
+      console.log('MQ END')
     })
 
     // handle connection closed
