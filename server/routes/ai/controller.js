@@ -23,7 +23,7 @@ exports.inferenceAI = async (req, res) => {
     await publishToChannel(channel, {
       routingKey: 'request',
       exchangeName: 'processing',
-      data: { requestId, id, gender, img_src },
+      data: { id, gender, length, img_src },
     })
   } catch (err) {
     status = 'error'
@@ -31,8 +31,8 @@ exports.inferenceAI = async (req, res) => {
     console.log(err)
   } finally {
     // send the request id in the response
-    emitter.on(requestId, (requestId, status) => {
-      res.send({ requestId, status })
+    emitter.on(requestId, (requestId, status, data) => {
+      res.send({ requestId, status, data })
     })
 
     await channel.close()
