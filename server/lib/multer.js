@@ -17,13 +17,13 @@ const upload = multer({
     key: function (req, file, cb) {
       cb(
         null,
-        'test/' +
+        'web/input/' +
           req.body.gender +
           '/' +
           req.body.length +
           '/' +
           req.body.id +
-          '.jpeg'
+          '.jpg'
       )
     },
   }),
