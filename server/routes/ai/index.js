@@ -1,10 +1,6 @@
 const router = require('express').Router()
 const controller = require('./controller')
-// const multer = require('multer')
 const { routesAsyncWrapper } = require('../../lib/asyncWrapper')
-// const upload = multer({
-//   dest: 'uploads/',
-// })
 const upload = require('../../lib/multer')
 
 /*
