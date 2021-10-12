@@ -11,12 +11,7 @@ import BidiStorage from '../../Lib/storage';
 import { STORAGE_KEY } from '../../Lib/constant';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import appleAuth, {
-  AppleButton,
-  AppleAuthRequestOperation,
-  AppleAuthRequestScope,
-  AppleAuthCredentialState,
-} from '@invertase/react-native-apple-authentication';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
 
 import { useDispatch } from 'react-redux';
 import { getUser } from '../../Contexts/User/action';
@@ -25,50 +20,67 @@ import UserAPI from '../../Api/user';
 const LoginScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const kakaoLoginHandler = async () => {
-    const token = await login();
-    const profile = await getKakaoProfile();
-    console.log(profile)
-    if (profile) {
-      const user = await UserAPI.checkToken(profile.id);
-      if (user) {
-        // token이 이미 server에 저장되어 있는 경우(회원가입 완료)
-        // 1. token 만을 asyncStorage에 저장하여 추후 자동로그인
-        const { naver_token, kakao_token, apple_token } = user;
-        await BidiStorage.storeData(STORAGE_KEY, {
-          token: naver_token || kakao_token || apple_token,
-        });
+    try {
+      const { id: token, nickname: name, birthDay } = await getKakaoProfile();
 
-        // 2. user 정보를 redux에 저장하여 관리
-        await dispatch(getUser(user));
+      if (token) {
+        const user = await UserAPI.checkToken(token);
+        if (user) {
+          // token이 이미 server에 저장되어 있는 경우(회원가입 완료)
+          // 1. token 만을 asyncStorage에 저장하여 추후 자동로그인
+          const { naver_token, kakao_token, apple_token } = user;
+          await BidiStorage.storeData(STORAGE_KEY, {
+            token: naver_token || kakao_token || apple_token,
+          });
 
-        // 3. MainTab으로 이동
-        navigation.replace('MainTab');
-      } else {
-        // token이 없는 경우(회원가입 필요)
-        navigation.replace('Register', {
-          profile,
-        });
+          // 2. user 정보를 redux에 저장하여 관리
+          await dispatch(getUser(user));
+
+          // 3. MainTab으로 이동
+          navigation.replace('MainTab');
+        } else {
+          // token이 없는 경우(회원가입 필요)
+          navigation.replace('Register', {
+            type: 'kakao',
+            token,
+            name,
+            birthDay,
+          });
+        }
       }
+    } catch (error) {
+      console.log(error);
     }
   };
   const appleLoginHandler = async () => {
     try {
-      console.log('??');
-      // performs login request
       const appleAuthRequestResponse = await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
         requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
       });
-
-      console.log('?!?', appleAuthRequestResponse);
-      // get current authentication state for user
       const credentialState = await appleAuth.getCredentialStateForUser(
         appleAuthRequestResponse.user,
       );
-      // use credentialState response to ensure the user is authenticated
       if (credentialState === appleAuth.State.AUTHORIZED) {
-        // user is authenticated
-        console.log(appleAuthRequestResponse);
+        let { identityToken: token } = appleAuthRequestResponse;
+        token = token.substring(0, 10);
+        if (token) {
+          const user = await UserAPI.checkToken(token);
+          if (user) {
+            const { naver_token, kakao_token, apple_token } = user;
+            await BidiStorage.storeData(STORAGE_KEY, {
+              token: naver_token || kakao_token || apple_token,
+            });
+            await dispatch(getUser(user));
+            navigation.replace('MainTab');
+          } else {
+            navigation.replace('Register', {
+              type: 'apple',
+              name: '',
+              token,
+            });
+          }
+        }
       }
     } catch (error) {
       if (error.code === appleAuth.Error.CANCELED) {
@@ -104,9 +116,7 @@ const LoginScreen = ({ navigation }) => {
   // });
 
   return (
-    <ImageBackground
-      source={require('../../../public/img/loginSplash.png')}
-      style={styles.backgroundImage}>
+    <View style={styles.backgroundImage}>
       <View style={styles.container}>
         <View style={styles.topArea}>
           <View style={styles.textArea}>
@@ -125,11 +135,11 @@ const LoginScreen = ({ navigation }) => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.appleBtn} onPress={appleLoginHandler}>
             <AntDesign name="apple1" size={20} />
-            <Text style={styles.btnAppleText}>애플 아이디로 로그인</Text>
+            <Text style={styles.btnAppleText}>Sign in with Apple</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </ImageBackground>
+    </View>
   );
 };
 

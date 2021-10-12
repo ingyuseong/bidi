@@ -6,11 +6,11 @@ import {
 } from 'react-native-responsive-screen';
 import Swiper from 'react-native-swiper';
 
-function CardDisableStyle({ styleImage, status }) {
+function CardDisableStyle({ styleImage, matched }) {
   return (
     <View style={styles.container}>
       <View style={styles.blurArea}>
-        <Text style={styles.blurAreaText}>{status === 'done' ? '매칭 완료' : '취소 완료'}</Text>
+        <Text style={styles.blurAreaText}>{matched === true ? '매칭 완료' : '취소 완료'}</Text>
       </View>
       <Image
         style={styles.styleImg}

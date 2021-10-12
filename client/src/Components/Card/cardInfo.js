@@ -7,7 +7,7 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from '../Common/button';
 
-function CardInfo({ info, navigation, height, tagBackgroundColor, tagColor }) {
+function CardInfo({ info, height, tagBackgroundColor, tagColor }) {
   const name = info.user ? info.user.name : info.name;
   const img_src = info.user ? info.user.img_src : info.img_src;
   return (
@@ -29,7 +29,7 @@ function CardInfo({ info, navigation, height, tagBackgroundColor, tagColor }) {
           </View>
           <View style={styles.shopInfo}>
             <Text style={styles.shopName}>
-              @ {info.shopName || info.shop_name || info.address || info.user.address}
+              @ {info.shopName || info.shop_name || info.address || info.proposal.address}
             </Text>
           </View>
         </View>

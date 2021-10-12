@@ -30,7 +30,6 @@ function StyleModal({ styleList, modalVisible, setModalVisible, index }) {
               />
               <TouchableOpacity
                 onPress={() => {
-                  console.log('!!');
                   setModalVisible(false);
                 }}
                 style={styles.closeBtnArea}>

@@ -2,7 +2,6 @@ import React, { useState, useEffect, createRef, useLayoutEffect } from 'react';
 import { Text, Button, View, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native';
 
 // Temporary
-import DaHyeon from '../../../public/img/DM/dahyeon.jpeg';
 
 function ChatBubble({ message, currentUser, ckpt }) {
   return (
@@ -12,7 +11,6 @@ function ChatBubble({ message, currentUser, ckpt }) {
           ? styles.customerTextContainer
           : styles.desginerTextContainer
       }>
-      {/* { ckpt && <Image source={DaHyeon} style={styles.checkPointImage} />} */}
       <View
         style={
           message.sender_id === currentUser.id

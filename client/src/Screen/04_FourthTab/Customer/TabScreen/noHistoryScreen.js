@@ -6,7 +6,7 @@ import { isRequired } from 'react-native/Libraries/DeprecatedPropTypes/Deprecate
 function NoHistoryScreen() {
   return (
     <View style={styles.container}>
-      <Image source={require('../../../../../public/img/finish_bid.jpg')} style={styles.image} />
+      <Image source={require('../../../../../public/img/temp_image.png')} style={styles.image} />
       <View style={styles.textBox}>
         <Text style={styles.titleText}>
           <Text style={styles.bold}>매칭 히스토리가</Text>
