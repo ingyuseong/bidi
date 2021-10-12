@@ -64,8 +64,8 @@ exports.getTrialCount = async (req, res) => {
 
 // [ 4. DELETE Methods]
 exports.deleteTrial = async (req, res) => {
-  const body = req.body
-  const deletedTrialCount = await trialServices.destroyTrial(body)
+  const { id } = req.body
+  const deletedTrialCount = await trialServices.destroyTrial(id)
   if (deletedTrialCount) {
     res.status(STATUS_CODE.SUCCESS).json({
       status: 'success',
