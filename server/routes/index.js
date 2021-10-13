@@ -4,6 +4,7 @@ const { STATUS_CODE, ERROR_MESSAGE } = require('../lib/constants')
 // Router Lists
 // root
 const user = require('./user')
+const trial = require('./trial')
 
 // Depth 1
 const proposal = require('./proposal')
@@ -24,6 +25,7 @@ const message = require('./message')
 const schedule = require('./schedule')
 
 router.use('/user', user)
+router.use('/trial', trial)
 router.use('/proposal', proposal)
 router.use('/style', style)
 router.use('/branding', branding)

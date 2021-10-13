@@ -37,7 +37,6 @@ app.use(function (req, res, next) {
 })
 // Error Handling
 app.use(function (err, req, res, next) {
-  console.log(err)
   res.status(500).json({
     state: 'error',
     message: '500 Internal Server Error',
