@@ -14,6 +14,9 @@ const modelAttributes = {
   length: {
     type: DataTypes.ENUM('long', 'medium', 'short'),
   },
+  bang: {
+    type: DataTypes.ENUM('bang', 'none'),
+  },
   share: {
     type: DataTypes.BOOLEAN,
   },
