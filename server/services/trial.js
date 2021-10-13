@@ -6,6 +6,7 @@ exports.createTrial = async (body) => {
     id: body.id,
     gender: body.gender,
     length: body.length,
+    bang: body.bang,
     share: body.share,
   }
   const trial = await db.createTrial(attr)
