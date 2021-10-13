@@ -69,7 +69,7 @@ exports.inferenceAI = async (req, res) => {
     console.log(err)
   } finally {
     // send the request id in the response
-    emitter.on(requestId, (requestId, status) => {
+    emitter.once(requestId, (requestId, status) => {
       res.send({ requestId, status })
     })
 
