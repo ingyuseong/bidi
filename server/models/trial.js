@@ -17,9 +17,6 @@ const modelAttributes = {
   share: {
     type: DataTypes.BOOLEAN,
   },
-  trial_count: {
-    type: DataTypes.INTEGER,
-  },
   created_at: {
     type: DataTypes.DATE,
     allowNull: false,
