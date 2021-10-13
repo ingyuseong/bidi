@@ -6,6 +6,9 @@ const { sequelize } = require('./models')
 const app = express()
 const PORT = process.env.PORT
 
+// RabbitMQ Consumer
+const { listenForResults } = require('./lib/listenForResults')
+
 // socket.io configuration
 const { Socket } = require('./socket/socket')
 const { initSocketIo } = require('./socket/init-socket')
@@ -54,6 +57,9 @@ app.listen(PORT, async () => {
 //   secretToken: '',
 //   serverUrl: '',
 // })
+
+// Listen for results queue of RabbitMQ
+listenForResults()
 
 // Start socket.io server on port 4000
 const { io, server } = Socket(app)
