@@ -22,6 +22,8 @@ const upload = multer({
           '/' +
           req.body.length +
           '/' +
+          // req.body.bang +
+          // '/' +
           req.body.id +
           '.jpg'
       )
