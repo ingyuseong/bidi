@@ -8,7 +8,7 @@ exports.inferenceAI = async (req, res) => {
   console.log('MQ START')
   console.log(new Date())
   const img_src = req.file.location
-  const { id, length, gender } = req.body
+  const { id, length, gender, bang, type } = req.body
   let status = 'success'
   let message = 'Successfully publish an inference message'
 
@@ -23,7 +23,7 @@ exports.inferenceAI = async (req, res) => {
     await publishToChannel(channel, {
       routingKey: 'request',
       exchangeName: 'processing',
-      data: { id, gender, length, img_src },
+      data: { id, gender, length, bang, type, img_src },
     })
   } catch (err) {
     status = 'error'
