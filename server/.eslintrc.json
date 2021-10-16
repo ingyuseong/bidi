@@ -8,7 +8,7 @@
     "extends": [
       "eslint:recommended",
       "plugin:prettier/recommended",
-      "prettier",
+      "prettier"
     ],
     
     // 코드를 해석하는 parser에 대한 설정
