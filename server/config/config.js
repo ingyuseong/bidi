@@ -1,6 +1,9 @@
 require('dotenv').config()
 
 module.exports = {
+  projectName: process.env.PROJECT_NAME,
+  isProduction: process.env.NODE_ENV === 'production',
+  slackToken: process.env.SLACK_TOKEN,
   development: {
     username: process.env.USER_NAME,
     password: process.env.PASSWORD,
