@@ -42,4 +42,14 @@ const ERROR_MESSAGE = {
   SEQUELIZE_DELETE_ERROR: 'Sequelize: Failed to DELETE resource',
 }
 
-module.exports = { STATUS_CODE, ERROR_MESSAGE }
+const COLOR_LIST = [
+  'red',
+  'orange',
+  'yellow',
+  'olive',
+  'green',
+  'teal',
+  'blue',
+  'purple',
+]
+module.exports = { STATUS_CODE, ERROR_MESSAGE, COLOR_LIST }
