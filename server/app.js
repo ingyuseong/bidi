@@ -3,6 +3,8 @@ const express = require('express')
 const apiRouter = require('./routes/index')
 const logger = require('morgan')
 const { sequelize } = require('./models')
+const cors = require('cors')
+
 const app = express()
 const PORT = process.env.PORT
 
@@ -24,6 +26,7 @@ sequelize
     console.error(err)
   })
 
+app.use(cors())
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
