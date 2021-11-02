@@ -31,8 +31,8 @@ exports.inferenceAI = async (req, res) => {
     console.log(err)
   } finally {
     // send the request id in the response
-    emitter.once(requestId, (requestId, status, data) => {
-      res.send({ requestId, status, data })
+    emitter.once(requestId, (requestId, status, gender, length, bang, type, data) => {
+      res.send({ requestId, status, gender, length, bang, type, data })
     })
 
     await channel.close()

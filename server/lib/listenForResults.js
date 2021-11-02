@@ -22,6 +22,10 @@ function consume({ connection, channel, resultsChannel }) {
       let data = JSON.parse(msgBody)
       let requestId = data.id
       let processingResults = data.status
+      let gender = data.gender
+      let length = data.length
+      let bang = data.bang
+      let type = data.type
       let imgList = data.data
       console.log(
         'Received a result message, requestId:',
@@ -32,7 +36,7 @@ function consume({ connection, channel, resultsChannel }) {
 
       // acknowledge message as received
       await channel.ack(msg)
-      emitter.emit(requestId, requestId, processingResults, imgList)
+      emitter.emit(requestId, requestId, processingResults, gender, length, bang, type, imgList)
       console.log(new Date())
       console.log('MQ END')
     })
