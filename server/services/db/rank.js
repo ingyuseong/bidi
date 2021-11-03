@@ -19,10 +19,12 @@ exports.findAllRankByType = async (type) => {
     },
     attributes: [
       'style',
+      'style_id',
+      'type',
       [Sequelize.fn('count', Sequelize.col('style')), 'count'],
     ],
-    group: ['style'],
-    order: [[Sequelize.col("count"), "DESC"]],
+    group: ['style', 'style_id', 'type'],
+    order: [[Sequelize.col('count'), 'DESC']],
   })
   return rankList
 }

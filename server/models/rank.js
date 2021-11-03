@@ -9,10 +9,13 @@ const modelAttributes = {
     autoIncrement: true,
   },
   type: {
-    type: DataTypes.ENUM('female', 'male','mix'),
+    type: DataTypes.ENUM('female', 'male', 'mix'),
   },
   style: {
     type: DataTypes.STRING,
+  },
+  style_id: {
+    type: DataTypes.INTEGER,
   },
   created_at: {
     type: DataTypes.DATE,
