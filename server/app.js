@@ -62,10 +62,10 @@ app.listen(PORT, async () => {
 // })
 
 // Listen for results queue of RabbitMQ
-// listenForResults()
+listenForResults()
 
-// // Start socket.io server on port 4000
-// const { io, server } = Socket(app)
-// initSocketIo(io, server)
+// Start socket.io server on port 4000
+const { io, server } = Socket(app)
+initSocketIo(io, server)
 
 module.exports = app
