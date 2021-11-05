@@ -44,6 +44,8 @@ db.sequelize = sequelize
 db.Sequelize = Sequelize
 
 // 모델정의
+db.Trial = require('./trial')(sequelize, Sequelize)
+db.Rank = require('./rank')(sequelize, Sequelize)
 db.User = require('./user')(sequelize, Sequelize)
 db.Proposal = require('./proposal')(sequelize, Sequelize)
 db.Branding = require('./branding')(sequelize, Sequelize)

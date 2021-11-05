@@ -1,6 +1,9 @@
 const userServices = require('../../services/user')
 const { STATUS_CODE } = require('../../lib/constants')
 const axios = require('axios')
+const amqp = require('amqplib')
+const { publishToChannel } = require('../../lib/publishToChannel')
+const { emitter } = require('../../lib/eventEmitter')
 require('dotenv').config()
 
 // [ 1. POST Methods ]
@@ -40,36 +43,39 @@ exports.checkToken = async (req, res) => {
   }
 }
 exports.inferenceAI = async (req, res) => {
+  console.log('MQ START')
+  console.log(new Date())
   const { id, gender, img_src } = req.body
-  const inference = await axios({
-    method: 'post',
-    url: process.env.Bidi_AI_URL,
-    data: {
-      user_id: id,
-      gender,
-      img_src,
-    },
-  })
-    .then(async (result) => {
-      response = result.data
-      const user = await userServices.updateUserAiStatus(id, ai_status)
-      if (user) {
-        return res.status(STATUS_CODE.SUCCESS).json({
-          status: 'success',
-          message: 'AI Status 수정 성공',
-          data: response,
-        })
-      } else {
-        return res.status(STATUS_CODE.BAD_REQUEST).json({
-          status: 'failed',
-          message: 'AI Status 수정 실패',
-          data: null,
-        })
-      }
+  let status = 'success'
+  let message = 'Successfully publish an inference message'
+
+  // connect to Rabbit MQ and create a channel
+  let connection = await amqp.connect(process.env.AMQP_URL)
+  let channel = await connection.createConfirmChannel()
+
+  let requestId = id
+  console.log(`Start publishing a message # ${requestId}`)
+  try {
+    // publish the data to Rabbit MQ
+    await publishToChannel(channel, {
+      routingKey: 'request',
+      exchangeName: 'processing',
+      data: { requestId, id, gender, img_src },
     })
-    .catch(function (error) {
-      console.log(error)
+
+  } catch (err) {
+    status = 'error'
+    message = 'Failed to publish an inference message'
+    console.log(err)
+  } finally {
+    // send the request id in the response
+    emitter.once(requestId, (requestId, status) => {
+      res.send({ requestId, status })
     })
+
+    await channel.close()
+    await connection.close()
+  }
 }
 
 // [ 2. GET Methods ]

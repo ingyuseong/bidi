@@ -3,8 +3,13 @@ const express = require('express')
 const apiRouter = require('./routes/index')
 const logger = require('morgan')
 const { sequelize } = require('./models')
+const cors = require('cors')
+
 const app = express()
 const PORT = process.env.PORT
+
+// RabbitMQ Consumer
+const { listenForResults } = require('./lib/listenForResults')
 
 // socket.io configuration
 const { Socket } = require('./socket/socket')
@@ -21,6 +26,7 @@ sequelize
     console.error(err)
   })
 
+app.use(cors())
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
@@ -37,7 +43,6 @@ app.use(function (req, res, next) {
 })
 // Error Handling
 app.use(function (err, req, res, next) {
-  console.log(err)
   res.status(500).json({
     state: 'error',
     message: '500 Internal Server Error',
@@ -55,6 +60,9 @@ app.listen(PORT, async () => {
 //   secretToken: '',
 //   serverUrl: '',
 // })
+
+// Listen for results queue of RabbitMQ
+listenForResults()
 
 // Start socket.io server on port 4000
 const { io, server } = Socket(app)
