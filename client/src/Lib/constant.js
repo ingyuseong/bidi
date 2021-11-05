@@ -1,5 +1,4 @@
 export const SERVER_URL = 'https://server.bidi.style/api';
-// export const SERVER_URL = 'http://13.125.215.51/api';
 
 export const APP_VERSION = 'v1.0.0';
 
